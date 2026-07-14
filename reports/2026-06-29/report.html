@@ -1,0 +1,908 @@
+﻿<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大诚会社专用不动产周报 | 2026.6.22-6.29</title>
+<style>
+  400;500;700;900&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans SC', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: #f0f2f5;
+    color: #1a1a2e;
+    line-height: 1.6;
+  }
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #fff;
+    padding: 40px 20px 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    animation: drift 20s linear infinite;
+  }
+  @keyframes drift { 0% { transform: translate(0,0); } 100% { transform: translate(30px,30px); } }
+  .header .logo-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  .header .logo-text {
+    font-size: 2em;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: #3b82f6;
+    text-shadow: 0 0 20px rgba(59,130,246,0.4);
+    line-height: 1;
+  }
+  .header .logo-wrap .title-group { text-align: left; }
+  .header h1 {
+    font-size: 1.8em;
+    font-weight: 900;
+    letter-spacing: 4px;
+    position: relative;
+    z-index: 1;
+  }
+  .header .subtitle {
+    font-size: 0.95em;
+    opacity: 0.7;
+    margin-top: 8px;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 1;
+  }
+  .header .date-range {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    padding: 4px 18px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    margin-top: 12px;
+    position: relative;
+    z-index: 1;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+  /* Stats bar */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: -30px auto 30px;
+    max-width: 1000px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .stat-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  }
+  .stat-card .num {
+    font-size: 1.6em;
+    font-weight: 700;
+    color: #0f3460;
+  }
+  .stat-card .num.gold { color: #c9a959; }
+  .stat-card .num.orange { color: #e67e22; }
+  .stat-card .num.green { color: #27ae60; }
+  .stat-card .label {
+    font-size: 0.75em;
+    color: #888;
+    margin-top: 4px;
+  }
+  /* Section */
+  .section { margin-bottom: 28px; }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2em;
+    font-weight: 700;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #0f3460;
+  }
+  .section-title .icon { font-size: 1.4em; }
+  .section-title .tag {
+    font-size: 0.55em;
+    background: #0f3460;
+    color: #fff;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+  /* Grid for cards */
+  .card-grid { display: grid; gap: 12px; }
+  .card-grid.cols-2 {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: transform 0.15s, box-shadow 0.15s;
+    border-left: 4px solid transparent;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  }
+  .card.policy { border-left-color: #0f3460; }
+  .card.deal { border-left-color: #c9a959; }
+  .card.price { border-left-color: #e67e22; }
+  .card.dev   { border-left-color: #27ae60; }
+  .card.tech  { border-left-color: #8e44ad; }
+  .card.survey { border-left-color: #e74c3c; }
+  
+  .card .date {
+    font-size: 0.75em;
+    color: #999;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card .date .source {
+    background: #f0f0f0;
+    padding: 1px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+  }
+  .card h3 {
+    font-size: 0.95em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.5;
+  }
+  .card p {
+    font-size: 0.82em;
+    color: #555;
+    line-height: 1.6;
+  }
+  .card .source-link {
+    display: block;
+    font-size: 0.72em;
+    margin-top: 8px;
+    text-decoration: none;
+    color: #0f3460;
+    font-weight: 500;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+  }
+  .card:hover .source-link { opacity: 1; }
+  .card .source-link:hover { text-decoration: underline; }
+  .card .label {
+    display: inline-block;
+    font-size: 0.65em;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 4px;
+    margin-top: 6px;
+  }
+  .label-blue { background: #e8f0fe; color: #0f3460; }
+  .label-gold { background: #fef8e0; color: #8a6d0b; }
+  .label-green { background: #e6f7ed; color: #1a7a3a; }
+  .label-orange { background: #fef0e0; color: #b8590a; }
+  .label-purple { background: #f0e6ff; color: #6b2fa0; }
+  .label-red { background: #fde8e8; color: #c0392b; }
+
+  /* Key insight */
+  .key-insight {
+    background: linear-gradient(135deg, #fff8e1, #fff3cd);
+    border: 1px solid #ffe082;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 28px;
+  }
+  .key-insight h3 {
+    font-size: 1em;
+    color: #b8860b;
+    margin-bottom: 8px;
+  }
+  .key-insight p, .key-insight li {
+    font-size: 0.85em;
+    color: #666;
+    line-height: 1.7;
+  }
+  .key-insight ul { padding-left: 18px; margin-top: 6px; }
+  .key-insight li { margin-bottom: 4px; }
+  .key-insight strong { color: #333; }
+
+  /* Trend chart (CSS-based visual) */
+  .trend-visual {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .trend-item {
+    flex: 1;
+    min-width: 140px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+  .trend-item .trend-label {
+    font-size: 0.72em;
+    color: #999;
+  }
+  .trend-item .trend-value {
+    font-size: 1.3em;
+    font-weight: 700;
+    margin-top: 4px;
+  }
+  .trend-item .trend-value.up { color: #e74c3c; }
+  .trend-item .trend-value.down { color: #27ae60; }
+  .trend-item .trend-value.flat { color: #f39c12; }
+  .trend-item .trend-arrow { font-size: 0.7em; margin-left: 2px; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #999;
+    font-size: 0.75em;
+    border-top: 1px solid #e0e0e0;
+    margin-top: 20px;
+  }
+  .footer a { color: #0f3460; text-decoration: none; }
+
+  /* Share card & modal */
+  .share-btn-fab {
+    position: fixed; bottom: 30px; right: 30px; z-index: 999;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: #fff; border: none;
+    box-shadow: 0 4px 20px rgba(59,130,246,0.4);
+    cursor: pointer; font-size: 22px;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .share-btn-fab:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(59,130,246,0.55); }
+  .share-btn-fab:active { transform: scale(0.95); }
+  .share-btn-fab .tooltip {
+    position: absolute; right: 64px;
+    background: rgba(0,0,0,0.8); color: #fff;
+    padding: 6px 12px; border-radius: 6px; font-size: 13px;
+    white-space: nowrap; opacity: 0; pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  .share-btn-fab:hover .tooltip { opacity: 1; }
+  .share-modal {
+    display: none; position: fixed; top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.65); z-index: 9999;
+    justify-content: center; align-items: center; backdrop-filter: blur(4px);
+  }
+  .share-modal.show { display: flex; }
+  .share-modal .modal-box {
+    background: #fff; border-radius: 20px; padding: 24px;
+    max-width: 580px; width: 95%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .share-modal .modal-box .modal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    width: 100%; margin-bottom: 16px;
+  }
+  .share-modal .modal-box .modal-header span { color: #475569; font-size: 14px; font-weight: 600; }
+  .share-modal .modal-box .modal-header .close-btn {
+    background: none; border: none; color: #666;
+    font-size: 28px; cursor: pointer; line-height: 1;
+  }
+  .share-modal .modal-box .modal-header .close-btn:hover { color: #1e293b; }
+  #share-card {
+    width: 540px;
+    background: #fff;
+    border-radius: 16px; overflow: hidden; position: relative;
+    font-family: "Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  }
+  #share-card .card-dots {
+    position: absolute; top:0; left:0; width:100%; height:100%;
+    background: radial-gradient(circle, rgba(59,130,246,0.06) 1px, transparent 1px);
+    background-size: 22px 22px; pointer-events: none; z-index: 0;
+  }
+  #share-card .card-top-accent {
+    position: relative; z-index: 1; height: 6px;
+    background: linear-gradient(90deg, #3b82f6, #60a5fa, #3b82f6);
+  }
+  #share-card .card-content { position: relative; z-index: 1; padding: 28px 32px 24px; }
+  #share-card .card-logo {
+    font-size: 34px; font-weight: 900; letter-spacing: 8px;
+    color: #1a56db; line-height: 1;
+  }
+  #share-card .card-meta { font-size: 11px; color: #94a3b8; letter-spacing: 3px; margin-top: 4px; text-transform: uppercase; }
+  #share-card .card-date-badge {
+    display: inline-block; background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    padding: 4px 16px; border-radius: 20px; font-size: 13px; color: #2563eb; margin-top: 14px;
+  }
+  #share-card .card-divider {
+    border: none; height: 1px;
+    background: linear-gradient(90deg, transparent, #dbeafe, transparent);
+    margin: 16px 0;
+  }
+  #share-card .card-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
+  #share-card .card-stat-box {
+    background: #f8fafc; border: 1px solid #e2e8f0
+    border-radius: 12px; padding: 14px 16px;
+  }
+  #share-card .card-stat-box .stat-num { font-size: 24px; font-weight: 700; color: #1e293b; line-height: 1.2; }
+  #share-card .card-stat-box .stat-num .stat-arrow { font-size: 14px; margin-left: 4px; }
+  #share-card .card-stat-box .stat-num .stat-arrow.up { color: #f87171; }
+  #share-card .card-stat-box .stat-num .stat-arrow.down { color: #34d399; }
+  #share-card .card-stat-box .stat-num .stat-arrow.flat { color: #fbbf24; }
+  #share-card .card-stat-box .stat-label { font-size: 11px; color: #64748b; margin-top: 4px; line-height: 1.4; }
+  #share-card .card-highlights-title { font-size: 13px; color: #64748b; letter-spacing: 2px; margin-bottom: 10px; }
+  #share-card .card-highlights { list-style: none; padding: 0; margin: 0; }
+  #share-card .card-highlights li {
+    padding: 7px 0; font-size: 13px; color: #475569; line-height: 1.5;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  #share-card .card-highlights li:last-child { border-bottom: none; }
+  #share-card .card-bottom {
+    margin-top: 16px; padding-top: 14px;
+    border-top: 1px solid #e2e8f0;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  #share-card .card-bottom .brand { font-size: 11px; color: #64748b; }
+  #share-card .card-bottom .cta { font-size: 11px; color: #3b82f6; font-weight: 500; }
+  .share-modal .modal-box .download-btn {
+    margin-top: 18px; padding: 12px 40px; border: none; border-radius: 30px;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: #fff; font-size: 15px; font-weight: 600; cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 15px rgba(59,130,246,0.35);
+  }
+  .share-modal .modal-box .download-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(59,130,246,0.45); }
+  .share-modal .modal-box .download-btn:active { transform: scale(0.97); }
+  .share-modal .modal-box .download-btn.loading { opacity: 0.7; pointer-events: none; }
+  .share-modal .modal-box .hint { color: #94a3b8; font-size: 12px; margin-top: 8px; }
+    @media (max-width: 640px) {
+    .header h1 { font-size: 1.5em; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); margin-top: -20px; }
+    .card-grid.cols-2 { grid-template-columns: 1fr; }
+    .share-btn-fab { bottom: 18px; right: 18px; width: 48px; height: 48px; font-size: 18px; }
+    .share-modal .modal-box { padding: 16px; }
+    #share-card { width: 100%; }
+    #share-card .card-content { padding: 20px 18px; }
+  }
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script></head>
+<body>
+
+<div class="header">
+  <div class="logo-wrap">
+    <span class="logo-text">TAISEI</span>
+    <div class="title-group">
+      <h1>大诚会社专用不动产周报</h1>
+      <div class="subtitle">政策 · 市场 · 开发 · 趋势</div>
+      <div class="date-range" id="headerDateRange">📅 2026年6月22日 — 6月29日</div>
+    </div>
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="stats-bar" id="statsBar">
+  <div class="stat-card">
+    <div class="num gold">3.22<span style="font-size:0.5em">%</span></div>
+    <div class="label">フラット35 主力金利<br>（6月適用、上昇継続）</div>
+  </div>
+  <div class="stat-card">
+    <div class="num orange">+13.5<span style="font-size:0.5em">%</span></div>
+    <div class="label">首都圏新築マンション<br>平均価格 前年同月比</div>
+  </div>
+  <div class="stat-card">
+    <div class="num green">1,447<span style="font-size:0.5em">戸</span></div>
+    <div class="label">5月首都圏マンション<br>発売戸数（+12.3%）</div>
+  </div>
+  <div class="stat-card">
+    <div class="num" style="font-size:1.2em">9期連続</div>
+    <div class="label">主要都市地価<br>全地区上昇（国交省）</div>
+  </div>
+  <div class="stat-card">
+    <div class="num gold">-3.4<span style="font-size:0.5em">%</span></div>
+    <div class="label">首都圏中古M成約<br>件数（前年比）</div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- 热点速览 -->
+<div class="key-insight">
+  <h3>🔥 本周热点速览</h3>
+  <ul id="hotlist">
+    <li><strong>国交省地価LOOK报告：主要都市9期连续上涨</strong> — 令和8年第1四半期，全国主要都市全地区地价持续上升</li>
+    <li><strong>5月首都圏新築マンション価格飙升13.5%</strong> — 平均价格达1億660万円，供应戸数也同比增长12.3%</li>
+    <li><strong>フラット35金利升至3.22%</strong> — 6月适用利率中最频值为3.22%，各金融机构固定金利持续上调</li>
+    <li><strong>二地域居住促进政策出台</strong> — 国交省宣布支援构筑二地域居住及地域生活圈的举措</li>
+    <li><strong>木造建筑品牌「&forest」第1号物件竣工</strong> — 兼具物流·研究·实验室功能的新型产业创造据点</li>
+  </ul>
+</div>
+
+<!-- Section 1: 政策动向 -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">🏛️</span> 政策动向
+    <span class="tag">POLICY</span>
+  </div>
+  <div class="card-grid cols-2">
+    <div class="card policy">
+      <div class="date">6月29日 <span class="source">国土交通省</span></div>
+      <h3>二地域居住促进及地域生活圈形成支援政策发布</h3>
+      <p>国交省宣布，为推动二地域居住及地域生活圈的形成，将在令和7年度补正预算下对3项事业进行交付决定，支援地方公共团体的相关举措。</p>
+      <span class="label label-blue">地域政策</span>
+      <a href="https://www1.mlit.go.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card policy">
+      <div class="date">6月26日 <span class="source">国土交通省</span></div>
+      <h3>地価LOOK报告：主要都市9期连续全地区上涨</h3>
+      <p>国交省发布令和8年第1四半期地価LOOKレポート，主要都市の地価は9期連続で全地区において上昇，显示不动产市场地基稳固。</p>
+      <span class="label label-blue">地価</span>
+      <a href="https://www.mlit.go.jp/report/press/totikensangyo03_hh_000278.html" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card policy">
+      <div class="date">6月23日 <span class="source">国土交通省</span></div>
+      <h3>令和8年度夏季节能措施通知</h3>
+      <p>国交省发布令和8年度夏季节能措施通知，呼吁建筑及不动产业界在夏季期间积极落实节能措施，推进建筑物节能化。</p>
+      <span class="label label-blue">节能</span>
+      <a href="https://www.mlit.go.jp/report/press/house04_hh_001348.html" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card policy">
+      <div class="date">6月22日 <span class="source">国土交通省</span></div>
+      <h3>不动产信息库数据更新：追加城市规划及避难场所信息</h3>
+      <p>国交省宣布更新不动产信息库，新追加城市规划信息和指定紧急避难场所数据，持续推进行政不动产信息的透明化。</p>
+      <span class="label label-blue">信息公开</span>
+      <a href="https://www.mlit.go.jp/report/press/tochi_fudousan_kensetsugyo17_hh_000001_00088.html" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card policy">
+      <div class="date">6月15日 <span class="source">国土交通省</span></div>
+      <h3>「安心提供居住环境整备模型事业」通知</h3>
+      <p>国交省发布「みんなが安心して住まいを提供できる環境整備モデル事業」相关案内，推动租赁住宅管理品质提升。</p>
+      <span class="label label-blue">租赁管理</span>
+      <a href="https://www.jpm.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card policy">
+      <div class="date">6月中旬 <span class="source">国税庁</span></div>
+      <h3>非居住者等不动产租赁的确定申告新指引</h3>
+      <p>国税庁针对非居住者等在日本出租不动产的情况，发布了新的确定申告指引，对海外投资者的税务申报规则进行明确。</p>
+      <span class="label label-blue">税制</span>
+      <a href="https://www.jpm.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Section 2: 市场交易 -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">💼</span> 市场交易·投资
+    <span class="tag">DEALS</span>
+  </div>
+
+  <!-- Market overview trend -->
+  <div class="trend-visual">
+    <div class="trend-item">
+      <div class="trend-label">首都圏新築M<br>平均価格(5月)</div>
+      <div class="trend-value up">1.07億円 <span class="trend-arrow">▲13.5%</span></div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-label">首都圏新築M<br>発売戸数(5月)</div>
+      <div class="trend-value up">1,447戸 <span class="trend-arrow">▲12.3%</span></div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-label">近畿圏新築M<br>発売戸数(5月)</div>
+      <div class="trend-value up">1,534戸 <span class="trend-arrow">▲44.2%</span></div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-label">首都圏中古M<br>成約件数(4月)</div>
+      <div class="trend-value down">▼3.4%</div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-label">首都圏中古M<br>成約価格(4月)</div>
+      <div class="trend-value down">▼4.6%</div>
+    </div>
+  </div>
+
+  <div class="card-grid cols-2">
+    <div class="card deal">
+      <div class="date">6月19日 <span class="source">不動産経済研究所</span></div>
+      <h3>5月首都圏新築マンション市場：発売12.3%増、価格13.5%上昇の1億660万円</h3>
+      <p>不動産経済研究所発表，5月首都圏新築分譲マンション供給戸数は前年比12.3%増の1,447戸，2カ月連続増加。平均価格は13.5%上昇の1億660万円。価格高騰が続く一方、供給も回復傾向。</p>
+      <span class="label label-gold">市場統計</span>
+      <a href="https://www.fudousankeizai.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card deal">
+      <div class="date">6月19日 <span class="source">不動産経済研究所</span></div>
+      <h3>近畿圏5月マンション発売44.2%増、価格9.9%下落</h3>
+      <p>近畿圏5月新築分譲マンション供給戸数は前年比44.2%増の1,534戸，2カ月ぶりに前年実績を上回った。平均価格は9.9%下落の5,235万円，戸数増加に伴い価格調整が見られる。</p>
+      <span class="label label-gold">近畿圏</span>
+      <a href="https://www.fudousankeizai.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card deal">
+      <div class="date">6月22日 <span class="source">東日本レインズ</span></div>
+      <h3>首都圏中古マンション成約件数前年比3.4%減、価格4.6%下落</h3>
+      <p>東日本レインズ発表の4月首都圏不動産流通市場数据显示，中古マンションの成約件数は前年比3.4%減，成約価格は4.6%下落。価格高止まりにより買い手の慎重姿勢が強まっている可能性。</p>
+      <span class="label label-gold">中古市場</span>
+      <a href="https://www.sjt.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card deal">
+      <div class="date">6月22日 <span class="source">東日本レインズ</span></div>
+      <h3>25年度中古マンション管理費・修繕積立金合計2.9%上昇</h3>
+      <p>東日本レインズの調査で、令和25年度の首都圏中古マンション管理費・修繕積立金合計が2.9%上昇。築年数の経過による修繕需要増加が背景。</p>
+      <span class="label label-gold">管理費</span>
+      <a href="https://www.sjt.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card deal">
+      <div class="date">6月26日 <span class="source">DATA-MAX</span></div>
+      <h3>レーサム、8月に「ネクスレイ」へ商号変更</h3>
+      <p>不動産大手レーサム（旧・日本賃貸住宅）宣布将于8月变更商号为「ネクスレイ」，推进品牌战略升级。</p>
+      <span class="label label-gold">企业动态</span>
+      <a href="https://www.data-max.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card deal">
+      <div class="date">6月22日 <span class="source">週刊住宅タイムズ</span></div>
+      <h3>住宅業界トップ恳谈：中東情勢影響と市況の現状</h3>
+      <p>住宅業界トップ級企业齐聚，就中東情勢对建材供应链的影响及当前市況进行讨论，称"何とか対応、先行き不透明"。</p>
+      <span class="label label-gold">行业动向</span>
+      <a href="https://www.sjt.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Section 3: 开发动态 -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">🏗️</span> 开发动态
+    <span class="tag">DEVELOPMENT</span>
+  </div>
+  <div class="card-grid cols-2">
+    <div class="card dev">
+      <div class="date">6月29日 <span class="source">週刊不動産経営</span></div>
+      <h3>木造建筑品牌「&forest」第1号物件竣工</h3>
+      <p>融合物流・研究施設・实验室功能的新型产业创造据点「&forest」第1号物件正式竣工，标志着木造建筑在产业设施领域的新突破。</p>
+      <span class="label label-green">木造建筑</span>
+      <a href="https://www.biru-mall.com/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card dev">
+      <div class="date">6月29日 <span class="source">週刊不動産経営</span></div>
+      <h3>「（仮称）BIZCORE秋葉原計画」着工</h3>
+      <p>BIZCORE系列首次配套共享办公室和店铺的新项目在秋葉原正式着工，打造科技核心区域的复合办公空间。</p>
+      <span class="label label-green">再开发</span>
+      <a href="https://www.biru-mall.com/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card dev">
+      <div class="date">6月29日 <span class="source">週刊不動産経営</span></div>
+      <h3>「TERRADAビジネスストレージ池上」7月オープン</h3>
+      <p>TERRADA在东京池上开发的新型商业存储设施将于7月开业，配备储物间和工作室的复合设施。</p>
+      <span class="label label-green">物流存储</span>
+      <a href="https://www.biru-mall.com/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card dev">
+      <div class="date">6月26日 <span class="source">R.E.port</span></div>
+      <h3>UR都市机构推进大井町周边一体化城市建设</h3>
+      <p>UR都市機構宣布推进大井町周辺的一体的まちづくり（城市建设）计划，通过整合公共设施与民间开发提升区域价值。</p>
+      <span class="label label-green">都市再生</span>
+      <a href="https://www.re-port.net/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card dev">
+      <div class="date">6月22日 <span class="source">週刊不動産経営</span></div>
+      <h3>神戸市役所本庁舎2号馆再整備事業着工</h3>
+      <p>神戸三宮地区综合性再开发项目启动，规划包含办公楼、酒店和商业设施的复合大楼，推动神戸中心城区更新。</p>
+      <span class="label label-green">再开发</span>
+      <a href="https://www.biru-mall.com/attention/2026062201_01/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card dev">
+      <div class="date">6月22日 <span class="source">週刊不動産経営</span></div>
+      <h3>大阪天王寺区最高層タワマン「The Park House 大阪上本町Tower」样板房开放</h3>
+      <p>天王寺区最高层塔楼公寓样板间开放，大阪核心区域高端住宅市场竞争进一步加剧。</p>
+      <span class="label label-green">塔楼公寓</span>
+      <a href="https://www.biru-mall.com/attention/2026062201_02/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card dev">
+      <div class="date">6月22日 <span class="source">週刊不動産経営</span></div>
+      <h3>「仙台第一生命ビル建替計画」着工</h3>
+      <p>仙台定禅寺通沿线新建地上13层办公大楼，地方核心城市办公楼更新浪潮持续。</p>
+      <span class="label label-green">地方城市</span>
+      <a href="https://www.biru-mall.com/attention/2026062202_04/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card dev">
+      <div class="date">6月22日 <span class="source">週刊不動産経営</span></div>
+      <h3>東京ミッドタウン八重洲设置室外空调 验证都市暑热对策</h3>
+      <p>东京Midtown八重洲安装室外用空调，验证都市暑热対策的实际效果，为未来公共空间设计提供参考数据。</p>
+      <span class="label label-green">暑热対策</span>
+      <a href="https://www.biru-mall.com/attention/2026062201_03/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Section 4: 科技 & 创新 -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">🤖</span> 科技·创新
+    <span class="tag">TECH</span>
+  </div>
+  <div class="card-grid cols-2">
+    <div class="card tech">
+      <div class="date">6月22日 <span class="source">週刊住宅タイムズ</span></div>
+      <h3>分譲マンション首次引入电梯联动扫地机器人</h3>
+      <p>野村不動産「Ploud Tower 相模大野Cross」（41层/687户）引入可自动搭乘电梯、跨楼层清扫的扫地机器人「STRIVER2」。由8家企业合作实现，预计可替代约60%的吸尘面积，整体清扫业务削减20%人力。</p>
+      <span class="label label-purple">智能楼宇</span>
+      <span class="label label-purple">DX</span>
+      <a href="https://www.sjt.co.jp/news/100218" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card tech">
+      <div class="date">6月22日 <span class="source">週刊住宅タイムズ</span></div>
+      <h3>ポラス集团公开建筑技术训练校 助力年轻人才育成</h3>
+      <p>ポラス集团向社会公开其建筑技术训练校，致力于年轻技术人才的确保与育成。迄今修了生已达966人，为建筑行业注入新血液。</p>
+      <span class="label label-purple">人才培养</span>
+      <a href="https://www.sjt.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card tech">
+      <div class="date">6月15日 <span class="source">週刊住宅タイムズ</span></div>
+      <h3>ミサワHome：生成AI辅助电话内容自动登记</h3>
+      <p>ミサワホーム引入生成AI技术实现通话内容的自动摘要与登记，大幅削减行政事务负担，推动住宅行业DX化。</p>
+      <span class="label label-purple">生成AI</span>
+      <a href="https://www.sjt.co.jp/house-maker/100164" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card tech">
+      <div class="date">6月26日 <span class="source">R.E.port</span></div>
+      <h3>オリックス在浅草首开公寓式酒店、大井町トラックス服务公寓开业</h3>
+      <p>オリックス在浅草首次推出アパートメントホテル，同时在大井町トラックス开业服务公寓，两种新型住宿业态布局东京。</p>
+      <span class="label label-purple">住宿新业态</span>
+      <a href="https://www.re-port.net/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Section 5: 调查 & 趋势 -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">📊</span> 调查·趋势
+    <span class="tag">RESEARCH</span>
+  </div>
+  <div class="card-grid cols-2">
+    <div class="card survey">
+      <div class="date">6月22日 <span class="source">SUUMO研究中心</span></div>
+      <h3>50~60代居住不安调查：修缮费增加和管理麻烦居首</h3>
+      <p>SUUMO对3,690名50~60代的调查显示：37%对房屋老化和修缮成本增加感到不安；31%担心"将来房子如何处理"；30%担忧"身体功能下降后的楼梯问题"。49%向往"便利的都心·车站附近居住环境"。</p>
+      <span class="label label-red">居住意识</span>
+      <a href="https://www.sjt.co.jp/news/100230" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card survey">
+      <div class="date">6月19日 <span class="source">不動産経済研究所</span></div>
+      <h3>5月首都圏新築マンション均价1億660万円 市场持续过热</h3>
+      <p>5月首都圏新築分譲マンション平均価格达1億660万円（同比+13.5%），连续多月维持高位。供给戸数1,447戸（+12.3%），量价齐升格局延续。</p>
+      <span class="label label-red">价格动向</span>
+      <a href="https://www.fudousankeizai.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card survey">
+      <div class="date">6月10日 <span class="source">全住協／土地総合研究所</span></div>
+      <h3>住宅・宅地分譲業経営状況0.3P悪化、7.1Pに</h3>
+      <p>土地総合研究所4月時点の「不動産業業況等調査」显示，住宅・宅地分譲業の経営状況指数较上月恶化0.3个百分点，降至7.1，行业信心有所转弱。</p>
+      <span class="label label-red">经营指数</span>
+      <a href="https://www.zenjukyo.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card survey">
+      <div class="date">6月15日 <span class="source">東日本レインズ</span></div>
+      <h3>中古M成約件数前年比3.4%減、価格4.6%下落</h3>
+      <p>首都圏不動産流通市場で中古マンション市場出现降温信号。成約件数减少3.4%，価格下落4.6%，新築価格高騰の影響で買い手が様子見姿勢。</p>
+      <span class="label label-red">中古市场</span>
+      <a href="https://www.sjt.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card survey">
+      <div class="date">6月1日 <span class="source">国交省</span></div>
+      <h3>4月新設住宅着工6.2万戸 前年比11.4%増</h3>
+      <p>国交省調べ、4月新設住宅着工戸数は11.4%増の6.2万戸。持家、貸家、分譲住宅が全て増加，建設市場に回復の動き。</p>
+      <span class="label label-red">着工统计</span>
+      <a href="https://www.zenjukyo.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card survey">
+      <div class="date">6月中旬 <span class="source">不動産投資市場</span></div>
+      <h3>住宅ローン変動金利据置、固定金利继续上调</h3>
+      <p>2026年6月住宅ローン金利動向：変動金利は多くの金融機関が据置（最頻0.845%〜1.075%），但固定金利はほぼ全行が引上げ。フラット35の最頻値3.22%，各銀行の全期間固定も3.1〜3.75%に上昇。</p>
+      <span class="label label-red">金利动向</span>
+      <a href="https://finance.recruit.co.jp/sugoi/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+  </div>
+</div>
+
+<!-- 不动产类别趋势图 -->
+<div class="key-insight">
+  <h3>📈 贷款利率趋势</h3>
+  <p><strong>フラット35（返済期間35年以下・融資率9割以下）：</strong> 2026年6月適用利率 <strong>3.22%</strong>（最頻値），上昇基調継続。各銀行の変動金利は据置傾向（三菱UFJ 0.945%、三井住友 1.075%、みずほ 1.025%），但全期間固定金利は概ね3.1〜3.75%に上昇。<br><br>
+  日銀政策金利は現行<strong>1%</strong>維持。市場では7月金融政策決定会合での追加利上げの可能性が引き続き注目されている。</p>
+  <p style="margin-top:10px;"><strong>💡 小虾点评：</strong> 今周最重要的信号是「新築価格继续飙升 vs 中古市場降温」的分化格局——首都圏新築マンション均价突破1亿日元，但中古マンション成交量和价格双双下滑。这意味着新築市场主要是高端需求和供給端成本推动，而一般消费者正在向中古市场以外（或将關注戸建住宅）转移。此外，近畿圏新築マンション供应量大增44%但价格下跌近10%，显示大阪市场的供给压力正在释放。金利方面，变動金利虽未动，但固定金利全线上升对借入者的负担正在累积。</p>
+</div>
+
+</div>
+
+<div class="footer">
+  <p>📡 数据来源：国土交通省 / 日経不動産マーケット情報 / 週刊住宅タイムズ / 週刊不動産経営 / 東京カンテイ / SUUMO / 不動産経済研究所 / 東日本レインズ / R.E.port</p>
+  <p style="margin-top:4px;">Generated by 🦐 小虾 · 2026年6月30日 · 东京 · 大誠株式会社 专用</p>
+</div>
+
+<!-- ===== Floating Share Button ===== -->
+<button class="share-btn-fab" id="shareBtn" onclick="openShareModal()" title="生成截图卡">
+  📸
+  <span class="tooltip">生成朋友圈卡片</span>
+</button>
+
+<!-- ===== Share Modal ===== -->
+<div class="share-modal" id="shareModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span>📸 朋友圈卡片预览</span>
+      <button class="close-btn" onclick="closeShareModal()">✕</button>
+    </div>
+    <div id="share-card-container"></div>
+    <button class="download-btn" id="downloadBtn" onclick="downloadCard()">📥 下载图片</button>
+    <div class="hint">点击下载后，图片保存在浏览器默认下载目录</div>
+  </div>
+</div>
+
+<script>
+// ===== Core: auto-extract data from the page =====
+function getDateRange() {
+  const el = document.getElementById('headerDateRange');
+  return el ? el.textContent.trim() : '📅 2026年6月 — 6月';
+}
+
+function getStats() {
+  const cards = document.querySelectorAll('#statsBar .stat-card');
+  const stats = [];
+  cards.forEach(c => {
+    const num = c.querySelector('.num');
+    const label = c.querySelector('.label');
+    if (num && label) {
+      stats.push({
+        num: num.textContent.trim(),
+        label: label.textContent.trim().replace(/\s+/g, ' ')
+      });
+    }
+  });
+  return stats;
+}
+
+function getHighlights() {
+  const items = document.querySelectorAll('#hotlist li');
+  const highlights = [];
+  items.forEach(li => {
+    const txt = li.textContent.trim().replace(/^\s*[—\-–]\s*/, '');
+    if (txt) highlights.push(txt);
+  });
+  return highlights.slice(0, 4);
+}
+
+// ===== Share Card Builder =====
+function buildShareCard() {
+  const dateRange = getDateRange();
+  const stats = getStats();
+  const highlights = getHighlights();
+
+  const arrowClass = (txt) => {
+    if (txt.includes('▼') || txt.includes('下落') || txt.includes('減')) return 'down';
+    if (txt.includes('▲') || txt.includes('上昇') || txt.includes('増')) return 'up';
+    return 'flat';
+  };
+  const arrowSymbol = (txt) => {
+    if (txt.includes('▼')) return '▼';
+    if (txt.includes('▲')) return '▲';
+    return '→';
+  };
+
+  let statsHTML = '';
+  stats.forEach((s, i) => {
+    if (i >= 4) return;
+    const isUp = arrowClass(s.num);
+    const arrow = arrowSymbol(s.num);
+    statsHTML += '<div class="card-stat-box">' +
+      '<div class="stat-num">' + s.num + ' <span class="stat-arrow ' + isUp + '">' + arrow + '</span></div>' +
+      '<div class="stat-label">' + s.label + '</div>' +
+    '</div>';
+  });
+
+  let hlHTML = '';
+  const icons = ['🔴', '🟡', '🟢', '🔵'];
+  highlights.forEach((h, i) => {
+    hlHTML += '<li><span class="hl-icon">' + (icons[i] || '▸') + '</span>' + h + '</li>';
+  });
+
+  return '<div id="share-card">' +
+    '<div class="card-dots"></div>' +
+    '<div class="card-top-accent"></div>' +
+    '<div class="card-content">' +
+      '<div class="card-logo">TAISEI</div>' +
+      '<div class="card-meta">WEEKLY REAL ESTATE REPORT</div>' +
+      '<div class="card-date-badge">📅 ' + dateRange.replace('📅 ', '') + '</div>' +
+      '<hr class="card-divider">' +
+      '<div class="card-stats">' + statsHTML + '</div>' +
+      '<hr class="card-divider">' +
+      '<div class="card-highlights-title">✦ WEEKLY HIGHLIGHTS</div>' +
+      '<ul class="card-highlights">' + hlHTML + '</ul>' +
+      '<div class="card-bottom">' +
+        '<span class="brand">大誠株式会社 · 不動産専門</span>' +
+        '<span class="cta">🔍 詳細は公式チャンネルで</span>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+// ===== Modal Controls =====
+function openShareModal() {
+  document.getElementById('share-card-container').innerHTML = buildShareCard();
+  document.getElementById('shareModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeShareModal() {
+  document.getElementById('shareModal').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('shareModal').addEventListener('click', function(e) {
+  if (e.target === this) closeShareModal();
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeShareModal();
+});
+
+// ===== Download =====
+function downloadCard() {
+  const btn = document.getElementById('downloadBtn');
+  const card = document.getElementById('share-card');
+  if (!card) return;
+  
+  btn.textContent = '⏳ 生成中…';
+  btn.classList.add('loading');
+
+  html2canvas(card, {
+    scale: 2.5,
+    backgroundColor: null,
+    useCORS: true, allowTaint: false,
+    logging: false,
+    width: 540,
+    height: card.scrollHeight,
+    windowWidth: 540
+  }).then(canvas => {
+    const link = document.createElement('a');
+    link.download = 'TAISEI周报卡_' + new Date().toISOString().slice(0,10) + '.png';
+    canvas.toBlob(function(b) { var u = URL.createObjectURL(b); link.href = u; link.click(); URL.revokeObjectURL(u); });
+    link.click();
+    btn.textContent = '📥 下载图片';
+    btn.classList.remove('loading');
+  }).catch(err => {
+    console.error(err);
+    btn.textContent = '❌ 生成失败，重试';
+    btn.classList.remove('loading');
+    setTimeout(function() { btn.textContent = '📥 下载图片'; }, 2000);
+  });
+}
+</script>
+</body>
+</html>
+
+
+
+
