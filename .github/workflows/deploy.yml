@@ -1,0 +1,47 @@
+name: Deploy to EdgeOne Pages
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Generate weekly report
+        run: python generate_weekly.py
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Commit generated report
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git diff --staged --quiet || git commit -m "ci: auto-update weekly report $(date +'%Y-%m-%d')"
+          git push
+
+      - name: Trigger EdgeOne Pages (Webhooks)
+        run: |
+          # Option 1: If EdgeOne supports webhook trigger, use this:
+          # Replace YOUR_EDGEONE_HOOK_URL with your EdgeOne Pages webhook URL
+          # curl -X POST "${{ secrets.EDGEONE_WEBHOOK_URL }}"
+
+          # Option 2: Deploy via rclone (SFTP/FTP)
+          # Install rclone: apt-get install -y rclone
+          # Configure: rclone config create edgeone sftp host=your.host user=xxx key_file=~/.ssh/id_rsa
+          # rclone sync --interactive false . edgeone:/path/to/public
+          echo "EdgeOne Pages deployment step - configure your deployment method below"
+
+          # Example: Deploy via SCP
+          # echo "${{ secrets.DEPLOY_SCRIPT }}" | base64 -d > deploy.sh && bash deploy.sh
+          echo "Done"
