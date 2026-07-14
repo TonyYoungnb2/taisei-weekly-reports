@@ -1,0 +1,27 @@
+{
+  "_instructions": "每周更新这个文件的数据，GitHub Actions 会自动生成报告并发布到 EdgeOne Pages",
+  "_example_week": "2026-07-14 (本周一日期，对应文件夹 reports/2026-07-14/)",
+  "policy": [
+    {
+      "date": "7月10日",
+      "source": "国土交通省",
+      "title": "国交省发布25周年新政策宣传页",
+      "body": "国交省迎来创设25周年，发布新版政策宣传页面，系统展示政策成果与未来方向。",
+      "url": "https://www.mlit.go.jp/index.html",
+      "url_text": "国交省官网"
+    }
+  ],
+  "deals": [
+    {
+      "date": "7月10日",
+      "source": "三井住友トラスト基礎研究所",
+      "title": "J-REIT不动产地价指数（6月）发布",
+      "body": "SMTRI发布6月J-REIT不动产地价指数，物流施设类继续领跑。",
+      "url": "https://www.smtri.jp/",
+      "url_text": "SMTRI官网"
+    }
+  ],
+  "develop": [],
+  "tech": [],
+  "survey": []
+}
