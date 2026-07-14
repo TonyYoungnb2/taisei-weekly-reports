@@ -1,47 +1,58 @@
-name: Deploy to EdgeOne Pages
+name: Weekly Report — Auto Generate & Deploy
 
 on:
+  # 每周二 09:00 日本时间自动运行
+  schedule:
+    - cron: '0 0 * * 2'   # UTC 0:00 = JST 9:00 every Tuesday
+      # NOTE: GitHub Actions cron is in UTC. 09:00 JST = 00:00 UTC
+  # 手动触发（任何人可以在 GitHub Actions 页面点击 "Run workflow"）
+  workflow_dispatch:
+  # 有人推送 main 分支时也运行（本地数据更新后）
   push:
     branches: [main]
-  workflow_dispatch:
+    paths:
+      - 'data/weekly_data.json'
+      - 'generate_weekly.py'
 
 jobs:
-  deploy:
+  generate:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
+      - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Setup Python
+      - name: Setup Python 3.11
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
+
+      - name: Install dependencies
+        run: pip install requests
 
       - name: Generate weekly report
         run: python generate_weekly.py
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Commit generated report
+      - name: Commit & push changes
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
           git add -A
-          git diff --staged --quiet || git commit -m "ci: auto-update weekly report $(date +'%Y-%m-%d')"
-          git push
+          CHANGES=$(git diff --staged --stat)
+          if [ -n "$CHANGES" ]; then
+            echo "Changes detected, committing..."
+            git commit -m "auto: weekly report update $(date +'%Y-%m-%d %H:%M')"
+            git push
+            echo "PUSHED=true" >> $GITHUB_ENV
+          else
+            echo "No changes — skipping push"
+            echo "PUSHED=false" >> $GITHUB_ENV
+          fi
 
-      - name: Trigger EdgeOne Pages (Webhooks)
+      - name: Notify deployment
+        if: env.PUSHED == 'true'
         run: |
-          # Option 1: If EdgeOne supports webhook trigger, use this:
-          # Replace YOUR_EDGEONE_HOOK_URL with your EdgeOne Pages webhook URL
-          # curl -X POST "${{ secrets.EDGEONE_WEBHOOK_URL }}"
-
-          # Option 2: Deploy via rclone (SFTP/FTP)
-          # Install rclone: apt-get install -y rclone
-          # Configure: rclone config create edgeone sftp host=your.host user=xxx key_file=~/.ssh/id_rsa
-          # rclone sync --interactive false . edgeone:/path/to/public
-          echo "EdgeOne Pages deployment step - configure your deployment method below"
-
-          # Example: Deploy via SCP
-          # echo "${{ secrets.DEPLOY_SCRIPT }}" | base64 -d > deploy.sh && bash deploy.sh
-          echo "Done"
+          echo "Report updated & pushed to GitHub!"
+          echo "EdgeOne Pages will auto-deploy within ~1-2 minutes."
+          echo "Live URL: https://github.com/${{ github.repository }}/actions"
