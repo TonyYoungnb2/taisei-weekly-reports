@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大诚会社专用不动产周报 | 2026.6.15-6.23</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700;900&display=swap');
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans SC', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: #f0f2f5;
+    color: #1a1a2e;
+    line-height: 1.6;
+  }
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #fff;
+    padding: 40px 20px 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    animation: drift 20s linear infinite;
+  }
+  @keyframes drift { 0% { transform: translate(0,0); } 100% { transform: translate(30px,30px); } }
+  .header .logo-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  .header .logo-text {
+    font-size: 2em;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: #3b82f6;
+    text-shadow: 0 0 20px rgba(59,130,246,0.4);
+    line-height: 1;
+  }
+  .header .logo-wrap .title-group { text-align: left; }
+  .header h1 {
+    font-size: 1.8em;
+    font-weight: 900;
+    letter-spacing: 4px;
+    position: relative;
+    z-index: 1;
+  }
+  .header .subtitle {
+    font-size: 0.95em;
+    opacity: 0.7;
+    margin-top: 8px;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 1;
+  }
+  .header .date-range {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    padding: 4px 18px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    margin-top: 12px;
+    position: relative;
+    z-index: 1;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+  /* Stats bar */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: -30px auto 30px;
+    max-width: 1000px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .stat-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  }
+  .stat-card .num {
+    font-size: 1.6em;
+    font-weight: 700;
+    color: #0f3460;
+  }
+  .stat-card .num.gold { color: #c9a959; }
+  .stat-card .num.orange { color: #e67e22; }
+  .stat-card .num.green { color: #27ae60; }
+  .stat-card .label {
+    font-size: 0.75em;
+    color: #888;
+    margin-top: 4px;
+  }
+  /* Section */
+  .section { margin-bottom: 28px; }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2em;
+    font-weight: 700;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #0f3460;
+  }
+  .section-title .icon { font-size: 1.4em; }
+  .section-title .tag {
+    font-size: 0.55em;
+    background: #0f3460;
+    color: #fff;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+  /* Grid for cards */
+  .card-grid { display: grid; gap: 12px; }
+  .card-grid.cols-2 {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: transform 0.15s, box-shadow 0.15s;
+    border-left: 4px solid transparent;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  }
+  .card.policy { border-left-color: #0f3460; }
+  .card.deal { border-left-color: #c9a959; }
+  .card.price { border-left-color: #e67e22; }
+  .card.dev   { border-left-color: #27ae60; }
+  .card.tech  { border-left-color: #8e44ad; }
+  .card.survey { border-left-color: #e74c3c; }
+  
+  .card .date {
+    font-size: 0.75em;
+    color: #999;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card .date .source {
+    background: #f0f0f0;
+    padding: 1px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+  }
+  .card h3 {
+    font-size: 0.95em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.5;
+  }
+  .card p {
+    font-size: 0.82em;
+    color: #555;
+    line-height: 1.6;
+  }
+  .card .source-link {
+    display: block;
+    font-size: 0.72em;
+    margin-top: 8px;
+    text-decoration: none;
+    color: #0f3460;
+    font-weight: 500;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+  }
+  .card:hover .source-link { opacity: 1; }
+  .card .source-link:hover { text-decoration: underline; }
+  .card .label {
+    display: inline-block;
+    font-size: 0.65em;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 4px;
+    margin-top: 6px;
+  }
+  .label-blue { background: #e8f0fe; color: #0f3460; }
+  .label-gold { background: #fef8e0; color: #8a6d0b; }
+  .label-green { background: #e6f7ed; color: #1a7a3a; }
+  .label-orange { background: #fef0e0; color: #b8590a; }
+  .label-purple { background: #f0e6ff; color: #6b2fa0; }
+  .label-red { background: #fde8e8; color: #c0392b; }
+
+  /* Key insight */
+  .key-insight {
+    background: linear-gradient(135deg, #fff8e1, #fff3cd);
+    border: 1px solid #ffe082;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 28px;
+  }
+  .key-insight h3 {
+    font-size: 1em;
+    color: #b8860b;
+    margin-bottom: 8px;
+  }
+  .key-insight p, .key-insight li {
+    font-size: 0.85em;
+    color: #666;
+    line-height: 1.7;
+  }
+  .key-insight ul { padding-left: 18px; margin-top: 6px; }
+  .key-insight li { margin-bottom: 4px; }
+
+  /* Trend chart (CSS-based visual) */
+  .trend-visual {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .trend-item {
+    flex: 1;
+    min-width: 140px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+  .trend-item .trend-label {
+    font-size: 0.72em;
+    color: #999;
+  }
+  .trend-item .trend-value {
+    font-size: 1.3em;
+    font-weight: 700;
+    margin-top: 4px;
+  }
+  .trend-item .trend-value.up { color: #e74c3c; }
+  .trend-item .trend-value.down { color: #27ae60; }
+  .trend-item .trend-value.flat { color: #f39c12; }
+  .trend-item .trend-arrow { font-size: 0.7em; margin-left: 2px; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #999;
+    font-size: 0.75em;
+    border-top: 1px solid #e0e0e0;
+    margin-top: 20px;
+  }
+  .footer a { color: #0f3460; text-decoration: none; }
+
+  @media (max-width: 640px) {
+    .header h1 { font-size: 1.5em; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); margin-top: -20px; }
+    .card-grid.cols-2 { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <div class="logo-wrap">
+    <span class="logo-text">TAISEI</span>
+    <div class="title-group">
+      <h1>大诚会社专用不动产周报</h1>
+      <div class="subtitle">政策 · 市场 · 开发 · 趋势</div>
+      <div class="date-range">📅 2026年6月15日 — 6月23日</div>
+    </div>
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="stats-bar">
+  <div class="stat-card">
+    <div class="num gold">3.21<span style="font-size:0.5em">%</span></div>
+    <div class="label">フラット35 主力金利<br>（3カ月連続上昇）</div>
+  </div>
+  <div class="stat-card">
+    <div class="num orange">+5.9<span style="font-size:0.5em">%</span></div>
+    <div class="label">首都圏新築戸建<br>前年同月比</div>
+  </div>
+  <div class="stat-card">
+    <div class="num green">2,862<span style="font-size:0.5em">亿</span></div>
+    <div class="label">5月国内不動産<br>取引額（円）</div>
+  </div>
+  <div class="stat-card">
+    <div class="num" style="font-size:1.2em">13カ月</div>
+    <div class="label">首都圏マンション<br>㎡単価連続YoY+</div>
+  </div>
+  <div class="stat-card">
+    <div class="num gold">6<span style="font-size:0.5em">万/坪</span></div>
+    <div class="label">東京駅周辺<br>成約賃料</div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- 热点速览 -->
+<div class="key-insight">
+  <h3>🔥 本周热点速览</h3>
+  <ul>
+    <li><strong>国交省发布不动产业新口号</strong> — 金子大臣在"地域价值共创研讨会2026"上提出"地域とくらしのパートナー"（地域与生活的伙伴）</li>
+    <li><strong>フラット35利率连续3个月上升</strong> — 主力利率升至3.21%，创现行制度以来最高水平</li>
+    <li><strong>投资市场活跃</strong> — 5月国内交易额约2862亿日元；外资基金1900亿日元公开要约收购JSB</li>
+    <li><strong>首都圈新房价格持续走高</strong> — 新筑小规模一户建均价6271万日元（同比+5.9%），东京都达8314万日元</li>
+    <li><strong>清掃机器人进公寓</strong> — 野村不動産"Ploud Tower 相模大野Cross"引入电梯联动扫地机器人，分譲マンション首次</li>
+  </ul>
+</div>
+
+<!-- Section 1: 政策动向 -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">🏛️</span> 政策动向
+    <span class="tag">POLICY</span>
+  </div>
+  <div class="card-grid cols-2">
+    <div class="card policy">
+      <div class="date">6月18日 <span class="source">国土交通省</span></div>
+      <h3>金子大臣发布不动产业新口号「地域与生活的伙伴」</h3>
+      <p>国交省主办的"地域价值共创研讨会2026"上，金子大臣宣布区域不动产业新口号为「地域とくらしのパートナー」，呼吁业界"团结一心，有力推进区域价值创造"。</p>
+      <span class="label label-blue">国交省</span>
+      <a href="https://www.mlit.go.jp/page/kanbo01_hy_010940.html" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card policy">
+      <div class="date">6月22日 <span class="source">国土交通省</span></div>
+      <h3>「不动产信息库」数据更新：城市规划与避难场所</h3>
+      <p>国交省宣布将于6月24日更新不动产信息库，追加城市规划信息和指定紧急避难场所数据，进一步提升不动产信息透明度。</p>
+      <span class="label label-blue">信息公开</span>
+      <a href="https://www.mlit.go.jp/report/press/tochi_fudousan_kensetsugyo17_hh_000001_00088.html" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card policy">
+      <div class="date">6月22日 <span class="source">国土交通省</span></div>
+      <h3>公寓存量长寿命化示范项目 首次评选结果公布</h3>
+      <p>国交省公布令和8年度「公寓存量长寿命化等示范项目」第1次评选结果，推动公寓楼栋长期维护和改造。</p>
+      <span class="label label-blue">公寓政策</span>
+      <a href="https://www.mlit.go.jp/report/press/house03_hh_000273.html" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card policy">
+      <div class="date">6月15日 <span class="source">東京都</span></div>
+      <h3>东京都启动停车场条例修订 公开征集意见</h3>
+      <p>东京都对停车场条例进行重新审视，公布修订案并公开征集社会意见，未来可能影响新建项目的停车场配置标准。</p>
+      <span class="label label-blue">条例修订</span>
+      <a href="https://www.biru-mall.com/attention/2026061501_01/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card policy">
+      <div class="date">6月19日 <span class="source">国土交通省</span></div>
+      <h3>既有建筑节能改造工程提案募集开始</h3>
+      <p>国交省启动令和8年度既有建筑节能化推进事业，面向社会公开征集建筑节能改造工程方案。</p>
+      <span class="label label-green">节能环保</span>
+      <a href="https://www.mlit.go.jp/report/press/house04_hh_001346.html" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card policy">
+      <div class="date">6月上旬 <span class="source">国土交通省</span></div>
+      <h3>地籍调查加速：新设「防灾对策街区边界」制度</h3>
+      <p>国交省创设新的地籍调查手法，通过「防灾对策街区边界」制度加快地籍调查进程，提升城市防灾能力。</p>
+      <span class="label label-green">防灾</span>
+      <a href="https://www.sjt.co.jp/local/100093" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Section 2: 市场交易 -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">💼</span> 市场交易·投资
+    <span class="tag">DEALS</span>
+  </div>
+
+  <!-- Market overview trend -->
+  <div class="trend-visual">
+    <div class="trend-item">
+      <div class="trend-label">首都圏中古マンション<br>㎡単価(23区)</div>
+      <div class="trend-value down">5,078円 <span class="trend-arrow">▼0.2%</span></div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-label">首都圏新築小規模戸建<br>平均価格</div>
+      <div class="trend-value up">6,271万円 <span class="trend-arrow">▲5.9%</span></div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-label">東京都新築小規模戸建<br>平均価格</div>
+      <div class="trend-value up">8,314万円 <span class="trend-arrow">▲</span></div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-label">首都圏中古一戸建<br>平均価格</div>
+      <div class="trend-value up">4,254万円 <span class="trend-arrow">▲2.8%</span></div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-label">5月国内取引総額</div>
+      <div class="trend-value flat">2,862億円</div>
+    </div>
+  </div>
+
+  <div class="card-grid cols-2">
+    <div class="card deal">
+      <div class="date">6月22日 <span class="source">日経不動産マーケット情報</span></div>
+      <h3>ヤマト集团出售港南办公楼等16处物业</h3>
+      <p>物流巨头ヤマトグループ出售位于港区港南的办公楼等16处物业，引发市场关注企业不动产重组趋势。</p>
+      <span class="label label-gold">企业不动产</span>
+      <a href="https://nfm.nikkeibp.co.jp/atcl/news/21/00001/08331/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card deal">
+      <div class="date">6月22日 <span class="source">週刊住宅タイムズ</span></div>
+      <h3>美国投资基金公开要约收购JSB 总额超1900亿日元</h3>
+      <p>美国投资ファンド宣布对不动产公司JSB进行公开要约收购（TOB），总额超过1900亿日元，成为本周最大交易案。</p>
+      <span class="label label-gold">M&A</span>
+      <span class="label label-red">外资</span>
+      <a href="https://www.sjt.co.jp/borrow/100225" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card deal">
+      <div class="date">6月19日 <span class="source">日経不動産</span></div>
+      <h3>住友不动产收购西新宿老旧办公楼</h3>
+      <p>住友不動産取得位于西新宿的築古ビル，延续大手开发商收购核心区域老旧物业进行再开发的策略。</p>
+      <span class="label label-gold">收购</span>
+      <a href="https://nfm.nikkeibp.co.jp/atcl/news/21/00001/08310/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card deal">
+      <div class="date">6月19日 <span class="source">日経不動産</span></div>
+      <h3>JR西日本Properties取得文京区汤岛办公楼</h3>
+      <p>JR西日本プロパティーズ（JR西日本集团的不动产子公司）在东京文京区汤岛取得办公楼，布局东京不动产市场。</p>
+      <span class="label label-gold">区域扩展</span>
+      <a href="https://nfm.nikkeibp.co.jp/atcl/news/21/00001/08311/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card deal">
+      <div class="date">6月18日 <span class="source">日経不動産</span></div>
+      <h3>TPG成为横滨湾岸大型物流设施主要投资者</h3>
+      <p>全球另类资产管理公司TPG（德州太平洋）成为横滨湾岸地区大规模物流设施2栋的主要投资人，外资持续看好日本物流不动产。</p>
+      <span class="label label-gold">物流</span>
+      <span class="label label-red">外资</span>
+      <a href="https://nfm.nikkeibp.co.jp/atcl/news/21/00001/08295/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card deal">
+      <div class="date">6月15日 <span class="source">日経不動産</span></div>
+      <h3>HIS以325亿日元出售旧总部楼层給森Trust</h3>
+      <p>旅游集团HIS将其旧总部楼层以325亿日元出售给森トラスト（森Trust），大手企业不动产重组持续活跃。</p>
+      <span class="label label-gold">大额交易</span>
+      <a href="https://nfm.nikkeibp.co.jp/atcl/news/21/00001/08297/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Section 3: 开发动态 -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">🏗️</span> 开发动态
+    <span class="tag">DEVELOPMENT</span>
+  </div>
+  <div class="card-grid cols-2">
+    <div class="card dev">
+      <div class="date">6月22日 <span class="source">週刊不動産経営</span></div>
+      <h3>神戸市役所本庁舎2号馆再整備事業动工</h3>
+      <p>神户三宫地区综合性再开发项目启动，规划包含办公楼、酒店和商业设施的复合大楼。</p>
+      <span class="label label-green">再开发</span>
+      <a href="https://www.biru-mall.com/attention/2026062201_01/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card dev">
+      <div class="date">6月22日 <span class="source">週刊不動産経営</span></div>
+      <h3>大阪天王寺区最高层塔楼「The Park House 大阪上本町Tower」样板房开放</h3>
+      <p>天王寺区最高层タワマン样板间开放，标志着大阪核心区域高端住宅市场竞争加剧。</p>
+      <span class="label label-green">塔楼</span>
+      <a href="https://www.biru-mall.com/attention/2026062201_02/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card dev">
+      <div class="date">6月22日 <span class="source">日経不動産</span></div>
+      <h3>三菱地所Residence：西五反田1.6万㎡租赁公寓开发</h3>
+      <p>三菱地所レジ在品川区西五反田开发大型租赁公寓，总面积约1.6万㎡，满足东京核心区租赁需求。</p>
+      <span class="label label-green">租赁公寓</span>
+      <a href="https://nfm.nikkeibp.co.jp/atcl/news/21/00001/08298/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card dev">
+      <div class="date">6月15日 <span class="source">週刊住宅タイムズ</span></div>
+      <h3>东京北青山38层复合大楼「北青山三丁目再开发」动工</h3>
+      <p>东京都心核心地段北青山38层复合ビル正式动工，第一種市街地再開発事業推进中。</p>
+      <span class="label label-green">都心再开发</span>
+      <a href="https://www.biru-mall.com/attention/2026061501_01/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card dev">
+      <div class="date">6月22日 <span class="source">週刊不動産経営</span></div>
+      <h3>「仙台第一生命ビル建替計画」动工</h3>
+      <p>仙台定禅寺通沿线新建地上13层办公大楼，地方核心城市办公楼更新浪潮持续。</p>
+      <span class="label label-green">地方城市</span>
+      <a href="https://www.biru-mall.com/attention/2026062202_04/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card dev">
+      <div class="date">6月22日 <span class="source">週刊不動産経営</span></div>
+      <h3>东京Midtown八重洲设置室外空调 验证都市暑热对策</h3>
+      <p>东京ミッドタウン八重洲安装室外用空调，验证都市暑热対策的实际效果，为未来公共空间设计提供参考。</p>
+      <span class="label label-green">暑热対策</span>
+      <a href="https://www.biru-mall.com/attention/2026062201_03/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card dev">
+      <div class="date">6月17日 <span class="source">日経不動産</span></div>
+      <h3>大和House开发奥浅草公寓式酒店</h3>
+      <p>大和ハウス在东京奥浅草地区开发アパートメントホテル，布局访日游客住宿需求。</p>
+      <span class="label label-green">酒店</span>
+      <a href="https://nfm.nikkeibp.co.jp/atcl/news/21/00001/08287/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card dev">
+      <div class="date">6月15日 <span class="source">週刊住宅タイムズ</span></div>
+      <h3>鸟栖市物流设施动工（九电系与野村不动产）</h3>
+      <p>九州电力关联公司与野村不動産在佐贺县鸟栖市着工建设多功能冷冻冷藏物流设施。</p>
+      <span class="label label-green">物流</span>
+      <a href="https://www.biru-mall.com/attention/2026061502_09/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Section 4: 科技 & 创新 -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">🤖</span> 科技·创新
+    <span class="tag">TECH</span>
+  </div>
+  <div class="card-grid cols-2">
+    <div class="card tech">
+      <div class="date">6月22日 <span class="source">週刊住宅タイムズ</span></div>
+      <h3>分譲マンション首次引入电梯联动扫地机器人</h3>
+      <p>野村不動産「Ploud Tower 相模大野Cross」（41层/687户）引入可自动搭乘电梯、跨楼层清扫的扫地机器人STRIVER2。由8家企业合作实现，预计可替代约60%的吸尘面积、整体清扫业务削减20%人力。</p>
+      <span class="label label-purple">智能楼宇</span>
+      <span class="label label-purple">DX</span>
+      <a href="https://www.sjt.co.jp/news/100218" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card tech">
+      <div class="date">6月15日 <span class="source">週刊住宅タイムズ</span></div>
+      <h3>三井不Residence「船桥」项目引入人脸识别+智能家居</h3>
+      <p>三井不動産レジデンシャル在船橋的分譲マンション项目中全面導入人脸识别门禁与スマートホーム系统。</p>
+      <span class="label label-purple">人脸识别</span>
+      <a href="https://www.sjt.co.jp/news/100206" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card tech">
+      <div class="date">6月15日 <span class="source">週刊住宅タイムズ</span></div>
+      <h3>ミサワHome：生成AI辅助电话内容登记</h3>
+      <p>ミサワホーム引入生成AI技术实现通话内容的自动摘要与登记，削减行政事务负担。</p>
+      <span class="label label-purple">生成AI</span>
+      <a href="https://www.sjt.co.jp/house-maker/100164" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+  </div>
+</div>
+
+<!-- Section 5: 调查 & 趋势 -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">📊</span> 调查·趋势
+    <span class="tag">RESEARCH</span>
+  </div>
+  <div class="card-grid cols-2">
+    <div class="card survey">
+      <div class="date">6月22日 <span class="source">SUUMO研究中心</span></div>
+      <h3>50~60代居住不安调查：「修缮费增加·管理麻烦」居首</h3>
+      <p>SUUMO对3690名50~60代的调查显示，37%对房屋老化和修缮成本增加感到不安，31%担心"将来房子如何处理"，30%担忧"身体功能下降后的楼梯问题"。49%向往"便利的都心·车站附近居住环境"。</p>
+      <span class="label label-red">居住意识</span>
+      <a href="https://www.sjt.co.jp/news/100230" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card survey">
+      <div class="date">6月18日 <span class="source">不動産経済研究所</span></div>
+      <h3>首都圈分譲マンション㎡单价连续13个月同比上升</h3>
+      <p>首都圈分譲マンションの㎡単価维持13カ月連続前年同月比プラス，房价韧性强劲。</p>
+      <span class="label label-red">房价</span>
+      <a href="https://nfm.nikkeibp.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card survey">
+      <div class="date">6月16日 <span class="source">日経不動産マーケット情報</span></div>
+      <h3>单身公寓租金上涨势头增强（2026年1~3月）</h3>
+      <p>新築マンション募集賃料调查显示，单身向公寓租金上涨势头明显增强。</p>
+      <span class="label label-red">租金</span>
+      <a href="https://nfm.nikkeibp.co.jp/atcl/plus/21/00011/00025/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card survey">
+      <div class="date">6月15日 <span class="source">日経不動産マーケット情報</span></div>
+      <h3>建筑项目工期10年间延长1.3倍，利率上升加重负担</h3>
+      <p>日経不動産分析显示，大型建筑项目工期在过去10年延长了约1.3倍，叠加金利上升进一步增加开发成本。</p>
+      <span class="label label-red">工期</span>
+      <span class="label label-red">成本</span>
+      <a href="https://nfm.nikkeibp.co.jp/atcl/column/21/00010/00006/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card survey">
+      <div class="date">6月上旬 <span class="source">不動産研究所</span></div>
+      <h3>金利上升下的不动产投资市场调查：61%称「无影响」</h3>
+      <p>不動産研究所特别问卷显示，61%的受访者认为金利上升对自身投资"没有影响或没有变化"，市场情绪整体稳定。</p>
+      <span class="label label-red">投资信心</span>
+      <a href="https://www.sjt.co.jp/invest/100078" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+    <div class="card survey">
+      <div class="date">6月19日 <span class="source">日経不動産</span></div>
+      <h3>大阪站周边大规模开发带动来访者增加</h3>
+      <p>ニッセイ基礎研究所分析显示，大阪站周边的大規模再開発有效带动来访人数增长，商圈活性化效应明显。</p>
+      <span class="label label-red">大阪</span>
+      <a href="https://nfm.nikkeibp.co.jp/report/" target="_blank" class="source-link">📖 阅读原文 →</a>
+    </div>
+  </div>
+</div>
+
+<!-- 不动产类别趋势图 -->
+<div class="key-insight">
+  <h3>📈 贷款利率趋势</h3>
+  <p><strong>フラット35（返済期間35年以下・融資率9割以下）：</strong> 2026年6月适用利率 <strong>3.21%</strong>（最频值），连续3个月上升。若扣除ZEH等节能点数后的初期优惠利率为2.21%。全期间固定利率（6年目以降）为3.21%。<br><br>
+  当前日本央行政策利率维持<strong>1%</strong>水平，市场关注下期日银会议是否会进一步加息的动向。</p>
+  <p style="margin-top:10px;"><strong>💡 小虾点评：</strong> 贷款利率上升未明显抑制首都圈房价，新築マンション单价13个月连涨说明供需依然偏紧。但工期延长+利率上升的组合对中小开发商形成压力。投资者对不动产市场的信心仍然稳固（61%表示无影响）。</p>
+</div>
+
+</div>
+
+<div class="footer">
+  <p>📡 数据来源：国土交通省 / 日経不動産マーケット情報 / 週刊住宅タイムズ / 週刊不動産経営 / 東京カンテイ / SUUMO / 不動産経済研究所</p>
+  <p style="margin-top:4px;">Generated by 🦐 小虾 · 2026年6月23日 · 东京 · 大誠株式会社 专用</p>
+</div>
+
+</body>
+</html>
