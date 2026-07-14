@@ -418,31 +418,31 @@ def build_report_html():
 <div class="share-toast" id="shareToast">截图生成中...</div>
 <script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
 <script>
-document.getElementById('shareBtn').addEventListener('click', async function() {
+document.getElementById('shareBtn').addEventListener('click', async function() {{
   var btn = this, toast = document.getElementById('shareToast');
   btn.classList.add('loading'); btn.textContent = '...';
   toast.textContent = '截图生成中...'; toast.classList.add('show');
-  try {
-    var canvas = await html2canvas(document.documentElement, {
+  try {{
+    var canvas = await html2canvas(document.documentElement, {{
       useCORS: true, allowTaint: true,
       backgroundColor: '#f0f2f5', scale: 2,
       scrollX: 0, scrollY: -window.scrollY,
       windowWidth: document.documentElement.scrollWidth,
       windowHeight: document.documentElement.scrollHeight,
       logging: false
-    });
-    var badge = (document.querySelector('.date-badge') || {}).textContent || '';
+    }});
+    var badge = (document.querySelector('.date-badge') || {{}}).textContent || '';
     var link = document.createElement('a');
     link.download = '\u5927\u8bfa\u4e0d\u52a8\u7522\u9031\u5831_' + badge.trim() + '.png';
     link.href = canvas.toDataURL('image/png');
     link.click();
     toast.textContent = '截图已保存!';
-  } catch(e) {
+  }} catch(e) {{
     toast.textContent = '截图失败，请重试';
-  }
-  setTimeout(function() { toast.classList.remove('show'); }, 2500);
+  }}
+  setTimeout(function() {{ toast.classList.remove('show'); }}, 2500);
   btn.classList.remove('loading'); btn.textContent = '[SHARE]';
-});
+}});
 </script>
 </body>
 </html>'''
