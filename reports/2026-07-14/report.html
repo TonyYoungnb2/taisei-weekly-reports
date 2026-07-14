@@ -174,121 +174,116 @@ body {
 }
 .share-toast.show { opacity: 1; transform: translateY(0); }
 
-/* ─── Share Card (mobile-optimized 3:4 card) ─── */
-.share-card {
-  display: none;
-  width: 540px;
-  background: #ffffff;
-  font-family: 'Helvetica Neue', Arial, 'PingFang SC', 'Hiragino Sans GB', sans-serif;
-  overflow: hidden;
-  /* card frame shadow */
-  box-shadow: 0 12px 48px rgba(0,0,0,0.18);
-}
-.share-card-inner {
-  background: #f0f2f5;
-  padding: 0 0 24px;
-}
-/* Card Header */
-.sc-header {
-  background: linear-gradient(135deg, #0f3460 0%, #16213e 60%, #1a1a2e 100%);
-  padding: 28px 28px 24px;
-  position: relative;
-  overflow: hidden;
-}
-.sc-header::before {
-  content: ''; position: absolute; inset: 0;
-  background-image: radial-gradient(rgba(255,255,255,0.06) 1px, transparent 1px);
-  background-size: 20px 20px;
-}
-.sc-header-top {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 18px;
-}
-.sc-logo {
-  font-size: 22px; font-weight: 900; letter-spacing: 5px;
-  color: #3b82f6; text-shadow: 0 0 20px rgba(59,130,246,0.6);
-  font-style: normal;
-}
-.sc-badge {
-  background: rgba(255,255,255,0.12);
-  color: rgba(255,255,255,0.9); font-size: 11px;
-  padding: 4px 12px; border-radius: 20px;
-  letter-spacing: 1px;
-}
-.sc-title {
-  color: white; font-size: 18px; font-weight: 700;
-  margin: 0 0 6px; line-height: 1.3;
-}
-.sc-date-range {
-  color: rgba(255,255,255,0.7); font-size: 13px; margin: 0;
-  letter-spacing: 0.5px;
-}
-/* Card Divider */
-.sc-divider {
-  height: 3px;
-  background: linear-gradient(90deg, #3b82f6 0%, #06b6d4 50%, #10b981 100%);
-}
-/* Card Body */
-.sc-body { padding: 20px 24px 0; }
-/* Stats Row */
-.sc-stats {
-  display: grid; grid-template-columns: repeat(4, 1fr);
-  gap: 10px; margin-bottom: 20px;
-}
-.sc-stat {
-  background: white; border-radius: 12px; padding: 12px 8px;
-  text-align: center; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-}
-.sc-stat-val {
-  font-size: 18px; font-weight: 800;
-  background: linear-gradient(135deg, #0f3460, #3b82f6);
-  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
-  background-clip: text; display: block; line-height: 1.2;
-}
-.sc-stat-lbl {
-  font-size: 10px; color: #888; margin-top: 4px;
-  display: block; line-height: 1.3;
-}
-/* Hot Topics */
-.sc-hot { margin-bottom: 0; }
-.sc-hot-title {
-  font-size: 12px; font-weight: 700; color: #0f3460;
-  margin: 0 0 10px; letter-spacing: 1px; text-transform: uppercase;
-  display: flex; align-items: center; gap: 6px;
-}
-.sc-hot-title::after {
-  content: ''; flex: 1; height: 1px; background: #e0e0e0;
-}
-.sc-hot-list { list-style: none; margin: 0; padding: 0; }
-.sc-hot-item {
-  display: flex; align-items: flex-start; gap: 10px;
-  background: white; border-radius: 10px; padding: 11px 14px;
-  margin-bottom: 8px; box-shadow: 0 1px 4px rgba(0,0,0,0.05);
-  font-size: 13px; color: #222; line-height: 1.5;
-}
-.sc-hot-num {
-  background: linear-gradient(135deg, #0f3460, #3b82f6);
-  color: white; font-size: 10px; font-weight: 700;
-  width: 18px; height: 18px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0; margin-top: 1px;
-}
-/* Card Footer */
-.sc-footer {
-  margin: 18px 24px 0;
-  background: linear-gradient(135deg, #0f3460, #16213e);
-  border-radius: 12px; padding: 12px 16px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.sc-footer-left { color: rgba(255,255,255,0.8); font-size: 11px; }
-.sc-footer-brand {
-  color: #3b82f6; font-weight: 700; font-size: 13px;
-  letter-spacing: 1px;
-}
-.sc-footer-right {
-  color: rgba(255,255,255,0.5); font-size: 10px; text-align: right;
-  line-height: 1.5;
-}
+/* ─── Share Card (old 27/28-style, modal + auto-extract) ─── */
+#share-card {{
+    width: 540px;
+    background: #fff;
+    border-radius: 16px; overflow: hidden; position: relative;
+    font-family: "Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+}}
+#share-card .card-dots {{
+    position: absolute; top:0; left:0; width:100%; height:100%;
+    background: radial-gradient(circle, rgba(59,130,246,0.06) 1px, transparent 1px);
+    background-size: 22px 22px; pointer-events: none; z-index: 0;
+}}
+#share-card .card-top-accent {{
+    position: relative; z-index: 1; height: 6px;
+    background: linear-gradient(90deg, #3b82f6, #60a5fa, #3b82f6);
+}}
+#share-card .card-content {{ position: relative; z-index: 1; padding: 28px 32px 24px; }}
+#share-card .card-logo {{
+    font-size: 34px; font-weight: 900; letter-spacing: 8px;
+    color: #1a56db; line-height: 1;
+}}
+#share-card .card-meta {{ font-size: 11px; color: #94a3b8; letter-spacing: 3px; margin-top: 4px; text-transform: uppercase; }}
+#share-card .card-date-badge {{
+    display: inline-block; background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    padding: 4px 16px; border-radius: 20px; font-size: 13px; color: #2563eb; margin-top: 14px;
+}}
+#share-card .card-divider {{
+    border: none; height: 1px;
+    background: linear-gradient(90deg, transparent, #dbeafe, transparent);
+    margin: 16px 0;
+}}
+#share-card .card-stats {{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }}
+#share-card .card-stat-box {{
+    background: #f8fafc; border: 1px solid #e2e8f0;
+    border-radius: 12px; padding: 14px 16px;
+}}
+#share-card .card-stat-box .stat-num {{ font-size: 22px; font-weight: 700; color: #1e293b; line-height: 1.2; }}
+#share-card .card-stat-box .stat-num .stat-arrow {{ font-size: 13px; margin-left: 4px; }}
+#share-card .card-stat-box .stat-num .stat-arrow.up {{ color: #f87171; }}
+#share-card .card-stat-box .stat-num .stat-arrow.down {{ color: #34d399; }}
+#share-card .card-stat-box .stat-num .stat-arrow.flat {{ color: #fbbf24; }}
+#share-card .card-stat-box .stat-label {{ font-size: 10px; color: #64748b; margin-top: 4px; line-height: 1.4; }}
+#share-card .card-highlights-title {{ font-size: 12px; color: #64748b; letter-spacing: 2px; margin-bottom: 10px; text-transform: uppercase; }}
+#share-card .card-highlights {{ list-style: none; padding: 0; margin: 0; }}
+#share-card .card-highlights li {{
+    padding: 7px 0; font-size: 12px; color: #475569; line-height: 1.5;
+    border-bottom: 1px solid #f1f5f9;
+}}
+#share-card .card-highlights li:last-child {{ border-bottom: none; }}
+#share-card .card-highlights .hl-icon {{ margin-right: 6px; }}
+#share-card .card-bottom {{
+    margin-top: 14px; padding-top: 12px;
+    border-top: 1px solid #e2e8f0;
+    display: flex; justify-content: space-between; align-items: center;
+}}
+#share-card .card-bottom .brand {{ font-size: 11px; color: #64748b; }}
+#share-card .card-bottom .cta {{ font-size: 11px; color: #3b82f6; font-weight: 500; }}
+/* Floating share button */
+.share-btn-fab {{
+    position: fixed; bottom: 24px; right: 24px; z-index: 9998;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: white; border: none; cursor: pointer;
+    font-size: 22px; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 4px 16px rgba(59,130,246,0.4);
+    transition: all 0.2s;
+}}
+.share-btn-fab:hover {{ transform: scale(1.1); box-shadow: 0 6px 20px rgba(59,130,246,0.5); }}
+.share-btn-fab:active {{ transform: scale(0.95); }}
+.share-btn-fab .tooltip {{
+    position: absolute; bottom: 65px; right: 0;
+    background: rgba(0,0,0,0.75); color: white; font-size: 12px;
+    padding: 5px 10px; border-radius: 6px; white-space: nowrap;
+    opacity: 0; pointer-events: none; transition: opacity 0.2s;
+}}
+.share-btn-fab:hover .tooltip {{ opacity: 1; }}
+/* Modal */
+.share-modal {{
+    display: none; position: fixed; inset: 0; z-index: 9999;
+    background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
+    align-items: center; justify-content: center;
+}}
+.share-modal.show {{ display: flex; }}
+.share-modal .modal-box {{
+    background: white; border-radius: 16px; padding: 24px;
+    max-width: 580px; width: 96%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
+}}
+.share-modal .modal-header {{
+    display: flex; justify-content: space-between; align-items: center;
+    font-size: 14px; font-weight: 600; color: #374151; margin-bottom: 14px;
+}}
+.share-modal .close-btn {{
+    background: none; border: none; font-size: 18px; cursor: pointer;
+    color: #9ca3af; padding: 0; line-height: 1;
+}}
+.share-modal .close-btn:hover {{ color: #374151; }}
+.share-modal .download-btn {{
+    margin-top: 16px; padding: 12px 36px; border: none; border-radius: 30px;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: #fff; font-size: 15px; font-weight: 600; cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 15px rgba(59,130,246,0.35);
+    display: block; width: 100%;
+}}
+.share-modal .download-btn:hover {{ transform: translateY(-2px); box-shadow: 0 6px 20px rgba(59,130,246,0.45); }}
+.share-modal .download-btn:active {{ transform: scale(0.97); }}
+.share-modal .download-btn.loading {{ opacity: 0.7; pointer-events: none; }}
+.share-modal .hint {{ color: #94a3b8; font-size: 12px; text-align: center; margin-top: 8px; }}
 </style>
 </head>
 <body>
@@ -511,88 +506,142 @@ body {
   <p>Generated by 大誠 · 2026年07月14日 · 东京 · 大誠有限会社 専用</p>
 </footer>
 
-<!-- Share Card (hidden, captured as screenshot) -->
-<div class="share-card" id="shareCard">
-  <div class="share-card-inner">
-    <div class="sc-header">
-      <div class="sc-header-top">
-        <i class="sc-logo">TAISEI</i>
-        <span class="sc-badge">週 報</span>
-      </div>
-      <p class="sc-title">大誠有限会社 不動產週報</p>
-      <p class="sc-date-range">2026年7月13日 -- 2026年7月19日</p>
+<!-- Share Card (auto-built by JS from page content) -->
+<div class="share-modal" id="shareModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span>📸 朋友圈分享卡片预览</span>
+      <button class="close-btn" id="closeShareModal">✕</button>
     </div>
-    <div class="sc-divider"></div>
-    <div class="sc-body">
-      <div class="sc-stats">
-        <div class="sc-stat">
-          <span class="sc-stat-val">5,078円 ▼0.2%</span>
-          <span class="sc-stat-lbl">首都圈中古マンシ
-㎡单价（23区）</span>
-        </div>
-        <div class="sc-stat">
-          <span class="sc-stat-val">1,412戸 -></span>
-          <span class="sc-stat-lbl">首都圈新建マンシ
-供给户数（6月）</span>
-        </div>
-        <div class="sc-stat">
-          <span class="sc-stat-val">3.4%減 ▼</span>
-          <span class="sc-stat-lbl">首都圈中古マンシ
-成约件数（6月）</span>
-        </div>
-        <div class="sc-stat">
-          <span class="sc-stat-val">4,254万円 ▲2.8%</span>
-          <span class="sc-stat-lbl">東京都23区中古戸建
-平均价格</span>
-        </div>
-      </div>
-      <div class="sc-hot">
-        <div class="sc-hot-title">🔥 本週ホット topics</div>
-        <ul class="sc-hot-list">
-<li class="sc-hot-item"><span class="sc-hot-num">1</span>国交省推进「ビデオ重説」制度</li>
-<li class="sc-hot-item"><span class="sc-hot-num">2</span>観光庁创设地方废旅馆再生补助制度</li>
-<li class="sc-hot-item"><span class="sc-hot-num">3</span>首都圈新建マンシ持续高价</li>
-        </ul>
-      </div>
-    </div>
-    <div class="sc-footer">
-      <div class="sc-footer-left">
-        <div class="sc-footer-brand">TAISEI</div>
-        <div style="font-size:10px;color:rgba(255,255,255,0.6);margin-top:2px">大誠有限会社</div>
-      </div>
-      <div class="sc-footer-right">Generated by 大誠<br>东京 · 2026年07月14日</div>
-    </div>
+    <div id="share-card-container" style="max-height:70vh;overflow-y:auto;"></div>
+    <button class="download-btn" id="downloadBtn">📥 下载图片</button>
+    <div class="hint">点击下载后，图片保存在浏览器默认下载目录</div>
   </div>
 </div>
 
-<!-- Share Screenshot Button -->
-<button class="share-btn" id="shareBtn" title="生成分享截图">[SHARE]</button>
-<div class="share-toast" id="shareToast">截图生成中...</div>
-<script src="https://cdn.jsdelivr.net/npm/html2canvas@1.4.1/dist/html2canvas.min.js"></script>
+<!-- Floating Share Button -->
+<button class="share-btn-fab" id="shareBtn" onclick="openShareModal()">📸<span class="tooltip">生成朋友圈卡片</span></button>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-document.getElementById('shareBtn').addEventListener('click', async function() {
-  var btn = this, toast = document.getElementById('shareToast');
-  btn.classList.add('loading'); btn.textContent = '...';
-  toast.textContent = '生成分享卡中...'; toast.classList.add('show');
-  try {
-    var card = document.getElementById('shareCard');
-    var canvas = await html2canvas(card, {
-      useCORS: true, allowTaint: true,
-      backgroundColor: '#f0f2f5', scale: 2,
-      width: 540, height: card.offsetHeight,
-      logging: false, pixelRatio: 2
+/* ── auto-extract data from page ── */
+function getDateRange() {
+    var el = document.getElementById('headerDateRange') || document.querySelector('.date-range');
+    return el ? el.textContent.trim().replace(/^[📅\s]+/, '') : '';
+}
+function getStats() {
+    var cards = document.querySelectorAll('.trend-cell, .stat-card');
+    var stats = [];
+    cards.forEach(function(c) {
+        var num = c.querySelector('.trend-val, .num');
+        var label = c.querySelector('.trend-lbl, .label');
+        if (num && label) stats.push({ num: num.textContent.trim(), label: label.textContent.trim().replace(/\s+/g,' ') });
     });
-    var badge = (document.querySelector('.date-badge') || {}).textContent || '';
-    var link = document.createElement('a');
-    link.download = '大诺不动產週報_' + badge.trim() + '.png';
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-    toast.textContent = '分享卡已保存!';
-  } catch(e) {
-    toast.textContent = '截图失败，请重试';
-  }
-  setTimeout(function() { toast.classList.remove('show'); }, 2500);
-  btn.classList.remove('loading'); btn.textContent = '[SHARE]';
+    return stats;
+}
+function getHighlights() {
+    var items = document.querySelectorAll('.hot-item, .key-insight li');
+    var out = [];
+    items.forEach(function(li) {
+        var txt = li.textContent.trim().replace(/^[\s—–-]+/, '');
+        if (txt) out.push(txt);
+    });
+    return out.slice(0, 4);
+}
+/* ── build card HTML ── */
+function buildShareCard() {
+    var dateRange = getDateRange();
+    var stats = getStats();
+    var highlights = getHighlights();
+    var arrowClass = function(txt) {
+        if (txt.indexOf('▼') > -1 || txt.indexOf('下落') > -1 || txt.indexOf('減') > -1) return 'down';
+        if (txt.indexOf('▲') > -1 || txt.indexOf('上昇') > -1 || txt.indexOf('増') > -1) return 'up';
+        return 'flat';
+    };
+    var arrowSymbol = function(txt) {
+        if (txt.indexOf('▼') > -1) return '▼';
+        if (txt.indexOf('▲') > -1) return '▲';
+        return '→';
+    };
+    var statsHTML = '';
+    stats.slice(0, 4).forEach(function(s) {
+        var ac = arrowClass(s.num);
+        var ar = arrowSymbol(s.num);
+        statsHTML += '<div class="card-stat-box">' +
+            '<div class="stat-num">' + s.num + ' <span class="stat-arrow ' + ac + '">' + ar + '</span></div>' +
+            '<div class="stat-label">' + s.label + '</div>' +
+        '</div>';
+    });
+    var icons = ['🔴','🟡','🟢','🔵'];
+    var hlHTML = '';
+    highlights.forEach(function(h, i) {
+        hlHTML += '<li><span class="hl-icon">' + (icons[i]||'▸') + '</span>' + h + '</li>';
+    });
+    return '<div id="share-card">' +
+        '<div class="card-dots"></div>' +
+        '<div class="card-top-accent"></div>' +
+        '<div class="card-content">' +
+            '<div class="card-logo">TAISEI</div>' +
+            '<div class="card-meta">WEEKLY REAL ESTATE REPORT</div>' +
+            '<div class="card-date-badge">📅 ' + dateRange + '</div>' +
+            '<hr class="card-divider">' +
+            '<div class="card-stats">' + statsHTML + '</div>' +
+            '<hr class="card-divider">' +
+            '<div class="card-highlights-title">✦ WEEKLY HIGHLIGHTS</div>' +
+            '<ul class="card-highlights">' + hlHTML + '</ul>' +
+            '<div class="card-bottom">' +
+                '<span class="brand">大誠有限会社 · 不動産専門</span>' +
+                '<span class="cta">🔍 更多精彩请关注官方频道</span>' +
+            '</div>' +
+        '</div>' +
+    '</div>';
+}
+/* ── modal controls ── */
+function openShareModal() {
+    document.getElementById('share-card-container').innerHTML = buildShareCard();
+    document.getElementById('shareModal').classList.add('show');
+    document.body.style.overflow = 'hidden';
+}
+function closeShareModal() {
+    document.getElementById('shareModal').classList.remove('show');
+    document.body.style.overflow = '';
+}
+document.getElementById('closeShareModal').addEventListener('click', closeShareModal);
+document.getElementById('shareModal').addEventListener('click', function(e) {
+    if (e.target === this) closeShareModal();
+});
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeShareModal();
+});
+/* ── download ── */
+document.getElementById('downloadBtn').addEventListener('click', function() {
+    var btn = this;
+    var card = document.getElementById('share-card');
+    if (!card) return;
+    btn.textContent = '⏳ 生成中…';
+    btn.classList.add('loading');
+    html2canvas(card, {
+        scale: 2.5,
+        backgroundColor: '#ffffff',
+        useCORS: true, allowTaint: false,
+        logging: false,
+        width: 540,
+        height: card.scrollHeight,
+        windowWidth: 540
+    }).then(function(canvas) {
+        canvas.toBlob(function(blob) {
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.download = 'TAISEI周报卡_' + new Date().toISOString().slice(0,10) + '.png';
+            a.href = url; a.click();
+            setTimeout(function() { URL.revokeObjectURL(url); }, 1000);
+        });
+        btn.textContent = '📥 下载图片';
+        btn.classList.remove('loading');
+    }).catch(function() {
+        btn.textContent = '❌ 生成失败，请重试';
+        btn.classList.remove('loading');
+        setTimeout(function() { btn.textContent = '📥 下载图片'; }, 2000);
+    });
 });
 </script>
 </body>
