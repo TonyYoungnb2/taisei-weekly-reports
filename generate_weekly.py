@@ -519,6 +519,17 @@ CSS = """
   .share-modal .modal-box .hint { color: #94a3b8; font-size: 12px; margin-top: 8px; }
   #share-card-container { margin: 12px auto; }
   #share-card-container .share-card { max-width: 340px; margin: 0 auto; }
+  #shareCardImg {
+    display: none; max-width: 320px; width: 100%; height: auto; margin: 12px auto;
+    border-radius: 14px; box-shadow: 0 6px 22px rgba(30,58,138,0.25);
+  }
+  .share-actions { display: flex; gap: 10px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+  .share-actions .download-btn { margin-top: 0; padding: 11px 28px; font-size: 14px; }
+  .share-actions .download-btn.ghost {
+    background: #fff; color: #2563eb; border: 1.5px solid #c7d7f5;
+    box-shadow: none;
+  }
+  .share-actions .download-btn.ghost:hover { background: #f1f6ff; box-shadow: none; }
     @media (max-width: 640px) {
     .header h1 { font-size: 1.5em; }
     .stats-bar { grid-template-columns: repeat(2, 1fr); margin-top: -20px; }
@@ -702,10 +713,16 @@ def build_report_html():
       <button class="close-btn" onclick="closeShareModal()">✕</button>
     </div>
     <div id="share-card-container"></div>
-    <button class="download-btn" id="downloadBtn" onclick="copyCard()">📋 复制文案</button>
-    <div class="hint">手机：长按上方卡片截图保存 · 电脑：截图保存 · 或点按钮复制文字发朋友圈</div>
+    <img id="shareCardImg" alt="朋友圈卡片" />
+    <div class="share-actions">
+      <button class="download-btn" id="downloadBtn" onclick="generateImage()">📥 保存图片</button>
+      <button class="download-btn ghost" id="copyBtn" onclick="copyCard()">📋 复制文案</button>
+    </div>
+    <div class="hint">手机：长按下方图片 → 保存到相册 / 转发朋友圈 · 电脑：点「保存图片」下载 PNG</div>
   </div>
 </div>
+
+<!-- HTML2CANVAS_INLINE -->
 
 <script>
 const COMPANY_NAME_JP = '大誠有限会社';
@@ -812,6 +829,20 @@ function openShareModal() {{
   document.body.style.overflow = 'hidden';
   const container = document.getElementById('share-card-container');
   container.innerHTML = buildShareCard();
+  renderCardImage();
+}}
+
+function renderCardImage() {{
+  const src = document.getElementById('share-card-container');
+  const img = document.getElementById('shareCardImg');
+  if (typeof html2canvas === 'undefined') return; // 库未加载则只显示HTML卡片
+  img.style.display = 'none';
+  try {{
+    html2canvas(src, {{ backgroundColor: null, scale: 2, useCORS: true }}).then(function(canvas) {{
+      img.src = canvas.toDataURL('image/png');
+      img.style.display = 'block';
+    }}).catch(function() {{ /* 失败则保留HTML卡片 */ }});
+  }} catch (e) {{ /* 忽略 */ }}
 }}
 
 function closeShareModal() {{
@@ -826,6 +857,36 @@ document.getElementById('shareModal').addEventListener('click', function(e) {{
 document.addEventListener('keydown', function(e) {{
   if (e.key === 'Escape') closeShareModal();
 }});
+
+function generateImage() {{
+  const btn = document.getElementById('downloadBtn');
+  const img = document.getElementById('shareCardImg');
+  if (img && img.src && img.style.display !== 'none') {{
+    // 图片已生成：直接触发下载
+    const a = document.createElement('a');
+    a.href = img.src;
+    a.download = 'taisei-weekly-card.png';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    const old = btn.textContent;
+    btn.textContent = '✅ 已保存';
+    setTimeout(function() {{ btn.textContent = old; }}, 1500);
+  }} else if (typeof html2canvas !== 'undefined') {{
+    // 图片还没生成：现生成再下载
+    const src = document.getElementById('share-card-container');
+    html2canvas(src, {{ backgroundColor: null, scale: 2, useCORS: true }}).then(function(canvas) {{
+      const a = document.createElement('a');
+      a.href = canvas.toDataURL('image/png');
+      a.download = 'taisei-weekly-card.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    }});
+  }} else {{
+    alert('图片生成库未加载，请用「复制文案」');
+  }}
+}}
 
 function copyCard() {{
   const btn = document.getElementById('downloadBtn');
@@ -858,6 +919,15 @@ function fallbackCopy(text) {{
 </script>
 </body>
 </html>'''
+
+    # 内联 html2canvas 库（绕过 CDN 被墙，且不在 f-string 内，避免花括号冲突）
+    try:
+        with io.open(os.path.join(os.path.dirname(os.path.abspath(__file__)), 'html2canvas.min.js'), encoding='utf-8') as _f:
+            _lib = _f.read()
+        _inline = '<script>\n/* html2canvas 内联（绕过 CDN 被墙） */\n' + _lib + '\n</script>\n'
+        html = html.replace('<!-- HTML2CANVAS_INLINE -->', _inline, 1)
+    except Exception as _e:
+        pass
 
     return html
 
