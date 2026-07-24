@@ -12,6 +12,7 @@ on:
     branches: [main]
     paths:
       - 'data/weekly_data.json'
+      - 'data/weekly_data_sample.json'
       - 'generate_weekly.py'
 
 jobs:
