@@ -6,8 +6,7 @@
 <meta name="description" content="大誠有限会社専用不動產週報 2026年7月20日 — 2026年7月26日">
 <title>大誠不动產週報 2026年7月20日 — 2026年7月26日</title>
 <style>
-@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
-
+  /* 不使用 Google Fonts：国内/微信环境会挂起导致截图卡死，改用系统字体 */
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: 'Noto Sans SC', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
@@ -824,6 +823,12 @@ function renderCardToImg() {
     if (btn) btn.style.display = 'none';
     return;
   }
+  let done = false;
+  const timer = setTimeout(function() {
+    if (done) return;
+    done = true;
+    if (loading) loading.textContent = '⚠️ 渲染超时，请重试（或刷新页面）';
+  }, 8000);
   html2canvas(card, {
     scale: 2.5,
     backgroundColor: null,
@@ -833,6 +838,8 @@ function renderCardToImg() {
     height: card.scrollHeight,
     windowWidth: 540
   }).then(function(canvas) {
+    if (done) return; 
+    done = true; clearTimeout(timer);
     const dataUrl = canvas.toDataURL('image/png');
     img.src = dataUrl;
     img.style.display = 'block';
@@ -840,6 +847,8 @@ function renderCardToImg() {
     tip.style.display = 'block';
     if (dlHint) dlHint.textContent = '桌面：点下载按钮 / 手机：长按图片保存';
   }).catch(function(err) {
+    if (done) return;
+    done = true; clearTimeout(timer);
     console.error(err);
     if (loading) loading.textContent = '⚠️ 卡片生成失败，请重试';
   });
