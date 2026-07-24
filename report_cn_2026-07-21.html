@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大誠有限会社 · 日本不动产周报（2026年7月20日〜7月26日）</title>
+<style>
+  :root{
+    --brand:#1a5fb4;
+    --brand-dark:#12457f;
+    --brand-light:#e8f1fb;
+    --ink:#1f2733;
+    --ink-soft:#5a6675;
+    --line:#e6ebf2;
+    --bg:#f4f7fb;
+    --card:#ffffff;
+    --gold:#c99a3f;
+    --green:#1f9d6b;
+    --red:#d1495b;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{
+    font-family:-apple-system,"PingFang SC","Microsoft YaHei","Hiragino Sans GB",sans-serif;
+    background:var(--bg);
+    color:var(--ink);
+    line-height:1.7;
+    -webkit-font-smoothing:antialiased;
+  }
+  .wrap{max-width:960px;margin:0 auto;padding:0 16px 60px;}
+
+  /* Header */
+  .hero{
+    background:linear-gradient(135deg,var(--brand-dark) 0%,var(--brand) 60%,#2a7fd4 100%);
+    color:#fff;padding:44px 40px 38px;border-radius:0 0 28px 28px;
+    position:relative;overflow:hidden;box-shadow:0 8px 30px rgba(26,95,180,.25);
+  }
+  .hero::after{
+    content:"";position:absolute;right:-60px;top:-60px;width:240px;height:240px;
+    background:radial-gradient(circle,rgba(255,255,255,.14),transparent 70%);border-radius:50%;
+  }
+  .hero .eyebrow{font-size:13px;letter-spacing:3px;opacity:.85;font-weight:600;}
+  .hero h1{font-size:30px;font-weight:800;margin:10px 0 6px;line-height:1.3;}
+  .hero .period{font-size:15px;opacity:.92;font-weight:500;}
+  .hero .brand-tag{
+    display:inline-block;margin-top:16px;background:rgba(255,255,255,.16);
+    padding:6px 16px;border-radius:20px;font-size:13px;font-weight:600;backdrop-filter:blur(4px);
+  }
+
+  /* Summary stats */
+  .stats{
+    display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin:-26px auto 30px;
+    position:relative;z-index:2;padding:0 8px;
+  }
+  .stat{
+    background:var(--card);border-radius:16px;padding:18px 14px;text-align:center;
+    box-shadow:0 4px 18px rgba(31,39,51,.07);border:1px solid var(--line);
+  }
+  .stat .num{font-size:26px;font-weight:800;color:var(--brand);}
+  .stat .lbl{font-size:12.5px;color:var(--ink-soft);margin-top:4px;font-weight:600;}
+
+  /* Highlights bar */
+  .highlights{
+    background:var(--card);border:1px solid var(--line);border-radius:18px;
+    padding:22px 26px;margin-bottom:30px;box-shadow:0 4px 18px rgba(31,39,51,.05);
+  }
+  .highlights h3{font-size:16px;color:var(--brand-dark);margin-bottom:14px;display:flex;align-items:center;gap:8px;}
+  .highlights h3::before{content:"";width:5px;height:18px;background:var(--gold);border-radius:3px;}
+  .hl-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px 24px;}
+  .hl-item{display:flex;gap:10px;font-size:14px;color:var(--ink-soft);}
+  .hl-item b{color:var(--brand);font-weight:800;font-size:15px;}
+  @media(max-width:640px){.hl-grid{grid-template-columns:1fr;}}
+
+  /* Section */
+  .section{margin-bottom:34px;}
+  .sec-head{display:flex;align-items:center;gap:12px;margin-bottom:16px;}
+  .sec-icon{
+    width:42px;height:42px;border-radius:12px;display:flex;align-items:center;justify-content:center;
+    font-size:20px;color:#fff;flex-shrink:0;
+  }
+  .sec-title{font-size:20px;font-weight:800;}
+  .sec-sub{font-size:13px;color:var(--ink-soft);font-weight:500;}
+  .c-policy{background:linear-gradient(135deg,#1a5fb4,#2a7fd4);}
+  .c-deals{background:linear-gradient(135deg,#1f9d6b,#2bbd85);}
+  .c-develop{background:linear-gradient(135deg,#c99a3f,#e0b455);}
+  .c-tech{background:linear-gradient(135deg,#7b5cd6,#9a7ce8);}
+  .c-survey{background:linear-gradient(135deg,#d1495b,#e0697a);}
+
+  /* Cards */
+  .card{
+    background:var(--card);border:1px solid var(--line);border-radius:16px;
+    padding:20px 22px;margin-bottom:14px;box-shadow:0 2px 10px rgba(31,39,51,.04);
+    transition:transform .15s ease,box-shadow .15s ease;position:relative;
+    border-left:4px solid var(--brand);
+  }
+  .card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(31,39,51,.1);}
+  .card.p{border-left-color:#1a5fb4;}
+  .card.d{border-left-color:#1f9d6b;}
+  .card.v{border-left-color:#c99a3f;}
+  .card.t{border-left-color:#7b5cd6;}
+  .card.s{border-left-color:#d1495b;}
+  .card-meta{display:flex;align-items:center;gap:10px;margin-bottom:8px;flex-wrap:wrap;}
+  .tag-date{font-size:12px;color:#fff;background:var(--ink-soft);padding:2px 9px;border-radius:6px;font-weight:600;}
+  .tag-src{font-size:12px;color:var(--brand);background:var(--brand-light);padding:2px 10px;border-radius:6px;font-weight:600;}
+  .card h4{font-size:16.5px;font-weight:700;line-height:1.5;margin-bottom:8px;color:var(--ink);}
+  .card p{font-size:14px;color:var(--ink-soft);margin-bottom:10px;}
+  .card a{
+    font-size:13px;color:var(--brand);text-decoration:none;font-weight:600;
+    display:inline-flex;align-items:center;gap:4px;
+  }
+  .card a:hover{text-decoration:underline;}
+  .card a::after{content:"↗";font-size:12px;}
+
+  /* Footer */
+  .footer{
+    text-align:center;margin-top:44px;padding-top:24px;border-top:1px solid var(--line);
+    color:var(--ink-soft);font-size:13px;line-height:1.9;
+  }
+  .footer b{color:var(--brand-dark);}
+</style>
+</head>
+<body>
+  <div class="hero">
+    <div class="eyebrow">TAISEI REAL ESTATE · WEEKLY REPORT</div>
+    <h1>日本不动产周报</h1>
+    <div class="period">📅 2026年7月20日 — 7月26日 · 第 5 期</div>
+    <div class="brand-tag">大誠有限会社 · 每周精选行业动态</div>
+  </div>
+
+  <div class="wrap">
+    <div class="stats">
+      <div class="stat"><div class="num">18</div><div class="lbl">本周资讯</div></div>
+      <div class="stat"><div class="num">+8.43%</div><div class="lbl">东京公示地价</div></div>
+      <div class="stat"><div class="num">0.75%</div><div class="lbl">日银政策利率</div></div>
+      <div class="stat"><div class="num">3%台</div><div class="lbl">Flat35 最低利率</div></div>
+    </div>
+
+    <div class="highlights">
+      <h3>本周焦点速览</h3>
+      <div class="hl-grid">
+        <div class="hl-item"><b>①</b><span>2026年公示地价全国平均 +2.80%，东京都以 +8.43% 领跑，地价上行趋势延续。</span></div>
+        <div class="hl-item"><b>②</b><span>日银维持政策利率 0.75% 不变，后续加息动向牵动房贷与投资回报。</span></div>
+        <div class="hl-item"><b>③</b><span>三井不动产「御茶之水」267户新盘预登记超 3000 件，都心一等地稀缺性凸显。</span></div>
+        <div class="hl-item"><b>④</b><span>回租（Leaseback）投资物件 1〜5 月平均收益率超 14%，市场持续扩张。</span></div>
+      </div>
+    </div>
+
+    <!-- POLICY -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-icon c-policy">🏛️</div>
+        <div><div class="sec-title">政策动向</div><div class="sec-sub">地价 · 税制 · 金融政策</div></div>
+      </div>
+
+      <div class="card p">
+        <div class="card-meta"><span class="tag-date">2026-07-20</span><span class="tag-src">土地代数据</span></div>
+        <h4>2026年公示地价全国平均 +2.80%，东京都 +8.43% 突出</h4>
+        <p>2026年（令和8年）公示地价全国平均为每平方米 29万8372日元，涨幅 +2.80% 延续上行。分都道府县看，东京都以 +8.43%（超 490万日元/坪）居首，大阪府 +4.32% 紧随其后，三大都市圈与主要地方中枢城市共同拉动整体上涨。</p>
+        <a href="https://tochidai.info/" target="_blank">土地代数据</a>
+      </div>
+
+      <div class="card p">
+        <div class="card-meta"><span class="tag-date">2026-07-01</span><span class="tag-src">日生基础研究所</span></div>
+        <h4>2026年路线价：1都6县平均全线上涨，东京多点涨幅超 20%</h4>
+        <p>国税厅公布的 2026 年度路线价显示，首都圈 1 都 6 县各都县平均值均较上年上涨。尤其东京都心部分地点出现同比涨幅超过 20% 的大幅上升，地价上行基调鲜明。入境游需求、城市再开发及稳健的投资资金流入是主要背景。</p>
+        <a href="https://www.nli-research.co.jp/topics_list6/?site=nli" target="_blank">日生基础研究所</a>
+      </div>
+
+      <div class="card p">
+        <div class="card-meta"><span class="tag-date">2026-06-30</span><span class="tag-src">大东建托</span></div>
+        <h4>日银维持政策利率 0.75%，密切关注物价走势</h4>
+        <p>日本银行在 2026年4月28日的货币政策会议上宣布维持政策利率 0.75% 不变。与此同时，物价上涨仍受高度关注，未来是否追加加息将对房贷利率、租赁需求及不动产投资回报率产生影响。</p>
+        <a href="https://www.kentaku.co.jp/estate/navi/column01/estate_market/" target="_blank">大东建托 土地活用专栏</a>
+      </div>
+
+      <div class="card p">
+        <div class="card-meta"><span class="tag-date">2026-07-13</span><span class="tag-src">周刊住宅时报</span></div>
+        <h4>26年度「公寓住·る债」认购数创历史最快节奏</h4>
+        <p>住宅金融支援机构 2026 年度「マンションすまい・る債」的认购数量正以历史最快节奏推进。修缮公积金的计划性运用需求上升，反映出管理组合对长期修缮资金保障意识的提升。</p>
+        <a href="https://www.sjt.co.jp/local/100358" target="_blank">周刊住宅时报</a>
+      </div>
+    </div>
+
+    <!-- DEALS -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-icon c-deals">💹</div>
+        <div><div class="sec-title">市场交易</div><div class="sec-sub">新盘 · 房贷 · 投资回报</div></div>
+      </div>
+
+      <div class="card d">
+        <div class="card-meta"><span class="tag-date">2026-07-14</span><span class="tag-src">周刊住宅时报</span></div>
+        <h4>三井不动产住宅「御茶之水」全267户，预登记超3千，15层72㎡约2.5亿日元</h4>
+        <p>三井不动产住宅的新建公寓「御茶之水」（全 267 户）在正式开售前已获超过 3000 件预登记，关注度极高。尽管 15 层 72 平方米住户价格达 2.5 亿日元级别，但凭借都心一等地的稀缺性与资产保值性，吸引了富裕阶层与投资者的强烈问询。</p>
+        <a href="https://www.sjt.co.jp/news/100391" target="_blank">周刊住宅时报</a>
+      </div>
+
+      <div class="card d">
+        <div class="card-meta"><span class="tag-date">2026-06-02</span><span class="tag-src">Nomu 野村</span></div>
+        <h4>Flat35 长期固定房贷最低利率升至 3% 区间</h4>
+        <p>长期固定利率型住房贷款「Flat35」的最低利率已升至 3% 区间。2026年7月最常见利率为：融资率 9 成以下、附新机构团信，当初 5 年 2.14%、第 6 年起 3.14%（符合一定条件的下调适用时）。在利率上行阶段，固定与浮动的选择成为购房者的重要考量。</p>
+        <a href="http://www.nomu.com/" target="_blank">Nomu 不动产资讯</a>
+      </div>
+
+      <div class="card d">
+        <div class="card-meta"><span class="tag-date">2026-07-13</span><span class="tag-src">周刊住宅时报</span></div>
+        <h4>6月大型写字楼空置率：大阪降至 1% 区间，为2020年11月以来首次</h4>
+        <p>2026年6月大型写字楼市况中，大阪空置率降至自 2020年11月以来的 1% 区间。疫情期间松动的办公需求持续回暖，主要城市优质写字楼需求集中、租金坚挺态势延续。</p>
+        <a href="https://www.sjt.co.jp/borrow/100368" target="_blank">周刊住宅时报</a>
+      </div>
+
+      <div class="card d">
+        <div class="card-meta"><span class="tag-date">2026-07-13</span><span class="tag-src">周刊住宅时报</span></div>
+        <h4>回租（Leaseback）投资物件 1〜5月平均收益率超 14%</h4>
+        <p>2026年1〜5月回租投资物件的平均收益率超过 14%。出售自宅后继续居住的回租模式，伴随资金化需求上升，对投资方而言收益吸引力也更大，市场持续扩张。</p>
+        <a href="https://www.sjt.co.jp/invest/100354" target="_blank">周刊住宅时报</a>
+      </div>
+
+      <div class="card d">
+        <div class="card-meta"><span class="tag-date">2026-07-13</span><span class="tag-src">周刊住宅时报</span></div>
+        <h4>企业破产：26年上半年 5335 件，负债总额 7247 亿日元</h4>
+        <p>2026年上半年企业破产达 5335 件，负债总额 7247 亿日元。建设、不动产相关领域也出现因材料涨价、人工成本上升、利率上行导致的破产案例，经营者的授信管理与合作方筛选愈发重要。</p>
+        <a href="https://www.sjt.co.jp/invest/100346" target="_blank">周刊住宅时报</a>
+      </div>
+    </div>
+
+    <!-- DEVELOP -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-icon c-develop">🏗️</div>
+        <div><div class="sec-title">开发动态</div><div class="sec-sub">新项目 · 城市更新 · 供给预测</div></div>
+      </div>
+
+      <div class="card v">
+        <div class="card-meta"><span class="tag-date">2026-07-14</span><span class="tag-src">周刊住宅时报</span></div>
+        <h4>日铁兴和不动产在「川崎高津」动工物流×研发工厂复合设施</h4>
+        <p>日铁兴和不动产在「川崎高津」动工建设集租赁物流与研发（R&D）、工厂功能于一体的复合设施，计划 2028 年春竣工。这是把握城市近接型物流·研发据点需求的用途复合型开发典型案例。</p>
+        <a href="https://www.sjt.co.jp/news/100389" target="_blank">周刊住宅时报</a>
+      </div>
+
+      <div class="card v">
+        <div class="card-meta"><span class="tag-date">2026-07-13</span><span class="tag-src">周刊住宅时报</span></div>
+        <h4>Cosmos Initia 在五反田站步行圈打造木结构 Co-living 租赁59户</h4>
+        <p>Cosmos Initia 将在五反田站步行圈推出木结构 Co-living（共同居住型）租赁 59 户，采用住友林业 BF 构法，融入内廊设计与休息室住户交流空间。这是兼顾木结构中层化与全新租赁生活方式的开发项目，备受关注。</p>
+        <a href="https://www.sjt.co.jp/news/100397" target="_blank">周刊住宅时报</a>
+      </div>
+
+      <div class="card v">
+        <div class="card-meta"><span class="tag-date">2026-07-13</span><span class="tag-src">周刊住宅时报</span></div>
+        <h4>Sankei Building 等3社在冲绳恩纳村开发酒店公寓全139室</h4>
+        <p>Sankei Building 等 3 家公司将在冲绳县恩纳村开发酒店式公寓（Hotel Condominium），以 50 平方米以上客房为主，计划全 139 室。在稳健的入境游与度假需求背景下，兼顾持有与运营的酒店公寓开发正在扩张。</p>
+        <a href="https://www.sjt.co.jp/news/100382" target="_blank">周刊住宅时报</a>
+      </div>
+
+      <div class="card v">
+        <div class="card-meta"><span class="tag-date">2026-07-14</span><span class="tag-src">周刊住宅时报</span></div>
+        <h4>东急不动产「MABLs」启动「涩谷整体连接」计划</h4>
+        <p>东急不动产的城市营造品牌「MABLs」启动了将涩谷区域一体化串联的「渋谷まるごとコネクト」计划。通过跨越多个设施与区域，提升城市回游性与体验价值，是大型开发商强化区域运营（Area Management）的动向。</p>
+        <a href="https://www.sjt.co.jp/development/100384" target="_blank">周刊住宅时报</a>
+      </div>
+
+      <div class="card v">
+        <div class="card-meta"><span class="tag-date">2026-06-05</span><span class="tag-src">Nomu 野村</span></div>
+        <h4>超高层公寓：2026年起全国预计竣工 319 栋 · 10.7万户</h4>
+        <p>超高层公寓（塔楼）市场动向调查显示，2026 年起全国预计竣工 319 栋、约 10.7 万户。在大都市圈供给持续的同时，材料涨价、利率上行下的价格走势及修缮·管理负担将成为今后的焦点议题。</p>
+        <a href="http://www.nomu.com/" target="_blank">Nomu 不动产资讯</a>
+      </div>
+    </div>
+
+    <!-- TECH -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-icon c-tech">🤖</div>
+        <div><div class="sec-title">科技前沿</div><div class="sec-sub">建设DX · GIS · 智能家居</div></div>
+      </div>
+
+      <div class="card t">
+        <div class="card-meta"><span class="tag-date">2026-07-13</span><span class="tag-src">周刊住宅时报</span></div>
+        <h4>野原集团总研发布建设DX实态调查报告</h4>
+        <p>野原集团综合研究所开展建设 DX 实态调查并公开报告，梳理了现场数字化、BIM 应用、省人化的进展与课题，展现了人手短缺背景下行业为提升生产率而进行数字投资的现状。</p>
+        <a href="https://www.sjt.co.jp/local/100363" target="_blank">周刊住宅时报</a>
+      </div>
+
+      <div class="card t">
+        <div class="card-meta"><span class="tag-date">2026-07-13</span><span class="tag-src">周刊住宅时报</span></div>
+        <h4>at home 推进城市规划决定 GIS 数据活用验证</h4>
+        <p>at home 正在推进城市规划决定相关 GIS（地理信息系统）数据活用的验证工作。通过将物件信息与行政的城市规划数据联动，有望提升重要事项说明与物件调查的效率与精度。</p>
+        <a href="https://www.sjt.co.jp/borrow/100370" target="_blank">周刊住宅时报</a>
+      </div>
+
+      <div class="card t">
+        <div class="card-meta"><span class="tag-date">2026-07-07</span><span class="tag-src">周刊住宅时报</span></div>
+        <h4>住环境研：借助 HEMS 数据转向「生活」效率化分析</h4>
+        <p>住环境研究所正利用 HEMS（家庭能源管理系统）数据，向住宅「生活」效率化分析转型。基于实测数据的节能与舒适度可视化，正逐渐成为提升住宅附加值与智能家居方案的基础。</p>
+        <a href="https://www.sjt.co.jp/house-maker/100324" target="_blank">周刊住宅时报</a>
+      </div>
+    </div>
+
+    <!-- SURVEY -->
+    <div class="section">
+      <div class="sec-head">
+        <div class="sec-icon c-survey">📊</div>
+        <div><div class="sec-title">调查数据</div><div class="sec-sub">地价指数 · 区域行情</div></div>
+      </div>
+
+      <div class="card s">
+        <div class="card-meta"><span class="tag-date">2026-07-13</span><span class="tag-src">周刊住宅时报</span></div>
+        <h4>野村不「住宅地价INDEX」：首都圈涨幅收窄</h4>
+        <p>野村不动产解决方案的「住宅地价 INDEX」显示，首都圈地价涨幅收窄，「上涨」地点减少了 8 处。上行基调虽仍延续但势头趋缓，背后是利率上升与价格高涨导致的需求见顶。</p>
+        <a href="https://www.sjt.co.jp/borrow/100399" target="_blank">周刊住宅时报</a>
+      </div>
+
+      <div class="card s">
+        <div class="card-meta"><span class="tag-date">2026-07-06</span><span class="tag-src">伊势新闻</span></div>
+        <h4>三重县标准宅地平均价格连续3年上涨，但涨幅收窄</h4>
+        <p>三重县内标准宅地平均价格连续 3 年上涨，但涨幅收窄。参与评估的不动产鉴定士指出，受物价高涨等影响，土地交易趋于谨慎。不仅首都圈，地方也呈现出上涨与减速并存的格局。</p>
+        <a href="https://www.isenp.co.jp/category/business/" target="_blank">伊势新闻</a>
+      </div>
+    </div>
+
+    <div class="footer">
+      <b>大誠有限会社</b> · 日本不动产周报<br>
+      数据区间：2026年7月20日 — 7月26日 ｜ 共 18 条精选资讯<br>
+      资讯来源：周刊住宅时报、日生基础研究所、土地代数据、Nomu 野村、大东建托、伊势新闻<br>
+      <span style="opacity:.7;">本报告由 🦐 小虾自动整理生成 · 内容仅供参考，投资需谨慎</span>
+    </div>
+  </div>
+</body>
+</html>

@@ -95,11 +95,11 @@ STATS = {
 }
 
 TRENDS = [
-    ('首都圈中古マンシ\n㎡单价（23区）', '5,078円 ▼0.2%', 'red'),
-    ('首都圈新建マンシ\n供给户数（6月）', '1,412戸 ->', 'blue'),
-    ('首都圈中古マンシ\n成约件数（6月）', '3.4%減 ▼', 'red'),
-    ('東京都23区中古戸建\n平均价格', '4,254万円 ▲2.8%', 'green'),
-    ('J-REIT 総合指数', '▲上昇中', 'green'),
+    ('首都圈中古マンシ\n㎡单价（23区）', '5,078円 ▼0.2%', 'down'),
+    ('首都圈新建マンシ\n供给户数（6月）', '1,412戸 ->', 'flat'),
+    ('首都圈中古マンシ\n成约件数（6月）', '3.4%減 ▼', 'down'),
+    ('東京都23区中古戸建\n平均价格', '4,254万円 ▲2.8%', 'up'),
+    ('J-REIT 総合指数', '▲上昇中', 'up'),
 ]
 
 FLAT35_RATE    = '3.21%'
@@ -109,293 +109,399 @@ XIAOXIA_COMMENT= ('贷款利率4连升，但首都圈新建マンシ价格依旧
                   '物流不动產方面外资与J-REIT持续扩张，近畿圈空室率趋零值得关注。中古市场成约件数3个月连减，需持续关注。')
 
 SECTIONS_META = {
-    'policy':  ('🏛️', '政策動向', 'POLICY',  '#0f3460'),
-    'deals':   ('💼', '市場取引・投資', 'DEALS',  '#c9a959'),
-    'develop': ('🏗️', '開発動向', 'DEVELOP', '#27ae60'),
-    'tech':    ('🤖', '科技・イノベーション', 'TECH', '#8e44ad'),
-    'survey':  ('📊', '調査・トレンド', 'RESEARCH', '#e74c3c'),
+    'policy':  ('🏛️', '政策動向', 'POLICY',   'policy',  'label-blue'),
+    'deals':   ('💼', '市場取引・投資', 'DEALS',    'deal',    'label-gold'),
+    'develop': ('🏗️', '開発動向', 'DEVELOP',  'dev',     'label-green'),
+    'tech':    ('🤖', '科技・イノベーション', 'TECH', 'tech',    'label-purple'),
+    'survey':  ('📊', '調査・トレンド', 'RESEARCH', 'survey',  'label-red'),
 }
 
-# ─── CSS 样式（包含在HTML中） ──────────────────────────────────────────
+# ─── CSS 样式（包含在HTML中，照搬 27/28 周大诚会社周报设计风格） ─────────────
 CSS = """
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
 
-body {
-  font-family: 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', sans-serif;
-  background: #f0f2f5;
-  color: #1a1a2e;
-  font-size: 15px;
-  line-height: 1.6;
-}
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans SC', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: #f0f2f5;
+    color: #1a1a2e;
+    line-height: 1.6;
+  }
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #fff;
+    padding: 40px 20px 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    animation: drift 20s linear infinite;
+  }
+  @keyframes drift { 0% { transform: translate(0,0); } 100% { transform: translate(30px,30px); } }
+  .header .logo-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  .header .logo-text {
+    font-size: 2em;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: #3b82f6;
+    text-shadow: 0 0 20px rgba(59,130,246,0.4);
+    line-height: 1;
+  }
+  .header .logo-wrap .title-group { text-align: left; }
+  .header h1 {
+    font-size: 1.8em;
+    font-weight: 900;
+    letter-spacing: 4px;
+    position: relative;
+    z-index: 1;
+  }
+  .header .subtitle {
+    font-size: 0.95em;
+    opacity: 0.7;
+    margin-top: 8px;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 1;
+  }
+  .header .date-range {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    padding: 4px 18px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    margin-top: 12px;
+    position: relative;
+    z-index: 1;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+  /* Stats bar */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: -30px auto 30px;
+    max-width: 1000px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .stat-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  }
+  .stat-card .num {
+    font-size: 1.6em;
+    font-weight: 700;
+    color: #0f3460;
+  }
+  .stat-card .num.gold { color: #c9a959; }
+  .stat-card .num.orange { color: #e67e22; }
+  .stat-card .num.green { color: #27ae60; }
+  .stat-card .label {
+    font-size: 0.75em;
+    color: #888;
+    margin-top: 4px;
+  }
+  /* Section */
+  .section { margin-bottom: 28px; }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2em;
+    font-weight: 700;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #0f3460;
+  }
+  .section-title .icon { font-size: 1.4em; }
+  .section-title .tag {
+    font-size: 0.55em;
+    background: #0f3460;
+    color: #fff;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+  /* Grid for cards */
+  .card-grid { display: grid; gap: 12px; }
+  .card-grid.cols-2 {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: transform 0.15s, box-shadow 0.15s;
+    border-left: 4px solid transparent;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  }
+  .card.policy { border-left-color: #0f3460; }
+  .card.deal { border-left-color: #c9a959; }
+  .card.price { border-left-color: #e67e22; }
+  .card.dev   { border-left-color: #27ae60; }
+  .card.tech  { border-left-color: #8e44ad; }
+  .card.survey { border-left-color: #e74c3c; }
+  
+  .card .date {
+    font-size: 0.75em;
+    color: #999;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card .date .source {
+    background: #f0f0f0;
+    padding: 1px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+  }
+  .card h3 {
+    font-size: 0.95em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.5;
+  }
+  .card p {
+    font-size: 0.82em;
+    color: #555;
+    line-height: 1.6;
+  }
+  .card .source-link {
+    display: block;
+    font-size: 0.72em;
+    margin-top: 8px;
+    text-decoration: none;
+    color: #0f3460;
+    font-weight: 500;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+  }
+  .card:hover .source-link { opacity: 1; }
+  .card .source-link:hover { text-decoration: underline; }
+  .card .label {
+    display: inline-block;
+    font-size: 0.65em;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 4px;
+    margin-top: 6px;
+  }
+  .label-blue { background: #e8f0fe; color: #0f3460; }
+  .label-gold { background: #fef8e0; color: #8a6d0b; }
+  .label-green { background: #e6f7ed; color: #1a7a3a; }
+  .label-orange { background: #fef0e0; color: #b8590a; }
+  .label-purple { background: #f0e6ff; color: #6b2fa0; }
+  .label-red { background: #fde8e8; color: #c0392b; }
 
-.main-header {
-  background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 60%, #16537e 100%);
-  color: white;
-  padding: 40px 20px 32px;
-  text-align: center;
-  position: relative;
-  overflow: hidden;
-}
-.main-header::before {
-  content: '';
-  position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-  background: repeating-linear-gradient(45deg, transparent, transparent 20px, rgba(255,255,255,0.015) 20px, rgba(255,255,255,0.015) 40px);
-}
-.main-header::after {
-  content: '';
-  position: absolute; bottom: 0; left: 0; right: 0;
-  height: 4px;
-  background: linear-gradient(90deg, #3b82f6, #60a5fa, #93c5fd, #3b82f6);
-}
-.header-inner { position: relative; z-index: 1; max-width: 900px; margin: 0 auto; }
-.brand {
-  font-size: 13px; letter-spacing: 6px; color: #60a5fa;
-  font-weight: bold; margin-bottom: 8px;
-}
-.main-title { font-size: 28px; font-weight: bold; margin-bottom: 6px; letter-spacing: 2px; }
-.subtitle { font-size: 13px; color: #a0c4e8; margin-bottom: 14px; }
-.date-badge {
-  display: inline-block; background: rgba(59,130,246,0.25);
-  border: 1px solid rgba(59,130,246,0.5); border-radius: 20px;
-  padding: 4px 18px; font-size: 13px; color: #93c5fd;
-}
+  /* Key insight */
+  .key-insight {
+    background: linear-gradient(135deg, #fff8e1, #fff3cd);
+    border: 1px solid #ffe082;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 28px;
+  }
+  .key-insight h3 {
+    font-size: 1em;
+    color: #b8860b;
+    margin-bottom: 8px;
+  }
+  .key-insight p, .key-insight li {
+    font-size: 0.85em;
+    color: #666;
+    line-height: 1.7;
+  }
+  .key-insight ul { padding-left: 18px; margin-top: 6px; }
+  .key-insight li { margin-bottom: 4px; }
+  .key-insight strong { color: #333; }
 
-.stats-bar {
-  display: flex; gap: 0; background: white;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08); margin-bottom: 24px;
-}
-.stat-item {
-  flex: 1; text-align: center; padding: 16px 8px;
-  border-right: 1px solid #e8ecf0;
-}
-.stat-item:last-child { border-right: none; }
-.stat-num { font-size: 22px; font-weight: bold; margin-bottom: 4px; }
-.stat-num.gold { color: #c9a959; }
-.stat-num.red  { color: #e74c3c; }
-.stat-num.green{ color: #27ae60; }
-.stat-num.blue { color: #0f3460; }
-.stat-label { font-size: 11px; color: #888; line-height: 1.3; }
+  /* Trend chart (CSS-based visual) */
+  .trend-visual {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .trend-item {
+    flex: 1;
+    min-width: 140px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+  .trend-item .trend-label {
+    font-size: 0.72em;
+    color: #999;
+  }
+  .trend-item .trend-value {
+    font-size: 1.3em;
+    font-weight: 700;
+    margin-top: 4px;
+  }
+  .trend-item .trend-value.up { color: #e74c3c; }
+  .trend-item .trend-value.down { color: #27ae60; }
+  .trend-item .trend-value.flat { color: #f39c12; }
+  .trend-item .trend-arrow { font-size: 0.7em; margin-left: 2px; }
 
-.container { max-width: 960px; margin: 0 auto; padding: 0 16px 40px; }
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #999;
+    font-size: 0.75em;
+    border-top: 1px solid #e0e0e0;
+    margin-top: 20px;
+  }
+  .footer a { color: #0f3460; text-decoration: none; }
 
-.hot-section, .trend-section, .rate-section { margin-bottom: 24px; }
-.section-header {
-  font-size: 15px; font-weight: bold; color: white;
-  background: linear-gradient(90deg, #0f3460, #16537e);
-  padding: 10px 16px; border-radius: 8px 8px 0 0;
-  display: flex; align-items: center; gap: 8px;
-  margin-bottom: 0;
-}
-.section-icon { font-size: 18px; }
-.hot-list {
-  background: #fff8e1; border: 1px solid #ffe082;
-  border-top: none; border-radius: 0 0 8px 8px;
-  padding: 14px 18px;
-}
-.hot-item {
-  padding: 5px 0; font-size: 14px; color: #555;
-  border-bottom: 1px dashed #ffe082;
-  display: flex; align-items: flex-start; gap: 8px;
-}
-.hot-item:last-child { border-bottom: none; }
-.hot-item::before { content: '•'; color: #f59e0b; font-weight: bold; flex-shrink: 0; }
-
-.trend-grid {
-  display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px;
-  background: #f8fafc; border: 1px solid #e2e8f0;
-  border-top: none; border-radius: 0 0 8px 8px; padding: 14px;
-}
-.trend-cell { background: white; border-radius: 6px; padding: 12px 8px; text-align: center; }
-.trend-val { font-size: 15px; font-weight: bold; margin-bottom: 4px; }
-.trend-val.red  { color: #e74c3c; }
-.trend-val.blue { color: #3b82f6; }
-.trend-val.green{ color: #27ae60; }
-.trend-lbl { font-size: 11px; color: #888; line-height: 1.3; white-space: pre-line; }
-
-.news-section { margin-bottom: 20px; }
-.news-header {
-  display: flex; align-items: center; justify-content: space-between;
-  background: #f0f2f5; padding: 8px 14px; border-radius: 8px 8px 0 0;
-  border-bottom: 3px solid;
-}
-.news-header-left { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 14px; }
-.news-tag {
-  background: white; color: #666; font-size: 11px; padding: 2px 8px;
-  border-radius: 10px; font-weight: normal;
-}
-.news-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; padding: 10px 0; }
-.news-card {
-  background: white; border-radius: 6px; border: 1px solid #e8ecf0;
-  overflow: hidden; padding: 12px 14px;
-  border-left: 4px solid;
-  transition: box-shadow 0.2s;
-}
-.news-card:hover { box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-.news-meta { font-size: 12px; color: #888; margin-bottom: 5px; }
-.news-title { font-size: 13px; font-weight: bold; color: #1a1a2e; margin-bottom: 6px; line-height: 1.4; }
-.news-body { font-size: 12px; color: #666; line-height: 1.5; margin-bottom: 8px; }
-.news-link { font-size: 12px; }
-.news-link a { color: #3b82f6; text-decoration: none; }
-.news-link a:hover { text-decoration: underline; }
-
-.rate-box {
-  background: #fff8e1; border: 1px solid #ffe082;
-  border-radius: 0 0 8px 8px; padding: 16px 20px;
-  font-size: 14px; line-height: 1.7;
-}
-.rate-box p { margin-bottom: 8px; }
-.rate-box p:last-child { margin-bottom: 0; }
-.comment {
-  background: #fff; border-radius: 6px; padding: 12px 14px;
-  border: 1px solid #e8ecf0; margin-top: 10px;
-}
-
-.main-footer {
-  background: #1a1a2e; color: #a0aabb; text-align: center;
-  padding: 20px; font-size: 12px; line-height: 1.8;
-}
-.main-footer p:last-child { margin-top: 4px; color: #606880; }
-
-@media (max-width: 700px) {
-  .stats-bar { flex-wrap: wrap; }
-  .stat-item { flex: 1 1 40%; }
-  .news-grid { grid-template-columns: 1fr; }
-  .trend-grid { grid-template-columns: repeat(2, 1fr); }
-}
-
-/* Share Screenshot Button */
-.share-btn {
-  position: fixed; bottom: 24px; right: 24px; z-index: 9999;
-  background: #3b82f6; color: white; border: none;
-  border-radius: 50%; width: 56px; height: 56px;
-  font-size: 22px; cursor: pointer;
-  box-shadow: 0 4px 16px rgba(59,130,246,0.4);
-  display: flex; align-items: center; justify-content: center;
-  transition: all 0.2s;
-}
-.share-btn:hover { transform: scale(1.1); box-shadow: 0 6px 20px rgba(59,130,246,0.5); }
-.share-btn:active { transform: scale(0.95); }
-.share-btn.loading { pointer-events: none; opacity: 0.7; }
-.share-toast {
-  position: fixed; bottom: 90px; right: 24px; z-index: 10000;
-  background: #1a1a2e; color: white; padding: 12px 18px;
-  border-radius: 10px; font-size: 14px;
-  box-shadow: 0 4px 16px rgba(0,0,0,0.3);
-  opacity: 0; transform: translateY(10px);
-  transition: all 0.3s;
-}
-.share-toast.show { opacity: 1; transform: translateY(0); }
-
-/* ─── Share Card (old 27/28-style, modal + auto-extract) ─── */
-#share-card {{
+  /* Share card & modal */
+  .share-btn-fab {
+    position: fixed; bottom: 30px; right: 30px; z-index: 999;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: #fff; border: none;
+    box-shadow: 0 4px 20px rgba(59,130,246,0.4);
+    cursor: pointer; font-size: 22px;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .share-btn-fab:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(59,130,246,0.55); }
+  .share-btn-fab:active { transform: scale(0.95); }
+  .share-btn-fab .tooltip {
+    position: absolute; right: 64px;
+    background: rgba(0,0,0,0.8); color: #fff;
+    padding: 6px 12px; border-radius: 6px; font-size: 13px;
+    white-space: nowrap; opacity: 0; pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  .share-btn-fab:hover .tooltip { opacity: 1; }
+  .share-modal {
+    display: none; position: fixed; top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.65); z-index: 9999;
+    justify-content: center; align-items: center; backdrop-filter: blur(4px);
+  }
+  .share-modal.show { display: flex; }
+  .share-modal .modal-box {
+    background: #fff; border-radius: 20px; padding: 24px;
+    max-width: 580px; width: 95%;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .share-modal .modal-box .modal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    width: 100%; margin-bottom: 16px;
+  }
+  .share-modal .modal-box .modal-header span { color: #475569; font-size: 14px; font-weight: 600; }
+  .share-modal .modal-box .modal-header .close-btn {
+    background: none; border: none; color: #666;
+    font-size: 28px; cursor: pointer; line-height: 1;
+  }
+  .share-modal .modal-box .modal-header .close-btn:hover { color: #1e293b; }
+  #share-card {
     width: 540px;
     background: #fff;
     border-radius: 16px; overflow: hidden; position: relative;
     font-family: "Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
-}}
-#share-card .card-dots {{
+  }
+  #share-card .card-dots {
     position: absolute; top:0; left:0; width:100%; height:100%;
     background: radial-gradient(circle, rgba(59,130,246,0.06) 1px, transparent 1px);
     background-size: 22px 22px; pointer-events: none; z-index: 0;
-}}
-#share-card .card-top-accent {{
+  }
+  #share-card .card-top-accent {
     position: relative; z-index: 1; height: 6px;
     background: linear-gradient(90deg, #3b82f6, #60a5fa, #3b82f6);
-}}
-#share-card .card-content {{ position: relative; z-index: 1; padding: 28px 32px 24px; }}
-#share-card .card-logo {{
+  }
+  #share-card .card-content { position: relative; z-index: 1; padding: 28px 32px 24px; }
+  #share-card .card-logo {
     font-size: 34px; font-weight: 900; letter-spacing: 8px;
     color: #1a56db; line-height: 1;
-}}
-#share-card .card-meta {{ font-size: 11px; color: #94a3b8; letter-spacing: 3px; margin-top: 4px; text-transform: uppercase; }}
-#share-card .card-date-badge {{
+  }
+  #share-card .card-meta { font-size: 11px; color: #94a3b8; letter-spacing: 3px; margin-top: 4px; text-transform: uppercase; }
+  #share-card .card-date-badge {
     display: inline-block; background: #eff6ff;
     border: 1px solid #bfdbfe;
     padding: 4px 16px; border-radius: 20px; font-size: 13px; color: #2563eb; margin-top: 14px;
-}}
-#share-card .card-divider {{
+  }
+  #share-card .card-divider {
     border: none; height: 1px;
     background: linear-gradient(90deg, transparent, #dbeafe, transparent);
     margin: 16px 0;
-}}
-#share-card .card-stats {{ display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }}
-#share-card .card-stat-box {{
-    background: #f8fafc; border: 1px solid #e2e8f0;
+  }
+  #share-card .card-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
+  #share-card .card-stat-box {
+    background: #f8fafc; border: 1px solid #e2e8f0
     border-radius: 12px; padding: 14px 16px;
-}}
-#share-card .card-stat-box .stat-num {{ font-size: 22px; font-weight: 700; color: #1e293b; line-height: 1.2; }}
-#share-card .card-stat-box .stat-num .stat-arrow {{ font-size: 13px; margin-left: 4px; }}
-#share-card .card-stat-box .stat-num .stat-arrow.up {{ color: #f87171; }}
-#share-card .card-stat-box .stat-num .stat-arrow.down {{ color: #34d399; }}
-#share-card .card-stat-box .stat-num .stat-arrow.flat {{ color: #fbbf24; }}
-#share-card .card-stat-box .stat-label {{ font-size: 10px; color: #64748b; margin-top: 4px; line-height: 1.4; }}
-#share-card .card-highlights-title {{ font-size: 12px; color: #64748b; letter-spacing: 2px; margin-bottom: 10px; text-transform: uppercase; }}
-#share-card .card-highlights {{ list-style: none; padding: 0; margin: 0; }}
-#share-card .card-highlights li {{
-    padding: 7px 0; font-size: 12px; color: #475569; line-height: 1.5;
+  }
+  #share-card .card-stat-box .stat-num { font-size: 24px; font-weight: 700; color: #1e293b; line-height: 1.2; }
+  #share-card .card-stat-box .stat-num .stat-arrow { font-size: 14px; margin-left: 4px; }
+  #share-card .card-stat-box .stat-num .stat-arrow.up { color: #f87171; }
+  #share-card .card-stat-box .stat-num .stat-arrow.down { color: #34d399; }
+  #share-card .card-stat-box .stat-num .stat-arrow.flat { color: #fbbf24; }
+  #share-card .card-stat-box .stat-label { font-size: 11px; color: #64748b; margin-top: 4px; line-height: 1.4; }
+  #share-card .card-highlights-title { font-size: 13px; color: #64748b; letter-spacing: 2px; margin-bottom: 10px; }
+  #share-card .card-highlights { list-style: none; padding: 0; margin: 0; }
+  #share-card .card-highlights li {
+    padding: 7px 0; font-size: 13px; color: #475569; line-height: 1.5;
     border-bottom: 1px solid #f1f5f9;
-}}
-#share-card .card-highlights li:last-child {{ border-bottom: none; }}
-#share-card .card-highlights .hl-icon {{ margin-right: 6px; }}
-#share-card .card-bottom {{
-    margin-top: 14px; padding-top: 12px;
+  }
+  #share-card .card-highlights li:last-child { border-bottom: none; }
+  #share-card .card-bottom {
+    margin-top: 16px; padding-top: 14px;
     border-top: 1px solid #e2e8f0;
     display: flex; justify-content: space-between; align-items: center;
-}}
-#share-card .card-bottom .brand {{ font-size: 11px; color: #64748b; }}
-#share-card .card-bottom .cta {{ font-size: 11px; color: #3b82f6; font-weight: 500; }}
-/* Floating share button */
-.share-btn-fab {{
-    position: fixed; bottom: 24px; right: 24px; z-index: 9998;
-    width: 56px; height: 56px; border-radius: 50%;
-    background: linear-gradient(135deg, #3b82f6, #2563eb);
-    color: white; border: none; cursor: pointer;
-    font-size: 22px; display: flex; align-items: center; justify-content: center;
-    box-shadow: 0 4px 16px rgba(59,130,246,0.4);
-    transition: all 0.2s;
-}}
-.share-btn-fab:hover {{ transform: scale(1.1); box-shadow: 0 6px 20px rgba(59,130,246,0.5); }}
-.share-btn-fab:active {{ transform: scale(0.95); }}
-.share-btn-fab .tooltip {{
-    position: absolute; bottom: 65px; right: 0;
-    background: rgba(0,0,0,0.75); color: white; font-size: 12px;
-    padding: 5px 10px; border-radius: 6px; white-space: nowrap;
-    opacity: 0; pointer-events: none; transition: opacity 0.2s;
-}}
-.share-btn-fab:hover .tooltip {{ opacity: 1; }}
-/* Modal */
-.share-modal {{
-    display: none; position: fixed; inset: 0; z-index: 9999;
-    background: rgba(0,0,0,0.55); backdrop-filter: blur(4px);
-    align-items: center; justify-content: center;
-}}
-.share-modal.show {{ display: flex; }}
-.share-modal .modal-box {{
-    background: white; border-radius: 16px; padding: 24px;
-    max-width: 580px; width: 96%;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.25);
-}}
-.share-modal .modal-header {{
-    display: flex; justify-content: space-between; align-items: center;
-    font-size: 14px; font-weight: 600; color: #374151; margin-bottom: 14px;
-}}
-.share-modal .close-btn {{
-    background: none; border: none; font-size: 18px; cursor: pointer;
-    color: #9ca3af; padding: 0; line-height: 1;
-}}
-.share-modal .close-btn:hover {{ color: #374151; }}
-.share-modal .download-btn {{
-    margin-top: 16px; padding: 12px 36px; border: none; border-radius: 30px;
+  }
+  #share-card .card-bottom .brand { font-size: 11px; color: #64748b; }
+  #share-card .card-bottom .cta { font-size: 11px; color: #3b82f6; font-weight: 500; }
+  .share-modal .modal-box .download-btn {
+    margin-top: 18px; padding: 12px 40px; border: none; border-radius: 30px;
     background: linear-gradient(135deg, #3b82f6, #2563eb);
     color: #fff; font-size: 15px; font-weight: 600; cursor: pointer;
     transition: transform 0.15s, box-shadow 0.15s;
     box-shadow: 0 4px 15px rgba(59,130,246,0.35);
-    display: block; width: 100%;
-}}
-.share-modal .download-btn:hover {{ transform: translateY(-2px); box-shadow: 0 6px 20px rgba(59,130,246,0.45); }}
-.share-modal .download-btn:active {{ transform: scale(0.97); }}
-.share-modal .download-btn.loading {{ opacity: 0.7; pointer-events: none; }}
-.share-modal .hint {{ color: #94a3b8; font-size: 12px; text-align: center; margin-top: 8px; }}
+  }
+  .share-modal .modal-box .download-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(59,130,246,0.45); }
+  .share-modal .modal-box .download-btn:active { transform: scale(0.97); }
+  .share-modal .modal-box .download-btn.loading { opacity: 0.7; pointer-events: none; }
+  .share-modal .modal-box .hint { color: #94a3b8; font-size: 12px; margin-top: 8px; }
+    @media (max-width: 640px) {
+    .header h1 { font-size: 1.5em; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); margin-top: -20px; }
+    .card-grid.cols-2 { grid-template-columns: 1fr; }
+    .share-btn-fab { bottom: 18px; right: 18px; width: 48px; height: 48px; font-size: 18px; }
+    .share-modal .modal-box { padding: 16px; }
+    #share-card { width: 100%; }
+    #share-card .card-content { padding: 20px 18px; }
+  }
 """
 
 # ─── 辅助函数 ──────────────────────────────────────────────────────────
@@ -417,56 +523,79 @@ def week_number():
     today = datetime.now()
     return today.isocalendar()[1]
 
-def render_news_card(news, accent_color):
-    meta  = f'<span style="color:#888;font-size:12px">{news["date"]}</span> <span style="color:#0f3460;font-size:12px">【{news["source"]}】</span>'
-    title = f'<b>{news["title"]}</b>'
-    body  = news['body']
-    link  = f'<a href="{news["url"]}" target="_blank" rel="noopener">📖 {news["url_text"]} -></a>'
-    return f'''<div class="news-card" style="border-left-color:{accent_color}">
-  <div class="news-meta">{meta}</div>
-  <div class="news-title">{title}</div>
-  <div class="news-body">{body}</div>
-  <div class="news-link">{link}</div>
+def render_news_card(news, accent_class, label_class):
+    meta  = f'<div class="date">{news["date"]} <span class="source">{news["source"]}</span></div>'
+    title = f'<h3>{news["title"]}</h3>'
+    body  = f'<p>{news["body"]}</p>'
+    link  = f'<a href="{news["url"]}" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>'
+    return f'''<div class="card {accent_class}">
+  {meta}
+  {title}
+  {body}
+  <span class="label {label_class}">{news["source"]}</span>
+  {link}
 </div>'''
 
 def render_news_section(key):
     meta = SECTIONS_META[key]
-    icon, title, tag, color = meta
+    icon, title, tag, accent_class, label_class = meta
     items = NEWS_DATA.get(key, [])
-    cards_html = '\n'.join(render_news_card(n, color) for n in items)
-    return f'''<div class="news-section">
-  <div class="news-header" style="border-bottom-color:{color}">
-    <div class="news-header-left">
-      <span>{icon}</span>
-      <span>{title}</span>
-    </div>
-    <span class="news-tag">{tag}</span>
+    cards_html = '\n'.join(render_news_card(n, accent_class, label_class) for n in items)
+    return f'''<div class="section">
+  <div class="section-title">
+    <span class="icon">{icon}</span> {title}
+    <span class="tag">{tag}</span>
   </div>
-  <div class="news-grid">{cards_html}</div>
+  <div class="card-grid cols-2">
+{cards_html}
+  </div>
 </div>'''
 
 def build_report_html():
-    """构建本周报告HTML"""
+    """构建本周报告HTML（设计风格照搬 27/28 周大诚会社周报）"""
     date_from, date_to = get_week_range()
-    date_range = f'{date_from} -- {date_to}'
+    date_range = f'{date_from} — {date_to}'
     today_str  = datetime.now().strftime('%Y年%m月%d日')
     week_num   = week_number()
 
+    # 热点速览（用于分享卡自动抓取 #hotlist）
     hot_items = [
-        '国交省推进「ビデオ重説」制度 -- 年内引入视频重要事项说明，减轻宅建士与买卖双方负担',
-        '観光庁创设地方废旅馆再生补助制度 -- 地方温泉地空置旅馆迎新生，公募至2027年2月',
-        '首都圈新建マンシ持续高价 -- ㎡单价连续14个月同比上升，供应户数维持1,400户以上',
-        '银座五丁目大厦重建完成 -- 8月17日全面开业，成为银座新地标',
-        '外资持续布局日本物流不动產 -- 近畿圈物流空室率趋零值得关注',
+        '国交省推进「ビデオ重説」制度 — 年内引入视频重要事项说明，减轻宅建士与买卖双方负担',
+        '観光庁创设地方废旅馆再生补助制度 — 地方温泉地空置旅馆迎新生，公募至2027年2月',
+        '首都圈新建マンシ持续高价 — ㎡单价连续14个月同比上升，供应户数维持1,400户以上',
+        '银座五丁目大厦重建完成 — 8月17日全面开业，成为银座新地标',
+        '外资持续布局日本物流不动產 — 近畿圈物流空室率趋零值得关注',
     ]
-    hot_html = '\n'.join(f'<div class="hot-item">{item}</div>' for item in hot_items)
+    hot_html = '\n'.join(f'<li><strong>{item.split(" — ")[0]}</strong> — {item.split(" — ")[1]}</li>' for item in hot_items)
 
+    # 顶部统计卡（#statsBar，分享卡自动抓取）
+    stat_cards = [
+        ('gold',   STATS["stat_1"], 'フラット35 主力金利（7月時点）'),
+        ('orange', STATS["stat_2"], '首都圈中古マンシ 成约件数（前年比）'),
+        ('green',  STATS["stat_3"], '首都圈新建マンシ 供给户数（6月）'),
+        ('',       STATS["stat_4"], 'マンシ㎡单价 连续上升月数'),
+        ('gold',   STATS["stat_5"], '東京駅周辺 成约赁料'),
+    ]
+    stats_html = ''
+    for color, num, label in stat_cards:
+        cls = f' num {color}' if color else ' num'
+        stats_html += f'''    <div class="stat-card">
+      <div class="{cls.strip()}">{num}</div>
+      <div class="label">{label}</div>
+    </div>
+'''
+
+    # 市场趋势（trend-visual）
     trend_html = ''
     for label, value, color_cls in TRENDS:
-        trend_html += f'''<div class="trend-cell">
-  <div class="trend-val {color_cls}">{value}</div>
-  <div class="trend-lbl">{label}</div>
-</div>'''
+        arrow = ''
+        if '▲' in value: arrow = ' ▲'
+        elif '▼' in value: arrow = ' ▼'
+        trend_html += f'''    <div class="trend-item">
+      <div class="trend-label">{label}</div>
+      <div class="trend-value {color_cls}">{value}{arrow}</div>
+    </div>
+'''
 
     news_sections_html = '\n'.join(render_news_section(k) for k in ['policy','deals','develop','tech','survey'])
 
@@ -475,283 +604,435 @@ def build_report_html():
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<meta name="description" content="大誠有限会社专用不动產週報 {date_range}">
+<meta name="description" content="大誠有限会社専用不動產週報 {date_range}">
 <title>大誠不动產週報 {date_range}</title>
 <style>{CSS}</style>
 </head>
 <body>
-<header class="main-header">
-  <div class="header-inner">
-    <div class="brand">TAISEI</div>
-    <h1 class="main-title">大誠有限会社専用不动產週報</h1>
-    <p class="subtitle">政策 · 市場 · 開発 · トレンド</p>
-    <p class="date-badge">[REPORT] {date_range}（第{week_num}週）</p>
-  </div>
-</header>
 
-<div class="stats-bar">
-  <div class="stat-item"><div class="stat-num gold">{STATS["stat_1"]}</div><div class="stat-label">フラット35主力金利</div></div>
-  <div class="stat-item"><div class="stat-num red">{STATS["stat_2"]}</div><div class="stat-label">首都圈中古マンシ成约件数</div></div>
-  <div class="stat-item"><div class="stat-num green">{STATS["stat_3"]}</div><div class="stat-label">首都圈新建マンシ供给户数</div></div>
-  <div class="stat-item"><div class="stat-num blue">{STATS["stat_4"]}</div><div class="stat-label">マンシ㎡单价连续上升月数</div></div>
-  <div class="stat-item"><div class="stat-num gold">{STATS["stat_5"]}</div><div class="stat-label">東京駅周辺成约赁料</div></div>
+<div class="header">
+  <div class="logo-wrap">
+    <span class="logo-text">TAISEI</span>
+    <div class="title-group">
+      <h1>大诚会社専用不動產週報</h1>
+      <div class="subtitle">政策 · 市場 · 開発 · トレンド</div>
+      <div class="date-range" id="headerDateRange">📅 {date_range}</div>
+    </div>
+  </div>
 </div>
+
+<!-- Stats -->
+<div class="stats-bar" id="statsBar">
+{stats_html}</div>
 
 <div class="container">
-  <section class="hot-section">
-    <h2 class="section-header"><span class="section-icon">🔥</span> 本週ホット topics</h2>
-    <div class="hot-list">{hot_html}</div>
-  </section>
 
-  <section class="trend-section">
-    <h2 class="section-header"><span class="section-icon">📊</span> Market Trend</h2>
-    <div class="trend-grid">{trend_html}</div>
-  </section>
-
-  {news_sections_html}
-
-  <section class="rate-section">
-    <h2 class="section-header"><span class="section-icon">📈</span> 贷款利率趋势 & 小虾点评</h2>
-    <div class="rate-box">
-      <p><strong>フラット35：</strong>{FLAT35_RATE}（{FLAT35_MONTH}）。{FLAT35_NOTE}</p>
-      <p class="comment"><strong>💡 小虾点评：</strong>{XIAOXIA_COMMENT}</p>
-    </div>
-  </section>
+<!-- 热点速览 -->
+<div class="key-insight">
+  <h3>🔥 本周热点速览</h3>
+  <ul id="hotlist">
+{hot_html}
+  </ul>
 </div>
 
-<footer class="main-footer">
-  <p>📡 データソース：国土交通省 / 日経不动產マーケット情報 / 週刊住宅タイムズ / 週刊不动產経営 / 東京カンティ / SUUMO / 不動产経済研究所 / SMTRI / 信義日本</p>
-  <p>Generated by 大誠 · {today_str} · 东京 · 大誠有限会社 専用</p>
-</footer>
+<!-- Market Trend -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">📊</span> 市場トレンド
+    <span class="tag">MARKET</span>
+  </div>
+  <div class="trend-visual">
+{trend_html}  </div>
+</div>
 
-<!-- Share Card (auto-built by JS from page content) -->
+{news_sections_html}
+
+<!-- 贷款利率趋势 -->
+<div class="key-insight">
+  <h3>📈 贷款利率趋势</h3>
+  <p><strong>フラット35：</strong>{FLAT35_RATE}（{FLAT35_MONTH}）。{FLAT35_NOTE}</p>
+  <p style="margin-top:10px;"><strong>💡 小虾点评：</strong>{XIAOXIA_COMMENT}</p>
+</div>
+
+</div>
+
+<div class="footer">
+  <p>📡 数据来源：国土交通省 / 日経不動産マーケット情報 / 週刊住宅タイムズ / 週刊不動産経営 / 東京カンテイ / SUUMO / 不動産経済研究所 / 東日本レインズ / R.E.port</p>
+  <p style="margin-top:4px;">Generated by 🦐 小虾 · {today_str} · 东京 · 大誠株式会社 専用</p>
+</div>
+
+<!-- ===== Floating Share Button ===== -->
+<button class="share-btn-fab" id="shareBtn" onclick="openShareModal()">
+  📸
+  <span class="tooltip">生成朋友圈卡片</span>
+</button>
+
+<!-- ===== Share Modal ===== -->
 <div class="share-modal" id="shareModal">
   <div class="modal-box">
     <div class="modal-header">
-      <span>📸 朋友圈分享卡片预览</span>
-      <button class="close-btn" id="closeShareModal">✕</button>
+      <span>📸 朋友圈卡片预览</span>
+      <button class="close-btn" onclick="closeShareModal()">✕</button>
     </div>
-    <div id="share-card-container" style="max-height:70vh;overflow-y:auto;"></div>
-    <button class="download-btn" id="downloadBtn">📥 下载图片</button>
+    <div id="share-card-container"></div>
+    <button class="download-btn" id="downloadBtn" onclick="downloadCard()">📥 下载图片</button>
     <div class="hint">点击下载后，图片保存在浏览器默认下载目录</div>
   </div>
 </div>
 
-<!-- Floating Share Button -->
-<button class="share-btn-fab" id="shareBtn" onclick="openShareModal()">📸<span class="tooltip">生成朋友圈卡片</span></button>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-/* ── auto-extract data from page ── */
 function getDateRange() {{
-    var el = document.getElementById('headerDateRange') || document.querySelector('.date-range');
-    return el ? el.textContent.trim().replace(/^[📅\s]+/, '') : '';
+  const el = document.getElementById('headerDateRange');
+  return el ? el.textContent.trim() : '📅 2026年6月 — 6月';
 }}
+
 function getStats() {{
-    var cards = document.querySelectorAll('.trend-cell, .stat-card');
-    var stats = [];
-    cards.forEach(function(c) {{
-        var num = c.querySelector('.trend-val, .num');
-        var label = c.querySelector('.trend-lbl, .label');
-        if (num && label) stats.push({{ num: num.textContent.trim(), label: label.textContent.trim().replace(/\s+/g,' ') }});
-    }});
-    return stats;
+  const cards = document.querySelectorAll('#statsBar .stat-card');
+  const stats = [];
+  cards.forEach(c => {{
+    const num = c.querySelector('.num');
+    const label = c.querySelector('.label');
+    if (num && label) {{
+      stats.push({{
+        num: num.textContent.trim(),
+        label: label.textContent.trim().replace(/\\s+/g, ' ')
+      }});
+    }}
+  }});
+  return stats;
 }}
+
 function getHighlights() {{
-    var items = document.querySelectorAll('.hot-item, .key-insight li');
-    var out = [];
-    items.forEach(function(li) {{
-        var txt = li.textContent.trim().replace(/^[\s—–-]+/, '');
-        if (txt) out.push(txt);
-    }});
-    return out.slice(0, 4);
+  const items = document.querySelectorAll('#hotlist li');
+  const highlights = [];
+  items.forEach(li => {{
+    const txt = li.textContent.trim().replace(/^\\s*[—\\-–]\\s*/, '');
+    if (txt) highlights.push(txt);
+  }});
+  return highlights.slice(0, 4);
 }}
-/* ── build card HTML ── */
+
 function buildShareCard() {{
-    var dateRange = getDateRange();
-    var stats = getStats();
-    var highlights = getHighlights();
-    var arrowClass = function(txt) {{
-        if (txt.indexOf('▼') > -1 || txt.indexOf('下落') > -1 || txt.indexOf('減') > -1) return 'down';
-        if (txt.indexOf('▲') > -1 || txt.indexOf('上昇') > -1 || txt.indexOf('増') > -1) return 'up';
-        return 'flat';
-    }};
-    var arrowSymbol = function(txt) {{
-        if (txt.indexOf('▼') > -1) return '▼';
-        if (txt.indexOf('▲') > -1) return '▲';
-        return '→';
-    }};
-    var statsHTML = '';
-    stats.slice(0, 4).forEach(function(s) {{
-        var ac = arrowClass(s.num);
-        var ar = arrowSymbol(s.num);
-        statsHTML += '<div class="card-stat-box">' +
-            '<div class="stat-num">' + s.num + ' <span class="stat-arrow ' + ac + '">' + ar + '</span></div>' +
-            '<div class="stat-label">' + s.label + '</div>' +
-        '</div>';
-    }});
-    var icons = ['🔴','🟡','🟢','🔵'];
-    var hlHTML = '';
-    highlights.forEach(function(h, i) {{
-        hlHTML += '<li><span class="hl-icon">' + (icons[i]||'▸') + '</span>' + h + '</li>';
-    }});
-    return '<div id="share-card">' +
-        '<div class="card-dots"></div>' +
-        '<div class="card-top-accent"></div>' +
-        '<div class="card-content">' +
-            '<div class="card-logo">TAISEI</div>' +
-            '<div class="card-meta">WEEKLY REAL ESTATE REPORT</div>' +
-            '<div class="card-date-badge">📅 ' + dateRange + '</div>' +
-            '<hr class="card-divider">' +
-            '<div class="card-stats">' + statsHTML + '</div>' +
-            '<hr class="card-divider">' +
-            '<div class="card-highlights-title">✦ WEEKLY HIGHLIGHTS</div>' +
-            '<ul class="card-highlights">' + hlHTML + '</ul>' +
-            '<div class="card-bottom">' +
-                '<span class="brand">大誠有限会社 · 不動産専門</span>' +
-                '<span class="cta">🔍 更多精彩请关注官方频道</span>' +
-            '</div>' +
-        '</div>' +
+  const dateRange = getDateRange();
+  const stats = getStats();
+  const highlights = getHighlights();
+
+  const arrowClass = (txt) => {{
+    if (txt.includes('▼') || txt.includes('下落') || txt.includes('減')) return 'down';
+    if (txt.includes('▲') || txt.includes('上昇') || txt.includes('増')) return 'up';
+    return 'flat';
+  }};
+  const arrowSymbol = (txt) => {{
+    if (txt.includes('▼')) return '▼';
+    if (txt.includes('▲')) return '▲';
+    return '→';
+  }};
+
+  let statsHTML = '';
+  stats.forEach((s, i) => {{
+    if (i >= 4) return;
+    const isUp = arrowClass(s.num);
+    const arrow = arrowSymbol(s.num);
+    statsHTML += '<div class="card-stat-box">' +
+      '<div class="stat-num">' + s.num + ' <span class="stat-arrow ' + isUp + '">' + arrow + '</span></div>' +
+      '<div class="stat-label">' + s.label + '</div>' +
     '</div>';
+  }});
+
+  let hlHTML = '';
+  const icons = ['🔴', '🟡', '🟢', '🔵'];
+  highlights.forEach((h, i) => {{
+    hlHTML += '<li><span class="hl-icon">' + (icons[i] || '▸') + '</span>' + h + '</li>';
+  }});
+
+  return '<div id="share-card">' +
+    '<div class="card-dots"></div>' +
+    '<div class="card-top-accent"></div>' +
+    '<div class="card-content">' +
+      '<div class="card-logo">TAISEI</div>' +
+      '<div class="card-meta">WEEKLY REAL ESTATE REPORT</div>' +
+      '<div class="card-date-badge">📅 ' + dateRange.replace('📅 ', '') + '</div>' +
+      '<hr class="card-divider">' +
+      '<div class="card-stats">' + statsHTML + '</div>' +
+      '<hr class="card-divider">' +
+      '<div class="card-highlights-title">✦ WEEKLY HIGHLIGHTS</div>' +
+      '<ul class="card-highlights">' + hlHTML + '</ul>' +
+      '<div class="card-bottom">' +
+        '<span class="brand">大誠株式会社 · 不動産専門</span>' +
+        '<span class="cta">🔍 詳細は公式チャンネルで</span>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
 }}
-/* ── modal controls ── */
+
 function openShareModal() {{
-    document.getElementById('share-card-container').innerHTML = buildShareCard();
-    document.getElementById('shareModal').classList.add('show');
-    document.body.style.overflow = 'hidden';
+  document.getElementById('share-card-container').innerHTML = buildShareCard();
+  document.getElementById('shareModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
 }}
+
 function closeShareModal() {{
-    document.getElementById('shareModal').classList.remove('show');
-    document.body.style.overflow = '';
+  document.getElementById('shareModal').classList.remove('show');
+  document.body.style.overflow = '';
 }}
-document.getElementById('closeShareModal').addEventListener('click', closeShareModal);
+
 document.getElementById('shareModal').addEventListener('click', function(e) {{
-    if (e.target === this) closeShareModal();
+  if (e.target === this) closeShareModal();
 }});
+
 document.addEventListener('keydown', function(e) {{
-    if (e.key === 'Escape') closeShareModal();
+  if (e.key === 'Escape') closeShareModal();
 }});
-/* ── download ── */
-document.getElementById('downloadBtn').addEventListener('click', function() {{
-    var btn = this;
-    var card = document.getElementById('share-card');
-    if (!card) return;
-    btn.textContent = '⏳ 生成中…';
-    btn.classList.add('loading');
-    html2canvas(card, {{
-        scale: 2.5,
-        backgroundColor: '#ffffff',
-        useCORS: true, allowTaint: false,
-        logging: false,
-        width: 540,
-        height: card.scrollHeight,
-        windowWidth: 540
-    }}).then(function(canvas) {{
-        canvas.toBlob(function(blob) {{
-            var url = URL.createObjectURL(blob);
-            var a = document.createElement('a');
-            a.download = 'TAISEI周报卡_' + new Date().toISOString().slice(0,10) + '.png';
-            a.href = url; a.click();
-            setTimeout(function() {{ URL.revokeObjectURL(url); }}, 1000);
-        }});
-        btn.textContent = '📥 下载图片';
-        btn.classList.remove('loading');
-    }}).catch(function() {{
-        btn.textContent = '❌ 生成失败，请重试';
-        btn.classList.remove('loading');
-        setTimeout(function() {{ btn.textContent = '📥 下载图片'; }}, 2000);
-    }});
-}});
+
+function downloadCard() {{
+  const btn = document.getElementById('downloadBtn');
+  const card = document.getElementById('share-card');
+  if (!card) return;
+  btn.textContent = '⏳ 生成中…';
+  btn.classList.add('loading');
+  html2canvas(card, {{
+    scale: 2.5,
+    backgroundColor: null,
+    useCORS: true, allowTaint: false,
+    logging: false,
+    width: 540,
+    height: card.scrollHeight,
+    windowWidth: 540
+  }}).then(canvas => {{
+    const link = document.createElement('a');
+    link.download = 'TAISEI周报卡_' + new Date().toISOString().slice(0,10) + '.png';
+    canvas.toBlob(function(b) {{ var u = URL.createObjectURL(b); link.href = u; link.click(); URL.revokeObjectURL(u); }});
+    link.click();
+    btn.textContent = '📥 下载图片';
+    btn.classList.remove('loading');
+  }}).catch(err => {{
+    console.error(err);
+    btn.textContent = '❌ 生成失败，重试';
+    btn.classList.remove('loading');
+    setTimeout(function() {{ btn.textContent = '📥 下载图片'; }}, 2000);
+  }});
+}}
 </script>
 </body>
 </html>'''
+
     return html
 
 def build_index_html(reports):
-    """构建索引页HTML"""
+    """构建中文可视化索引页HTML（精美主页）"""
     today_str = datetime.now().strftime('%Y年%m月%d日')
     year = datetime.now().year
 
+    reports_sorted = list(reports)
+    latest = reports_sorted[0] if reports_sorted else None
+
+    REPORT_LIMIT = 6
+    total_reports = len(reports_sorted)
+
+    # 报告网格（最新一期标记「最新」徽标，超出限制部分默认折叠）
     report_cards = ''
-    for r in reports:
-        # r = {date_folder, date_str, week_num}
+    for idx, r in enumerate(reports_sorted):
         folder = r['folder']
         date_str = r['date_str']
         week_num = r['week_num']
+        badge = '<span class="card-badge">最新</span>' if idx == 0 else ''
+        hidden = ' report-hidden' if idx >= REPORT_LIMIT else ''
         report_cards += f'''
-    <div class="report-card">
+    <div class="report-card{' latest' if idx==0 else ''}{hidden}">
       <a href="reports/{folder}/report.html" class="card-link">
+        {badge}
         <div class="card-date">{date_str}</div>
-        <div class="card-title">第{week_num}週 不动產週報</div>
-        <div class="card-arrow">-> 閲覧</div>
+        <div class="card-title">第 {week_num} 期 · 日本不动产周报</div>
+        <div class="card-meta">{year}年 · 东京市场动态</div>
+        <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>'''
 
+    # 查看更多按钮（仅当往期超过限制时显示）
+    if total_reports > REPORT_LIMIT:
+        show_more = f'''
+  <div class="more-wrap">
+    <button class="more-btn" id="moreBtn" onclick="toggleMore()">查看更多往期周报（共 {total_reports} 期） ↓</button>
+  </div>'''
+    else:
+        show_more = ''
+
+    # 客户端展开/收起脚本（无需独立归档页）
+    script_js = '''
+<script>
+function toggleMore(){
+  var hidden = document.querySelectorAll('.report-hidden');
+  var btn = document.getElementById('moreBtn');
+  var currentlyHidden = hidden.length && hidden[0].style.display !== 'block';
+  for (var i=0;i<hidden.length;i++){ hidden[i].style.display = currentlyHidden ? 'block' : 'none'; }
+  btn.textContent = currentlyHidden ? '收起 ↑' : '查看更多往期周报（共 N 期） ↓';
+}
+</script>'''
+    script_js = script_js.replace('N', str(total_reports))
+
+    # 最新一期特写卡
+    if latest:
+        feat_date = latest['date_str']
+        feat_week = latest['week_num']
+        feat_folder = latest['folder']
+        featured_html = f'''
+    <a href="reports/{feat_folder}/report.html" class="featured">
+      <div class="featured-left">
+        <span class="featured-tag">📌 最新一期</span>
+        <h2 class="featured-title">日本不动产周报</h2>
+        <div class="featured-date">{feat_date} · 第 {feat_week} 期</div>
+        <p class="featured-desc">覆盖政策动向、市场交易、开发动态、科技前沿与调查数据五大板块，
+        精选本周日本（以东京圈为主）不动产核心资讯，附小虾点评。</p>
+        <span class="featured-cta">立即阅读 →</span>
+      </div>
+      <div class="featured-right">
+        <div class="ring"><span>{feat_week}</span><em>期</em></div>
+      </div>
+    </a>'''
+    else:
+        featured_html = ''
+
+    # 栏目覆盖
+    sections_cov = [
+        ('🏛️', '政策动向', '地价 · 税制 · 金融政策'),
+        ('💹', '市场交易', '新盘 · 房贷 · 投资回报'),
+        ('🏗️', '开发动态', '新项目 · 城市更新'),
+        ('🤖', '科技前沿', '建设DX · GIS · 智能家居'),
+        ('📊', '调查数据', '地价指数 · 区域行情'),
+    ]
+    cov_html = ''
+    for icon, name, sub in sections_cov:
+        cov_html += f'''
+      <div class="cov-item">
+        <div class="cov-icon">{icon}</div>
+        <div class="cov-name">{name}</div>
+        <div class="cov-sub">{sub}</div>
+      </div>'''
+
     return f'''<!DOCTYPE html>
-<html lang="ja">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>大誠不动產週報 -- レポート一覧</title>
+<title>大誠有限会社 · 日本不动产周报</title>
 <style>
 *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
-body {{ font-family: 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', sans-serif; background: #f0f2f5; color: #1a1a2e; min-height: 100vh; }}
+body {{
+  font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
+  background: #f4f7fb; color: #1f2733; line-height: 1.7; min-height: 100vh;
+}}
+/* Hero */
 .hero {{
-  background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 60%);
-  color: white; text-align: center; padding: 50px 20px 40px;
-  position: relative;
+  background: linear-gradient(135deg, #12457f 0%, #1a5fb4 55%, #2a7fd4 100%);
+  color: #fff; text-align: center; padding: 56px 20px 64px;
+  position: relative; overflow: hidden;
+}}
+.hero::before {{
+  content: ''; position: absolute; top: -120px; right: -80px; width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(255,255,255,.14), transparent 70%); border-radius: 50%;
 }}
 .hero::after {{
   content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
-  background: linear-gradient(90deg, #3b82f6, #60a5fa, #93c5fd, #3b82f6);
+  background: linear-gradient(90deg, #ffd479, #fff3cd, #ffd479);
 }}
-.hero-brand {{ font-size: 12px; letter-spacing: 6px; color: #60a5fa; margin-bottom: 8px; }}
-.hero h1 {{ font-size: 26px; font-weight: bold; margin-bottom: 8px; }}
-.hero p {{ font-size: 14px; color: #a0c4e8; }}
-.hero-updated {{ margin-top: 14px; font-size: 12px; color: #6080a0; }}
-.container {{ max-width: 800px; margin: 0 auto; padding: 30px 16px 60px; }}
-.section-title {{
-  font-size: 15px; color: #555; margin-bottom: 16px;
-  padding-bottom: 8px; border-bottom: 2px solid #0f3460;
-  display: flex; align-items: center; gap: 8px;
+.hero-brand {{ font-size: 13px; letter-spacing: 7px; color: #cfe4ff; margin-bottom: 10px; font-weight: 700; }}
+.hero h1 {{ font-size: 30px; font-weight: 900; letter-spacing: 2px; margin-bottom: 10px; }}
+.hero p {{ font-size: 14px; color: #d6e8ff; }}
+.hero-updated {{ margin-top: 16px; font-size: 12px; color: #a9cdf2; }}
+.container {{ max-width: 960px; margin: 0 auto; padding: 0 16px 60px; }}
+/* Featured */
+.featured {{
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  background: #fff; border-radius: 20px; padding: 30px 34px; margin: -34px auto 36px;
+  position: relative; z-index: 2; text-decoration: none; color: inherit;
+  box-shadow: 0 12px 36px rgba(26,95,180,.18); border: 1px solid #e3edf9;
+  transition: transform .15s ease, box-shadow .15s ease;
 }}
+.featured:hover {{ transform: translateY(-3px); box-shadow: 0 16px 44px rgba(26,95,180,.26); }}
+.featured-tag {{ display: inline-block; background: #fff3cd; color: #b8860b; font-size: 12px;
+  font-weight: 700; padding: 3px 12px; border-radius: 20px; }}
+.featured-title {{ font-size: 25px; font-weight: 900; color: #12457f; margin: 10px 0 4px; }}
+.featured-date {{ font-size: 13px; color: #5a6675; font-weight: 600; }}
+.featured-desc {{ font-size: 13.5px; color: #5a6675; margin: 12px 0 14px; max-width: 560px; }}
+.featured-cta {{ display: inline-block; background: linear-gradient(135deg,#1a5fb4,#2a7fd4);
+  color: #fff; font-size: 14px; font-weight: 700; padding: 10px 26px; border-radius: 24px; }}
+.featured-right {{ flex-shrink: 0; }}
+.ring {{
+  width: 110px; height: 110px; border-radius: 50%;
+  background: conic-gradient(#1a5fb4 0 78%, #e3edf9 78% 100%);
+  display: flex; align-items: center; justify-content: center; position: relative;
+}}
+.ring::before {{ content: ''; position: absolute; inset: 12px; background: #fff; border-radius: 50%; }}
+.ring span {{ position: relative; font-size: 38px; font-weight: 900; color: #1a5fb4; line-height: 1; }}
+.ring em {{ position: relative; font-size: 13px; color: #5a6675; font-style: normal; margin-left: 2px; }}
+/* Coverage */
+.cov-title {{ font-size: 16px; color: #12457f; font-weight: 800; margin: 8px 0 16px;
+  display: flex; align-items: center; gap: 8px; }}
+.cov-title::before {{ content: ''; width: 5px; height: 18px; background: #c99a3f; border-radius: 3px; }}
+.cov-grid {{ display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 38px; }}
+.cov-item {{ background: #fff; border: 1px solid #e6ebf2; border-radius: 14px; padding: 18px 12px;
+  text-align: center; box-shadow: 0 2px 10px rgba(31,39,51,.05); }}
+.cov-icon {{ font-size: 26px; }}
+.cov-name {{ font-size: 14px; font-weight: 700; color: #1f2733; margin-top: 6px; }}
+.cov-sub {{ font-size: 11px; color: #8a95a5; margin-top: 3px; }}
+/* Reports */
+.sec-title {{ font-size: 16px; color: #12457f; font-weight: 800; margin: 8px 0 16px;
+  display: flex; align-items: center; gap: 8px; }}
+.sec-title::before {{ content: ''; width: 5px; height: 18px; background: #1a5fb4; border-radius: 3px; }}
 .report-grid {{ display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }}
-.report-card {{
-  background: white; border-radius: 10px; overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  transition: transform 0.2s, box-shadow 0.2s;
-}}
-.report-card:hover {{ transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.14); }}
-.card-link {{
-  display: block; padding: 22px 20px; text-decoration: none; color: inherit;
-  background: linear-gradient(135deg, #0f3460, #16537e);
-  color: white; height: 100%;
-}}
-.card-date {{ font-size: 12px; color: #93c5fd; margin-bottom: 8px; }}
-.card-title {{ font-size: 15px; font-weight: bold; margin-bottom: 12px; line-height: 1.4; }}
-.card-arrow {{ font-size: 13px; color: #60a5fa; }}
-.footer {{
-  background: #1a1a2e; color: #606880; text-align: center;
-  padding: 20px; font-size: 12px;
+.report-card {{ background: #fff; border-radius: 14px; overflow: hidden;
+  box-shadow: 0 2px 10px rgba(31,39,51,.06); border: 1px solid #e6ebf2;
+  transition: transform .15s, box-shadow .15s; }}
+.report-card.latest {{ border: 2px solid #1a5fb4; }}
+.report-card:hover {{ transform: translateY(-3px); box-shadow: 0 8px 24px rgba(31,39,51,.14); }}
+.card-link {{ display: block; padding: 20px; text-decoration: none; color: inherit; position: relative; }}
+.card-badge {{ position: absolute; top: 12px; right: 12px; background: #1a5fb4; color: #fff;
+  font-size: 11px; font-weight: 700; padding: 2px 10px; border-radius: 12px; }}
+.card-date {{ font-size: 12px; color: #8a95a5; margin-bottom: 6px; }}
+.card-title {{ font-size: 15px; font-weight: 800; color: #1f2733; margin-bottom: 6px; }}
+.card-meta {{ font-size: 12px; color: #a0aab8; margin-bottom: 12px; }}
+.card-arrow {{ font-size: 13px; color: #1a5fb4; font-weight: 700; }}
+/* Footer */
+.footer {{ background: #1a1a2e; color: #7e8aa0; text-align: center; padding: 26px 20px; font-size: 12.5px; }}
+.footer-brand {{ color: #cfe4ff; text-decoration: none; font-weight: 700; }}
+.footer-brand:hover {{ text-decoration: underline; }}
+.report-hidden {{ display: none; }}
+.more-wrap {{ text-align: center; margin-top: 10px; }}
+.more-btn {{ background: #fff; border: 1.5px solid #1a5fb4; color: #1a5fb4; font-size: 14px; font-weight: 700; padding: 11px 30px; border-radius: 24px; cursor: pointer; transition: all .15s; }}
+.more-btn:hover {{ background: #1a5fb4; color: #fff; }}
+@media (max-width: 720px) {{
+  .cov-grid {{ grid-template-columns: repeat(2, 1fr); }}
+  .featured {{ flex-direction: column; text-align: center; }}
+  .featured-desc {{ margin-left: auto; margin-right: auto; }}
+  .hero h1 {{ font-size: 24px; }}
 }}
 </style>
 </head>
 <body>
 <header class="hero">
   <div class="hero-brand">TAISEI</div>
-  <h1>大誠有限会社 不动產週報</h1>
-  <p>東京不动產市場の最新動向を毎週配信</p>
-  <div class="hero-updated">更新：{today_str}</div>
+  <h1>大誠有限会社 · 日本不动产周报</h1>
+  <p>东京不动产市场最新动态 · 每周精选推送</p>
+  <div class="hero-updated">更新于 {today_str}</div>
 </header>
 
 <div class="container">
-  <div class="section-title">📋 全レポート一覧（第{year}年）</div>
-  <div class="report-grid">{report_cards}
+  {featured_html}
+
+  <div class="cov-title">栏目覆盖</div>
+  <div class="cov-grid">{cov_html}
   </div>
+
+  <div class="sec-title">往期周报（{year}年）</div>
+  <div class="report-grid">{report_cards}
+  </div>{show_more}
 </div>
 
 <footer class="footer">
-  <p>Generated by 大誠 · 大誠有限会社 専用</p>
-</footer>
+  <p><a href="https://www.taisei-r.com/" target="_blank" rel="noopener" class="footer-brand">大誠有限会社</a> · 日本不动产周报</p>
+  <p style="margin-top:6px;opacity:.7;">内容仅供参考，投资需谨慎</p>
+</footer>{script_js}
 </body>
 </html>'''
 

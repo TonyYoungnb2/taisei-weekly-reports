@@ -1,0 +1,6 @@
+# Local config - DO NOT COMMIT
+config_local.py
+.env
+*.log
+__pycache__/
+.pytest_cache/
