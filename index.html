@@ -161,6 +161,45 @@ body {
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
+    <div class="report-card">
+      <a href="reports/2026-07-14/report.html" class="card-link">
+        
+        <div class="card-date">2026年07月14日</div>
+        <div class="card-title">第 29 期 · 日本不动产周报</div>
+        <div class="card-meta">2026年 · 东京市场动态</div>
+        <div class="card-arrow">阅读全文 →</div>
+      </a>
+    </div>
+    <div class="report-card">
+      <a href="reports/2026-07-06/report.html" class="card-link">
+        
+        <div class="card-date">2026年07月06日</div>
+        <div class="card-title">第 28 期 · 日本不动产周报</div>
+        <div class="card-meta">2026年 · 东京市场动态</div>
+        <div class="card-arrow">阅读全文 →</div>
+      </a>
+    </div>
+    <div class="report-card report-hidden">
+      <a href="reports/2026-06-29/report.html" class="card-link">
+        
+        <div class="card-date">2026年06月29日</div>
+        <div class="card-title">第 27 期 · 日本不动产周报</div>
+        <div class="card-meta">2026年 · 东京市场动态</div>
+        <div class="card-arrow">阅读全文 →</div>
+      </a>
+    </div>
+    <div class="report-card report-hidden">
+      <a href="reports/2026-06-16/report.html" class="card-link">
+        
+        <div class="card-date">2026年06月16日</div>
+        <div class="card-title">第 25 期 · 日本不动产周报</div>
+        <div class="card-meta">2026年 · 东京市场动态</div>
+        <div class="card-arrow">阅读全文 →</div>
+      </a>
+    </div>
+  </div>
+  <div class="more-wrap">
+    <button class="more-btn" id="moreBtn" onclick="toggleMore()">查看更多往期周报（共 5 期） ↓</button>
   </div>
 </div>
 
@@ -174,7 +213,7 @@ function toggleMore(){
   var btn = document.getElementById('moreBtn');
   var currentlyHidden = hidden.length && hidden[0].style.display !== 'block';
   for (var i=0;i<hidden.length;i++){ hidden[i].style.display = currentlyHidden ? 'block' : 'none'; }
-  btn.textContent = currentlyHidden ? '收起 ↑' : '查看更多往期周报（共 1 期） ↓';
+  btn.textContent = currentlyHidden ? '收起 ↑' : '查看更多往期周报（共 5 期） ↓';
 }
 </script>
 </body>
