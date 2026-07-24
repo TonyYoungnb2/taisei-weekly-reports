@@ -1,103 +1,185 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="zh-CN">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>大誠不动產週報 -- レポート一覧</title>
+<title>大誠有限会社 · 日本不动产周报</title>
 <style>
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body { font-family: 'Microsoft YaHei', 'PingFang SC', 'Hiragino Sans GB', sans-serif; background: #f0f2f5; color: #1a1a2e; min-height: 100vh; }
+body {
+  font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
+  background: #f4f7fb; color: #1f2733; line-height: 1.7; min-height: 100vh;
+}
+/* Hero */
 .hero {
-  background: linear-gradient(135deg, #1a1a2e 0%, #0f3460 60%);
-  color: white; text-align: center; padding: 50px 20px 40px;
-  position: relative;
+  background: linear-gradient(135deg, #12457f 0%, #1a5fb4 55%, #2a7fd4 100%);
+  color: #fff; text-align: center; padding: 56px 20px 64px;
+  position: relative; overflow: hidden;
+}
+.hero::before {
+  content: ''; position: absolute; top: -120px; right: -80px; width: 320px; height: 320px;
+  background: radial-gradient(circle, rgba(255,255,255,.14), transparent 70%); border-radius: 50%;
 }
 .hero::after {
   content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
-  background: linear-gradient(90deg, #3b82f6, #60a5fa, #93c5fd, #3b82f6);
+  background: linear-gradient(90deg, #ffd479, #fff3cd, #ffd479);
 }
-.hero-brand { font-size: 12px; letter-spacing: 6px; color: #60a5fa; margin-bottom: 8px; }
-.hero h1 { font-size: 26px; font-weight: bold; margin-bottom: 8px; }
-.hero p { font-size: 14px; color: #a0c4e8; }
-.hero-updated { margin-top: 14px; font-size: 12px; color: #6080a0; }
-.container { max-width: 800px; margin: 0 auto; padding: 30px 16px 60px; }
-.section-title {
-  font-size: 15px; color: #555; margin-bottom: 16px;
-  padding-bottom: 8px; border-bottom: 2px solid #0f3460;
-  display: flex; align-items: center; gap: 8px;
+.hero-brand { font-size: 13px; letter-spacing: 7px; color: #cfe4ff; margin-bottom: 10px; font-weight: 700; }
+.hero h1 { font-size: 30px; font-weight: 900; letter-spacing: 2px; margin-bottom: 10px; }
+.hero p { font-size: 14px; color: #d6e8ff; }
+.hero-updated { margin-top: 16px; font-size: 12px; color: #a9cdf2; }
+.container { max-width: 960px; margin: 0 auto; padding: 0 16px 60px; }
+/* Featured */
+.featured {
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  background: #fff; border-radius: 20px; padding: 30px 34px; margin: -34px auto 36px;
+  position: relative; z-index: 2; text-decoration: none; color: inherit;
+  box-shadow: 0 12px 36px rgba(26,95,180,.18); border: 1px solid #e3edf9;
+  transition: transform .15s ease, box-shadow .15s ease;
 }
+.featured:hover { transform: translateY(-3px); box-shadow: 0 16px 44px rgba(26,95,180,.26); }
+.featured-tag { display: inline-block; background: #fff3cd; color: #b8860b; font-size: 12px;
+  font-weight: 700; padding: 3px 12px; border-radius: 20px; }
+.featured-title { font-size: 25px; font-weight: 900; color: #12457f; margin: 10px 0 4px; }
+.featured-date { font-size: 13px; color: #5a6675; font-weight: 600; }
+.featured-desc { font-size: 13.5px; color: #5a6675; margin: 12px 0 14px; max-width: 560px; }
+.featured-cta { display: inline-block; background: linear-gradient(135deg,#1a5fb4,#2a7fd4);
+  color: #fff; font-size: 14px; font-weight: 700; padding: 10px 26px; border-radius: 24px; }
+.featured-right { flex-shrink: 0; }
+.ring {
+  width: 110px; height: 110px; border-radius: 50%;
+  background: conic-gradient(#1a5fb4 0 78%, #e3edf9 78% 100%);
+  display: flex; align-items: center; justify-content: center; position: relative;
+}
+.ring::before { content: ''; position: absolute; inset: 12px; background: #fff; border-radius: 50%; }
+.ring span { position: relative; font-size: 38px; font-weight: 900; color: #1a5fb4; line-height: 1; }
+.ring em { position: relative; font-size: 13px; color: #5a6675; font-style: normal; margin-left: 2px; }
+/* Coverage */
+.cov-title { font-size: 16px; color: #12457f; font-weight: 800; margin: 8px 0 16px;
+  display: flex; align-items: center; gap: 8px; }
+.cov-title::before { content: ''; width: 5px; height: 18px; background: #c99a3f; border-radius: 3px; }
+.cov-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 38px; }
+.cov-item { background: #fff; border: 1px solid #e6ebf2; border-radius: 14px; padding: 18px 12px;
+  text-align: center; box-shadow: 0 2px 10px rgba(31,39,51,.05); }
+.cov-icon { font-size: 26px; }
+.cov-name { font-size: 14px; font-weight: 700; color: #1f2733; margin-top: 6px; }
+.cov-sub { font-size: 11px; color: #8a95a5; margin-top: 3px; }
+/* Reports */
+.sec-title { font-size: 16px; color: #12457f; font-weight: 800; margin: 8px 0 16px;
+  display: flex; align-items: center; gap: 8px; }
+.sec-title::before { content: ''; width: 5px; height: 18px; background: #1a5fb4; border-radius: 3px; }
 .report-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
-.report-card {
-  background: white; border-radius: 10px; overflow: hidden;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.08);
-  transition: transform 0.2s, box-shadow 0.2s;
-}
-.report-card:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.14); }
-.card-link {
-  display: block; padding: 22px 20px; text-decoration: none; color: inherit;
-  background: linear-gradient(135deg, #0f3460, #16537e);
-  color: white; height: 100%;
-}
-.card-date { font-size: 12px; color: #93c5fd; margin-bottom: 8px; }
-.card-title { font-size: 15px; font-weight: bold; margin-bottom: 12px; line-height: 1.4; }
-.card-arrow { font-size: 13px; color: #60a5fa; }
-.footer {
-  background: #1a1a2e; color: #606880; text-align: center;
-  padding: 20px; font-size: 12px;
+.report-card { background: #fff; border-radius: 14px; overflow: hidden;
+  box-shadow: 0 2px 10px rgba(31,39,51,.06); border: 1px solid #e6ebf2;
+  transition: transform .15s, box-shadow .15s; }
+.report-card.latest { border: 2px solid #1a5fb4; }
+.report-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(31,39,51,.14); }
+.card-link { display: block; padding: 20px; text-decoration: none; color: inherit; position: relative; }
+.card-badge { position: absolute; top: 12px; right: 12px; background: #1a5fb4; color: #fff;
+  font-size: 11px; font-weight: 700; padding: 2px 10px; border-radius: 12px; }
+.card-date { font-size: 12px; color: #8a95a5; margin-bottom: 6px; }
+.card-title { font-size: 15px; font-weight: 800; color: #1f2733; margin-bottom: 6px; }
+.card-meta { font-size: 12px; color: #a0aab8; margin-bottom: 12px; }
+.card-arrow { font-size: 13px; color: #1a5fb4; font-weight: 700; }
+/* Footer */
+.footer { background: #1a1a2e; color: #7e8aa0; text-align: center; padding: 26px 20px; font-size: 12.5px; }
+.footer b { color: #cfe4ff; }
+@media (max-width: 720px) {
+  .cov-grid { grid-template-columns: repeat(2, 1fr); }
+  .featured { flex-direction: column; text-align: center; }
+  .featured-desc { margin-left: auto; margin-right: auto; }
+  .hero h1 { font-size: 24px; }
 }
 </style>
 </head>
 <body>
 <header class="hero">
   <div class="hero-brand">TAISEI</div>
-  <h1>大誠有限会社 不动產週報</h1>
-  <p>東京不动產市場の最新動向を毎週配信</p>
-  <div class="hero-updated">更新：2026年07月21日</div>
+  <h1>大誠有限会社 · 日本不动产周报</h1>
+  <p>东京不动产市场最新动态 · 每周精选推送</p>
+  <div class="hero-updated">更新于 2026年07月24日</div>
 </header>
 
 <div class="container">
-  <div class="section-title">📋 全レポート一覧（第2026年）</div>
+  
+    <a href="reports/2026-07-21/report.html" class="featured">
+      <div class="featured-left">
+        <span class="featured-tag">📌 最新一期</span>
+        <h2 class="featured-title">日本不动产周报</h2>
+        <div class="featured-date">2026年07月21日 · 第 30 期</div>
+        <p class="featured-desc">覆盖政策动向、市场交易、开发动态、科技前沿与调查数据五大板块，
+        精选本周日本（以东京圈为主）不动产核心资讯，附小虾点评。</p>
+        <span class="featured-cta">立即阅读 →</span>
+      </div>
+      <div class="featured-right">
+        <div class="ring"><span>30</span><em>期</em></div>
+      </div>
+    </a>
+
+  <div class="cov-title">栏目覆盖</div>
+  <div class="cov-grid">
+      <div class="cov-item">
+        <div class="cov-icon">🏛️</div>
+        <div class="cov-name">政策动向</div>
+        <div class="cov-sub">地价 · 税制 · 金融政策</div>
+      </div>
+      <div class="cov-item">
+        <div class="cov-icon">💹</div>
+        <div class="cov-name">市场交易</div>
+        <div class="cov-sub">新盘 · 房贷 · 投资回报</div>
+      </div>
+      <div class="cov-item">
+        <div class="cov-icon">🏗️</div>
+        <div class="cov-name">开发动态</div>
+        <div class="cov-sub">新项目 · 城市更新</div>
+      </div>
+      <div class="cov-item">
+        <div class="cov-icon">🤖</div>
+        <div class="cov-name">科技前沿</div>
+        <div class="cov-sub">建设DX · GIS · 智能家居</div>
+      </div>
+      <div class="cov-item">
+        <div class="cov-icon">📊</div>
+        <div class="cov-name">调查数据</div>
+        <div class="cov-sub">地价指数 · 区域行情</div>
+      </div>
+  </div>
+
+  <div class="sec-title">往期周报（2026年）</div>
   <div class="report-grid">
-    <div class="report-card">
+    <div class="report-card latest">
       <a href="reports/2026-07-21/report.html" class="card-link">
+        <span class="card-badge">最新</span>
         <div class="card-date">2026年07月21日</div>
-        <div class="card-title">第30週 不动產週報</div>
-        <div class="card-arrow">-> 閲覧</div>
+        <div class="card-title">第 30 期 · 日本不动产周报</div>
+        <div class="card-meta">2026年 · 东京市场动态</div>
+        <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card">
       <a href="reports/2026-07-14/report.html" class="card-link">
+        
         <div class="card-date">2026年07月14日</div>
-        <div class="card-title">第29週 不动產週報</div>
-        <div class="card-arrow">-> 閲覧</div>
+        <div class="card-title">第 29 期 · 日本不动产周报</div>
+        <div class="card-meta">2026年 · 东京市场动态</div>
+        <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card">
-      <a href="reports/2026-07-06/report.html" class="card-link">
-        <div class="card-date">2026年07月06日</div>
-        <div class="card-title">第28週 不动產週報</div>
-        <div class="card-arrow">-> 閲覧</div>
-      </a>
-    </div>
-    <div class="report-card">
-      <a href="reports/2026-06-29/report.html" class="card-link">
-        <div class="card-date">2026年06月29日</div>
-        <div class="card-title">第27週 不动產週報</div>
-        <div class="card-arrow">-> 閲覧</div>
-      </a>
-    </div>
-    <div class="report-card">
-      <a href="reports/2026-06-16/report.html" class="card-link">
-        <div class="card-date">2026年06月16日</div>
-        <div class="card-title">第25週 不动產週報</div>
-        <div class="card-arrow">-> 閲覧</div>
+      <a href="reports/2026-07-07/report.html" class="card-link">
+        
+        <div class="card-date">2026年07月07日</div>
+        <div class="card-title">第 28 期 · 日本不动产周报</div>
+        <div class="card-meta">2026年 · 东京市场动态</div>
+        <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
   </div>
 </div>
 
 <footer class="footer">
-  <p>Generated by 大誠 · 大誠有限会社 専用</p>
+  <p><b>大誠有限会社</b> · 日本不动产周报 · 由 🦐 小虾自动整理生成</p>
+  <p style="margin-top:6px;opacity:.7;">内容仅供参考，投资需谨慎</p>
 </footer>
 </body>
 </html>
