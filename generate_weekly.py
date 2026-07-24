@@ -798,11 +798,12 @@ function buildCardText() {{
   const dateRange = getDateRange();
   const stats = getStats();
   const highlights = getHighlights();
-  let t = '【' + COMPANY_NAME_JP + ' 日本不动产周报】\\n' + dateRange + '\\n\\n';
-  stats.slice(0,4).forEach(function(s) {{ t += '• ' + s.label + '：' + s.num + '\n'; }});
-  t += '\\n本周焦点：\\n';
-  highlights.forEach(function(h) {{ t += '▸ ' + h + '\n'; }});
-  t += '\\n详情见官方频道 / ' + COMPANY_SITE;
+  const NL = String.fromCharCode(10);
+  let t = '【' + COMPANY_NAME_JP + ' 日本不动产周报】' + NL + dateRange + NL + NL;
+  stats.slice(0,4).forEach(function(s) {{ t += '\u2022 ' + s.label + '\uff1a' + s.num + NL; }});
+  t += NL + '本周焦点：' + NL;
+  highlights.forEach(function(h) {{ t += '\u25b8 ' + h + NL; }});
+  t += NL + '详情见官方频道 / ' + COMPANY_SITE;
   return t;
 }}
 
