@@ -1,11 +1,13 @@
-﻿<!DOCTYPE html>
-<html lang="zh-CN">
+<!DOCTYPE html>
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>大诚会社专用不动产周报 | 2026.6.22-6.29</title>
+<meta name="description" content="大誠有限会社専用不動產週報 2026年7月20日 — 2026年7月26日">
+<title>大誠不动產週報 2026年7月20日 — 2026年7月26日</title>
 <style>
-  400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: 'Noto Sans SC', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
@@ -42,6 +44,23 @@
     flex-wrap: wrap;
     position: relative;
     z-index: 1;
+  }
+  /* 返回主页按钮 */
+  .home-btn {
+    position: absolute;
+    top: 14px; left: 16px;
+    z-index: 2;
+    display: inline-flex; align-items: center; gap: 5px;
+    background: rgba(255,255,255,.16);
+    color: #fff; text-decoration: none;
+    font-size: 13px; font-weight: 700;
+    padding: 7px 14px; border-radius: 20px;
+    border: 1px solid rgba(255,255,255,.35);
+    transition: background .15s;
+  }
+  .home-btn:hover { background: rgba(255,255,255,.30); }
+  @media (max-width: 600px) {
+    .home-btn { top: 10px; left: 10px; font-size: 12px; padding: 6px 11px; }
   }
   .header .logo-text {
     font-size: 2em;
@@ -389,42 +408,43 @@
     #share-card .card-content { padding: 20px 18px; }
   }
 </style>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script></head>
+</head>
 <body>
 
 <div class="header">
+  <a href="../../index.html" class="home-btn">🏠 返回主页</a>
   <div class="logo-wrap">
     <span class="logo-text">TAISEI</span>
     <div class="title-group">
-      <h1>大诚会社专用不动产周报</h1>
-      <div class="subtitle">政策 · 市场 · 开发 · 趋势</div>
-      <div class="date-range" id="headerDateRange">📅 2026年6月22日 — 6月29日</div>
+      <h1>大诚会社専用不動產週報</h1>
+      <div class="subtitle">政策 · 市場 · 開発 · トレンド</div>
+      <div class="date-range" id="headerDateRange">📅 2026年7月20日 — 2026年7月26日</div>
     </div>
   </div>
 </div>
 
 <!-- Stats -->
 <div class="stats-bar" id="statsBar">
-  <div class="stat-card">
-    <div class="num gold">3.22<span style="font-size:0.5em">%</span></div>
-    <div class="label">フラット35 主力金利<br>（6月適用、上昇継続）</div>
-  </div>
-  <div class="stat-card">
-    <div class="num orange">+13.5<span style="font-size:0.5em">%</span></div>
-    <div class="label">首都圏新築マンション<br>平均価格 前年同月比</div>
-  </div>
-  <div class="stat-card">
-    <div class="num green">1,447<span style="font-size:0.5em">戸</span></div>
-    <div class="label">5月首都圏マンション<br>発売戸数（+12.3%）</div>
-  </div>
-  <div class="stat-card">
-    <div class="num" style="font-size:1.2em">9期連続</div>
-    <div class="label">主要都市地価<br>全地区上昇（国交省）</div>
-  </div>
-  <div class="stat-card">
-    <div class="num gold">-3.4<span style="font-size:0.5em">%</span></div>
-    <div class="label">首都圏中古M成約<br>件数（前年比）</div>
-  </div>
+    <div class="stat-card">
+      <div class="num gold">3.21%</div>
+      <div class="label">フラット35 主力金利（7月時点）</div>
+    </div>
+    <div class="stat-card">
+      <div class="num orange">▲+3.4%</div>
+      <div class="label">首都圈中古マンシ 成约件数（前年比）</div>
+    </div>
+    <div class="stat-card">
+      <div class="num green">1,412戸</div>
+      <div class="label">首都圈新建マンシ 供给户数（6月）</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">14个月</div>
+      <div class="label">マンシ㎡单价 连续上升月数</div>
+    </div>
+    <div class="stat-card">
+      <div class="num gold">5万/坪</div>
+      <div class="label">東京駅周辺 成约赁料</div>
+    </div>
 </div>
 
 <div class="container">
@@ -433,317 +453,231 @@
 <div class="key-insight">
   <h3>🔥 本周热点速览</h3>
   <ul id="hotlist">
-    <li><strong>国交省地価LOOK报告：主要都市9期连续上涨</strong> — 令和8年第1四半期，全国主要都市全地区地价持续上升</li>
-    <li><strong>5月首都圏新築マンション価格飙升13.5%</strong> — 平均价格达1億660万円，供应戸数也同比增长12.3%</li>
-    <li><strong>フラット35金利升至3.22%</strong> — 6月适用利率中最频值为3.22%，各金融机构固定金利持续上调</li>
-    <li><strong>二地域居住促进政策出台</strong> — 国交省宣布支援构筑二地域居住及地域生活圈的举措</li>
-    <li><strong>木造建筑品牌「&forest」第1号物件竣工</strong> — 兼具物流·研究·实验室功能的新型产业创造据点</li>
+<li><strong>国交省推进「ビデオ重説」制度</strong> — 年内引入视频重要事项说明，减轻宅建士与买卖双方负担</li>
+<li><strong>観光庁创设地方废旅馆再生补助制度</strong> — 地方温泉地空置旅馆迎新生，公募至2027年2月</li>
+<li><strong>首都圈新建マンシ持续高价</strong> — ㎡单价连续14个月同比上升，供应户数维持1,400户以上</li>
+<li><strong>银座五丁目大厦重建完成</strong> — 8月17日全面开业，成为银座新地标</li>
+<li><strong>外资持续布局日本物流不动產</strong> — 近畿圈物流空室率趋零值得关注</li>
   </ul>
 </div>
 
-<!-- Section 1: 政策动向 -->
+<!-- Market Trend -->
 <div class="section">
   <div class="section-title">
-    <span class="icon">🏛️</span> 政策动向
+    <span class="icon">📊</span> 市場トレンド
+    <span class="tag">MARKET</span>
+  </div>
+  <div class="trend-visual">
+    <div class="trend-item">
+      <div class="trend-label">首都圈中古マンシ
+㎡单价（23区）</div>
+      <div class="trend-value down">5,078円 ▼0.2% ▼</div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-label">首都圈新建マンシ
+供给户数（6月）</div>
+      <div class="trend-value flat">1,412戸 -></div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-label">首都圈中古マンシ
+成约件数（6月）</div>
+      <div class="trend-value down">3.4%減 ▼ ▼</div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-label">東京都23区中古戸建
+平均价格</div>
+      <div class="trend-value up">4,254万円 ▲2.8% ▲</div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-label">J-REIT 総合指数</div>
+      <div class="trend-value up">▲上昇中 ▲</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">
+    <span class="icon">🏛️</span> 政策動向
     <span class="tag">POLICY</span>
   </div>
   <div class="card-grid cols-2">
-    <div class="card policy">
-      <div class="date">6月29日 <span class="source">国土交通省</span></div>
-      <h3>二地域居住促进及地域生活圈形成支援政策发布</h3>
-      <p>国交省宣布，为推动二地域居住及地域生活圈的形成，将在令和7年度补正预算下对3项事业进行交付决定，支援地方公共团体的相关举措。</p>
-      <span class="label label-blue">地域政策</span>
-      <a href="https://www1.mlit.go.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card policy">
-      <div class="date">6月26日 <span class="source">国土交通省</span></div>
-      <h3>地価LOOK报告：主要都市9期连续全地区上涨</h3>
-      <p>国交省发布令和8年第1四半期地価LOOKレポート，主要都市の地価は9期連続で全地区において上昇，显示不动产市场地基稳固。</p>
-      <span class="label label-blue">地価</span>
-      <a href="https://www.mlit.go.jp/report/press/totikensangyo03_hh_000278.html" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card policy">
-      <div class="date">6月23日 <span class="source">国土交通省</span></div>
-      <h3>令和8年度夏季节能措施通知</h3>
-      <p>国交省发布令和8年度夏季节能措施通知，呼吁建筑及不动产业界在夏季期间积极落实节能措施，推进建筑物节能化。</p>
-      <span class="label label-blue">节能</span>
-      <a href="https://www.mlit.go.jp/report/press/house04_hh_001348.html" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card policy">
-      <div class="date">6月22日 <span class="source">国土交通省</span></div>
-      <h3>不动产信息库数据更新：追加城市规划及避难场所信息</h3>
-      <p>国交省宣布更新不动产信息库，新追加城市规划信息和指定紧急避难场所数据，持续推进行政不动产信息的透明化。</p>
-      <span class="label label-blue">信息公开</span>
-      <a href="https://www.mlit.go.jp/report/press/tochi_fudousan_kensetsugyo17_hh_000001_00088.html" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card policy">
-      <div class="date">6月15日 <span class="source">国土交通省</span></div>
-      <h3>「安心提供居住环境整备模型事业」通知</h3>
-      <p>国交省发布「みんなが安心して住まいを提供できる環境整備モデル事業」相关案内，推动租赁住宅管理品质提升。</p>
-      <span class="label label-blue">租赁管理</span>
-      <a href="https://www.jpm.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card policy">
-      <div class="date">6月中旬 <span class="source">国税庁</span></div>
-      <h3>非居住者等不动产租赁的确定申告新指引</h3>
-      <p>国税庁针对非居住者等在日本出租不动产的情况，发布了新的确定申告指引，对海外投资者的税务申报规则进行明确。</p>
-      <span class="label label-blue">税制</span>
-      <a href="https://www.jpm.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
+<div class="card policy">
+  <div class="date">7月3日 <span class="source">国土交通省</span></div>
+  <h3>国交省推进「ビデオ重説」活用 -- 年内正式引入宅建士视频立会免除制度</h3>
+  <p>国交省为减轻宅建士及买卖双方的负担，推动将事先录制的「ビデオ重説」正式纳入活用体系，计划于年内实现正式运用。</p>
+  <span class="label label-blue">国土交通省</span>
+  <a href="https://www.fudousankeizai.co.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card policy">
+  <div class="date">7月3日 <span class="source">観光庁</span></div>
+  <h3>観光庁创设地方废旅馆再生补助制度 -- 公募至2027年2月</h3>
+  <p>観光庁创设针对地方温泉地等空置旅馆的拆除及迹地再生补助制度，与当地自治体合作，共同推进地区活化。</p>
+  <span class="label label-blue">観光庁</span>
+  <a href="https://www.mlit.go.jp/index.html" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card policy">
+  <div class="date">7月10日 <span class="source">国土交通省</span></div>
+  <h3>国交省发布25周年新政策宣传页</h3>
+  <p>国交省迎来创设25周年，发布新版政策宣传页面，系统展示政策成果与未来方向。</p>
+  <span class="label label-blue">国土交通省</span>
+  <a href="https://www.mlit.go.jp/index.html" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
   </div>
 </div>
-
-<!-- Section 2: 市场交易 -->
 <div class="section">
   <div class="section-title">
-    <span class="icon">💼</span> 市场交易·投资
+    <span class="icon">💼</span> 市場取引・投資
     <span class="tag">DEALS</span>
   </div>
-
-  <!-- Market overview trend -->
-  <div class="trend-visual">
-    <div class="trend-item">
-      <div class="trend-label">首都圏新築M<br>平均価格(5月)</div>
-      <div class="trend-value up">1.07億円 <span class="trend-arrow">▲13.5%</span></div>
-    </div>
-    <div class="trend-item">
-      <div class="trend-label">首都圏新築M<br>発売戸数(5月)</div>
-      <div class="trend-value up">1,447戸 <span class="trend-arrow">▲12.3%</span></div>
-    </div>
-    <div class="trend-item">
-      <div class="trend-label">近畿圏新築M<br>発売戸数(5月)</div>
-      <div class="trend-value up">1,534戸 <span class="trend-arrow">▲44.2%</span></div>
-    </div>
-    <div class="trend-item">
-      <div class="trend-label">首都圏中古M<br>成約件数(4月)</div>
-      <div class="trend-value down">▼3.4%</div>
-    </div>
-    <div class="trend-item">
-      <div class="trend-label">首都圏中古M<br>成約価格(4月)</div>
-      <div class="trend-value down">▼4.6%</div>
-    </div>
-  </div>
-
   <div class="card-grid cols-2">
-    <div class="card deal">
-      <div class="date">6月19日 <span class="source">不動産経済研究所</span></div>
-      <h3>5月首都圏新築マンション市場：発売12.3%増、価格13.5%上昇の1億660万円</h3>
-      <p>不動産経済研究所発表，5月首都圏新築分譲マンション供給戸数は前年比12.3%増の1,447戸，2カ月連続増加。平均価格は13.5%上昇の1億660万円。価格高騰が続く一方、供給も回復傾向。</p>
-      <span class="label label-gold">市場統計</span>
-      <a href="https://www.fudousankeizai.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card deal">
-      <div class="date">6月19日 <span class="source">不動産経済研究所</span></div>
-      <h3>近畿圏5月マンション発売44.2%増、価格9.9%下落</h3>
-      <p>近畿圏5月新築分譲マンション供給戸数は前年比44.2%増の1,534戸，2カ月ぶりに前年実績を上回った。平均価格は9.9%下落の5,235万円，戸数増加に伴い価格調整が見られる。</p>
-      <span class="label label-gold">近畿圏</span>
-      <a href="https://www.fudousankeizai.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card deal">
-      <div class="date">6月22日 <span class="source">東日本レインズ</span></div>
-      <h3>首都圏中古マンション成約件数前年比3.4%減、価格4.6%下落</h3>
-      <p>東日本レインズ発表の4月首都圏不動産流通市場数据显示，中古マンションの成約件数は前年比3.4%減，成約価格は4.6%下落。価格高止まりにより買い手の慎重姿勢が強まっている可能性。</p>
-      <span class="label label-gold">中古市場</span>
-      <a href="https://www.sjt.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card deal">
-      <div class="date">6月22日 <span class="source">東日本レインズ</span></div>
-      <h3>25年度中古マンション管理費・修繕積立金合計2.9%上昇</h3>
-      <p>東日本レインズの調査で、令和25年度の首都圏中古マンション管理費・修繕積立金合計が2.9%上昇。築年数の経過による修繕需要増加が背景。</p>
-      <span class="label label-gold">管理費</span>
-      <a href="https://www.sjt.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card deal">
-      <div class="date">6月26日 <span class="source">DATA-MAX</span></div>
-      <h3>レーサム、8月に「ネクスレイ」へ商号変更</h3>
-      <p>不動産大手レーサム（旧・日本賃貸住宅）宣布将于8月变更商号为「ネクスレイ」，推进品牌战略升级。</p>
-      <span class="label label-gold">企业动态</span>
-      <a href="https://www.data-max.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card deal">
-      <div class="date">6月22日 <span class="source">週刊住宅タイムズ</span></div>
-      <h3>住宅業界トップ恳谈：中東情勢影響と市況の現状</h3>
-      <p>住宅業界トップ級企业齐聚，就中東情勢对建材供应链的影响及当前市況进行讨论，称"何とか対応、先行き不透明"。</p>
-      <span class="label label-gold">行业动向</span>
-      <a href="https://www.sjt.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
+<div class="card deal">
+  <div class="date">7月10日 <span class="source">三井住友トラスト基礎研究所</span></div>
+  <h3>J-REIT不动产地价指数（6月）发布 -- 物流施设板块持续走强</h3>
+  <p>SMTRI发布6月J-REIT不动产地价指数，物流施设类继续领跑，オフィス类温和复苏，整体NAV倍率改善。</p>
+  <span class="label label-gold">三井住友トラスト基礎研究所</span>
+  <a href="https://www.smtri.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card deal">
+  <div class="date">7月9日 <span class="source">信義日本</span></div>
+  <h3>2026年以后摩天公寓达10万7408户</h3>
+  <p>不动産経済研究所调查显示，日本20层以上摩天公寓2026年后期供给量比上次调查增加103栋、约2.6万户。</p>
+  <span class="label label-gold">信義日本</span>
+  <a href="https://www.sinyijapan.com/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card deal">
+  <div class="date">7月8日 <span class="source">ニッセイ基礎研究所</span></div>
+  <h3>ESG因子对J-REIT个别股票表现的影响研究报告发布</h3>
+  <p>SMTRI发布研究报告，分析ESG因子对J-REIT各銘柄的收益率差异影响，揭示可持续投资趋势。</p>
+  <span class="label label-gold">ニッセイ基礎研究所</span>
+  <a href="https://www.smtri.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
   </div>
 </div>
-
-<!-- Section 3: 开发动态 -->
 <div class="section">
   <div class="section-title">
-    <span class="icon">🏗️</span> 开发动态
-    <span class="tag">DEVELOPMENT</span>
+    <span class="icon">🏗️</span> 開発動向
+    <span class="tag">DEVELOP</span>
   </div>
   <div class="card-grid cols-2">
-    <div class="card dev">
-      <div class="date">6月29日 <span class="source">週刊不動産経営</span></div>
-      <h3>木造建筑品牌「&forest」第1号物件竣工</h3>
-      <p>融合物流・研究施設・实验室功能的新型产业创造据点「&forest」第1号物件正式竣工，标志着木造建筑在产业设施领域的新突破。</p>
-      <span class="label label-green">木造建筑</span>
-      <a href="https://www.biru-mall.com/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card dev">
-      <div class="date">6月29日 <span class="source">週刊不動産経営</span></div>
-      <h3>「（仮称）BIZCORE秋葉原計画」着工</h3>
-      <p>BIZCORE系列首次配套共享办公室和店铺的新项目在秋葉原正式着工，打造科技核心区域的复合办公空间。</p>
-      <span class="label label-green">再开发</span>
-      <a href="https://www.biru-mall.com/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card dev">
-      <div class="date">6月29日 <span class="source">週刊不動産経営</span></div>
-      <h3>「TERRADAビジネスストレージ池上」7月オープン</h3>
-      <p>TERRADA在东京池上开发的新型商业存储设施将于7月开业，配备储物间和工作室的复合设施。</p>
-      <span class="label label-green">物流存储</span>
-      <a href="https://www.biru-mall.com/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card dev">
-      <div class="date">6月26日 <span class="source">R.E.port</span></div>
-      <h3>UR都市机构推进大井町周边一体化城市建设</h3>
-      <p>UR都市機構宣布推进大井町周辺的一体的まちづくり（城市建设）计划，通过整合公共设施与民间开发提升区域价值。</p>
-      <span class="label label-green">都市再生</span>
-      <a href="https://www.re-port.net/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card dev">
-      <div class="date">6月22日 <span class="source">週刊不動産経営</span></div>
-      <h3>神戸市役所本庁舎2号馆再整備事業着工</h3>
-      <p>神戸三宮地区综合性再开发项目启动，规划包含办公楼、酒店和商业设施的复合大楼，推动神戸中心城区更新。</p>
-      <span class="label label-green">再开发</span>
-      <a href="https://www.biru-mall.com/attention/2026062201_01/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card dev">
-      <div class="date">6月22日 <span class="source">週刊不動産経営</span></div>
-      <h3>大阪天王寺区最高層タワマン「The Park House 大阪上本町Tower」样板房开放</h3>
-      <p>天王寺区最高层塔楼公寓样板间开放，大阪核心区域高端住宅市场竞争进一步加剧。</p>
-      <span class="label label-green">塔楼公寓</span>
-      <a href="https://www.biru-mall.com/attention/2026062201_02/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card dev">
-      <div class="date">6月22日 <span class="source">週刊不動産経営</span></div>
-      <h3>「仙台第一生命ビル建替計画」着工</h3>
-      <p>仙台定禅寺通沿线新建地上13层办公大楼，地方核心城市办公楼更新浪潮持续。</p>
-      <span class="label label-green">地方城市</span>
-      <a href="https://www.biru-mall.com/attention/2026062202_04/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card dev">
-      <div class="date">6月22日 <span class="source">週刊不動産経営</span></div>
-      <h3>東京ミッドタウン八重洲设置室外空调 验证都市暑热对策</h3>
-      <p>东京Midtown八重洲安装室外用空调，验证都市暑热対策的实际效果，为未来公共空间设计提供参考数据。</p>
-      <span class="label label-green">暑热対策</span>
-      <a href="https://www.biru-mall.com/attention/2026062201_03/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
+<div class="card dev">
+  <div class="date">7月9日 <span class="source">信義日本</span></div>
+  <h3>银座五丁目大厦重建完成 -- 8月17日全面开业</h3>
+  <p>银座五丁目的大型重建项目竣工，将于8月17日全面开业，成为银座核心区新地标，吸引全球高端品牌入驻。</p>
+  <span class="label label-green">信義日本</span>
+  <a href="https://www.sinyijapan.com/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card dev">
+  <div class="date">7月上旬 <span class="source">日刊不动産経済通信</span></div>
+  <h3>東京建物・穴吹兴産：高崎218戸分譲マンシ「アルファレジデンシア」</h3>
+  <p>東京建物与穴吹兴産在群马县高崎市共同开发分譲マンシ，共218戸。</p>
+  <span class="label label-green">日刊不动産経済通信</span>
+  <a href="https://www.fudousankeizai.co.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card dev">
+  <div class="date">6月下旬 <span class="source">週刊不动産経営</span></div>
+  <h3>大阪天王寺区最高层塔楼 The Park House 上本町 Tower 公开</h3>
+  <p>三菱地所Residence开发的大阪天王寺区最高层塔楼开放样板间，大阪高端住宅市场竞争加剧。</p>
+  <span class="label label-green">週刊不动産経営</span>
+  <a href="https://www.biru-mall.com/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card dev">
+  <div class="date">6月28日 <span class="source">日経不动産</span></div>
+  <h3>三菱地所Residence：品川区西五反田租赁マンシ 约1.6万㎡</h3>
+  <p>三菱地所レジ在品川区西五反田开发大型租赁公寓，总开发面积约1.6万㎡，强化都心租赁住宅布局。</p>
+  <span class="label label-green">日経不动産</span>
+  <a href="https://nfm.nikkeibp.co.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
   </div>
 </div>
-
-<!-- Section 4: 科技 & 创新 -->
 <div class="section">
   <div class="section-title">
-    <span class="icon">🤖</span> 科技·创新
+    <span class="icon">🤖</span> 科技・イノベーション
     <span class="tag">TECH</span>
   </div>
   <div class="card-grid cols-2">
-    <div class="card tech">
-      <div class="date">6月22日 <span class="source">週刊住宅タイムズ</span></div>
-      <h3>分譲マンション首次引入电梯联动扫地机器人</h3>
-      <p>野村不動産「Ploud Tower 相模大野Cross」（41层/687户）引入可自动搭乘电梯、跨楼层清扫的扫地机器人「STRIVER2」。由8家企业合作实现，预计可替代约60%的吸尘面积，整体清扫业务削减20%人力。</p>
-      <span class="label label-purple">智能楼宇</span>
-      <span class="label label-purple">DX</span>
-      <a href="https://www.sjt.co.jp/news/100218" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card tech">
-      <div class="date">6月22日 <span class="source">週刊住宅タイムズ</span></div>
-      <h3>ポラス集团公开建筑技术训练校 助力年轻人才育成</h3>
-      <p>ポラス集团向社会公开其建筑技术训练校，致力于年轻技术人才的确保与育成。迄今修了生已达966人，为建筑行业注入新血液。</p>
-      <span class="label label-purple">人才培养</span>
-      <a href="https://www.sjt.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card tech">
-      <div class="date">6月15日 <span class="source">週刊住宅タイムズ</span></div>
-      <h3>ミサワHome：生成AI辅助电话内容自动登记</h3>
-      <p>ミサワホーム引入生成AI技术实现通话内容的自动摘要与登记，大幅削减行政事务负担，推动住宅行业DX化。</p>
-      <span class="label label-purple">生成AI</span>
-      <a href="https://www.sjt.co.jp/house-maker/100164" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card tech">
-      <div class="date">6月26日 <span class="source">R.E.port</span></div>
-      <h3>オリックス在浅草首开公寓式酒店、大井町トラックス服务公寓开业</h3>
-      <p>オリックス在浅草首次推出アパートメントホテル，同时在大井町トラックス开业服务公寓，两种新型住宿业态布局东京。</p>
-      <span class="label label-purple">住宿新业态</span>
-      <a href="https://www.re-port.net/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
+<div class="card tech">
+  <div class="date">7月上旬 <span class="source">週刊住宅タイムズ</span></div>
+  <h3>分譲マンシ首次引入电梯联动清扫机器人STRIVER2</h3>
+  <p>野村不动産引入可自动搭乘电梯的清扫机器人STRIVER2，预计削减20%清扫人力，开启智慧公寓管理新篇章。</p>
+  <span class="label label-purple">週刊住宅タイムズ</span>
+  <a href="https://www.sjt.co.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card tech">
+  <div class="date">7月上旬 <span class="source">週刊住宅タイムズ</span></div>
+  <h3>三井不Residential全面导入人脸识别＋智能家居系统</h3>
+  <p>三井不动産レジデンシャル在「船桥」项目中全面引入人脸识别门禁与スマートホーム系统，提升安全与便利性。</p>
+  <span class="label label-purple">週刊住宅タイムズ</span>
+  <a href="https://www.sjt.co.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card tech">
+  <div class="date">7月上旬 <span class="source">週刊住宅タイムズ</span></div>
+  <h3>ミサワHome引入生成AI辅助通话内容登记</h3>
+  <p>ミサワホーム引入生成AI实现通话自动摘要与行政登记，大幅削减事务负担，AI应用向住宅制造延伸。</p>
+  <span class="label label-purple">週刊住宅タイムズ</span>
+  <a href="https://www.sjt.co.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
   </div>
 </div>
-
-<!-- Section 5: 调查 & 趋势 -->
 <div class="section">
   <div class="section-title">
-    <span class="icon">📊</span> 调查·趋势
+    <span class="icon">📊</span> 調査・トレンド
     <span class="tag">RESEARCH</span>
   </div>
   <div class="card-grid cols-2">
-    <div class="card survey">
-      <div class="date">6月22日 <span class="source">SUUMO研究中心</span></div>
-      <h3>50~60代居住不安调查：修缮费增加和管理麻烦居首</h3>
-      <p>SUUMO对3,690名50~60代的调查显示：37%对房屋老化和修缮成本增加感到不安；31%担心"将来房子如何处理"；30%担忧"身体功能下降后的楼梯问题"。49%向往"便利的都心·车站附近居住环境"。</p>
-      <span class="label label-red">居住意识</span>
-      <a href="https://www.sjt.co.jp/news/100230" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card survey">
-      <div class="date">6月19日 <span class="source">不動産経済研究所</span></div>
-      <h3>5月首都圏新築マンション均价1億660万円 市场持续过热</h3>
-      <p>5月首都圏新築分譲マンション平均価格达1億660万円（同比+13.5%），连续多月维持高位。供给戸数1,447戸（+12.3%），量价齐升格局延续。</p>
-      <span class="label label-red">价格动向</span>
-      <a href="https://www.fudousankeizai.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card survey">
-      <div class="date">6月10日 <span class="source">全住協／土地総合研究所</span></div>
-      <h3>住宅・宅地分譲業経営状況0.3P悪化、7.1Pに</h3>
-      <p>土地総合研究所4月時点の「不動産業業況等調査」显示，住宅・宅地分譲業の経営状況指数较上月恶化0.3个百分点，降至7.1，行业信心有所转弱。</p>
-      <span class="label label-red">经营指数</span>
-      <a href="https://www.zenjukyo.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card survey">
-      <div class="date">6月15日 <span class="source">東日本レインズ</span></div>
-      <h3>中古M成約件数前年比3.4%減、価格4.6%下落</h3>
-      <p>首都圏不動産流通市場で中古マンション市場出现降温信号。成約件数减少3.4%，価格下落4.6%，新築価格高騰の影響で買い手が様子見姿勢。</p>
-      <span class="label label-red">中古市场</span>
-      <a href="https://www.sjt.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card survey">
-      <div class="date">6月1日 <span class="source">国交省</span></div>
-      <h3>4月新設住宅着工6.2万戸 前年比11.4%増</h3>
-      <p>国交省調べ、4月新設住宅着工戸数は11.4%増の6.2万戸。持家、貸家、分譲住宅が全て増加，建設市場に回復の動き。</p>
-      <span class="label label-red">着工统计</span>
-      <a href="https://www.zenjukyo.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card survey">
-      <div class="date">6月中旬 <span class="source">不動産投資市場</span></div>
-      <h3>住宅ローン変動金利据置、固定金利继续上调</h3>
-      <p>2026年6月住宅ローン金利動向：変動金利は多くの金融機関が据置（最頻0.845%〜1.075%），但固定金利はほぼ全行が引上げ。フラット35の最頻値3.22%，各銀行の全期間固定も3.1〜3.75%に上昇。</p>
-      <span class="label label-red">金利动向</span>
-      <a href="https://finance.recruit.co.jp/sugoi/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
+<div class="card survey">
+  <div class="date">7月上旬 <span class="source">SUUMO</span></div>
+  <h3>50~60代居住不安调查：「修缮费增加」连续居首</h3>
+  <p>SUUMO调查显示，37%对房屋老化与修缮成本感到不安，49%向往便利的都心·车站附近居住环境。</p>
+  <span class="label label-red">SUUMO</span>
+  <a href="https://suumo.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card survey">
+  <div class="date">6月下旬 <span class="source">不动産経済研究所</span></div>
+  <h3>首都圈分譲マンシ㎡单价连续14个月同比上升</h3>
+  <p>首都圈分譲マンしの㎡单价维持14个月连续前年同月比正增长，显示需求端韧性十足。</p>
+  <span class="label label-red">不动産経済研究所</span>
+  <a href="https://www.fudousankeizai.co.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card survey">
+  <div class="date">6月中旬 <span class="source">全日本住宅産業協会</span></div>
+  <h3>5月新建住宅着工超5.7万戸 -- 前年比33.9%大幅增长</h3>
+  <p>国交省数据显示，5月新建住宅着工件数同比大增33.9%，持家、贷家、分譲住宅全面增长。</p>
+  <span class="label label-red">全日本住宅産業協会</span>
+  <a href="https://www.zenjukyo.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card survey">
+  <div class="date">6月中旬 <span class="source">土地総合研究所</span></div>
+  <h3>不动产业业况等调查：経営状況悪化0.3P至7.1P</h3>
+  <p>土地総研4月调查结果显示，不动产业経営状況恶化0.3个百分点至7.1P，中小开发商压力加大。</p>
+  <span class="label label-red">土地総合研究所</span>
+  <a href="https://www.smtri.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card survey">
+  <div class="date">6月中旬 <span class="source">東日本レインズ</span></div>
+  <h3>中古マン成约件数3个月连续减少 -- 价格韧性尚存</h3>
+  <p>東日本レインズ数据显示，首都圈中古マンシ成约件数连续3个月减少，但成交价格仍有支撑。</p>
+  <span class="label label-red">東日本レインズ</span>
+  <a href="https://www.sjt.co.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
   </div>
 </div>
 
-<!-- 不动产类别趋势图 -->
+<!-- 贷款利率趋势 -->
 <div class="key-insight">
   <h3>📈 贷款利率趋势</h3>
-  <p><strong>フラット35（返済期間35年以下・融資率9割以下）：</strong> 2026年6月適用利率 <strong>3.22%</strong>（最頻値），上昇基調継続。各銀行の変動金利は据置傾向（三菱UFJ 0.945%、三井住友 1.075%、みずほ 1.025%），但全期間固定金利は概ね3.1〜3.75%に上昇。<br><br>
-  日銀政策金利は現行<strong>1%</strong>維持。市場では7月金融政策決定会合での追加利上げの可能性が引き続き注目されている。</p>
-  <p style="margin-top:10px;"><strong>💡 小虾点评：</strong> 今周最重要的信号是「新築価格继续飙升 vs 中古市場降温」的分化格局——首都圏新築マンション均价突破1亿日元，但中古マンション成交量和价格双双下滑。这意味着新築市场主要是高端需求和供給端成本推动，而一般消费者正在向中古市场以外（或将關注戸建住宅）转移。此外，近畿圏新築マンション供应量大增44%但价格下跌近10%，显示大阪市场的供给压力正在释放。金利方面，变動金利虽未动，但固定金利全线上升对借入者的负担正在累积。</p>
+  <p><strong>フラット35：</strong>3.21%（连续4个月上升（2026年7月時点））。日本央行政策利率维持1%，市场关注7月31日金融政策决定会议（MPP）动向。主要银行固定利率区间：住信SBI 3.15%〜 / auじぶん 3.19%〜 / 三井住友銀 3.20%〜</p>
+  <p style="margin-top:10px;"><strong>💡 小虾点评：</strong>贷款利率4连升，但首都圈新建マンシ价格依旧坚挺（连续14个月YoY+），供需紧张持续消化利率压力。物流不动產方面外资与J-REIT持续扩张，近畿圈空室率趋零值得关注。中古市场成约件数3个月连减，需持续关注。</p>
 </div>
 
 </div>
 
 <div class="footer">
   <p>📡 数据来源：国土交通省 / 日経不動産マーケット情報 / 週刊住宅タイムズ / 週刊不動産経営 / 東京カンテイ / SUUMO / 不動産経済研究所 / 東日本レインズ / R.E.port</p>
-  <p style="margin-top:4px;">Generated by 🦐 小虾 · 2026年6月30日 · 东京 · 大誠株式会社 专用</p>
+  <p style="margin-top:4px;">Generated by 🦐 小虾 · 2026年07月24日 · 东京 · 大誠有限会社 専用</p>
 </div>
 
 <!-- ===== Floating Share Button ===== -->
-<button class="share-btn-fab" id="shareBtn" onclick="openShareModal()" title="生成截图卡">
+<button class="share-btn-fab" id="shareBtn" onclick="openShareModal()">
   📸
   <span class="tooltip">生成朋友圈卡片</span>
 </button>
@@ -761,8 +695,8 @@
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-// ===== Core: auto-extract data from the page =====
 function getDateRange() {
   const el = document.getElementById('headerDateRange');
   return el ? el.textContent.trim() : '📅 2026年6月 — 6月';
@@ -794,7 +728,6 @@ function getHighlights() {
   return highlights.slice(0, 4);
 }
 
-// ===== Share Card Builder =====
 function buildShareCard() {
   const dateRange = getDateRange();
   const stats = getStats();
@@ -841,14 +774,13 @@ function buildShareCard() {
       '<div class="card-highlights-title">✦ WEEKLY HIGHLIGHTS</div>' +
       '<ul class="card-highlights">' + hlHTML + '</ul>' +
       '<div class="card-bottom">' +
-        '<span class="brand">大誠株式会社 · 不動産専門</span>' +
+        '<span class="brand">' + COMPANY_NAME_JP + ' · 不動産専門</span>' +
         '<span class="cta">🔍 詳細は公式チャンネルで</span>' +
       '</div>' +
     '</div>' +
   '</div>';
 }
 
-// ===== Modal Controls =====
 function openShareModal() {
   document.getElementById('share-card-container').innerHTML = buildShareCard();
   document.getElementById('shareModal').classList.add('show');
@@ -868,15 +800,12 @@ document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeShareModal();
 });
 
-// ===== Download =====
 function downloadCard() {
   const btn = document.getElementById('downloadBtn');
   const card = document.getElementById('share-card');
   if (!card) return;
-  
   btn.textContent = '⏳ 生成中…';
   btn.classList.add('loading');
-
   html2canvas(card, {
     scale: 2.5,
     backgroundColor: null,
@@ -902,7 +831,3 @@ function downloadCard() {
 </script>
 </body>
 </html>
-
-
-
-
