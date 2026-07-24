@@ -1,12 +1,13 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>大诚会社专用不动产周报 | 2026年6月30日 — 7月6日</title>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<meta name="description" content="大誠有限会社専用不動產週報 2026年7月20日 — 2026年7月26日">
+<title>大誠不动產週報 2026年7月20日 — 2026年7月26日</title>
 <style>
-  400;500;700;900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@400;500;700;900&display=swap');
+
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
     font-family: 'Noto Sans SC', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
@@ -43,6 +44,23 @@
     flex-wrap: wrap;
     position: relative;
     z-index: 1;
+  }
+  /* 返回主页按钮 */
+  .home-btn {
+    position: absolute;
+    top: 14px; left: 16px;
+    z-index: 2;
+    display: inline-flex; align-items: center; gap: 5px;
+    background: rgba(255,255,255,.16);
+    color: #fff; text-decoration: none;
+    font-size: 13px; font-weight: 700;
+    padding: 7px 14px; border-radius: 20px;
+    border: 1px solid rgba(255,255,255,.35);
+    transition: background .15s;
+  }
+  .home-btn:hover { background: rgba(255,255,255,.30); }
+  @media (max-width: 600px) {
+    .home-btn { top: 10px; left: 10px; font-size: 12px; padding: 6px 11px; }
   }
   .header .logo-text {
     font-size: 2em;
@@ -227,6 +245,7 @@
   }
   .key-insight ul { padding-left: 18px; margin-top: 6px; }
   .key-insight li { margin-bottom: 4px; }
+  .key-insight strong { color: #333; }
 
   /* Trend chart (CSS-based visual) */
   .trend-visual {
@@ -269,249 +288,117 @@
   }
   .footer a { color: #0f3460; text-decoration: none; }
 
-  /* ===== Floating Share Button ===== */
+  /* Share card & modal */
   .share-btn-fab {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    z-index: 999;
-    width: 56px;
-    height: 56px;
-    border-radius: 50%;
+    position: fixed; bottom: 30px; right: 30px; z-index: 999;
+    width: 56px; height: 56px; border-radius: 50%;
     background: linear-gradient(135deg, #3b82f6, #2563eb);
-    color: #fff;
-    border: none;
+    color: #fff; border: none;
     box-shadow: 0 4px 20px rgba(59,130,246,0.4);
-    cursor: pointer;
-    font-size: 22px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    cursor: pointer; font-size: 22px;
+    display: flex; align-items: center; justify-content: center;
     transition: transform 0.2s, box-shadow 0.2s;
   }
-  .share-btn-fab:hover {
-    transform: scale(1.1);
-    box-shadow: 0 6px 28px rgba(59,130,246,0.55);
-  }
+  .share-btn-fab:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(59,130,246,0.55); }
   .share-btn-fab:active { transform: scale(0.95); }
   .share-btn-fab .tooltip {
-    position: absolute;
-    right: 64px;
-    background: rgba(0,0,0,0.8);
-    color: #fff;
-    padding: 6px 12px;
-    border-radius: 6px;
-    font-size: 13px;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
+    position: absolute; right: 64px;
+    background: rgba(0,0,0,0.8); color: #fff;
+    padding: 6px 12px; border-radius: 6px; font-size: 13px;
+    white-space: nowrap; opacity: 0; pointer-events: none;
     transition: opacity 0.2s;
   }
   .share-btn-fab:hover .tooltip { opacity: 1; }
-
-  /* ===== Modal Overlay ===== */
   .share-modal {
-    display: none;
-    position: fixed;
-    top: 0; left: 0; width: 100%; height: 100%;
-    background: rgba(0,0,0,0.65);
-    z-index: 9999;
-    justify-content: center;
-    align-items: center;
-    backdrop-filter: blur(4px);
+    display: none; position: fixed; top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.65); z-index: 9999;
+    justify-content: center; align-items: center; backdrop-filter: blur(4px);
   }
   .share-modal.show { display: flex; }
   .share-modal .modal-box {
-    background: #fff;
-    border-radius: 20px;
-    padding: 24px;
-    max-width: 580px;
-    width: 95%;
+    background: #fff; border-radius: 20px; padding: 24px;
+    max-width: 580px; width: 95%;
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
+    display: flex; flex-direction: column; align-items: center;
   }
   .share-modal .modal-box .modal-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 100%;
-    margin-bottom: 16px;
+    display: flex; justify-content: space-between; align-items: center;
+    width: 100%; margin-bottom: 16px;
   }
-  .share-modal .modal-box .modal-header span {
-    color: #aaa;
-    font-size: 14px;
-  }
+  .share-modal .modal-box .modal-header span { color: #475569; font-size: 14px; font-weight: 600; }
   .share-modal .modal-box .modal-header .close-btn {
-    background: none;
-    border: none;
-    color: #666;
-    font-size: 28px;
-    cursor: pointer;
-    line-height: 1;
+    background: none; border: none; color: #666;
+    font-size: 28px; cursor: pointer; line-height: 1;
   }
   .share-modal .modal-box .modal-header .close-btn:hover { color: #1e293b; }
-
-  /* ===== Share Card (self-contained, captured by html2canvas) ===== */
   #share-card {
     width: 540px;
     background: #fff;
-    border-radius: 16px;
-    overflow: hidden;
-    position: relative;
-    font-family: 'Noto Sans SC', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    border-radius: 16px; overflow: hidden; position: relative;
+    font-family: "Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
   }
   #share-card .card-dots {
-    position: absolute;
-    top: 0; left: 0; width: 100%; height: 100%;
+    position: absolute; top:0; left:0; width:100%; height:100%;
     background: radial-gradient(circle, rgba(59,130,246,0.06) 1px, transparent 1px);
-    background-size: 22px 22px;
-    pointer-events: none;
-    z-index: 0;
+    background-size: 22px 22px; pointer-events: none; z-index: 0;
   }
   #share-card .card-top-accent {
-    position: relative;
-    z-index: 1;
-    height: 6px;
+    position: relative; z-index: 1; height: 6px;
     background: linear-gradient(90deg, #3b82f6, #60a5fa, #3b82f6);
   }
-  #share-card .card-content {
-    position: relative;
-    z-index: 1;
-    padding: 28px 32px 24px;
-  }
+  #share-card .card-content { position: relative; z-index: 1; padding: 28px 32px 24px; }
   #share-card .card-logo {
-    font-size: 34px;
-    font-weight: 900;
-    letter-spacing: 8px;
-    color: #3b82f6;
-    text-shadow: 0 0 30px rgba(59,130,246,0.3);
-    line-height: 1;
+    font-size: 34px; font-weight: 900; letter-spacing: 8px;
+    color: #1a56db; line-height: 1;
   }
-  #share-card .card-meta {
-    font-size: 11px;
-    color: #94a3b8;
-    letter-spacing: 3px;
-    margin-top: 4px;
-    text-transform: uppercase;
-  }
+  #share-card .card-meta { font-size: 11px; color: #94a3b8; letter-spacing: 3px; margin-top: 4px; text-transform: uppercase; }
   #share-card .card-date-badge {
-    display: inline-block;
-    background: #eff6ff;
+    display: inline-block; background: #eff6ff;
     border: 1px solid #bfdbfe;
-    padding: 4px 16px;
-    border-radius: 20px;
-    font-size: 13px;
-    color: #2563eb;
-    margin-top: 14px;
+    padding: 4px 16px; border-radius: 20px; font-size: 13px; color: #2563eb; margin-top: 14px;
   }
   #share-card .card-divider {
-    border: none;
-    height: 1px;
+    border: none; height: 1px;
     background: linear-gradient(90deg, transparent, #dbeafe, transparent);
     margin: 16px 0;
   }
-  #share-card .card-stats {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 10px;
-    margin: 14px 0;
-  }
+  #share-card .card-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
   #share-card .card-stat-box {
-    background: #f8fafc;
-    border: 1px solid #e2e8f0;
-    border-radius: 12px;
-    padding: 14px 16px;
+    background: #f8fafc; border: 1px solid #e2e8f0
+    border-radius: 12px; padding: 14px 16px;
   }
-  #share-card .card-stat-box .stat-num {
-    font-size: 24px;
-    font-weight: 700;
-    line-height: 1.2;
-    display: flex;
-    align-items: baseline;
-    gap: 4px;
-  }
-  #share-card .card-stat-box .stat-num-value { }
-  #share-card .card-stat-box .stat-num-value.up { color: #ef4444; }
-  #share-card .card-stat-box .stat-num-value.down { color: #22c55e; }
-  #share-card .card-stat-box .stat-num-value.flat { color: #3b82f6; }
-  #share-card .card-stat-box .stat-num .stat-arrow { font-size: 14px; }
-  #share-card .card-stat-box .stat-num .stat-arrow.up { color: #ef4444; }
-  #share-card .card-stat-box .stat-num .stat-arrow.down { color: #22c55e; }
-  #share-card .card-stat-box .stat-num .stat-arrow.flat { color: #3b82f6; }
-  #share-card .card-stat-box .stat-label {
-    font-size: 11px;
-    color: #6b7fa0;
-    margin-top: 4px;
-    line-height: 1.4;
-  }
-  #share-card .card-highlights-title {
-    font-size: 13px;
-    color: #94a3b8;
-    letter-spacing: 2px;
-    margin-bottom: 10px;
-  }
-  #share-card .card-highlights {
-    list-style: none;
-    padding: 0;
-    margin: 0;
-  }
+  #share-card .card-stat-box .stat-num { font-size: 24px; font-weight: 700; color: #1e293b; line-height: 1.2; }
+  #share-card .card-stat-box .stat-num .stat-arrow { font-size: 14px; margin-left: 4px; }
+  #share-card .card-stat-box .stat-num .stat-arrow.up { color: #f87171; }
+  #share-card .card-stat-box .stat-num .stat-arrow.down { color: #34d399; }
+  #share-card .card-stat-box .stat-num .stat-arrow.flat { color: #fbbf24; }
+  #share-card .card-stat-box .stat-label { font-size: 11px; color: #64748b; margin-top: 4px; line-height: 1.4; }
+  #share-card .card-highlights-title { font-size: 13px; color: #64748b; letter-spacing: 2px; margin-bottom: 10px; }
+  #share-card .card-highlights { list-style: none; padding: 0; margin: 0; }
   #share-card .card-highlights li {
-    padding: 7px 0;
-    font-size: 13px;
-    color: #475569;
-    line-height: 1.5;
+    padding: 7px 0; font-size: 13px; color: #475569; line-height: 1.5;
     border-bottom: 1px solid #f1f5f9;
   }
   #share-card .card-highlights li:last-child { border-bottom: none; }
   #share-card .card-bottom {
-    margin-top: 16px;
-    padding-top: 14px;
+    margin-top: 16px; padding-top: 14px;
     border-top: 1px solid #e2e8f0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+    display: flex; justify-content: space-between; align-items: center;
   }
-  #share-card .card-bottom .brand {
-    font-size: 11px;
-    color: #64748b;
-  }
-  #share-card .card-bottom .cta {
-    font-size: 11px;
-    color: #3b82f6;
-    font-weight: 500;
-  }
-
+  #share-card .card-bottom .brand { font-size: 11px; color: #64748b; }
+  #share-card .card-bottom .cta { font-size: 11px; color: #3b82f6; font-weight: 500; }
   .share-modal .modal-box .download-btn {
-    margin-top: 18px;
-    padding: 12px 40px;
-    border: none;
-    border-radius: 30px;
+    margin-top: 18px; padding: 12px 40px; border: none; border-radius: 30px;
     background: linear-gradient(135deg, #3b82f6, #2563eb);
-    color: #fff;
-    font-size: 15px;
-    font-weight: 600;
-    cursor: pointer;
+    color: #fff; font-size: 15px; font-weight: 600; cursor: pointer;
     transition: transform 0.15s, box-shadow 0.15s;
     box-shadow: 0 4px 15px rgba(59,130,246,0.35);
   }
-  .share-modal .modal-box .download-btn:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 6px 20px rgba(59,130,246,0.45);
-  }
+  .share-modal .modal-box .download-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(59,130,246,0.45); }
   .share-modal .modal-box .download-btn:active { transform: scale(0.97); }
-  .share-modal .modal-box .download-btn.loading {
-    opacity: 0.7;
-    pointer-events: none;
-  }
-  .share-modal .modal-box .hint {
-    color: #666;
-    font-size: 12px;
-    margin-top: 8px;
-  }
-
-  @media (max-width: 640px) {
+  .share-modal .modal-box .download-btn.loading { opacity: 0.7; pointer-events: none; }
+  .share-modal .modal-box .hint { color: #94a3b8; font-size: 12px; margin-top: 8px; }
+    @media (max-width: 640px) {
     .header h1 { font-size: 1.5em; }
     .stats-bar { grid-template-columns: repeat(2, 1fr); margin-top: -20px; }
     .card-grid.cols-2 { grid-template-columns: 1fr; }
@@ -525,360 +412,272 @@
 <body>
 
 <div class="header">
+  <a href="../../index.html" class="home-btn">🏠 返回主页</a>
   <div class="logo-wrap">
     <span class="logo-text">TAISEI</span>
     <div class="title-group">
-      <h1>大诚会社专用不动产周报</h1>
-      <div class="subtitle">政策 · 市场 · 开发 · 趋势</div>
-      <div class="date-range" id="headerDateRange">📅 2026年6月30日 — 7月6日</div>
+      <h1>大诚会社専用不動產週報</h1>
+      <div class="subtitle">政策 · 市場 · 開発 · トレンド</div>
+      <div class="date-range" id="headerDateRange">📅 2026年7月20日 — 2026年7月26日</div>
     </div>
   </div>
 </div>
 
 <!-- Stats -->
 <div class="stats-bar" id="statsBar">
-  <div class="stat-card">
-    <div class="num gold">3.14<span style="font-size:0.5em">%</span></div>
-    <div class="label">フラット35 7月最頻金利<br>（6年目以降）</div>
-  </div>
-  <div class="stat-card">
-    <div class="num orange">+2.80<span style="font-size:0.5em">%</span></div>
-    <div class="label">全国公示地価<br>前年変動率</div>
-  </div>
-  <div class="stat-card">
-    <div class="num green">2,862<span style="font-size:0.5em">亿</span></div>
-    <div class="label">5月国内不動産<br>取引額（円）</div>
-  </div>
-  <div class="stat-card">
-    <div class="num" style="font-size:1.2em">24四半期</div>
-    <div class="label">首都圏住宅地価<br>連続上昇</div>
-  </div>
-  <div class="stat-card">
-    <div class="num gold">1.36<span style="font-size:0.5em">%</span></div>
-    <div class="label">東京23区オフィス<br>6月空室率</div>
-  </div>
+    <div class="stat-card">
+      <div class="num gold">3.21%</div>
+      <div class="label">フラット35 主力金利（7月時点）</div>
+    </div>
+    <div class="stat-card">
+      <div class="num orange">▲+3.4%</div>
+      <div class="label">首都圈中古マンシ 成约件数（前年比）</div>
+    </div>
+    <div class="stat-card">
+      <div class="num green">1,412戸</div>
+      <div class="label">首都圈新建マンシ 供给户数（6月）</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">14个月</div>
+      <div class="label">マンシ㎡单价 连续上升月数</div>
+    </div>
+    <div class="stat-card">
+      <div class="num gold">5万/坪</div>
+      <div class="label">東京駅周辺 成约赁料</div>
+    </div>
 </div>
 
 <div class="container">
 
 <!-- 热点速览 -->
-<div class="key-insight" id="keyInsight">
+<div class="key-insight">
   <h3>🔥 本周热点速览</h3>
   <ul id="hotlist">
-    <li><strong>国土強靱化年次計画2026策定</strong> — 密集市街地再整備等405施策、高市首相主導</li>
-    <li><strong>フラット35 7月金利3.14%</strong> — 当初5年は2.14%（ZEH割引適用）</li>
-    <li><strong>新設住宅着工5.8万戸</strong> — 5月実績、前年同月比34%増で2カ月連続増加</li>
-    <li><strong>首都圏住宅地価24四半期連続上昇</strong> — 全国公示地価も+2.80%で5年連続上昇</li>
-    <li><strong>東京23区オフィス空室率1.36%</strong> — 需給逼迫、成約賃料上昇継続</li>
+<li><strong>国交省推进「ビデオ重説」制度</strong> — 年内引入视频重要事项说明，减轻宅建士与买卖双方负担</li>
+<li><strong>観光庁创设地方废旅馆再生补助制度</strong> — 地方温泉地空置旅馆迎新生，公募至2027年2月</li>
+<li><strong>首都圈新建マンシ持续高价</strong> — ㎡单价连续14个月同比上升，供应户数维持1,400户以上</li>
+<li><strong>银座五丁目大厦重建完成</strong> — 8月17日全面开业，成为银座新地标</li>
+<li><strong>外资持续布局日本物流不动產</strong> — 近畿圈物流空室率趋零值得关注</li>
   </ul>
 </div>
 
-<!-- Section 1: 政策动向 -->
+<!-- Market Trend -->
 <div class="section">
   <div class="section-title">
-    <span class="icon">🏛️</span> 政策动向
-    <span class="tag">POLICY</span>
-  </div>
-  <div class="card-grid cols-2">
-    <div class="card policy">
-      <div class="date">7月3日 <span class="source">内閣官房</span></div>
-      <h3>「国土強靱化年次計画2026」策定 — 密集市街地再整備など405施策</h3>
-      <p>内閣官房は国土強靱化推進本部（本部長＝高市早苗首相）を3日に開き、「国土強靱化年次計画2026」を策定。大規模災害被害を抑え込むため405の施策を盛り込んだ。</p>
-      <span class="label label-blue">国土強靱化</span>
-      <a href="https://fknews.jp/news/detail.php?id=83738" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card policy">
-      <div class="date">7月6日 <span class="source">国土交通省</span></div>
-      <h3>5月新設住宅着工5.8万戸、前年同月比34%増</h3>
-      <p>国交省発表の5月新設住宅着工統計で、着工戸数が5.8万戸と前年同月比34%増。2カ月連続の増加で、住宅市場の回復基調を裏付ける結果となった。</p>
-      <span class="label label-blue">住宅着工</span>
-      <a href="https://www.mlit.go.jp/report/press/house04_hh_000000.html" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card policy">
-      <div class="date">7月6日 <span class="source">国土交通省</span></div>
-      <h3>不動産有償引き取り対応策 — 相続後の「手放し」増加で</h3>
-      <p>国土交通省は、不動産の有償引き取りサービスなど、所有者が土地や家屋を手放す際に利用する新形態の不動産取引に関する対応策を発表。相続後の管理困難案件増加に対応。</p>
-      <span class="label label-blue">空き家対策</span>
-      <a href="http://www.sjt.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card policy">
-      <div class="date">7月6日 <span class="source">全宅連</span></div>
-      <h3>全宅連 坂本会長が5期目、「グループ・ビジョン2030」始動</h3>
-      <p>全国宅地建物取引業協会連合会（全宅連）の定時総会で坂本会長の5期目続投が承認。新たな長期ビジョン「グループ・ビジョン2030」の始動も発表された。</p>
-      <span class="label label-blue">業界団体</span>
-      <a href="http://www.sjt.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card policy">
-      <div class="date">7月3日 <span class="source">国土交通省</span></div>
-      <h3>国交省、成田空港施設の機能強化へ方策決定</h3>
-      <p>輸送能力1.8倍に拡大、羽田直通特急も計画。30年代に年間発着量50万回を目指す。</p>
-      <span class="label label-blue">交通インフラ</span>
-      <a href="https://fknews.jp/news/detail.php?id=83749" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card policy">
-      <div class="date">7月3日 <span class="source">内閣府</span></div>
-      <h3>民間力が公共インフラを変える — 26年改定プランに官民連携</h3>
-      <p>内閣府が26年改定プランで官民連携（PPP/PFI）の4つの狙いを公表。不動産業界の公共インフラ参画が加速する見通し。</p>
-      <span class="label label-blue">官民連携</span>
-      <a href="http://www.sjt.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-  </div>
-</div>
-
-<!-- Section 2: 市场交易 -->
-<div class="section">
-  <div class="section-title">
-    <span class="icon">💼</span> 市场交易·投资
-    <span class="tag">DEALS</span>
+    <span class="icon">📊</span> 市場トレンド
+    <span class="tag">MARKET</span>
   </div>
   <div class="trend-visual">
     <div class="trend-item">
-      <div class="trend-label">全国公示地価<br>前年変動率</div>
-      <div class="trend-value up">+2.80% <span class="trend-arrow">▲</span></div>
+      <div class="trend-label">首都圈中古マンシ
+㎡单价（23区）</div>
+      <div class="trend-value down">5,078円 ▼0.2% ▼</div>
     </div>
     <div class="trend-item">
-      <div class="trend-label">東京都公示地価<br>前年変動率</div>
-      <div class="trend-value up">+8.43% <span class="trend-arrow">▲</span></div>
+      <div class="trend-label">首都圈新建マンシ
+供给户数（6月）</div>
+      <div class="trend-value flat">1,412戸 -></div>
     </div>
     <div class="trend-item">
-      <div class="trend-label">東京23区オフィス<br>6月空室率</div>
-      <div class="trend-value down">1.36% <span class="trend-arrow">▼</span></div>
+      <div class="trend-label">首都圈中古マンシ
+成约件数（6月）</div>
+      <div class="trend-value down">3.4%減 ▼ ▼</div>
     </div>
     <div class="trend-item">
-      <div class="trend-label">5月新設住宅着工<br>前年同月比</div>
-      <div class="trend-value up">+34% <span class="trend-arrow">▲</span></div>
+      <div class="trend-label">東京都23区中古戸建
+平均价格</div>
+      <div class="trend-value up">4,254万円 ▲2.8% ▲</div>
     </div>
     <div class="trend-item">
-      <div class="trend-label">不動産融資姿勢<br>（CBRE調査）</div>
-      <div class="trend-value flat">緩和的</div>
-    </div>
-  </div>
-  <div class="card-grid cols-2">
-    <div class="card deal">
-      <div class="date">7月6日 <span class="source">日経不動産</span></div>
-      <h3>米ラサール、代々木のオフィスビルを取得</h3>
-      <p>米LaSalle Investment Managementが渋谷区千駄ケ谷のオフィスビルを取得。外資系投資家の東京オフィス需要が引き続き旺盛。</p>
-      <span class="label label-gold">外資</span>
-      <span class="label label-gold">オフィス</span>
-      <a href="https://nfm.nikkeibp.co.jp/atcl/news/21/00001/08387/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card deal">
-      <div class="date">7月6日 <span class="source">日経不動産</span></div>
-      <h3>三菱倉庫、大阪・西九条のオフィス2物件売却</h3>
-      <p>三菱倉庫が大阪市福島区のオフィスビル2物件を売却。物流・倉庫企業による非中核不動産の整理が続く。</p>
-      <span class="label label-gold">売却</span>
-      <a href="https://nfm.nikkeibp.co.jp/atcl/news/21/00001/08371/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card deal">
-      <div class="date">7月3日 <span class="source">日経不動産</span></div>
-      <h3>帝京大学、二番町のオフィスビルを取得</h3>
-      <p>帝京大学が東京都千代田区二番町のオフィスビルを取得。教育法人の不動産投資も活性化。</p>
-      <span class="label label-gold">教育法人</span>
-      <a href="https://nfm.nikkeibp.co.jp/atcl/news/21/00001/08362/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card deal">
-      <div class="date">7月3日 <span class="source">日経不動産</span></div>
-      <h3>日本初の底地STO — イオン大宮で三井物産デジタル</h3>
-      <p>三井物産デジタルがイオン大宮の底地（土地所有権）をセキュリティトークン化。不動産STの新たな応用事例として注目。</p>
-      <span class="label label-gold">STO</span>
-      <span class="label label-purple">デジタル</span>
-      <a href="https://nfm.nikkeibp.co.jp/atcl/news/21/00001/08374/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card deal">
-      <div class="date">7月2日 <span class="source">日経不動産</span></div>
-      <h3>コクヨ、旧大阪本社などを58億円で売却</h3>
-      <p>コクヨが旧大阪本社などの不動産を58億円で売却。企業によるバランスシート整理が続く。</p>
-      <span class="label label-gold">大型売却</span>
-      <a href="https://nfm.nikkeibp.co.jp/atcl/news/21/00001/08369/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card deal">
-      <div class="date">7月1日 <span class="source">日経不動産</span></div>
-      <h3>丸紅AM、住宅15物件を230億円で4号ファンド組成</h3>
-      <p>丸紅アセットマネジメントが住宅15物件を230億円で取得する4号ファンドを組成。賃貸住宅セクターへの投資意欲が顕著。</p>
-      <span class="label label-gold">ファンド</span>
-      <a href="https://nfm.nikkeibp.co.jp/atcl/news/21/00001/08365/" target="_blank" class="source-link">📖 阅读原文 →</a>
+      <div class="trend-label">J-REIT 総合指数</div>
+      <div class="trend-value up">▲上昇中 ▲</div>
     </div>
   </div>
 </div>
 
-<!-- Section 3: 开发动态 -->
 <div class="section">
   <div class="section-title">
-    <span class="icon">🏗️</span> 开发动态
-    <span class="tag">DEVELOPMENT</span>
+    <span class="icon">🏛️</span> 政策動向
+    <span class="tag">POLICY</span>
   </div>
   <div class="card-grid cols-2">
-    <div class="card dev">
-      <div class="date">7月6日 <span class="source">不動産経済研究所</span></div>
-      <h3>三菱地所、タイ・バンコクで大規模複合開発に参画</h3>
-      <p>三菱地所がタイ・バンコクのサイアムスクエア地区で商業・オフィス・ホテル複合施設を開発。総事業費539億円で同社タイ事業最大規模。</p>
-      <span class="label label-green">海外開発</span>
-      <a href="https://fknews.jp/news/detail.php?id=83748" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card dev">
-      <div class="date">7月6日 <span class="source">R.E.port</span></div>
-      <h3>ポラスG、東京清瀬に47区画「雑木のまち」分譲地</h3>
-      <p>ポラスグループの中央グリーン開発が清瀬市で全47区画の分譲地「ブリスト清瀬 東京フェーズ47」を報道公開。コミュニティ形成が評価。</p>
-      <span class="label label-green">戸建分譲</span>
-      <a href="https://www.re-port.net/article/news/0000082283/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card dev">
-      <div class="date">7月6日 <span class="source">不動産経済研究所</span></div>
-      <h3>明和地所、練馬・葛飾で新築マンション販売開始</h3>
-      <p>明和地所が「クリオ石神井公園ザ・グラン」（65戸）と「クリオ レジダンス新小岩」（136戸）の販売を開始。石神井公園は平均94㎡超の億ション。</p>
-      <span class="label label-green">新築マンション</span>
-      <a href="https://fknews.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card dev">
-      <div class="date">7月6日 <span class="source">不動産経済研究所</span></div>
-      <h3>東京建物、東北初の物流施設「T-LOGI仙台」竣工</h3>
-      <p>東京建物が仙台市でマルチテナント型物流施設「T-LOGI仙台」を竣工。3PL・物流事業者の需要を取り込む。</p>
-      <span class="label label-green">物流施設</span>
-      <a href="https://fknews.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card dev">
-      <div class="date">7月6日 <span class="source">R.E.port</span></div>
-      <h3>フージャース、岡山中心市街地で住商一体再開発</h3>
-      <p>フージャースが岡山市の中心市街地で住宅と商業が一体となった再開発プロジェクトを発表。地方中枢都市の活性化に貢献。</p>
-      <span class="label label-green">地方再開発</span>
-      <a href="https://www.re-port.net/article/news/0000082277/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card dev">
-      <div class="date">7月6日 <span class="source">R.E.port</span></div>
-      <h3>大東建託G、Unitoと連携しホテル事業に本格参入</h3>
-      <p>大東建託グループが宿泊施設運営のUnitoと提携し、ホテル事業へ本格参入。建設大手の運営領域拡大が進む。</p>
-      <span class="label label-green">ホテル</span>
-      <a href="https://www.re-port.net/article/news/0000082280/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card dev">
-      <div class="date">7月1日 <span class="source">日経不動産</span></div>
-      <h3>大和ハウス、大阪・天満橋で開発用地882㎡確保</h3>
-      <p>大和ハウス工業が大阪・天満橋エリアで開発用地を確保。関西エリアでの事業拡大を狙う。</p>
-      <span class="label label-green">用地取得</span>
-      <a href="https://nfm.nikkeibp.co.jp/atcl/news/21/00001/08325/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card dev">
-      <div class="date">6月30日 <span class="source">日経不動産</span></div>
-      <h3>銀座・中央通りに複合ビル — 銀座貿易</h3>
-      <p>銀座の一等地・中央通り沿いに新たな複合ビル開発計画。商業・飲食を中心とした施設を予定。</p>
-      <span class="label label-green">都心開発</span>
-      <a href="https://nfm.nikkeibp.co.jp/atcl/news/21/00001/08342/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
+<div class="card policy">
+  <div class="date">7月3日 <span class="source">国土交通省</span></div>
+  <h3>国交省推进「ビデオ重説」活用 -- 年内正式引入宅建士视频立会免除制度</h3>
+  <p>国交省为减轻宅建士及买卖双方的负担，推动将事先录制的「ビデオ重説」正式纳入活用体系，计划于年内实现正式运用。</p>
+  <span class="label label-blue">国土交通省</span>
+  <a href="https://www.fudousankeizai.co.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card policy">
+  <div class="date">7月3日 <span class="source">観光庁</span></div>
+  <h3>観光庁创设地方废旅馆再生补助制度 -- 公募至2027年2月</h3>
+  <p>観光庁创设针对地方温泉地等空置旅馆的拆除及迹地再生补助制度，与当地自治体合作，共同推进地区活化。</p>
+  <span class="label label-blue">観光庁</span>
+  <a href="https://www.mlit.go.jp/index.html" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card policy">
+  <div class="date">7月10日 <span class="source">国土交通省</span></div>
+  <h3>国交省发布25周年新政策宣传页</h3>
+  <p>国交省迎来创设25周年，发布新版政策宣传页面，系统展示政策成果与未来方向。</p>
+  <span class="label label-blue">国土交通省</span>
+  <a href="https://www.mlit.go.jp/index.html" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
   </div>
 </div>
-
-<!-- Section 4: 科技 & 创新 -->
 <div class="section">
   <div class="section-title">
-    <span class="icon">🤖</span> 科技·创新
+    <span class="icon">💼</span> 市場取引・投資
+    <span class="tag">DEALS</span>
+  </div>
+  <div class="card-grid cols-2">
+<div class="card deal">
+  <div class="date">7月10日 <span class="source">三井住友トラスト基礎研究所</span></div>
+  <h3>J-REIT不动产地价指数（6月）发布 -- 物流施设板块持续走强</h3>
+  <p>SMTRI发布6月J-REIT不动产地价指数，物流施设类继续领跑，オフィス类温和复苏，整体NAV倍率改善。</p>
+  <span class="label label-gold">三井住友トラスト基礎研究所</span>
+  <a href="https://www.smtri.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card deal">
+  <div class="date">7月9日 <span class="source">信義日本</span></div>
+  <h3>2026年以后摩天公寓达10万7408户</h3>
+  <p>不动産経済研究所调查显示，日本20层以上摩天公寓2026年后期供给量比上次调查增加103栋、约2.6万户。</p>
+  <span class="label label-gold">信義日本</span>
+  <a href="https://www.sinyijapan.com/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card deal">
+  <div class="date">7月8日 <span class="source">ニッセイ基礎研究所</span></div>
+  <h3>ESG因子对J-REIT个别股票表现的影响研究报告发布</h3>
+  <p>SMTRI发布研究报告，分析ESG因子对J-REIT各銘柄的收益率差异影响，揭示可持续投资趋势。</p>
+  <span class="label label-gold">ニッセイ基礎研究所</span>
+  <a href="https://www.smtri.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+  </div>
+</div>
+<div class="section">
+  <div class="section-title">
+    <span class="icon">🏗️</span> 開発動向
+    <span class="tag">DEVELOP</span>
+  </div>
+  <div class="card-grid cols-2">
+<div class="card dev">
+  <div class="date">7月9日 <span class="source">信義日本</span></div>
+  <h3>银座五丁目大厦重建完成 -- 8月17日全面开业</h3>
+  <p>银座五丁目的大型重建项目竣工，将于8月17日全面开业，成为银座核心区新地标，吸引全球高端品牌入驻。</p>
+  <span class="label label-green">信義日本</span>
+  <a href="https://www.sinyijapan.com/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card dev">
+  <div class="date">7月上旬 <span class="source">日刊不动産経済通信</span></div>
+  <h3>東京建物・穴吹兴産：高崎218戸分譲マンシ「アルファレジデンシア」</h3>
+  <p>東京建物与穴吹兴産在群马县高崎市共同开发分譲マンシ，共218戸。</p>
+  <span class="label label-green">日刊不动産経済通信</span>
+  <a href="https://www.fudousankeizai.co.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card dev">
+  <div class="date">6月下旬 <span class="source">週刊不动産経営</span></div>
+  <h3>大阪天王寺区最高层塔楼 The Park House 上本町 Tower 公开</h3>
+  <p>三菱地所Residence开发的大阪天王寺区最高层塔楼开放样板间，大阪高端住宅市场竞争加剧。</p>
+  <span class="label label-green">週刊不动産経営</span>
+  <a href="https://www.biru-mall.com/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card dev">
+  <div class="date">6月28日 <span class="source">日経不动産</span></div>
+  <h3>三菱地所Residence：品川区西五反田租赁マンシ 约1.6万㎡</h3>
+  <p>三菱地所レジ在品川区西五反田开发大型租赁公寓，总开发面积约1.6万㎡，强化都心租赁住宅布局。</p>
+  <span class="label label-green">日経不动産</span>
+  <a href="https://nfm.nikkeibp.co.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+  </div>
+</div>
+<div class="section">
+  <div class="section-title">
+    <span class="icon">🤖</span> 科技・イノベーション
     <span class="tag">TECH</span>
   </div>
   <div class="card-grid cols-2">
-    <div class="card tech">
-      <div class="date">7月6日 <span class="source">R.E.port</span></div>
-      <h3>パナソニックH、住宅への感震ブレーカー設置を促進</h3>
-      <p>パナソニックホームズが地震時の住宅火災を防ぐため、感震ブレーカーの設置促進策を強化。新築だけでなく既存住宅や賃貸住宅にも拡大。</p>
-      <span class="label label-purple">防災</span>
-      <span class="label label-purple">スマートホーム</span>
-      <a href="https://www.re-port.net/article/news/0000082282/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card tech">
-      <div class="date">7月7日 <span class="source">不動産経済研究所</span></div>
-      <h3>住友林業、J-クレジット売却益をオーナーにポイント還元</h3>
-      <p>住友林業が省エネ住宅のCO₂排出削減量をJ-クレジット化し、売却益をオーナーに還元する新サービスを開始。BELS認定と連携。</p>
-      <span class="label label-purple">カーボンクレジット</span>
-      <span class="label label-green">ZEH</span>
-      <a href="https://fknews.jp/news/detail.php?id=83743" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card tech">
-      <div class="date">7月7日 <span class="source">不動産経済研究所</span></div>
-      <h3>大東建託、木造マンション「BELIA CELUN」発売</h3>
-      <p>大東建託が都市部向けハイグレード木造マンションを発売。建築コストを抑えつつ鉄筋コンクリート並みの品質を実現。</p>
-      <span class="label label-purple">木造技術</span>
-      <span class="label label-green">脱炭素</span>
-      <a href="https://fknews.jp/news/detail.php?id=83742" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card tech">
-      <div class="date">7月3日 <span class="source">日経不動産</span></div>
-      <h3>三井物産デジタル、「不動産ST創発コンソーシアム」設立</h3>
-      <p>Progmatと連携し不動産セキュリティトークンの普及・促進を目指すコンソーシアムを設立。底地STOに続く。</p>
-      <span class="label label-purple">ブロックチェーン</span>
-      <span class="label label-purple">STO</span>
-      <a href="https://nfm.nikkeibp.co.jp/atcl/news/21/00001/08375/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
+<div class="card tech">
+  <div class="date">7月上旬 <span class="source">週刊住宅タイムズ</span></div>
+  <h3>分譲マンシ首次引入电梯联动清扫机器人STRIVER2</h3>
+  <p>野村不动産引入可自动搭乘电梯的清扫机器人STRIVER2，预计削减20%清扫人力，开启智慧公寓管理新篇章。</p>
+  <span class="label label-purple">週刊住宅タイムズ</span>
+  <a href="https://www.sjt.co.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card tech">
+  <div class="date">7月上旬 <span class="source">週刊住宅タイムズ</span></div>
+  <h3>三井不Residential全面导入人脸识别＋智能家居系统</h3>
+  <p>三井不动産レジデンシャル在「船桥」项目中全面引入人脸识别门禁与スマートホーム系统，提升安全与便利性。</p>
+  <span class="label label-purple">週刊住宅タイムズ</span>
+  <a href="https://www.sjt.co.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card tech">
+  <div class="date">7月上旬 <span class="source">週刊住宅タイムズ</span></div>
+  <h3>ミサワHome引入生成AI辅助通话内容登记</h3>
+  <p>ミサワホーム引入生成AI实现通话自动摘要与行政登记，大幅削减事务负担，AI应用向住宅制造延伸。</p>
+  <span class="label label-purple">週刊住宅タイムズ</span>
+  <a href="https://www.sjt.co.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
   </div>
 </div>
-
-<!-- Section 5: 调查 & 趋势 -->
 <div class="section">
   <div class="section-title">
-    <span class="icon">📊</span> 调查·趋势
+    <span class="icon">📊</span> 調査・トレンド
     <span class="tag">RESEARCH</span>
   </div>
   <div class="card-grid cols-2">
-    <div class="card survey">
-      <div class="date">7月7日 <span class="source">CBRE</span></div>
-      <h3>CBRE不動産融資レンダーサーベイ：融資は緩和的姿勢続く</h3>
-      <p>CBREが35の金融機関に調査した結果、25年度の不動産融資は緩和的な姿勢が継続。オフィスとホテルへの支持が多い。</p>
-      <span class="label label-red">融資動向</span>
-      <a href="https://fknews.jp/news/detail.php?id=83744" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card survey">
-      <div class="date">7月6日 <span class="source">R.E.port</span></div>
-      <h3>空き家対策、認知と行動にギャップ — カチタス調査</h3>
-      <p>カチタスの調査で空き家問題への関心は高いものの、実際の対策行動に結びついていない実態が明らかに。認知と行動の乖離が課題。</p>
-      <span class="label label-red">空き家</span>
-      <a href="https://www.re-port.net/article/news/0000082273/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card survey">
-      <div class="date">7月3日 <span class="source">R.E.port</span></div>
-      <h3>首都圏住宅地価、24四半期連続の上昇</h3>
-      <p>首都圏の住宅地価が24四半期連続で上昇。全国公示地価も5年連続上昇で+2.80%。東京都は+8.43%と突出。</p>
-      <span class="label label-red">地価</span>
-      <a href="https://www.re-port.net/article/news/0000082283/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card survey">
-      <div class="date">7月6日 <span class="source">R.E.port</span></div>
-      <h3>東京23区オフィス空室率1.36%（6月）</h3>
-      <p>東京23区の6月オフィス空室率が1.36%と低水準を維持。需給逼迫により成約賃料の上昇が続く見通し。</p>
-      <span class="label label-red">オフィス</span>
-      <a href="https://www.re-port.net/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card survey">
-      <div class="date">7月3日 <span class="source">日経不動産</span></div>
-      <h3>全国公示地価5年連続上昇 — 東京都+8.43%</h3>
-      <p>2026年公示地価で全国平均+2.80%（5年連続上昇）。東京都は+8.43%と全国トップ。沖縄+6.63%、千葉+5.04%が続く。</p>
-      <span class="label label-red">公示地価</span>
-      <span class="label label-red">エリア格差</span>
-      <a href="https://tochidai.info/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
-    <div class="card survey">
-      <div class="date">7月6日 <span class="source">経済調査会</span></div>
-      <h3>木造住宅建築費指数、過去最高値を更新</h3>
-      <p>経済調査会発表の木造住宅建築費指数が5.3%増で過去最高を更新。材料費・人件費の高騰が続く。</p>
-      <span class="label label-red">建築費</span>
-      <a href="http://www.sjt.co.jp/" target="_blank" class="source-link">📖 阅读原文 →</a>
-    </div>
+<div class="card survey">
+  <div class="date">7月上旬 <span class="source">SUUMO</span></div>
+  <h3>50~60代居住不安调查：「修缮费增加」连续居首</h3>
+  <p>SUUMO调查显示，37%对房屋老化与修缮成本感到不安，49%向往便利的都心·车站附近居住环境。</p>
+  <span class="label label-red">SUUMO</span>
+  <a href="https://suumo.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card survey">
+  <div class="date">6月下旬 <span class="source">不动産経済研究所</span></div>
+  <h3>首都圈分譲マンシ㎡单价连续14个月同比上升</h3>
+  <p>首都圈分譲マンしの㎡单价维持14个月连续前年同月比正增长，显示需求端韧性十足。</p>
+  <span class="label label-red">不动産経済研究所</span>
+  <a href="https://www.fudousankeizai.co.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card survey">
+  <div class="date">6月中旬 <span class="source">全日本住宅産業協会</span></div>
+  <h3>5月新建住宅着工超5.7万戸 -- 前年比33.9%大幅增长</h3>
+  <p>国交省数据显示，5月新建住宅着工件数同比大增33.9%，持家、贷家、分譲住宅全面增长。</p>
+  <span class="label label-red">全日本住宅産業協会</span>
+  <a href="https://www.zenjukyo.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card survey">
+  <div class="date">6月中旬 <span class="source">土地総合研究所</span></div>
+  <h3>不动产业业况等调查：経営状況悪化0.3P至7.1P</h3>
+  <p>土地総研4月调查结果显示，不动产业経営状況恶化0.3个百分点至7.1P，中小开发商压力加大。</p>
+  <span class="label label-red">土地総合研究所</span>
+  <a href="https://www.smtri.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card survey">
+  <div class="date">6月中旬 <span class="source">東日本レインズ</span></div>
+  <h3>中古マン成约件数3个月连续减少 -- 价格韧性尚存</h3>
+  <p>東日本レインズ数据显示，首都圈中古マンシ成约件数连续3个月减少，但成交价格仍有支撑。</p>
+  <span class="label label-red">東日本レインズ</span>
+  <a href="https://www.sjt.co.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
   </div>
 </div>
 
 <!-- 贷款利率趋势 -->
 <div class="key-insight">
   <h3>📈 贷款利率趋势</h3>
-  <p><strong>フラット35：</strong> 2026年7月適用利率 <strong>3.14%</strong>（最頻金利、6年目以降）。当初5年間は <strong>2.14%</strong>（ZEH割引適用で1.0%引下げ可能）。前月の3.21%から0.07ポイント低下。<br><br>
-  日本銀行政策金利は <strong>1.00%</strong> を維持。市場では次回会合での追加利上げ観測がくすぶる。CBRE調査では不動産融資の緩和的な姿勢が継続しており、金利上昇が投資意欲を大きく減退させるには至っていない。</p>
-  <p style="margin-top:10px;"><strong>💡 小虾点评：</strong> 今週は公示地価の連続上昇が最も象徴的なテーマ。東京都+8.43%という数字は不動産市場の過熱感を示す一方、建築費指数の過去最高更新や空き家認知ギャップなど構造的な課題も顕在化。着工が34%増と回復基調にあるのはポジティブ。オフィス空室率1.36%は需給逼迫を物語り、開発・投資の両面でポジティブな材料が揃った週だった。</p>
+  <p><strong>フラット35：</strong>3.21%（连续4个月上升（2026年7月時点））。日本央行政策利率维持1%，市场关注7月31日金融政策决定会议（MPP）动向。主要银行固定利率区间：住信SBI 3.15%〜 / auじぶん 3.19%〜 / 三井住友銀 3.20%〜</p>
+  <p style="margin-top:10px;"><strong>💡 小虾点评：</strong>贷款利率4连升，但首都圈新建マンシ价格依旧坚挺（连续14个月YoY+），供需紧张持续消化利率压力。物流不动產方面外资与J-REIT持续扩张，近畿圈空室率趋零值得关注。中古市场成约件数3个月连减，需持续关注。</p>
 </div>
 
 </div>
 
 <div class="footer">
-  <p>📡 数据来源：国土交通省 / 日経不動産マーケット情報 / 週刊住宅タイムズ / 週刊不動産経営 / 東京カンテイ / SUUMO / 不動産経済研究所</p>
-  <p style="margin-top:4px;">Generated by 🦐 小虾 · 2026年7月7日 · 东京 · 大誠有限公司 专用</p>
+  <p>📡 数据来源：国土交通省 / 日経不動産マーケット情報 / 週刊住宅タイムズ / 週刊不動産経営 / 東京カンテイ / SUUMO / 不動産経済研究所 / 東日本レインズ / R.E.port</p>
+  <p style="margin-top:4px;">Generated by 🦐 小虾 · 2026年07月24日 · 东京 · 大誠有限会社 専用</p>
 </div>
 
 <!-- ===== Floating Share Button ===== -->
-<button class="share-btn-fab" id="shareBtn" onclick="openShareModal()" title="生成截图卡">
+<button class="share-btn-fab" id="shareBtn" onclick="openShareModal()">
   📸
   <span class="tooltip">生成朋友圈卡片</span>
 </button>
@@ -896,11 +695,11 @@
   </div>
 </div>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <script>
-// ===== Core: auto-extract data from the page =====
 function getDateRange() {
   const el = document.getElementById('headerDateRange');
-  return el ? el.textContent.trim() : '📅 2026年6月30日 — 7月6日';
+  return el ? el.textContent.trim() : '📅 2026年6月 — 6月';
 }
 
 function getStats() {
@@ -929,81 +728,59 @@ function getHighlights() {
   return highlights.slice(0, 4);
 }
 
-function getComment() {
-  const insight = document.getElementById('keyInsight');
-  if (insight) {
-    const p = insight.querySelector('p');
-    if (p) {
-      const text = p.textContent.trim();
-      return text.length > 80 ? text.substring(0, 80) + '…' : text;
-    }
-  }
-  const body = document.body.textContent;
-  const idx = body.indexOf('小虾点评');
-  if (idx >= 0) {
-    return body.substring(idx + 5, idx + 60).trim() + '…';
-  }
-  return '日本不动产市场持续活跃';
-}
-
-// ===== Share Card Builder =====
 function buildShareCard() {
   const dateRange = getDateRange();
   const stats = getStats();
   const highlights = getHighlights();
-  const comment = getComment();
 
-  const arrowClass = (txt, label) => {
-    const t = txt + ' ' + (label || '');
-    if (t.startsWith('+') || t.includes('▲') || t.includes('上昇') || t.includes('増') || t.includes('連続') || t.includes('上昇中') || t.includes('上向き') || t.includes('プラス')) return 'up';
-    if (t.startsWith('-') || t.includes('▼') || t.includes('下落') || t.includes('減') || t.includes('低下') || t.includes('下がる')) return 'down';
+  const arrowClass = (txt) => {
+    if (txt.includes('▼') || txt.includes('下落') || txt.includes('減')) return 'down';
+    if (txt.includes('▲') || txt.includes('上昇') || txt.includes('増')) return 'up';
     return 'flat';
   };
   const arrowSymbol = (txt) => {
-    if (txt.startsWith('+') || txt.includes('▲')) return '▲';
-    if (txt.startsWith('-') || txt.includes('▼')) return '▼';
+    if (txt.includes('▼')) return '▼';
+    if (txt.includes('▲')) return '▲';
     return '→';
   };
 
   let statsHTML = '';
   stats.forEach((s, i) => {
     if (i >= 4) return;
-    const isUp = arrowClass(s.num, s.label);
+    const isUp = arrowClass(s.num);
     const arrow = arrowSymbol(s.num);
-    const numOnly = s.num.replace(/[▼▲→].*/, '').trim();
-    statsHTML += `<div class="card-stat-box">
-      <div class="stat-num"><span class="stat-num-value ${isUp}">${numOnly}</span> <span class="stat-arrow ${isUp}">${arrow}</span></div>
-      <div class="stat-label">${s.label}</div>
-    </div>`;
+    statsHTML += '<div class="card-stat-box">' +
+      '<div class="stat-num">' + s.num + ' <span class="stat-arrow ' + isUp + '">' + arrow + '</span></div>' +
+      '<div class="stat-label">' + s.label + '</div>' +
+    '</div>';
   });
 
   let hlHTML = '';
   const icons = ['🔴', '🟡', '🟢', '🔵'];
   highlights.forEach((h, i) => {
-    hlHTML += `<li><span class="hl-icon">${icons[i] || '▸'}</span>${h}</li>`;
+    hlHTML += '<li><span class="hl-icon">' + (icons[i] || '▸') + '</span>' + h + '</li>';
   });
 
-  return `<div id="share-card">
-    <div class="card-dots"></div>
-    <div class="card-top-accent"></div>
-    <div class="card-content">
-      <div class="card-logo">TAISEI</div>
-      <div class="card-meta">WEEKLY REAL ESTATE REPORT</div>
-      <div class="card-date-badge">📅 ${dateRange.replace('📅 ', '')}</div>
-      <hr class="card-divider">
-      <div class="card-stats">${statsHTML}</div>
-      <hr class="card-divider">
-      <div class="card-highlights-title">✦ WEEKLY HIGHLIGHTS</div>
-      <ul class="card-highlights">${hlHTML}</ul>
-      <div class="card-bottom">
-        <span class="brand">大誠有限公司 · 不動産専門</span>
-        <span class="cta">🔍 詳細は公式チャンネルで</span>
-      </div>
-    </div>
-  </div>`;
+  return '<div id="share-card">' +
+    '<div class="card-dots"></div>' +
+    '<div class="card-top-accent"></div>' +
+    '<div class="card-content">' +
+      '<div class="card-logo">TAISEI</div>' +
+      '<div class="card-meta">WEEKLY REAL ESTATE REPORT</div>' +
+      '<div class="card-date-badge">📅 ' + dateRange.replace('📅 ', '') + '</div>' +
+      '<hr class="card-divider">' +
+      '<div class="card-stats">' + statsHTML + '</div>' +
+      '<hr class="card-divider">' +
+      '<div class="card-highlights-title">✦ WEEKLY HIGHLIGHTS</div>' +
+      '<ul class="card-highlights">' + hlHTML + '</ul>' +
+      '<div class="card-bottom">' +
+        '<span class="brand">' + COMPANY_NAME_JP + ' · 不動産専門</span>' +
+        '<span class="cta">🔍 詳細は公式チャンネルで</span>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
 }
 
-// ===== Modal Controls =====
 function openShareModal() {
   document.getElementById('share-card-container').innerHTML = buildShareCard();
   document.getElementById('shareModal').classList.add('show');
@@ -1015,25 +792,20 @@ function closeShareModal() {
   document.body.style.overflow = '';
 }
 
-// Close on backdrop click
 document.getElementById('shareModal').addEventListener('click', function(e) {
   if (e.target === this) closeShareModal();
 });
 
-// Escape key
 document.addEventListener('keydown', function(e) {
   if (e.key === 'Escape') closeShareModal();
 });
 
-// ===== Download =====
 function downloadCard() {
   const btn = document.getElementById('downloadBtn');
   const card = document.getElementById('share-card');
   if (!card) return;
-  
   btn.textContent = '⏳ 生成中…';
   btn.classList.add('loading');
-
   html2canvas(card, {
     scale: 2.5,
     backgroundColor: null,
@@ -1044,7 +816,7 @@ function downloadCard() {
     windowWidth: 540
   }).then(canvas => {
     const link = document.createElement('a');
-    link.download = `TAISEI周报卡_${new Date().toISOString().slice(0,10)}.png`;
+    link.download = 'TAISEI周报卡_' + new Date().toISOString().slice(0,10) + '.png';
     canvas.toBlob(function(b) { var u = URL.createObjectURL(b); link.href = u; link.click(); URL.revokeObjectURL(u); });
     link.click();
     btn.textContent = '📥 下载图片';
@@ -1053,10 +825,9 @@ function downloadCard() {
     console.error(err);
     btn.textContent = '❌ 生成失败，重试';
     btn.classList.remove('loading');
-    setTimeout(() => { btn.textContent = '📥 下载图片'; }, 2000);
+    setTimeout(function() { btn.textContent = '📥 下载图片'; }, 2000);
   });
 }
 </script>
-
 </body>
 </html>
