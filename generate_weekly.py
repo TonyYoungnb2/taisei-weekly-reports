@@ -708,6 +708,8 @@ def build_report_html():
 </div>
 
 <script>
+const COMPANY_NAME_JP = '大誠有限会社';
+const COMPANY_SITE = 'https://www.taisei-r.com/';
 function getDateRange() {{
   const el = document.getElementById('headerDateRange');
   return el ? el.textContent.trim() : '📅 2026年6月 — 6月';
@@ -796,11 +798,11 @@ function buildCardText() {{
   const dateRange = getDateRange();
   const stats = getStats();
   const highlights = getHighlights();
-  let t = '【' + COMPANY_NAME_JP + ' 日本不动产周报】\n' + dateRange + '\n\n';
+  let t = '【' + COMPANY_NAME_JP + ' 日本不动产周报】\\n' + dateRange + '\\n\\n';
   stats.slice(0,4).forEach(function(s) {{ t += '• ' + s.label + '：' + s.num + '\n'; }});
-  t += '\n本周焦点：\n';
+  t += '\\n本周焦点：\\n';
   highlights.forEach(function(h) {{ t += '▸ ' + h + '\n'; }});
-  t += '\n详情见官方频道 / ' + COMPANY_SITE;
+  t += '\\n详情见官方频道 / ' + COMPANY_SITE;
   return t;
 }}
 
