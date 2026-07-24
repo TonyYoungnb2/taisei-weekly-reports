@@ -518,6 +518,10 @@ CSS = """
   .share-modal .modal-box .download-btn:active { transform: scale(0.97); }
   .share-modal .modal-box .download-btn.loading { opacity: 0.7; pointer-events: none; }
   .share-modal .modal-box .hint { color: #94a3b8; font-size: 12px; margin-top: 8px; }
+  #shareCardImg { display: block; width: 100%; max-width: 360px; margin: 10px auto 0; border-radius: 12px; box-shadow: 0 4px 18px rgba(0,0,0,.18); }
+  .save-tip { text-align: center; font-size: 12px; color: #64748b; margin: 10px auto 0; line-height: 1.6; }
+  .save-tip b { color: #2563eb; }
+  .share-loading { text-align: center; color: #94a3b8; font-size: 13px; padding: 24px 0; }
     @media (max-width: 640px) {
     .header h1 { font-size: 1.5em; }
     .stats-bar { grid-template-columns: repeat(2, 1fr); margin-top: -20px; }
@@ -624,6 +628,15 @@ def build_report_html():
 
     news_sections_html = '\n'.join(render_news_section(k) for k in ['policy','deals','develop','tech','survey'])
 
+    # 内联打包 html2canvas（避免 CDN 在国内/微信环境被墙导致分享失效）
+    HTML2CANVAS_SRC = ''
+    try:
+        with io.open(os.path.join(os.path.dirname(__file__), 'html2canvas.min.js'),
+                     'r', encoding='utf-8') as _f:
+            HTML2CANVAS_SRC = _f.read()
+    except Exception:
+        HTML2CANVAS_SRC = ''
+
     html = f'''<!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -701,12 +714,18 @@ def build_report_html():
       <button class="close-btn" onclick="closeShareModal()">✕</button>
     </div>
     <div id="share-card-container"></div>
+    <div class="share-loading" id="shareLoading">⏳ 正在生成卡片…</div>
+    <img id="shareCardImg" alt="朋友圈卡片" style="display:none;">
+    <div class="save-tip" id="saveTip" style="display:none;">📱 手机端：<b>长按上方图片</b>即可保存 / 转发到朋友圈<br>💻 电脑端：点下方按钮下载</div>
     <button class="download-btn" id="downloadBtn" onclick="downloadCard()">📥 下载图片</button>
-    <div class="hint">点击下载后，图片保存在浏览器默认下载目录</div>
+    <div class="hint" id="dlHint">生成完成后可下载（桌面）或长按保存（手机）</div>
   </div>
 </div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+<script>
+/* html2canvas 已内联打包，无需 CDN —— 适用于国内/微信/离线环境 */
+{HTML2CANVAS_SRC}
+</script>
 <script>
 function getDateRange() {{
   const el = document.getElementById('headerDateRange');
@@ -792,10 +811,50 @@ function buildShareCard() {{
   '</div>';
 }}
 
+function renderCardToImg() {{
+  const container = document.getElementById('share-card-container');
+  container.innerHTML = buildShareCard();
+  const card = document.getElementById('share-card');
+  const loading = document.getElementById('shareLoading');
+  const img = document.getElementById('shareCardImg');
+  const tip = document.getElementById('saveTip');
+  const btn = document.getElementById('downloadBtn');
+  const dlHint = document.getElementById('dlHint');
+  if (!window.html2canvas) {{
+    if (loading) loading.textContent = '⚠️ 截图库未加载，请刷新页面重试';
+    if (btn) btn.style.display = 'none';
+    return;
+  }}
+  html2canvas(card, {{
+    scale: 2.5,
+    backgroundColor: null,
+    useCORS: true, allowTaint: false,
+    logging: false,
+    width: 540,
+    height: card.scrollHeight,
+    windowWidth: 540
+  }}).then(function(canvas) {{
+    const dataUrl = canvas.toDataURL('image/png');
+    img.src = dataUrl;
+    img.style.display = 'block';
+    if (loading) loading.style.display = 'none';
+    tip.style.display = 'block';
+    if (dlHint) dlHint.textContent = '桌面：点下载按钮 / 手机：长按图片保存';
+  }}).catch(function(err) {{
+    console.error(err);
+    if (loading) loading.textContent = '⚠️ 卡片生成失败，请重试';
+  }});
+}}
+
 function openShareModal() {{
-  document.getElementById('share-card-container').innerHTML = buildShareCard();
   document.getElementById('shareModal').classList.add('show');
   document.body.style.overflow = 'hidden';
+  const img = document.getElementById('shareCardImg');
+  img.style.display = 'none';
+  img.src = '';
+  document.getElementById('saveTip').style.display = 'none';
+  document.getElementById('shareLoading').style.display = 'block';
+  renderCardToImg();
 }}
 
 function closeShareModal() {{
@@ -813,31 +872,16 @@ document.addEventListener('keydown', function(e) {{
 
 function downloadCard() {{
   const btn = document.getElementById('downloadBtn');
-  const card = document.getElementById('share-card');
-  if (!card) return;
-  btn.textContent = '⏳ 生成中…';
-  btn.classList.add('loading');
-  html2canvas(card, {{
-    scale: 2.5,
-    backgroundColor: null,
-    useCORS: true, allowTaint: false,
-    logging: false,
-    width: 540,
-    height: card.scrollHeight,
-    windowWidth: 540
-  }}).then(canvas => {{
-    const link = document.createElement('a');
-    link.download = 'TAISEI周报卡_' + new Date().toISOString().slice(0,10) + '.png';
-    canvas.toBlob(function(b) {{ var u = URL.createObjectURL(b); link.href = u; link.click(); URL.revokeObjectURL(u); }});
-    link.click();
-    btn.textContent = '📥 下载图片';
-    btn.classList.remove('loading');
-  }}).catch(err => {{
-    console.error(err);
-    btn.textContent = '❌ 生成失败，重试';
-    btn.classList.remove('loading');
-    setTimeout(function() {{ btn.textContent = '📥 下载图片'; }}, 2000);
-  }});
+  const img = document.getElementById('shareCardImg');
+  if (!img || !img.src) return;
+  btn.textContent = '⏳ 保存中…';
+  const link = document.createElement('a');
+  link.download = 'TAISEI周报卡_' + new Date().toISOString().slice(0,10) + '.png';
+  link.href = img.src;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  setTimeout(function() {{ btn.textContent = '📥 下载图片'; }}, 800);
 }}
 </script>
 </body>
