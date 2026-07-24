@@ -83,7 +83,12 @@ body {
 .card-arrow { font-size: 13px; color: #1a5fb4; font-weight: 700; }
 /* Footer */
 .footer { background: #1a1a2e; color: #7e8aa0; text-align: center; padding: 26px 20px; font-size: 12.5px; }
-.footer b { color: #cfe4ff; }
+.footer-brand { color: #cfe4ff; text-decoration: none; font-weight: 700; }
+.footer-brand:hover { text-decoration: underline; }
+.report-hidden { display: none; }
+.more-wrap { text-align: center; margin-top: 10px; }
+.more-btn { background: #fff; border: 1.5px solid #1a5fb4; color: #1a5fb4; font-size: 14px; font-weight: 700; padding: 11px 30px; border-radius: 24px; cursor: pointer; transition: all .15s; }
+.more-btn:hover { background: #1a5fb4; color: #fff; }
 @media (max-width: 720px) {
   .cov-grid { grid-template-columns: repeat(2, 1fr); }
   .featured { flex-direction: column; text-align: center; }
@@ -178,8 +183,17 @@ body {
 </div>
 
 <footer class="footer">
-  <p><b>大誠有限会社</b> · 日本不动产周报 · 由 🦐 小虾自动整理生成</p>
+  <p><a href="https://www.taisei-r.com/" target="_blank" rel="noopener" class="footer-brand">大誠有限会社</a> · 日本不动产周报</p>
   <p style="margin-top:6px;opacity:.7;">内容仅供参考，投资需谨慎</p>
 </footer>
+<script>
+function toggleMore(){
+  var hidden = document.querySelectorAll('.report-hidden');
+  var btn = document.getElementById('moreBtn');
+  var currentlyHidden = hidden.length && hidden[0].style.display !== 'block';
+  for (var i=0;i<hidden.length;i++){ hidden[i].style.display = currentlyHidden ? 'block' : 'none'; }
+  btn.textContent = currentlyHidden ? '收起 ↑' : '查看更多往期周报（共 3 期） ↓';
+}
+</script>
 </body>
 </html>
