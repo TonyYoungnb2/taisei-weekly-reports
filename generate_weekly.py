@@ -165,6 +165,23 @@ CSS = """
     position: relative;
     z-index: 1;
   }
+  /* 返回主页按钮 */
+  .home-btn {
+    position: absolute;
+    top: 14px; left: 16px;
+    z-index: 2;
+    display: inline-flex; align-items: center; gap: 5px;
+    background: rgba(255,255,255,.16);
+    color: #fff; text-decoration: none;
+    font-size: 13px; font-weight: 700;
+    padding: 7px 14px; border-radius: 20px;
+    border: 1px solid rgba(255,255,255,.35);
+    transition: background .15s;
+  }
+  .home-btn:hover { background: rgba(255,255,255,.30); }
+  @media (max-width: 600px) {
+    .home-btn { top: 10px; left: 10px; font-size: 12px; padding: 6px 11px; }
+  }
   .header .logo-text {
     font-size: 2em;
     font-weight: 900;
@@ -619,6 +636,7 @@ def build_report_html():
 <body>
 
 <div class="header">
+  <a href="../../index.html" class="home-btn">🏠 返回主页</a>
   <div class="logo-wrap">
     <span class="logo-text">TAISEI</span>
     <div class="title-group">
