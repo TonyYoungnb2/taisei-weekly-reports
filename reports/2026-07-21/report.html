@@ -316,7 +316,7 @@
   .share-modal.show { display: flex; }
   .share-modal .modal-box {
     background: #fff; border-radius: 20px; padding: 24px;
-    max-width: 580px; width: 95%;
+    max-width: 580px; width: 95%; max-height: 92vh; overflow-y: auto;
     box-shadow: 0 20px 60px rgba(0,0,0,0.5);
     display: flex; flex-direction: column; align-items: center;
   }
@@ -702,7 +702,7 @@
       <button class="close-btn" onclick="closeShareModal()">✕</button>
     </div>
     <div id="share-card-container"></div>
-    <img id="shareCardImg" alt="朋友圈卡片" />
+    <img id="shareCardImg" alt="朋友圈卡片" style="display:none" />
     <div class="share-actions">
       <button class="download-btn" id="downloadBtn" onclick="generateImage()">📥 保存图片</button>
       <button class="download-btn ghost" id="copyBtn" onclick="copyCard()">📋 复制文案</button>
@@ -840,7 +840,11 @@ function openShareModal() {
   document.getElementById('shareModal').classList.add('show');
   document.body.style.overflow = 'hidden';
   const container = document.getElementById('share-card-container');
+  const img = document.getElementById('shareCardImg');
   container.innerHTML = buildShareCard();
+  container.style.display = 'block';   // 先显示HTML卡片
+  img.style.display = 'none';          // 图片先隐藏，渲染成功后再切换
+  img.removeAttribute('src');
   renderCardImage();
 }
 
@@ -848,11 +852,11 @@ function renderCardImage() {
   const src = document.getElementById('share-card-container');
   const img = document.getElementById('shareCardImg');
   if (typeof html2canvas === 'undefined') return; // 库未加载则只显示HTML卡片
-  img.style.display = 'none';
   try {
     html2canvas(src, { backgroundColor: null, scale: 2, useCORS: true }).then(function(canvas) {
       img.src = canvas.toDataURL('image/png');
       img.style.display = 'block';
+      src.style.display = 'none';      // 图片就绪后隐藏HTML卡片，避免大图套小图
     }).catch(function() { /* 失败则保留HTML卡片 */ });
   } catch (e) { /* 忽略 */ }
 }
