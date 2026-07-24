@@ -722,7 +722,10 @@ def build_report_html():
   </div>
 </div>
 
-<!-- HTML2CANVAS_INLINE -->
+<!-- HTML2CANVAS_INLINE (WARNING 勿删：运行时注入内联 html2canvas 库；
+     库文件=仓库根 html2canvas.min.js，改 CDN 外链会被墙或微信拦截。
+     注入必须在 f-string 之外做，否则库内花括号会破坏 f-string 语法。
+     此占位符若缺失，分享图片功能直接崩。) -->
 
 <script>
 const COMPANY_NAME_JP = '大誠有限会社';
@@ -837,9 +840,11 @@ function openShareModal() {{
 }}
 
 function renderCardImage() {{
+  // ⚠️ 关键：HTML卡片 与 渲染图片 同一时刻只能显示一个，否则出现「大图套小图」+
+  // 高度翻倍把按钮挤出屏幕。流程：先显HTML → 渲染PNG → 成功则隐藏HTML只留图片。
   const src = document.getElementById('share-card-container');
   const img = document.getElementById('shareCardImg');
-  if (typeof html2canvas === 'undefined') return; // 库未加载则只显示HTML卡片
+  if (typeof html2canvas === 'undefined') return; // 库未加载则只显示HTML卡片(退化)
   try {{
     html2canvas(src, {{ backgroundColor: null, scale: 2, useCORS: true }}).then(function(canvas) {{
       img.src = canvas.toDataURL('image/png');
