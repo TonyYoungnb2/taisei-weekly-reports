@@ -93,6 +93,32 @@ NEWS_DATA = {
     ],
 }
 
+# ─── 週間データの読み込み（cronが書き出したJSONを優先、なければハードコード fallback） ───
+# ⚠️ cron 任务(大誠周报自动生成)会把真实抓取的新闻写入 data/weekly_data_sample.json
+#    （deploy.yml 的 push 触发路径另用 data/weekly_data.json）。两者都チェックする。
+#    这里只读「5大板块新闻」，STATS/TRENDS/热点/点评仍用下方ハードコード（cron未产出这些）。
+import os as _os
+
+def load_weekly_data():
+    """优先读取 cron 写出的真实周报数据；缺失/损坏则退回内置样例 NEWS_DATA"""
+    _base = _os.path.dirname(_os.path.abspath(__file__))
+    _candidates = [
+        _os.path.join(_base, 'data', 'weekly_data_sample.json'),
+        _os.path.join(_base, 'data', 'weekly_data.json'),
+    ]
+    for _p in _candidates:
+        try:
+            if not _os.path.exists(_p):
+                continue
+            with io.open(_p, encoding='utf-8') as _f:
+                _d = json.loads(_f.read())
+            if isinstance(_d, dict) and all(k in _d for k in ['policy','deals','develop','tech','survey']):
+                # 补齐字段（cron 产出含 url_text，内置样例无，统一即可）
+                return _d
+        except Exception:
+            continue
+    return NEWS_DATA
+
 # ─── 固定データ（每周更新） ─────────────────────────────────────────────
 STATS = {
     'stat_1': '3.21%',   # フラット35主力金利
@@ -594,6 +620,11 @@ def build_report_html():
     date_range = f'{date_from} — {date_to}'
     today_str  = datetime.now().strftime('%Y年%m月%d日')
     week_num   = week_number()
+
+    # ⚠️ 读取真实周报数据（cron 抓取的 JSON 优先；缺失则退回内置 NEWS_DATA）
+    #    用 global 覆盖，使下方 render_news_section 读到最新数据
+    global NEWS_DATA
+    NEWS_DATA = load_weekly_data()
 
     # 热点速览（用于分享卡自动抓取 #hotlist）
     hot_items = [
