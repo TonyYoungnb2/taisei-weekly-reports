@@ -100,12 +100,14 @@ NEWS_DATA = {
 import os as _os
 
 def load_weekly_data():
-    """优先读取 cron 写出的真实周报数据；缺失/损坏则退回内置样例 NEWS_DATA"""
+    """读取 cron 写出的真实周报数据（5大板块 + 可选 stats/trends/hot/flat35/comment）。
+    缺失的字段则用内置 DEFAULT_* 兜底，绝不空跑崩。"""
     _base = _os.path.dirname(_os.path.abspath(__file__))
     _candidates = [
         _os.path.join(_base, 'data', 'weekly_data_sample.json'),
         _os.path.join(_base, 'data', 'weekly_data.json'),
     ]
+    _data = None
     for _p in _candidates:
         try:
             if not _os.path.exists(_p):
@@ -113,34 +115,58 @@ def load_weekly_data():
             with io.open(_p, encoding='utf-8') as _f:
                 _d = json.loads(_f.read())
             if isinstance(_d, dict) and all(k in _d for k in ['policy','deals','develop','tech','survey']):
-                # 补齐字段（cron 产出含 url_text，内置样例无，统一即可）
-                return _d
+                _data = _d
+                break
         except Exception:
             continue
-    return NEWS_DATA
+    if _data is None:
+        # 无 JSON：新闻也用内置 NEWS_DATA，其余用 DEFAULT_*
+        _data = dict(NEWS_DATA)
+    # 兜底合并（真实値優先、なければ DEFAULT_*）
+    _out = {}
+    for _k in ['policy','deals','develop','tech','survey']:
+        _out[_k] = _data.get(_k, NEWS_DATA.get(_k, []))
+    _out['stats']   = _data.get('stats',   DEFAULT_STATS)
+    _out['trends']  = _data.get('trends',  DEFAULT_TRENDS)
+    _out['hot']     = _data.get('hot',     DEFAULT_HOT)
+    _out['flat35']  = _data.get('flat35',  DEFAULT_FLAT35)
+    _out['comment'] = _data.get('comment', DEFAULT_COMMENT)
+    return _out
 
-# ─── 固定データ（每周更新） ─────────────────────────────────────────────
-STATS = {
-    'stat_1': '3.21%',   # フラット35主力金利
-    'stat_2': '▲+3.4%',   # 首都圈中古成约（相对前年）
-    'stat_3': '1,412戸',  # 新建マンシ供给
-    'stat_4': '14个月',   # 连续上升月数
-    'stat_5': '5万/坪',   # 東京駅周辺
-}
-
-TRENDS = [
-    ('首都圈中古マンシ\n㎡单价（23区）', '5,078円 ▼0.2%', 'down'),
-    ('首都圈新建マンシ\n供给户数（6月）', '1,412戸 ->', 'flat'),
-    ('首都圈中古マンシ\n成约件数（6月）', '3.4%減 ▼', 'down'),
-    ('東京都23区中古戸建\n平均价格', '4,254万円 ▲2.8%', 'up'),
-    ('J-REIT 総合指数', '▲上昇中', 'up'),
+# ─── 默认（fallback）データ：cronが真实値を产出しない場合に使用 ──────────────
+# これらは weekly_data*.json の同名キーで上書きされる（cron 真实抓取優先）。
+DEFAULT_STATS = [
+    {'value': '3.21%',   'label': 'フラット35 主力金利（7月時点）'},
+    {'value': '▲+3.4%',  'label': '首都圈中古マンシ 成约件数（前年比）'},
+    {'value': '1,412戸', 'label': '首都圈新建マンシ 供给户数（6月）'},
+    {'value': '14个月',  'label': 'マンシ㎡单价 连续上升月数'},
+    {'value': '5万/坪',  'label': '東京駅周辺 成约赁料'},
 ]
 
-FLAT35_RATE    = '3.21%'
-FLAT35_MONTH   = '连续4个月上升（2026年7月時点）'
-FLAT35_NOTE    = '日本央行政策利率维持1%，市场关注7月31日金融政策决定会议（MPP）动向。主要银行固定利率区间：住信SBI 3.15%〜 / auじぶん 3.19%〜 / 三井住友銀 3.20%〜'
-XIAOXIA_COMMENT= ('贷款利率4连升，但首都圈新建マンシ价格依旧坚挺（连续14个月YoY+），供需紧张持续消化利率压力。'
-                  '物流不动產方面外资与J-REIT持续扩张，近畿圈空室率趋零值得关注。中古市场成约件数3个月连减，需持续关注。')
+DEFAULT_TRENDS = [
+    {'label': '首都圈中古マンシ\n㎡单价（23区）', 'value': '5,078円 ▼0.2%', 'dir': 'down'},
+    {'label': '首都圈新建マンシ\n供给户数（6月）', 'value': '1,412戸 ->', 'dir': 'flat'},
+    {'label': '首都圈中古マンシ\n成约件数（6月）', 'value': '3.4%減 ▼', 'dir': 'down'},
+    {'label': '東京都23区中古戸建\n平均价格', 'value': '4,254万円 ▲2.8%', 'dir': 'up'},
+    {'label': 'J-REIT 総合指数', 'value': '▲上昇中', 'dir': 'up'},
+]
+
+DEFAULT_HOT = [
+    '国交省推进「ビデオ重説」制度 — 年内引入视频重要事项说明，减轻宅建士与买卖双方负担',
+    '観光庁创设地方废旅馆再生补助制度 — 地方温泉地空置旅馆迎新生，公募至2027年2月',
+    '首都圈新建マンシ持续高价 — ㎡单价连续14个月同比上升，供应户数维持1,400户以上',
+    '银座五丁目大厦重建完成 — 8月17日全面开业，成为银座新地标',
+    '外资持续布局日本物流不动產 — 近畿圈物流空室率趋零值得关注',
+]
+
+DEFAULT_FLAT35 = {
+    'rate': '3.21%',
+    'month': '连续4个月上升（2026年7月時点）',
+    'note': '日本央行政策利率维持1%，市场关注7月31日金融政策决定会议（MPP）动向。主要银行固定利率区间：住信SBI 3.15%〜 / auじぶん 3.19%〜 / 三井住友銀 3.20%〜',
+}
+
+DEFAULT_COMMENT = ('贷款利率4连升，但首都圈新建マンシ价格依旧坚挺（连续14个月YoY+），供需紧张持续消化利率压力。'
+                   '物流不动產方面外资与J-REIT持续扩张，近畿圈空室率趋零值得关注。中古市场成约件数3个月连减，需持续关注。')
 
 SECTIONS_META = {
     'policy':  ('🏛️', '政策動向', 'POLICY',   'policy',  'label-blue'),
@@ -626,42 +652,41 @@ def build_report_html():
     global NEWS_DATA
     NEWS_DATA = load_weekly_data()
 
-    # 热点速览（用于分享卡自动抓取 #hotlist）
-    hot_items = [
-        '国交省推进「ビデオ重説」制度 — 年内引入视频重要事项说明，减轻宅建士与买卖双方负担',
-        '観光庁创设地方废旅馆再生补助制度 — 地方温泉地空置旅馆迎新生，公募至2027年2月',
-        '首都圈新建マンシ持续高价 — ㎡单价连续14个月同比上升，供应户数维持1,400户以上',
-        '银座五丁目大厦重建完成 — 8月17日全面开业，成为银座新地标',
-        '外资持续布局日本物流不动產 — 近畿圈物流空室率趋零值得关注',
-    ]
-    hot_html = '\n'.join(f'<li><strong>{item.split(" — ")[0]}</strong> — {item.split(" — ")[1]}</li>' for item in hot_items)
+    # 贷款利率趋势 + 小虾点评（真实抓取優先、なければ DEFAULT_* 兜底）
+    _f35 = NEWS_DATA.get('flat35', DEFAULT_FLAT35)
+    FLAT35_RATE    = _f35.get('rate', DEFAULT_FLAT35['rate'])
+    FLAT35_MONTH   = _f35.get('month', DEFAULT_FLAT35['month'])
+    FLAT35_NOTE    = _f35.get('note', DEFAULT_FLAT35['note'])
+    XIAOXIA_COMMENT = NEWS_DATA.get('comment', DEFAULT_COMMENT)
 
-    # 顶部统计卡（#statsBar，分享卡自动抓取）
-    stat_cards = [
-        ('gold',   STATS["stat_1"], 'フラット35 主力金利（7月時点）'),
-        ('orange', STATS["stat_2"], '首都圈中古マンシ 成约件数（前年比）'),
-        ('green',  STATS["stat_3"], '首都圈新建マンシ 供给户数（6月）'),
-        ('',       STATS["stat_4"], 'マンシ㎡单价 连续上升月数'),
-        ('gold',   STATS["stat_5"], '東京駅周辺 成约赁料'),
-    ]
+    # 热点速览（真实抓取；JSON 缺则 DEFAULT_HOT 兜底；用于分享卡自动抓取 #hotlist）
+    hot_items = NEWS_DATA.get('hot', DEFAULT_HOT)
+    hot_html = '\n'.join(
+        (lambda p: f'<li><strong>{p[0]}</strong> — {p[1]}</li>')(item.split(' — ', 1))
+        if ' — ' in item else f'<li>{item}</li>'
+        for item in hot_items
+    )
+
+    # 顶部统计卡（真实抓取；JSON 缺则 DEFAULT_STATS 兜底；#statsBar 分享卡自动抓取）
+    _color_by_idx = ['gold', 'orange', 'green', '', 'gold']
     stats_html = ''
-    for color, num, label in stat_cards:
-        cls = f' num {color}' if color else ' num'
+    for _i, _s in enumerate(NEWS_DATA.get('stats', DEFAULT_STATS)):
+        _color = _color_by_idx[_i] if _i < len(_color_by_idx) else ''
+        _cls = f' num {_color}' if _color else ' num'
         stats_html += f'''    <div class="stat-card">
-      <div class="{cls.strip()}">{num}</div>
-      <div class="label">{label}</div>
+      <div class="{_cls.strip()}">{_s['value']}</div>
+      <div class="label">{_s['label']}</div>
     </div>
 '''
 
-    # 市场趋势（trend-visual）
+    # 市场趋势（真实抓取；JSON 缺则 DEFAULT_TRENDS 兜底；trend-visual）
     trend_html = ''
-    for label, value, color_cls in TRENDS:
-        arrow = ''
-        if '▲' in value: arrow = ' ▲'
-        elif '▼' in value: arrow = ' ▼'
+    for _t in NEWS_DATA.get('trends', DEFAULT_TRENDS):
+        _label, _value, _dir = _t['label'], _t['value'], _t.get('dir', 'flat')
+        _arrow = ' ▲' if '▲' in _value else (' ▼' if '▼' in _value else '')
         trend_html += f'''    <div class="trend-item">
-      <div class="trend-label">{label}</div>
-      <div class="trend-value {color_cls}">{value}{arrow}</div>
+      <div class="trend-label">{_label}</div>
+      <div class="trend-value {_dir}">{_value}{_arrow}</div>
     </div>
 '''
 
