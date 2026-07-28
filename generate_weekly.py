@@ -638,6 +638,8 @@ CSS = """
   /* ===== 语言切换（主页 & 周报页共用） ===== */
   html.lang-jp .lang-cn { display: none; }
   html.lang-cn .lang-jp { display: none; }
+  html.lang-jp .lang-cn { display: none; }
+  html.lang-jp .lang-jp { display: inline; }
   /* 默认中文：仅显示 .lang-cn；.lang-jp 隐藏 */
   .lang-jp { display: none; }
   .lang-cn { display: inline; }
@@ -1094,7 +1096,7 @@ function applyReportLang(lang) {{
   // 日文：用 data-jp 文本替换同级 .lang-jp 的展示（兼容多段/标题）
   document.querySelectorAll('.lang-jp').forEach(function(el) {{
     const jp = el.getAttribute('data-jp');
-    if (jp !== null) el.textContent = jp;
+    if (jp !== null) el.innerHTML = jp;  // 用 innerHTML 以渲染 <br> 等换行
   }});
 }}
 function setReportLang(lang) {{
