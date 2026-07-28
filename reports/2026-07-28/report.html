@@ -981,6 +981,9 @@ function applyReportLang(lang) {
     const jp = el.getAttribute('data-jp');
     if (jp !== null) el.innerHTML = jp;  // 用 innerHTML 以渲染 <br> 等换行
   });
+  // 双保险：直接内联样式控制显示。即使 CSS 规则缺失/被缓存旧版覆盖，也绝不会两种语言同时隐藏（白屏）。
+  document.querySelectorAll('.lang-cn').forEach(function(el) { el.style.display = (lang === 'jp') ? 'none' : 'inline'; });
+  document.querySelectorAll('.lang-jp').forEach(function(el) { el.style.display = (lang === 'jp') ? 'inline' : 'none'; });
 }
 function setReportLang(lang) {
   applyReportLang(lang);

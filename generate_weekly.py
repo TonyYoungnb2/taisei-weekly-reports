@@ -1091,6 +1091,9 @@ function applyReportLang(lang) {{
     const jp = el.getAttribute('data-jp');
     if (jp !== null) el.innerHTML = jp;  // 用 innerHTML 以渲染 <br> 等换行
   }});
+  // 双保险：直接内联样式控制显示。即使 CSS 规则缺失/被缓存旧版覆盖，也绝不会两种语言同时隐藏（白屏）。
+  document.querySelectorAll('.lang-cn').forEach(function(el) {{ el.style.display = (lang === 'jp') ? 'none' : 'inline'; }});
+  document.querySelectorAll('.lang-jp').forEach(function(el) {{ el.style.display = (lang === 'jp') ? 'inline' : 'none'; }});
 }}
 function setReportLang(lang) {{
   applyReportLang(lang);
@@ -1123,6 +1126,7 @@ function setReportLang(lang) {{
     return html
 
 def build_index_html(reports):
+    _build_v = datetime.now().strftime('%Y%m%d%H%M')  # cache-busting 版本号
     """构建中文可视化索引页HTML（精美主页）"""
     today_str = datetime.now().strftime('%Y年%m月%d日')
     year = datetime.now().year
@@ -1143,7 +1147,7 @@ def build_index_html(reports):
         hidden = ' report-hidden' if idx >= REPORT_LIMIT else ''
         report_cards += f'''
     <div class="report-card{' latest' if idx==0 else ''}{hidden}">
-      <a href="reports/{folder}/report.html" class="card-link">
+      <a href="reports/{folder}/report.html?v={_build_v}" class="card-link">
         {badge}
         <div class="card-date">{date_str}</div>
         <div class="card-title">第 {week_num} 期 · 日本不动产周报</div>
@@ -1235,7 +1239,7 @@ function toggleMore(){
         feat_week = latest['week_num']
         feat_folder = latest['folder']
         featured_html = f'''
-    <a href="reports/{feat_folder}/report.html" class="featured">
+    <a href="reports/{feat_folder}/report.html?v={_build_v}" class="featured">
       <div class="featured-left">
         <span class="featured-tag" data-i18n="feat_tag">📌 最新一期</span>
         <h2 class="featured-title">日本不动产周报</h2>
