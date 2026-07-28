@@ -752,9 +752,9 @@ def render_news_section(key):
 
 def build_report_html():
     """构建本周报告HTML（设计风格照搬 27/28 周大诚会社周报）"""
-    date_from, date_to = get_week_range()
-    date_range = f'{date_from} — {date_to}'
-    today_str  = datetime.now().strftime('%Y年%m月%d日')
+    today_str  = datetime.now().strftime('%Y年%m月%d日')\
+        .replace('年0','年').replace('月0','月')
+    date_range = today_str   # 仅显示发布当天，不再写周区间
     week_num   = week_number()
 
     # ⚠️ 读取真实周报数据（cron 抓取的 JSON 优先；缺失则退回内置 NEWS_DATA）
