@@ -119,19 +119,62 @@ def load_weekly_data():
                 break
         except Exception:
             continue
+    # 中文翻译数据（weekly_data_cn.json）：含 *_cn 字段，优先用于中文呈现
+    _cn = None
+    _cn_path = _os.path.join(_base, 'data', 'weekly_data_cn.json')
+    if _os.path.exists(_cn_path):
+        try:
+            with io.open(_cn_path, encoding='utf-8') as _cf:
+                _cn = json.loads(_cf.read())
+        except Exception:
+            _cn = None
     if _data is None:
         # 无 JSON：新闻也用内置 NEWS_DATA，其余用 DEFAULT_*
         _data = dict(NEWS_DATA)
     # 兜底合并（真实値優先、なければ DEFAULT_*）
     _out = {}
     for _k in ['policy','deals','develop','tech','survey']:
-        _out[_k] = _data.get(_k, NEWS_DATA.get(_k, []))
-    _out['stats']   = _data.get('stats',   DEFAULT_STATS)
-    _out['trends']  = _data.get('trends',  DEFAULT_TRENDS)
+        _items = _data.get(_k, NEWS_DATA.get(_k, []))
+        # 若中文 JSON 有对应列表，则按索引把 *_cn 字段并入（用于 default-CN 呈现）
+        if isinstance(_cn, dict) and _k in _cn and isinstance(_cn[_k], list):
+            _cn_items = _cn[_k]
+            for _i, _it in enumerate(_items):
+                if _i < len(_cn_items) and isinstance(_cn_items[_i], dict):
+                    for _ck in ('title_cn','body_cn','source_cn'):
+                        if _ck in _cn_items[_i] and _ck not in _it:
+                            _it[_ck] = _cn_items[_i][_ck]
+        _out[_k] = _items
+    _out['stats']   = _merge_cn(_data.get('stats',   DEFAULT_STATS),   _cn)
+    _out['trends']  = _merge_cn(_data.get('trends',  DEFAULT_TRENDS), _cn)
     _out['hot']     = _data.get('hot',     DEFAULT_HOT)
-    _out['flat35']  = _data.get('flat35',  DEFAULT_FLAT35)
-    _out['comment'] = _data.get('comment', DEFAULT_COMMENT)
+    _out['flat35']  = _merge_cn(_data.get('flat35',  DEFAULT_FLAT35), _cn)
+    _out['comment'] = _merge_cn(_data.get('comment', DEFAULT_COMMENT), _cn)
     return _out
+
+def _merge_cn(primary, cn):
+    """primary=日语/原数据；若 cn(中文json) 含 *_cn 字段则并入，键名一致便于渲染层取用。
+    对 dict（flat35/comment）：直接把 *_cn 字段补进去；对 list：按索引补 *_cn。"""
+    if cn is None:
+        return primary
+    if isinstance(primary, dict):
+        out = dict(primary)
+        for ck in ('title_cn','body_cn','source_cn','label_cn','note_cn','month_cn','value_cn'):
+            if ck in cn:
+                out[ck] = cn[ck]
+        return out
+    if isinstance(primary, list):
+        out = []
+        cn_list = cn if isinstance(cn, list) else []
+        for i, it in enumerate(primary):
+            if isinstance(it, dict):
+                it = dict(it)
+                if i < len(cn_list) and isinstance(cn_list[i], dict):
+                    for ck in ('title_cn','body_cn','source_cn','label_cn','value_cn'):
+                        if ck in cn_list[i] and ck not in it:
+                            it[ck] = cn_list[i][ck]
+            out.append(it)
+        return out
+    return primary
 
 # ─── 默认（fallback）データ：cronが真实値を产出しない場合に使用 ──────────────
 # これらは weekly_data*.json の同名キーで上書きされる（cron 真实抓取優先）。
@@ -169,11 +212,11 @@ DEFAULT_COMMENT = ('贷款利率4连升，但首都圈新建マンシ价格依�
                    '物流不动產方面外资与J-REIT持续扩张，近畿圈空室率趋零值得关注。中古市场成约件数3个月连减，需持续关注。')
 
 SECTIONS_META = {
-    'policy':  ('🏛️', '政策動向', 'POLICY',   'policy',  'label-blue'),
-    'deals':   ('💼', '市場取引・投資', 'DEALS',    'deal',    'label-gold'),
-    'develop': ('🏗️', '開発動向', 'DEVELOP',  'dev',     'label-green'),
-    'tech':    ('🤖', '科技・イノベーション', 'TECH', 'tech',    'label-purple'),
-    'survey':  ('📊', '調査・トレンド', 'RESEARCH', 'survey',  'label-red'),
+    'policy':  ('🏛️', '政策动态', '政策動向', 'POLICY',   'policy',  'label-blue'),
+    'deals':   ('💼', '市场交易·投资', '市場取引・投資', 'DEALS',    'deal',    'label-gold'),
+    'develop': ('🏗️', '开发动态', '開発動向', 'DEVELOP',  'dev',     'label-green'),
+    'tech':    ('🤖', '科技·创新', '科技・イノベーション', 'TECH', 'tech',    'label-purple'),
+    'survey':  ('📊', '调查·趋势', '調査・トレンド', 'RESEARCH', 'survey',  'label-red'),
 }
 
 # ─── CSS 样式（包含在HTML中，照搬 27/28 周大诚会社周报设计风格） ─────────────
@@ -591,6 +634,38 @@ CSS = """
     #share-card { width: 100%; }
     #share-card .card-content { padding: 20px 18px; }
   }
+
+  /* ===== 语言切换（主页 & 周报页共用） ===== */
+  html.lang-jp .lang-cn { display: none; }
+  html.lang-cn .lang-jp { display: none; }
+  /* 默认中文：仅显示 .lang-cn；.lang-jp 隐藏 */
+  .lang-jp { display: none; }
+  .lang-cn { display: inline; }
+
+  .lang-switch {
+    position: absolute; top: 14px; right: 16px; z-index: 3;
+    display: inline-flex; align-items: center; gap: 8px;
+    background: rgba(255,255,255,.16);
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 20px; padding: 5px 6px 5px 10px;
+  }
+  .lang-switch .seg {
+    display: inline-flex; border-radius: 14px; overflow: hidden;
+  }
+  .lang-switch .seg button {
+    border: none; background: transparent; color: #fff; cursor: pointer;
+    font-size: 13px; font-weight: 700; padding: 4px 10px; opacity: .65;
+  }
+  .lang-switch .seg button.active { background: #fff; color: #16213e; opacity: 1; }
+  .lang-switch .remember {
+    display: inline-flex; align-items: center; gap: 4px;
+    color: #fff; font-size: 12px; cursor: pointer; user-select: none;
+  }
+  .lang-switch .remember input { cursor: pointer; }
+  @media (max-width: 600px) {
+    .lang-switch { right: 12px; top: 10px; padding: 4px 4px 4px 8px; }
+    .lang-switch .remember { display: none; }
+  }
 """
 
 # ─── 辅助函数 ──────────────────────────────────────────────────────────
@@ -614,8 +689,13 @@ def week_number():
 
 def render_news_card(news, accent_class, label_class):
     meta  = f'<div class="date">{news["date"]} <span class="source">{news["source"]}</span></div>'
-    title = f'<h3>{news["title"]}</h3>'
-    body  = f'<p>{news["body"]}</p>'
+    # 双语：默认显示中文(title_cn/body_cn)，日文作 data-jp 后备
+    _title_cn = news.get('title_cn', news['title'])
+    _body_cn  = news.get('body_cn', news['body'])
+    title = (f'<h3><span class="lang-cn">{_title_cn}</span>'
+            f'<span class="lang-jp" data-jp="{news["title"].replace(chr(34), chr(39))}">{news["title"]}</span></h3>')
+    body  = (f'<p><span class="lang-cn">{_body_cn}</span>'
+           f'<span class="lang-jp" data-jp="{news["body"].replace(chr(34), chr(39))}">{news["body"]}</span></p>')
     link  = f'<a href="{news["url"]}" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>'
     return f'''<div class="card {accent_class}">
   {meta}
@@ -627,12 +707,13 @@ def render_news_card(news, accent_class, label_class):
 
 def render_news_section(key):
     meta = SECTIONS_META[key]
-    icon, title, tag, accent_class, label_class = meta
+    icon, title_cn, title_jp, tag, accent_class, label_class = meta
     items = NEWS_DATA.get(key, [])
     cards_html = '\n'.join(render_news_card(n, accent_class, label_class) for n in items)
     return f'''<div class="section">
   <div class="section-title">
-    <span class="icon">{icon}</span> {title}
+    <span class="icon">{icon}</span>
+    <span class="lang-cn">{title_cn}</span><span class="lang-jp" data-jp="{title_jp}">{title_jp}</span>
     <span class="tag">{tag}</span>
   </div>
   <div class="card-grid cols-2">
@@ -655,38 +736,42 @@ def build_report_html():
     # 贷款利率趋势 + 小虾点评（真实抓取優先、なければ DEFAULT_* 兜底）
     _f35 = NEWS_DATA.get('flat35', DEFAULT_FLAT35)
     FLAT35_RATE    = _f35.get('rate', DEFAULT_FLAT35['rate'])
-    FLAT35_MONTH   = _f35.get('month', DEFAULT_FLAT35['month'])
-    FLAT35_NOTE    = _f35.get('note', DEFAULT_FLAT35['note'])
-    XIAOXIA_COMMENT = NEWS_DATA.get('comment', DEFAULT_COMMENT)
+    FLAT35_MONTH   = _f35.get('month_cn', _f35.get('month', DEFAULT_FLAT35['month']))
+    FLAT35_NOTE    = _f35.get('note_cn', _f35.get('note', DEFAULT_FLAT35['note']))
+    XIAOXIA_COMMENT = NEWS_DATA.get('comment_cn', NEWS_DATA.get('comment', DEFAULT_COMMENT))
 
-    # 热点速览（真实抓取；JSON 缺则 DEFAULT_HOT 兜底；用于分享卡自动抓取 #hotlist）
+    # 热点速览（中文优先；原 JP 作 data-jp 后备）
     hot_items = NEWS_DATA.get('hot', DEFAULT_HOT)
     hot_html = '\n'.join(
-        (lambda p: f'<li><strong>{p[0]}</strong> — {p[1]}</li>')(item.split(' — ', 1))
-        if ' — ' in item else f'<li>{item}</li>'
+        (lambda p: f'<li><span class="lang-cn"><strong>{p[0]}</strong> — {p[1]}</span>'
+                    f'<span class="lang-jp" data-jp="{item.replace(chr(34), chr(39))}">{item}</span></li>')(item.split(' — ', 1))
+        if ' — ' in item else f'<li><span class="lang-cn">{item}</span><span class="lang-jp" data-jp="{item.replace(chr(34), chr(39))}">{item}</span></li>'
         for item in hot_items
     )
 
-    # 顶部统计卡（真实抓取；JSON 缺则 DEFAULT_STATS 兜底；#statsBar 分享卡自动抓取）
+    # 顶部统计卡（中文 label_cn 优先；JP 作 data-jp 后备）
     _color_by_idx = ['gold', 'orange', 'green', '', 'gold']
     stats_html = ''
     for _i, _s in enumerate(NEWS_DATA.get('stats', DEFAULT_STATS)):
         _color = _color_by_idx[_i] if _i < len(_color_by_idx) else ''
         _cls = f' num {_color}' if _color else ' num'
+        _lbl_cn = _s.get('label_cn', _s['label'])
         stats_html += f'''    <div class="stat-card">
       <div class="{_cls.strip()}">{_s['value']}</div>
-      <div class="label">{_s['label']}</div>
+      <div class="label"><span class="lang-cn">{_lbl_cn}</span><span class="lang-jp" data-jp="{_s['label'].replace(chr(34), chr(39))}">{_s['label']}</span></div>
     </div>
 '''
 
-    # 市场趋势（真实抓取；JSON 缺则 DEFAULT_TRENDS 兜底；trend-visual）
+    # 市场趋势（中文 label_cn 优先；JP 作 data-jp 后备）
     trend_html = ''
     for _t in NEWS_DATA.get('trends', DEFAULT_TRENDS):
-        _label, _value, _dir = _t['label'], _t['value'], _t.get('dir', 'flat')
-        _arrow = ' ▲' if '▲' in _value else (' ▼' if '▼' in _value else '')
+        _label, _value, _dir = _t.get('label_cn', _t['label']), _t.get('value_cn', _t['value']), _t.get('dir', 'flat')
+        _label_jp = _t['label'].replace('\n', '<br>')
+        _value_jp = _t['value']
+        _arrow = ' ▲' if '▲' in _value_jp else (' ▼' if '▼' in _value_jp else '')
         trend_html += f'''    <div class="trend-item">
-      <div class="trend-label">{_label}</div>
-      <div class="trend-value {_dir}">{_value}{_arrow}</div>
+      <div class="trend-label"><span class="lang-cn">{_label.replace(chr(10), '<br>')}</span><span class="lang-jp" data-jp="{_label_jp.replace(chr(34), chr(39))}">{_label_jp}</span></div>
+      <div class="trend-value {_dir}"><span class="lang-cn">{_value}</span><span class="lang-jp" data-jp="{_value_jp}">{_value_jp}{_arrow}</span></div>
     </div>
 '''
 
@@ -705,11 +790,18 @@ def build_report_html():
 
 <div class="header">
   <a href="../../index.html" class="home-btn">🏠 返回主页</a>
+  <div class="lang-switch" id="langSwitch">
+    <div class="seg">
+      <button type="button" data-lang="cn" class="active">中文</button>
+      <button type="button" data-lang="jp">日本語</button>
+    </div>
+    <label class="remember"><input type="checkbox" id="langRemember"> 記憶</label>
+  </div>
   <div class="logo-wrap">
     <span class="logo-text">TAISEI</span>
     <div class="title-group">
-      <h1>大诚会社専用不動產週報</h1>
-      <div class="subtitle">政策 · 市場 · 開発 · トレンド</div>
+      <h1><span class="lang-cn">大诚会社专用不动产周报</span><span class="lang-jp" data-jp="大誠会社専用不動產週報">大誠会社専用不動產週報</span></h1>
+      <div class="subtitle"><span class="lang-cn">政策 · 市场 · 开发 · 趋势</span><span class="lang-jp" data-jp="政策 · 市場 · 開発 · トレンド">政策 · 市場 · 開発 · トレンド</span></div>
       <div class="date-range" id="headerDateRange">📅 {date_range}</div>
     </div>
   </div>
@@ -723,7 +815,7 @@ def build_report_html():
 
 <!-- 热点速览 -->
 <div class="key-insight">
-  <h3>🔥 本周热点速览</h3>
+  <h3><span class="lang-cn">🔥 本周热点速览</span><span class="lang-jp" data-jp="🔥 今週の注目トピックス">🔥 今週の注目トピックス</span></h3>
   <ul id="hotlist">
 {hot_html}
   </ul>
@@ -732,7 +824,7 @@ def build_report_html():
 <!-- Market Trend -->
 <div class="section">
   <div class="section-title">
-    <span class="icon">📊</span> 市場トレンド
+    <span class="icon">📊</span> <span class="lang-cn">市场趋势</span><span class="lang-jp" data-jp="市場トレンド">市場トレンド</span>
     <span class="tag">MARKET</span>
   </div>
   <div class="trend-visual">
@@ -743,9 +835,9 @@ def build_report_html():
 
 <!-- 贷款利率趋势 -->
 <div class="key-insight">
-  <h3>📈 贷款利率趋势</h3>
-  <p><strong>フラット35：</strong>{FLAT35_RATE}（{FLAT35_MONTH}）。{FLAT35_NOTE}</p>
-  <p style="margin-top:10px;"><strong>💡 小虾点评：</strong>{XIAOXIA_COMMENT}</p>
+  <h3><span class="lang-cn">📈 贷款利率趋势</span><span class="lang-jp" data-jp="📈 住宅ローン金利トレンド">📈 住宅ローン金利トレンド</span></h3>
+  <p><span class="lang-cn"><strong>Flat35：</strong>{FLAT35_RATE}（{FLAT35_MONTH}）。{FLAT35_NOTE}</span><span class="lang-jp" data-jp="フラット35：{FLAT35_RATE}（{FLAT35_MONTH}）。{FLAT35_NOTE}">フラット35：{FLAT35_RATE}（{FLAT35_MONTH}）。{FLAT35_NOTE}</span></p>
+  <p style="margin-top:10px;"><strong>💡 小虾点评：</strong><span class="lang-cn">{XIAOXIA_COMMENT}</span><span class="lang-jp" data-jp="{XIAOXIA_COMMENT}">{XIAOXIA_COMMENT}</span></p>
 </div>
 
 </div>
@@ -778,10 +870,11 @@ def build_report_html():
   </div>
 </div>
 
-<!-- HTML2CANVAS_INLINE (WARNING 勿删：运行时注入内联 html2canvas 库；
+<!-- HTML2CANVAS_INLINE -->
+<!-- WARNING 勿删上方占位符：运行时注入内联 html2canvas 库；
      库文件=仓库根 html2canvas.min.js，改 CDN 外链会被墙或微信拦截。
      注入必须在 f-string 之外做，否则库内花括号会破坏 f-string 语法。
-     此占位符若缺失，分享图片功能直接崩。) -->
+     此占位符若缺失，分享图片功能直接崩。 -->
 
 <script>
 const COMPANY_NAME_JP = '大誠有限会社';
@@ -789,6 +882,14 @@ const COMPANY_SITE = 'https://www.taisei-r.com/';
 function getDateRange() {{
   const el = document.getElementById('headerDateRange');
   return el ? el.textContent.trim() : '📅 2026年6月 — 6月';
+}}
+
+function visibleText(el) {{
+  if (!el) return '';
+  var cur = document.documentElement.classList.contains('lang-jp') ? 'lang-jp' : 'lang-cn';
+  var sel = el.querySelector('.' + cur);
+  if (sel) return sel.textContent;
+  return el.textContent;
 }}
 
 function getStats() {{
@@ -799,8 +900,8 @@ function getStats() {{
     const label = c.querySelector('.label');
     if (num && label) {{
       stats.push({{
-        num: num.textContent.trim(),
-        label: label.textContent.trim().replace(/\\s+/g, ' ')
+        num: visibleText(num).trim(),
+        label: visibleText(label).trim().replace(/\\s+/g, ' ')
       }});
     }}
   }});
@@ -811,7 +912,7 @@ function getHighlights() {{
   const items = document.querySelectorAll('#hotlist li');
   const highlights = [];
   items.forEach(li => {{
-    const txt = li.textContent.trim().replace(/^\\s*[—\\-–]\\s*/, '');
+    const txt = visibleText(li).trim().replace(/^\\s*[—\\-–]\\s*/, '');
     if (txt) highlights.push(txt);
   }});
   return highlights.slice(0, 4);
@@ -981,6 +1082,43 @@ function fallbackCopy(text) {{
   btn.textContent = '✅ 已复制，去粘贴吧';
   setTimeout(function() {{ btn.textContent = '📋 复制文案'; }}, 1800);
 }}
+
+/* ===== 语言切换（与主页共用 localStorage『taisei_lang』） ===== */
+function applyReportLang(lang) {{
+  document.documentElement.classList.toggle('lang-cn', lang === 'cn');
+  document.documentElement.classList.toggle('lang-jp', lang === 'jp');
+  document.documentElement.lang = (lang === 'jp') ? 'ja' : 'zh-CN';
+  document.querySelectorAll('#langSwitch .seg button').forEach(function(b) {{
+    b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+  }});
+  // 日文：用 data-jp 文本替换同级 .lang-jp 的展示（兼容多段/标题）
+  document.querySelectorAll('.lang-jp').forEach(function(el) {{
+    const jp = el.getAttribute('data-jp');
+    if (jp !== null) el.textContent = jp;
+  }});
+}}
+function setReportLang(lang) {{
+  applyReportLang(lang);
+  const remember = document.getElementById('langRemember');
+  if (remember && remember.checked) {{ try {{ localStorage.setItem('taisei_lang', lang); }} catch(e) {{}} }}
+}}
+(function() {{
+  const sw = document.getElementById('langSwitch');
+  if (sw) {{
+    sw.querySelectorAll('.seg button').forEach(function(b) {{
+      b.addEventListener('click', function() {{ setReportLang(b.getAttribute('data-lang')); }});
+    }});
+  }}
+  let saved = null;
+  try {{ saved = localStorage.getItem('taisei_lang'); }} catch(e) {{}}
+  const remember = document.getElementById('langRemember');
+  if (saved) {{
+    applyReportLang(saved);
+    if (remember) remember.checked = true;
+  }} else {{
+    applyReportLang('cn');  // 默认中文
+  }}
+}})();
 </script>
 </body>
 </html>'''
@@ -1038,12 +1176,74 @@ def build_index_html(reports):
     # 客户端展开/收起脚本（无需独立归档页）
     script_js = '''
 <script>
+/* ===== i18n 语言切换（中/日） ===== */
+var I18N = {
+  cn: {
+    hero_title: '大誠有限会社 · 日本不动产周报',
+    hero_sub: '东京不动产市场最新动态 · 每周精选推送',
+    feat_tag: '📌 最新一期',
+    feat_desc: '覆盖政策动向、市场交易、开发动态、科技前沿与调查数据五大板块，精选本周日本（以东京圈为主）不动产核心资讯，附小虾点评。',
+    feat_cta: '立即阅读 →',
+    archive_title: '往期周报（' + new Date().getFullYear() + '年）',
+    footer_note: '内容仅供参考，投资需谨慎',
+    more_view: function(n){ return '查看更多往期周报（共 ' + n + ' 期） ↓'; },
+    more_collapse: '收起 ↑'
+  },
+  jp: {
+    hero_title: '大誠有限会社 · 日本不動産週報',
+    hero_sub: '東京不動産マーケット最新情報 · 毎週厳選お届け',
+    feat_tag: '📌 最新号',
+    feat_desc: '政策動向・市場取引・開発動向・テクノロジー・調査データの5分野を網羅。今週の日本（東京圏中心）不動産の核心情報を厳選し、小蝦（シャオエビ）の解説付き。',
+    feat_cta: '今すぐ読む →',
+    archive_title: '過去の週報（' + new Date().getFullYear() + '年）',
+    footer_note: '内容は参考用です。投資は慎重に。',
+    more_view: function(n){ return '過去の週報をもっと見る（全 ' + n + ' 号） ↓'; },
+    more_collapse: '折りたたむ ↑'
+  }
+};
+function i18nText(key, arg){
+  var lang = (window.__lang || 'cn');
+  var v = I18N[lang][key];
+  if (typeof v === 'function') return v(arg);
+  return v;
+}
+function applyI18n(lang){
+  window.__lang = lang;
+  var dict = I18N[lang];
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var key = el.getAttribute('data-i18n');
+    var v = dict[key];
+    if (typeof v === 'function' && key === 'archive_title'){ el.textContent = v(); }
+    else if (v && typeof v !== 'function'){ el.textContent = v; }
+  });
+  document.querySelectorAll('.lang-btn').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+  });
+  document.documentElement.lang = (lang === 'jp') ? 'ja' : 'zh-CN';
+}
+function setLang(lang){
+  applyI18n(lang);
+  var remember = document.getElementById('rememberLang');
+  if (remember && remember.checked){ try { localStorage.setItem('taisei_lang', lang); } catch(e){} }
+}
+document.addEventListener('DOMContentLoaded', function(){
+  var saved = null;
+  try { saved = localStorage.getItem('taisei_lang'); } catch(e){}
+  var remember = document.getElementById('rememberLang');
+  if (saved){
+    applyI18n(saved);
+    if (remember) remember.checked = true;
+  } else {
+    applyI18n('cn');
+  }
+});
+/* ===== 往期展开/收起 ===== */
 function toggleMore(){
   var hidden = document.querySelectorAll('.report-hidden');
   var btn = document.getElementById('moreBtn');
   var currentlyHidden = hidden.length && hidden[0].style.display !== 'block';
   for (var i=0;i<hidden.length;i++){ hidden[i].style.display = currentlyHidden ? 'block' : 'none'; }
-  btn.textContent = currentlyHidden ? '收起 ↑' : '查看更多往期周报（共 N 期） ↓';
+  btn.textContent = currentlyHidden ? i18nText('more_collapse') : i18nText('more_view', {total_reports});
 }
 </script>'''
     script_js = script_js.replace('N', str(total_reports))
@@ -1056,12 +1256,12 @@ function toggleMore(){
         featured_html = f'''
     <a href="reports/{feat_folder}/report.html" class="featured">
       <div class="featured-left">
-        <span class="featured-tag">📌 最新一期</span>
+        <span class="featured-tag" data-i18n="feat_tag">📌 最新一期</span>
         <h2 class="featured-title">日本不动产周报</h2>
         <div class="featured-date">{feat_date} · 第 {feat_week} 期</div>
         <p class="featured-desc">覆盖政策动向、市场交易、开发动态、科技前沿与调查数据五大板块，
         精选本周日本（以东京圈为主）不动产核心资讯，附小虾点评。</p>
-        <span class="featured-cta">立即阅读 →</span>
+        <span class="featured-cta" data-i18n="feat_cta">立即阅读 →</span>
       </div>
       <div class="featured-right">
         <div class="ring"><span>{feat_week}</span><em>期</em></div>
@@ -1069,23 +1269,6 @@ function toggleMore(){
     </a>'''
     else:
         featured_html = ''
-
-    # 栏目覆盖
-    sections_cov = [
-        ('🏛️', '政策动向', '地价 · 税制 · 金融政策'),
-        ('💹', '市场交易', '新盘 · 房贷 · 投资回报'),
-        ('🏗️', '开发动态', '新项目 · 城市更新'),
-        ('🤖', '科技前沿', '建设DX · GIS · 智能家居'),
-        ('📊', '调查数据', '地价指数 · 区域行情'),
-    ]
-    cov_html = ''
-    for icon, name, sub in sections_cov:
-        cov_html += f'''
-      <div class="cov-item">
-        <div class="cov-icon">{icon}</div>
-        <div class="cov-name">{name}</div>
-        <div class="cov-sub">{sub}</div>
-      </div>'''
 
     return f'''<!DOCTYPE html>
 <html lang="zh-CN">
@@ -1112,6 +1295,22 @@ body {{
 .hero::after {{
   content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
   background: linear-gradient(90deg, #ffd479, #fff3cd, #ffd479);
+}}
+/* Lang switch */
+.lang-switch {{ position: absolute; top: 16px; right: 18px; z-index: 5;
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.16); padding: 6px 10px; border-radius: 22px;
+  border: 1px solid rgba(255,255,255,.35); }}
+.lang-btn {{ background: transparent; border: none; color: #cfe4ff; font-size: 13px;
+  font-weight: 700; padding: 4px 10px; border-radius: 16px; cursor: pointer; transition: all .15s; }}
+.lang-btn.active {{ background: #fff; color: #12457f; }}
+.lang-remember {{ color: #cfe4ff; font-size: 11px; display: flex; align-items: center; gap: 3px;
+  margin-left: 4px; cursor: pointer; white-space: nowrap; }}
+.lang-remember input {{ accent-color: #fff; width: 13px; height: 13px; }}
+@media (max-width: 720px) {{
+  .lang-switch {{ top: 10px; right: 10px; padding: 5px 8px; }}
+  .lang-btn {{ font-size: 12px; padding: 3px 8px; }}
+  .lang-remember {{ font-size: 10px; }}
 }}
 .hero-brand {{ font-size: 13px; letter-spacing: 7px; color: #cfe4ff; margin-bottom: 10px; font-weight: 700; }}
 .hero h1 {{ font-size: 30px; font-weight: 900; letter-spacing: 2px; margin-bottom: 10px; }}
@@ -1143,16 +1342,6 @@ body {{
 .ring::before {{ content: ''; position: absolute; inset: 12px; background: #fff; border-radius: 50%; }}
 .ring span {{ position: relative; font-size: 38px; font-weight: 900; color: #1a5fb4; line-height: 1; }}
 .ring em {{ position: relative; font-size: 13px; color: #5a6675; font-style: normal; margin-left: 2px; }}
-/* Coverage */
-.cov-title {{ font-size: 16px; color: #12457f; font-weight: 800; margin: 8px 0 16px;
-  display: flex; align-items: center; gap: 8px; }}
-.cov-title::before {{ content: ''; width: 5px; height: 18px; background: #c99a3f; border-radius: 3px; }}
-.cov-grid {{ display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 38px; }}
-.cov-item {{ background: #fff; border: 1px solid #e6ebf2; border-radius: 14px; padding: 18px 12px;
-  text-align: center; box-shadow: 0 2px 10px rgba(31,39,51,.05); }}
-.cov-icon {{ font-size: 26px; }}
-.cov-name {{ font-size: 14px; font-weight: 700; color: #1f2733; margin-top: 6px; }}
-.cov-sub {{ font-size: 11px; color: #8a95a5; margin-top: 3px; }}
 /* Reports */
 .sec-title {{ font-size: 16px; color: #12457f; font-weight: 800; margin: 8px 0 16px;
   display: flex; align-items: center; gap: 8px; }}
@@ -1179,7 +1368,6 @@ body {{
 .more-btn {{ background: #fff; border: 1.5px solid #1a5fb4; color: #1a5fb4; font-size: 14px; font-weight: 700; padding: 11px 30px; border-radius: 24px; cursor: pointer; transition: all .15s; }}
 .more-btn:hover {{ background: #1a5fb4; color: #fff; }}
 @media (max-width: 720px) {{
-  .cov-grid {{ grid-template-columns: repeat(2, 1fr); }}
   .featured {{ flex-direction: column; text-align: center; }}
   .featured-desc {{ margin-left: auto; margin-right: auto; }}
   .hero h1 {{ font-size: 24px; }}
@@ -1188,27 +1376,28 @@ body {{
 </head>
 <body>
 <header class="hero">
+  <div class="lang-switch" id="langSwitch">
+    <button type="button" class="lang-btn" data-lang="cn" onclick="setLang('cn')">中文</button>
+    <button type="button" class="lang-btn" data-lang="jp" onclick="setLang('jp')">日本語</button>
+    <label class="lang-remember"><input type="checkbox" id="rememberLang"> 記憶</label>
+  </div>
   <div class="hero-brand">TAISEI</div>
-  <h1>大誠有限会社 · 日本不动产周报</h1>
-  <p>东京不动产市场最新动态 · 每周精选推送</p>
+  <h1 data-i18n="hero_title">大誠有限会社 · 日本不动产周报</h1>
+  <p data-i18n="hero_sub">东京不动产市场最新动态 · 每周精选推送</p>
   <div class="hero-updated">更新于 {today_str}</div>
 </header>
 
 <div class="container">
   {featured_html}
 
-  <div class="cov-title">栏目覆盖</div>
-  <div class="cov-grid">{cov_html}
-  </div>
-
-  <div class="sec-title">往期周报（{year}年）</div>
+  <div class="sec-title" data-i18n="archive_title">往期周报（{year}年）</div>
   <div class="report-grid">{report_cards}
   </div>{show_more}
 </div>
 
 <footer class="footer">
   <p><a href="https://www.taisei-r.com/" target="_blank" rel="noopener" class="footer-brand">大誠有限会社</a> · 日本不动产周报</p>
-  <p style="margin-top:6px;opacity:.7;">内容仅供参考，投资需谨慎</p>
+  <p style="margin-top:6px;opacity:.7;" data-i18n="footer_note">内容仅供参考，投资需谨慎</p>
 </footer>{script_js}
 </body>
 </html>'''

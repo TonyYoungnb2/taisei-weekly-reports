@@ -24,6 +24,22 @@ body {
   content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
   background: linear-gradient(90deg, #ffd479, #fff3cd, #ffd479);
 }
+/* Lang switch */
+.lang-switch { position: absolute; top: 16px; right: 18px; z-index: 5;
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.16); padding: 6px 10px; border-radius: 22px;
+  border: 1px solid rgba(255,255,255,.35); }
+.lang-btn { background: transparent; border: none; color: #cfe4ff; font-size: 13px;
+  font-weight: 700; padding: 4px 10px; border-radius: 16px; cursor: pointer; transition: all .15s; }
+.lang-btn.active { background: #fff; color: #12457f; }
+.lang-remember { color: #cfe4ff; font-size: 11px; display: flex; align-items: center; gap: 3px;
+  margin-left: 4px; cursor: pointer; white-space: nowrap; }
+.lang-remember input { accent-color: #fff; width: 13px; height: 13px; }
+@media (max-width: 720px) {
+  .lang-switch { top: 10px; right: 10px; padding: 5px 8px; }
+  .lang-btn { font-size: 12px; padding: 3px 8px; }
+  .lang-remember { font-size: 10px; }
+}
 .hero-brand { font-size: 13px; letter-spacing: 7px; color: #cfe4ff; margin-bottom: 10px; font-weight: 700; }
 .hero h1 { font-size: 30px; font-weight: 900; letter-spacing: 2px; margin-bottom: 10px; }
 .hero p { font-size: 14px; color: #d6e8ff; }
@@ -54,16 +70,6 @@ body {
 .ring::before { content: ''; position: absolute; inset: 12px; background: #fff; border-radius: 50%; }
 .ring span { position: relative; font-size: 38px; font-weight: 900; color: #1a5fb4; line-height: 1; }
 .ring em { position: relative; font-size: 13px; color: #5a6675; font-style: normal; margin-left: 2px; }
-/* Coverage */
-.cov-title { font-size: 16px; color: #12457f; font-weight: 800; margin: 8px 0 16px;
-  display: flex; align-items: center; gap: 8px; }
-.cov-title::before { content: ''; width: 5px; height: 18px; background: #c99a3f; border-radius: 3px; }
-.cov-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 12px; margin-bottom: 38px; }
-.cov-item { background: #fff; border: 1px solid #e6ebf2; border-radius: 14px; padding: 18px 12px;
-  text-align: center; box-shadow: 0 2px 10px rgba(31,39,51,.05); }
-.cov-icon { font-size: 26px; }
-.cov-name { font-size: 14px; font-weight: 700; color: #1f2733; margin-top: 6px; }
-.cov-sub { font-size: 11px; color: #8a95a5; margin-top: 3px; }
 /* Reports */
 .sec-title { font-size: 16px; color: #12457f; font-weight: 800; margin: 8px 0 16px;
   display: flex; align-items: center; gap: 8px; }
@@ -90,7 +96,6 @@ body {
 .more-btn { background: #fff; border: 1.5px solid #1a5fb4; color: #1a5fb4; font-size: 14px; font-weight: 700; padding: 11px 30px; border-radius: 24px; cursor: pointer; transition: all .15s; }
 .more-btn:hover { background: #1a5fb4; color: #fff; }
 @media (max-width: 720px) {
-  .cov-grid { grid-template-columns: repeat(2, 1fr); }
   .featured { flex-direction: column; text-align: center; }
   .featured-desc { margin-left: auto; margin-right: auto; }
   .hero h1 { font-size: 24px; }
@@ -99,9 +104,14 @@ body {
 </head>
 <body>
 <header class="hero">
+  <div class="lang-switch" id="langSwitch">
+    <button type="button" class="lang-btn" data-lang="cn" onclick="setLang('cn')">中文</button>
+    <button type="button" class="lang-btn" data-lang="jp" onclick="setLang('jp')">日本語</button>
+    <label class="lang-remember"><input type="checkbox" id="rememberLang"> 記憶</label>
+  </div>
   <div class="hero-brand">TAISEI</div>
-  <h1>大誠有限会社 · 日本不动产周报</h1>
-  <p>东京不动产市场最新动态 · 每周精选推送</p>
+  <h1 data-i18n="hero_title">大誠有限会社 · 日本不动产周报</h1>
+  <p data-i18n="hero_sub">东京不动产市场最新动态 · 每周精选推送</p>
   <div class="hero-updated">更新于 2026年07月28日</div>
 </header>
 
@@ -109,48 +119,19 @@ body {
   
     <a href="reports/2026-07-28/report.html" class="featured">
       <div class="featured-left">
-        <span class="featured-tag">📌 最新一期</span>
+        <span class="featured-tag" data-i18n="feat_tag">📌 最新一期</span>
         <h2 class="featured-title">日本不动产周报</h2>
         <div class="featured-date">2026年07月28日 · 第 31 期</div>
         <p class="featured-desc">覆盖政策动向、市场交易、开发动态、科技前沿与调查数据五大板块，
         精选本周日本（以东京圈为主）不动产核心资讯，附小虾点评。</p>
-        <span class="featured-cta">立即阅读 →</span>
+        <span class="featured-cta" data-i18n="feat_cta">立即阅读 →</span>
       </div>
       <div class="featured-right">
         <div class="ring"><span>31</span><em>期</em></div>
       </div>
     </a>
 
-  <div class="cov-title">栏目覆盖</div>
-  <div class="cov-grid">
-      <div class="cov-item">
-        <div class="cov-icon">🏛️</div>
-        <div class="cov-name">政策动向</div>
-        <div class="cov-sub">地价 · 税制 · 金融政策</div>
-      </div>
-      <div class="cov-item">
-        <div class="cov-icon">💹</div>
-        <div class="cov-name">市场交易</div>
-        <div class="cov-sub">新盘 · 房贷 · 投资回报</div>
-      </div>
-      <div class="cov-item">
-        <div class="cov-icon">🏗️</div>
-        <div class="cov-name">开发动态</div>
-        <div class="cov-sub">新项目 · 城市更新</div>
-      </div>
-      <div class="cov-item">
-        <div class="cov-icon">🤖</div>
-        <div class="cov-name">科技前沿</div>
-        <div class="cov-sub">建设DX · GIS · 智能家居</div>
-      </div>
-      <div class="cov-item">
-        <div class="cov-icon">📊</div>
-        <div class="cov-name">调查数据</div>
-        <div class="cov-sub">地价指数 · 区域行情</div>
-      </div>
-  </div>
-
-  <div class="sec-title">往期周报（2026年）</div>
+  <div class="sec-title" data-i18n="archive_title">往期周报（2026年）</div>
   <div class="report-grid">
     <div class="report-card latest">
       <a href="reports/2026-07-28/report.html" class="card-link">
@@ -214,15 +195,77 @@ body {
 
 <footer class="footer">
   <p><a href="https://www.taisei-r.com/" target="_blank" rel="noopener" class="footer-brand">大誠有限会社</a> · 日本不动产周报</p>
-  <p style="margin-top:6px;opacity:.7;">内容仅供参考，投资需谨慎</p>
+  <p style="margin-top:6px;opacity:.7;" data-i18n="footer_note">内容仅供参考，投资需谨慎</p>
 </footer>
 <script>
+/* ===== i18n 语言切换（中/日） ===== */
+var I186 = {
+  cn: {
+    hero_title: '大誠有限会社 · 日本不动产周报',
+    hero_sub: '东京不动产市场最新动态 · 每周精选推送',
+    feat_tag: '📌 最新一期',
+    feat_desc: '覆盖政策动向、市场交易、开发动态、科技前沿与调查数据五大板块，精选本周日本（以东京圈为主）不动产核心资讯，附小虾点评。',
+    feat_cta: '立即阅读 →',
+    archive_title: '往期周报（' + new Date().getFullYear() + '年）',
+    footer_note: '内容仅供参考，投资需谨慎',
+    more_view: function(n){ return '查看更多往期周报（共 ' + n + ' 期） ↓'; },
+    more_collapse: '收起 ↑'
+  },
+  jp: {
+    hero_title: '大誠有限会社 · 日本不動産週報',
+    hero_sub: '東京不動産マーケット最新情報 · 毎週厳選お届け',
+    feat_tag: '📌 最新号',
+    feat_desc: '政策動向・市場取引・開発動向・テクノロジー・調査データの5分野を網羅。今週の日本（東京圏中心）不動産の核心情報を厳選し、小蝦（シャオエビ）の解説付き。',
+    feat_cta: '今すぐ読む →',
+    archive_title: '過去の週報（' + new Date().getFullYear() + '年）',
+    footer_note: '内容は参考用です。投資は慎重に。',
+    more_view: function(n){ return '過去の週報をもっと見る（全 ' + n + ' 号） ↓'; },
+    more_collapse: '折りたたむ ↑'
+  }
+};
+function i18nText(key, arg){
+  var lang = (window.__lang || 'cn');
+  var v = I186[lang][key];
+  if (typeof v === 'function') return v(arg);
+  return v;
+}
+function applyI18n(lang){
+  window.__lang = lang;
+  var dict = I186[lang];
+  document.querySelectorAll('[data-i18n]').forEach(function(el){
+    var key = el.getAttribute('data-i18n');
+    var v = dict[key];
+    if (typeof v === 'function' && key === 'archive_title'){ el.textContent = v(); }
+    else if (v && typeof v !== 'function'){ el.textContent = v; }
+  });
+  document.querySelectorAll('.lang-btn').forEach(function(b){
+    b.classList.toggle('active', b.getAttribute('data-lang') === lang);
+  });
+  document.documentElement.lang = (lang === 'jp') ? 'ja' : 'zh-C6';
+}
+function setLang(lang){
+  applyI18n(lang);
+  var remember = document.getElementById('rememberLang');
+  if (remember && remember.checked){ try { localStorage.setItem('taisei_lang', lang); } catch(e){} }
+}
+document.addEventListener('DOMContentLoaded', function(){
+  var saved = null;
+  try { saved = localStorage.getItem('taisei_lang'); } catch(e){}
+  var remember = document.getElementById('rememberLang');
+  if (saved){
+    applyI18n(saved);
+    if (remember) remember.checked = true;
+  } else {
+    applyI18n('cn');
+  }
+});
+/* ===== 往期展开/收起 ===== */
 function toggleMore(){
   var hidden = document.querySelectorAll('.report-hidden');
   var btn = document.getElementById('moreBtn');
   var currentlyHidden = hidden.length && hidden[0].style.display !== 'block';
   for (var i=0;i<hidden.length;i++){ hidden[i].style.display = currentlyHidden ? 'block' : 'none'; }
-  btn.textContent = currentlyHidden ? '收起 ↑' : '查看更多往期周报（共 6 期） ↓';
+  btn.textContent = currentlyHidden ? i18nText('more_collapse') : i18nText('more_view', {total_reports});
 }
 </script>
 </body>
