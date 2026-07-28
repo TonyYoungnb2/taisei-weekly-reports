@@ -659,14 +659,8 @@ CSS = """
     font-size: 13px; font-weight: 700; padding: 4px 10px; opacity: .65;
   }
   .lang-switch .seg button.active { background: #fff; color: #16213e; opacity: 1; }
-  .lang-switch .remember {
-    display: inline-flex; align-items: center; gap: 4px;
-    color: #fff; font-size: 12px; cursor: pointer; user-select: none;
-  }
-  .lang-switch .remember input { cursor: pointer; }
   @media (max-width: 600px) {
     .lang-switch { right: 12px; top: 10px; padding: 4px 4px 4px 8px; }
-    .lang-switch .remember { display: none; }
   }
 """
 
@@ -797,7 +791,6 @@ def build_report_html():
       <button type="button" data-lang="cn" class="active">中文</button>
       <button type="button" data-lang="jp">日本語</button>
     </div>
-    <label class="remember"><input type="checkbox" id="langRemember"> 記憶</label>
   </div>
   <div class="logo-wrap">
     <span class="logo-text">TAISEI</span>
@@ -1101,8 +1094,7 @@ function applyReportLang(lang) {{
 }}
 function setReportLang(lang) {{
   applyReportLang(lang);
-  const remember = document.getElementById('langRemember');
-  if (remember && remember.checked) {{ try {{ localStorage.setItem('taisei_lang', lang); }} catch(e) {{}} }}
+  try {{ localStorage.setItem('taisei_lang', lang); }} catch(e) {{}}
 }}
 (function() {{
   const sw = document.getElementById('langSwitch');
@@ -1113,13 +1105,7 @@ function setReportLang(lang) {{
   }}
   let saved = null;
   try {{ saved = localStorage.getItem('taisei_lang'); }} catch(e) {{}}
-  const remember = document.getElementById('langRemember');
-  if (saved) {{
-    applyReportLang(saved);
-    if (remember) remember.checked = true;
-  }} else {{
-    applyReportLang('cn');  // 默认中文
-  }}
+  applyReportLang(saved || 'cn');  // 默认中文
 }})();
 </script>
 </body>
@@ -1225,19 +1211,12 @@ function applyI18n(lang){
 }
 function setLang(lang){
   applyI18n(lang);
-  var remember = document.getElementById('rememberLang');
-  if (remember && remember.checked){ try { localStorage.setItem('taisei_lang', lang); } catch(e){} }
+  try { localStorage.setItem('taisei_lang', lang); } catch(e){}
 }
 document.addEventListener('DOMContentLoaded', function(){
   var saved = null;
   try { saved = localStorage.getItem('taisei_lang'); } catch(e){}
-  var remember = document.getElementById('rememberLang');
-  if (saved){
-    applyI18n(saved);
-    if (remember) remember.checked = true;
-  } else {
-    applyI18n('cn');
-  }
+  applyI18n(saved || 'cn');
 });
 /* ===== 往期展开/收起 ===== */
 function toggleMore(){
@@ -1306,13 +1285,9 @@ body {{
 .lang-btn {{ background: transparent; border: none; color: #cfe4ff; font-size: 13px;
   font-weight: 700; padding: 4px 10px; border-radius: 16px; cursor: pointer; transition: all .15s; }}
 .lang-btn.active {{ background: #fff; color: #12457f; }}
-.lang-remember {{ color: #cfe4ff; font-size: 11px; display: flex; align-items: center; gap: 3px;
-  margin-left: 4px; cursor: pointer; white-space: nowrap; }}
-.lang-remember input {{ accent-color: #fff; width: 13px; height: 13px; }}
 @media (max-width: 720px) {{
   .lang-switch {{ top: 10px; right: 10px; padding: 5px 8px; }}
   .lang-btn {{ font-size: 12px; padding: 3px 8px; }}
-  .lang-remember {{ font-size: 10px; }}
 }}
 .hero-brand {{ font-size: 13px; letter-spacing: 7px; color: #cfe4ff; margin-bottom: 10px; font-weight: 700; }}
 .hero h1 {{ font-size: 30px; font-weight: 900; letter-spacing: 2px; margin-bottom: 10px; }}
@@ -1381,7 +1356,6 @@ body {{
   <div class="lang-switch" id="langSwitch">
     <button type="button" class="lang-btn" data-lang="cn" onclick="setLang('cn')">中文</button>
     <button type="button" class="lang-btn" data-lang="jp" onclick="setLang('jp')">日本語</button>
-    <label class="lang-remember"><input type="checkbox" id="rememberLang"> 記憶</label>
   </div>
   <div class="hero-brand">TAISEI</div>
   <h1 data-i18n="hero_title">大誠有限会社 · 日本不动产周报</h1>

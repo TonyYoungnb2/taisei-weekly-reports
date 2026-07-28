@@ -444,14 +444,8 @@
     font-size: 13px; font-weight: 700; padding: 4px 10px; opacity: .65;
   }
   .lang-switch .seg button.active { background: #fff; color: #16213e; opacity: 1; }
-  .lang-switch .remember {
-    display: inline-flex; align-items: center; gap: 4px;
-    color: #fff; font-size: 12px; cursor: pointer; user-select: none;
-  }
-  .lang-switch .remember input { cursor: pointer; }
   @media (max-width: 600px) {
     .lang-switch { right: 12px; top: 10px; padding: 4px 4px 4px 8px; }
-    .lang-switch .remember { display: none; }
   }
 </style>
 </head>
@@ -464,7 +458,6 @@
       <button type="button" data-lang="cn" class="active">中文</button>
       <button type="button" data-lang="jp">日本語</button>
     </div>
-    <label class="remember"><input type="checkbox" id="langRemember"> 記憶</label>
   </div>
   <div class="logo-wrap">
     <span class="logo-text">TAISEI</span>
@@ -991,8 +984,7 @@ function applyReportLang(lang) {
 }
 function setReportLang(lang) {
   applyReportLang(lang);
-  const remember = document.getElementById('langRemember');
-  if (remember && remember.checked) { try { localStorage.setItem('taisei_lang', lang); } catch(e) {} }
+  try { localStorage.setItem('taisei_lang', lang); } catch(e) {}
 }
 (function() {
   const sw = document.getElementById('langSwitch');
@@ -1003,13 +995,7 @@ function setReportLang(lang) {
   }
   let saved = null;
   try { saved = localStorage.getItem('taisei_lang'); } catch(e) {}
-  const remember = document.getElementById('langRemember');
-  if (saved) {
-    applyReportLang(saved);
-    if (remember) remember.checked = true;
-  } else {
-    applyReportLang('cn');  // 默认中文
-  }
+  applyReportLang(saved || 'cn');  // 默认中文
 })();
 </script>
 </body>
