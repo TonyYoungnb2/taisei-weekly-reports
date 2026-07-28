@@ -128,6 +128,15 @@ def load_weekly_data():
                 _cn = json.loads(_cf.read())
         except Exception:
             _cn = None
+    # 日文原文数据（weekly_data_jp.json）：含 *_jp 字段，用于日语版呈现
+    _jp = None
+    _jp_path = _os.path.join(_base, 'data', 'weekly_data_jp.json')
+    if _os.path.exists(_jp_path):
+        try:
+            with io.open(_jp_path, encoding='utf-8') as _jf:
+                _jp = json.loads(_jf.read())
+        except Exception:
+            _jp = None
     if _data is None:
         # 无 JSON：新闻也用内置 NEWS_DATA，其余用 DEFAULT_*
         _data = dict(NEWS_DATA)
@@ -143,12 +152,34 @@ def load_weekly_data():
                     for _ck in ('title_cn','body_cn','source_cn'):
                         if _ck in _cn_items[_i] and _ck not in _it:
                             _it[_ck] = _cn_items[_i][_ck]
+        if isinstance(_jp, dict) and _k in _jp and isinstance(_jp[_k], list):
+            _jp_items = _jp[_k]
+            for _i, _it in enumerate(_items):
+                if _i < len(_jp_items) and isinstance(_jp_items[_i], dict):
+                    for _jk in ('title_jp','body_jp','source_jp'):
+                        if _jk in _jp_items[_i] and _jk not in _it:
+                            _it[_jk] = _jp_items[_i][_jk]
         _out[_k] = _items
     _out['stats']   = _merge_cn(_data.get('stats',   DEFAULT_STATS),   _cn)
     _out['trends']  = _merge_cn(_data.get('trends',  DEFAULT_TRENDS), _cn)
     _out['hot']     = _data.get('hot',     DEFAULT_HOT)
     _out['flat35']  = _merge_cn(_data.get('flat35',  DEFAULT_FLAT35), _cn)
     _out['comment'] = _merge_cn(_data.get('comment', DEFAULT_COMMENT), _cn)
+    # 日文原文合并：stats label_jp（按索引）、hot_jp 列表、flat35 *_jp、comment_jp
+    if isinstance(_jp, dict):
+        if isinstance(_jp.get('stats'), list) and isinstance(_out['stats'], list):
+            for _i, _st in enumerate(_out['stats']):
+                if _i < len(_jp['stats']) and isinstance(_jp['stats'][_i], dict) and isinstance(_st, dict):
+                    if 'label_jp' in _jp['stats'][_i]:
+                        _st['label_jp'] = _jp['stats'][_i]['label_jp']
+        if isinstance(_jp.get('hot'), list):
+            _out['hot_jp'] = _jp['hot']
+        if isinstance(_jp.get('flat35'), dict) and isinstance(_out['flat35'], dict):
+            for _jk in ('month_jp','note_jp','rate_jp'):
+                if _jk in _jp['flat35']:
+                    _out['flat35'][_jk] = _jp['flat35'][_jk]
+        if 'comment_jp' in _jp:
+            _out['comment_jp'] = _jp['comment_jp']
     return _out
 
 def _merge_cn(primary, cn):
@@ -688,10 +719,12 @@ def render_news_card(news, accent_class, label_class):
     # 双语：默认显示中文(title_cn/body_cn)，日文作 data-jp 后备
     _title_cn = news.get('title_cn', news['title'])
     _body_cn  = news.get('body_cn', news['body'])
+    _title_jp = news.get('title_jp', news['title'])
+    _body_jp  = news.get('body_jp', news['body'])
     title = (f'<h3><span class="lang-cn">{_title_cn}</span>'
-            f'<span class="lang-jp" data-jp="{news["title"].replace(chr(34), chr(39))}">{news["title"]}</span></h3>')
+            f'<span class="lang-jp" data-jp="{_title_jp.replace(chr(34), chr(39))}">{_title_jp}</span></h3>')
     body  = (f'<p><span class="lang-cn">{_body_cn}</span>'
-           f'<span class="lang-jp" data-jp="{news["body"].replace(chr(34), chr(39))}">{news["body"]}</span></p>')
+           f'<span class="lang-jp" data-jp="{_body_jp.replace(chr(34), chr(39))}">{_body_jp}</span></p>')
     link  = f'<a href="{news["url"]}" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>'
     return f'''<div class="card {accent_class}">
   {meta}
@@ -734,16 +767,30 @@ def build_report_html():
     FLAT35_RATE    = _f35.get('rate', DEFAULT_FLAT35['rate'])
     FLAT35_MONTH   = _f35.get('month_cn', _f35.get('month', DEFAULT_FLAT35['month']))
     FLAT35_NOTE    = _f35.get('note_cn', _f35.get('note', DEFAULT_FLAT35['note']))
+    FLAT35_MONTH_JP = _f35.get('month_jp', _f35.get('month', DEFAULT_FLAT35['month']))
+    FLAT35_NOTE_JP  = _f35.get('note_jp', _f35.get('note', DEFAULT_FLAT35['note']))
     XIAOXIA_COMMENT = NEWS_DATA.get('comment_cn', NEWS_DATA.get('comment', DEFAULT_COMMENT))
+    XIAOXIA_COMMENT_JP = NEWS_DATA.get('comment_jp', NEWS_DATA.get('comment', DEFAULT_COMMENT))
 
     # 热点速览（中文优先；原 JP 作 data-jp 后备）
     hot_items = NEWS_DATA.get('hot', DEFAULT_HOT)
-    hot_html = '\n'.join(
-        (lambda p: f'<li><span class="lang-cn"><strong>{p[0]}</strong> — {p[1]}</span>'
-                    f'<span class="lang-jp" data-jp="{item.replace(chr(34), chr(39))}">{item}</span></li>')(item.split(' — ', 1))
-        if ' — ' in item else f'<li><span class="lang-cn">{item}</span><span class="lang-jp" data-jp="{item.replace(chr(34), chr(39))}">{item}</span></li>'
-        for item in hot_items
-    )
+    _hot_jp = NEWS_DATA.get('hot_jp', hot_items)
+    _hot_rows = []
+    for _hi, item in enumerate(hot_items):
+        _jp_item = _hot_jp[_hi] if _hi < len(_hot_jp) else item
+        if ' — ' in item:
+            _p = item.split(' — ', 1)
+            _cn_html = f'<strong>{_p[0]}</strong> — {_p[1]}'
+        else:
+            _cn_html = item
+        if ' — ' in _jp_item:
+            _q = _jp_item.split(' — ', 1)
+            _jp_html = f'<strong>{_q[0]}</strong> — {_q[1]}'
+        else:
+            _jp_html = _jp_item
+        _hot_rows.append(f'<li><span class="lang-cn">{_cn_html}</span>'
+                         f'<span class="lang-jp" data-jp="{_jp_item.replace(chr(34), chr(39))}">{_jp_html}</span></li>')
+    hot_html = '\n'.join(_hot_rows)
 
     # 顶部统计卡（中文 label_cn 优先；JP 作 data-jp 后备）
     _color_by_idx = ['gold', 'orange', 'green', '', 'gold']
@@ -752,9 +799,10 @@ def build_report_html():
         _color = _color_by_idx[_i] if _i < len(_color_by_idx) else ''
         _cls = f' num {_color}' if _color else ' num'
         _lbl_cn = _s.get('label_cn', _s['label'])
+        _lbl_jp = _s.get('label_jp', _s['label'])
         stats_html += f'''    <div class="stat-card">
       <div class="{_cls.strip()}">{_s['value']}</div>
-      <div class="label"><span class="lang-cn">{_lbl_cn}</span><span class="lang-jp" data-jp="{_s['label'].replace(chr(34), chr(39))}">{_s['label']}</span></div>
+      <div class="label"><span class="lang-cn">{_lbl_cn}</span><span class="lang-jp" data-jp="{_lbl_jp.replace(chr(34), chr(39))}">{_lbl_jp}</span></div>
     </div>
 '''
 
@@ -831,8 +879,8 @@ def build_report_html():
 <!-- 贷款利率趋势 -->
 <div class="key-insight">
   <h3><span class="lang-cn">📈 贷款利率趋势</span><span class="lang-jp" data-jp="📈 住宅ローン金利トレンド">📈 住宅ローン金利トレンド</span></h3>
-  <p><span class="lang-cn"><strong>Flat35：</strong>{FLAT35_RATE}（{FLAT35_MONTH}）。{FLAT35_NOTE}</span><span class="lang-jp" data-jp="フラット35：{FLAT35_RATE}（{FLAT35_MONTH}）。{FLAT35_NOTE}">フラット35：{FLAT35_RATE}（{FLAT35_MONTH}）。{FLAT35_NOTE}</span></p>
-  <p style="margin-top:10px;"><strong>💡 小虾点评：</strong><span class="lang-cn">{XIAOXIA_COMMENT}</span><span class="lang-jp" data-jp="{XIAOXIA_COMMENT}">{XIAOXIA_COMMENT}</span></p>
+  <p><span class="lang-cn"><strong>Flat35：</strong>{FLAT35_RATE}（{FLAT35_MONTH}）。{FLAT35_NOTE}</span><span class="lang-jp" data-jp="フラット35：{FLAT35_RATE}（{FLAT35_MONTH_JP}）。{FLAT35_NOTE_JP}">フラット35：{FLAT35_RATE}（{FLAT35_MONTH_JP}）。{FLAT35_NOTE_JP}</span></p>
+  <p style="margin-top:10px;"><strong>💡 小虾点评：</strong><span class="lang-cn">{XIAOXIA_COMMENT}</span><span class="lang-jp" data-jp="{XIAOXIA_COMMENT_JP}">{XIAOXIA_COMMENT_JP}</span></p>
 </div>
 
 </div>
