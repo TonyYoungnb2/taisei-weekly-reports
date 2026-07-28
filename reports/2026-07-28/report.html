@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="大誠有限会社専用不動產週報 2026年7月27日 — 2026年8月2日">
+<title>大誠不动產週報 2026年7月27日 — 2026年8月2日</title>
+<style>
+  /* 不使用 Google Fonts：国内/微信环境会挂起导致截图卡死，改用系统字体 */
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Noto Sans SC', -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: #f0f2f5;
+    color: #1a1a2e;
+    line-height: 1.6;
+  }
+  /* Header */
+  .header {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #fff;
+    padding: 40px 20px 30px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .header::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(255,255,255,0.03) 1px, transparent 1px);
+    background-size: 30px 30px;
+    animation: drift 20s linear infinite;
+  }
+  @keyframes drift { 0% { transform: translate(0,0); } 100% { transform: translate(30px,30px); } }
+  .header .logo-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    flex-wrap: wrap;
+    position: relative;
+    z-index: 1;
+  }
+  /* 返回主页按钮 */
+  .home-btn {
+    position: absolute;
+    top: 14px; left: 16px;
+    z-index: 2;
+    display: inline-flex; align-items: center; gap: 5px;
+    background: rgba(255,255,255,.16);
+    color: #fff; text-decoration: none;
+    font-size: 13px; font-weight: 700;
+    padding: 7px 14px; border-radius: 20px;
+    border: 1px solid rgba(255,255,255,.35);
+    transition: background .15s;
+  }
+  .home-btn:hover { background: rgba(255,255,255,.30); }
+  @media (max-width: 600px) {
+    .home-btn { top: 10px; left: 10px; font-size: 12px; padding: 6px 11px; }
+  }
+  .header .logo-text {
+    font-size: 2em;
+    font-weight: 900;
+    letter-spacing: 6px;
+    color: #3b82f6;
+    text-shadow: 0 0 20px rgba(59,130,246,0.4);
+    line-height: 1;
+  }
+  .header .logo-wrap .title-group { text-align: left; }
+  .header h1 {
+    font-size: 1.8em;
+    font-weight: 900;
+    letter-spacing: 4px;
+    position: relative;
+    z-index: 1;
+  }
+  .header .subtitle {
+    font-size: 0.95em;
+    opacity: 0.7;
+    margin-top: 8px;
+    letter-spacing: 2px;
+    position: relative;
+    z-index: 1;
+  }
+  .header .date-range {
+    display: inline-block;
+    background: rgba(255,255,255,0.12);
+    padding: 4px 18px;
+    border-radius: 20px;
+    font-size: 0.85em;
+    margin-top: 12px;
+    position: relative;
+    z-index: 1;
+  }
+  .container { max-width: 1100px; margin: 0 auto; padding: 20px; }
+  /* Stats bar */
+  .stats-bar {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 12px;
+    margin: -30px auto 30px;
+    max-width: 1000px;
+    padding: 0 20px;
+    position: relative;
+    z-index: 2;
+  }
+  .stat-card {
+    background: #fff;
+    border-radius: 14px;
+    padding: 18px;
+    text-align: center;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+  }
+  .stat-card .num {
+    font-size: 1.6em;
+    font-weight: 700;
+    color: #0f3460;
+  }
+  .stat-card .num.gold { color: #c9a959; }
+  .stat-card .num.orange { color: #e67e22; }
+  .stat-card .num.green { color: #27ae60; }
+  .stat-card .label {
+    font-size: 0.75em;
+    color: #888;
+    margin-top: 4px;
+  }
+  /* Section */
+  .section { margin-bottom: 28px; }
+  .section-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 1.2em;
+    font-weight: 700;
+    margin-bottom: 14px;
+    padding-bottom: 10px;
+    border-bottom: 3px solid #0f3460;
+  }
+  .section-title .icon { font-size: 1.4em; }
+  .section-title .tag {
+    font-size: 0.55em;
+    background: #0f3460;
+    color: #fff;
+    padding: 2px 10px;
+    border-radius: 10px;
+    font-weight: 500;
+  }
+  /* Grid for cards */
+  .card-grid { display: grid; gap: 12px; }
+  .card-grid.cols-2 {
+    grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+  }
+  .card {
+    background: #fff;
+    border-radius: 12px;
+    padding: 18px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    transition: transform 0.15s, box-shadow 0.15s;
+    border-left: 4px solid transparent;
+  }
+  .card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+  }
+  .card.policy { border-left-color: #0f3460; }
+  .card.deal { border-left-color: #c9a959; }
+  .card.price { border-left-color: #e67e22; }
+  .card.dev   { border-left-color: #27ae60; }
+  .card.tech  { border-left-color: #8e44ad; }
+  .card.survey { border-left-color: #e74c3c; }
+  
+  .card .date {
+    font-size: 0.75em;
+    color: #999;
+    margin-bottom: 4px;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .card .date .source {
+    background: #f0f0f0;
+    padding: 1px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+  }
+  .card h3 {
+    font-size: 0.95em;
+    font-weight: 600;
+    margin-bottom: 6px;
+    line-height: 1.5;
+  }
+  .card p {
+    font-size: 0.82em;
+    color: #555;
+    line-height: 1.6;
+  }
+  .card .source-link {
+    display: block;
+    font-size: 0.72em;
+    margin-top: 8px;
+    text-decoration: none;
+    color: #0f3460;
+    font-weight: 500;
+    opacity: 0.7;
+    transition: opacity 0.15s;
+  }
+  .card:hover .source-link { opacity: 1; }
+  .card .source-link:hover { text-decoration: underline; }
+  .card .label {
+    display: inline-block;
+    font-size: 0.65em;
+    padding: 2px 8px;
+    border-radius: 4px;
+    margin-right: 4px;
+    margin-top: 6px;
+  }
+  .label-blue { background: #e8f0fe; color: #0f3460; }
+  .label-gold { background: #fef8e0; color: #8a6d0b; }
+  .label-green { background: #e6f7ed; color: #1a7a3a; }
+  .label-orange { background: #fef0e0; color: #b8590a; }
+  .label-purple { background: #f0e6ff; color: #6b2fa0; }
+  .label-red { background: #fde8e8; color: #c0392b; }
+
+  /* Key insight */
+  .key-insight {
+    background: linear-gradient(135deg, #fff8e1, #fff3cd);
+    border: 1px solid #ffe082;
+    border-radius: 12px;
+    padding: 20px;
+    margin-bottom: 28px;
+  }
+  .key-insight h3 {
+    font-size: 1em;
+    color: #b8860b;
+    margin-bottom: 8px;
+  }
+  .key-insight p, .key-insight li {
+    font-size: 0.85em;
+    color: #666;
+    line-height: 1.7;
+  }
+  .key-insight ul { padding-left: 18px; margin-top: 6px; }
+  .key-insight li { margin-bottom: 4px; }
+  .key-insight strong { color: #333; }
+
+  /* Trend chart (CSS-based visual) */
+  .trend-visual {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin: 16px 0;
+  }
+  .trend-item {
+    flex: 1;
+    min-width: 140px;
+    background: #fff;
+    border-radius: 10px;
+    padding: 14px;
+    text-align: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  }
+  .trend-item .trend-label {
+    font-size: 0.72em;
+    color: #999;
+  }
+  .trend-item .trend-value {
+    font-size: 1.3em;
+    font-weight: 700;
+    margin-top: 4px;
+  }
+  .trend-item .trend-value.up { color: #e74c3c; }
+  .trend-item .trend-value.down { color: #27ae60; }
+  .trend-item .trend-value.flat { color: #f39c12; }
+  .trend-item .trend-arrow { font-size: 0.7em; margin-left: 2px; }
+
+  /* Footer */
+  .footer {
+    text-align: center;
+    padding: 30px 20px;
+    color: #999;
+    font-size: 0.75em;
+    border-top: 1px solid #e0e0e0;
+    margin-top: 20px;
+  }
+  .footer a { color: #0f3460; text-decoration: none; }
+
+  /* Share card & modal */
+  .share-btn-fab {
+    position: fixed; bottom: 30px; right: 30px; z-index: 999;
+    width: 56px; height: 56px; border-radius: 50%;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: #fff; border: none;
+    box-shadow: 0 4px 20px rgba(59,130,246,0.4);
+    cursor: pointer; font-size: 22px;
+    display: flex; align-items: center; justify-content: center;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .share-btn-fab:hover { transform: scale(1.1); box-shadow: 0 6px 28px rgba(59,130,246,0.55); }
+  .share-btn-fab:active { transform: scale(0.95); }
+  .share-btn-fab .tooltip {
+    position: absolute; right: 64px;
+    background: rgba(0,0,0,0.8); color: #fff;
+    padding: 6px 12px; border-radius: 6px; font-size: 13px;
+    white-space: nowrap; opacity: 0; pointer-events: none;
+    transition: opacity 0.2s;
+  }
+  .share-btn-fab:hover .tooltip { opacity: 1; }
+  .share-modal {
+    display: none; position: fixed; top:0; left:0; width:100%; height:100%;
+    background: rgba(0,0,0,0.65); z-index: 9999;
+    justify-content: center; align-items: center; backdrop-filter: blur(4px);
+  }
+  .share-modal.show { display: flex; }
+  .share-modal .modal-box {
+    background: #fff; border-radius: 20px; padding: 24px;
+    max-width: 580px; width: 95%; max-height: 92vh; overflow-y: auto;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.5);
+    display: flex; flex-direction: column; align-items: center;
+  }
+  .share-modal .modal-box .modal-header {
+    display: flex; justify-content: space-between; align-items: center;
+    width: 100%; margin-bottom: 16px;
+  }
+  .share-modal .modal-box .modal-header span { color: #475569; font-size: 14px; font-weight: 600; }
+  .share-modal .modal-box .modal-header .close-btn {
+    background: none; border: none; color: #666;
+    font-size: 28px; cursor: pointer; line-height: 1;
+  }
+  .share-modal .modal-box .modal-header .close-btn:hover { color: #1e293b; }
+  #share-card {
+    width: 540px;
+    background: #fff;
+    border-radius: 16px; overflow: hidden; position: relative;
+    font-family: "Noto Sans SC","PingFang SC","Microsoft YaHei",sans-serif;
+  }
+  #share-card .card-dots {
+    position: absolute; top:0; left:0; width:100%; height:100%;
+    background: radial-gradient(circle, rgba(59,130,246,0.06) 1px, transparent 1px);
+    background-size: 22px 22px; pointer-events: none; z-index: 0;
+  }
+  #share-card .card-top-accent {
+    position: relative; z-index: 1; height: 6px;
+    background: linear-gradient(90deg, #3b82f6, #60a5fa, #3b82f6);
+  }
+  #share-card .card-content { position: relative; z-index: 1; padding: 28px 32px 24px; }
+  #share-card .card-logo {
+    font-size: 34px; font-weight: 900; letter-spacing: 8px;
+    color: #1a56db; line-height: 1;
+  }
+  #share-card .card-meta { font-size: 11px; color: #94a3b8; letter-spacing: 3px; margin-top: 4px; text-transform: uppercase; }
+  #share-card .card-date-badge {
+    display: inline-block; background: #eff6ff;
+    border: 1px solid #bfdbfe;
+    padding: 4px 16px; border-radius: 20px; font-size: 13px; color: #2563eb; margin-top: 14px;
+  }
+  #share-card .card-divider {
+    border: none; height: 1px;
+    background: linear-gradient(90deg, transparent, #dbeafe, transparent);
+    margin: 16px 0;
+  }
+  #share-card .card-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
+  #share-card .card-stat-box {
+    background: #f8fafc; border: 1px solid #e2e8f0
+    border-radius: 12px; padding: 14px 16px;
+  }
+  #share-card .card-stat-box .stat-num { font-size: 24px; font-weight: 700; color: #1e293b; line-height: 1.2; }
+  #share-card .card-stat-box .stat-num .stat-arrow { font-size: 14px; margin-left: 4px; }
+  #share-card .card-stat-box .stat-num .stat-arrow.up { color: #f87171; }
+  #share-card .card-stat-box .stat-num .stat-arrow.down { color: #34d399; }
+  #share-card .card-stat-box .stat-num .stat-arrow.flat { color: #fbbf24; }
+  #share-card .card-stat-box .stat-label { font-size: 11px; color: #64748b; margin-top: 4px; line-height: 1.4; }
+  #share-card .card-highlights-title { font-size: 13px; color: #64748b; letter-spacing: 2px; margin-bottom: 10px; }
+  #share-card .card-highlights { list-style: none; padding: 0; margin: 0; }
+  #share-card .card-highlights li {
+    padding: 7px 0; font-size: 13px; color: #475569; line-height: 1.5;
+    border-bottom: 1px solid #f1f5f9;
+  }
+  #share-card .card-highlights li:last-child { border-bottom: none; }
+  #share-card .card-bottom {
+    margin-top: 16px; padding-top: 14px;
+    border-top: 1px solid #e2e8f0;
+    display: flex; justify-content: space-between; align-items: center;
+  }
+  #share-card .card-bottom .brand { font-size: 11px; color: #64748b; }
+  #share-card .card-bottom .cta { font-size: 11px; color: #3b82f6; font-weight: 500; }
+  .share-modal .modal-box .download-btn {
+    margin-top: 18px; padding: 12px 40px; border: none; border-radius: 30px;
+    background: linear-gradient(135deg, #3b82f6, #2563eb);
+    color: #fff; font-size: 15px; font-weight: 600; cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 15px rgba(59,130,246,0.35);
+  }
+  .share-modal .modal-box .download-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(59,130,246,0.45); }
+  .share-modal .modal-box .download-btn:active { transform: scale(0.97); }
+  .share-modal .modal-box .download-btn.loading { opacity: 0.7; pointer-events: none; }
+  .share-modal .modal-box .hint { color: #94a3b8; font-size: 12px; margin-top: 8px; }
+  #share-card-container { margin: 12px auto; }
+  #share-card-container .share-card { max-width: 340px; margin: 0 auto; }
+  #shareCardImg {
+    display: none; max-width: 320px; width: 100%; height: auto; margin: 12px auto;
+    border-radius: 14px; box-shadow: 0 6px 22px rgba(30,58,138,0.25);
+  }
+  .share-actions { display: flex; gap: 10px; justify-content: center; margin-top: 16px; flex-wrap: wrap; }
+  .share-actions .download-btn { margin-top: 0; padding: 11px 28px; font-size: 14px; }
+  .share-actions .download-btn.ghost {
+    background: #fff; color: #2563eb; border: 1.5px solid #c7d7f5;
+    box-shadow: none;
+  }
+  .share-actions .download-btn.ghost:hover { background: #f1f6ff; box-shadow: none; }
+    @media (max-width: 640px) {
+    .header h1 { font-size: 1.5em; }
+    .stats-bar { grid-template-columns: repeat(2, 1fr); margin-top: -20px; }
+    .card-grid.cols-2 { grid-template-columns: 1fr; }
+    .share-btn-fab { bottom: 18px; right: 18px; width: 48px; height: 48px; font-size: 18px; }
+    .share-modal .modal-box { padding: 16px; }
+    #share-card { width: 100%; }
+    #share-card .card-content { padding: 20px 18px; }
+  }
+</style>
+</head>
+<body>
+
+<div class="header">
+  <a href="../../index.html" class="home-btn">🏠 返回主页</a>
+  <div class="logo-wrap">
+    <span class="logo-text">TAISEI</span>
+    <div class="title-group">
+      <h1>大诚会社専用不動產週報</h1>
+      <div class="subtitle">政策 · 市場 · 開発 · トレンド</div>
+      <div class="date-range" id="headerDateRange">📅 2026年7月27日 — 2026年8月2日</div>
+    </div>
+  </div>
+</div>
+
+<!-- Stats -->
+<div class="stats-bar" id="statsBar">
+    <div class="stat-card">
+      <div class="num gold">3.14%</div>
+      <div class="label">フラット35 主力金利（2026年7月時点，4个月来首降）</div>
+    </div>
+    <div class="stat-card">
+      <div class="num orange">12,741万円</div>
+      <div class="label">東京23区中古マンション70㎡価格（6月，▼0.8%）</div>
+    </div>
+    <div class="stat-card">
+      <div class="num green">1億円超</div>
+      <div class="label">首都圈新建マンション平均价格（2026年上半期，史上首次）</div>
+    </div>
+    <div class="stat-card">
+      <div class="num">26个月</div>
+      <div class="label">東京23区中古マンション价格连涨后首跌（6月转跌）</div>
+    </div>
+    <div class="stat-card">
+      <div class="num gold">5,118円/㎡</div>
+      <div class="label">東京23区分譲賃貸 賃料（6月，▲0.8%）</div>
+    </div>
+</div>
+
+<div class="container">
+
+<!-- 热点速览 -->
+<div class="key-insight">
+  <h3>🔥 本周热点速览</h3>
+  <ul id="hotlist">
+<li><strong>首都圈新建公寓均价首破1亿日元</strong> — 2026年上半期发售户数连续5年减少，供给收缩与高价并存（不動産経済研究所）</li>
+<li><strong>东京23区中古公寓26个月来首跌</strong> — 6月70㎡价格12,741万日元（-0.8%），都心6区连续2个月走低、价格下调房源占比过半</li>
+<li><strong>フラット35利率4个月来首降</strong> — 7月主力利率3.14%（6月为3.21%），长期固定利率仍处3%台高位</li>
+<li><strong>中古公寓成交量7个季度来首减</strong> — 東日本レインズ4-6月期数据，价格横盘、量先转弱</li>
+<li><strong>东京站直结「TOFROM YAESU TOWER」9月10日开业确定</strong> — 八重洲再开发进入收获期</li>
+  </ul>
+</div>
+
+<!-- Market Trend -->
+<div class="section">
+  <div class="section-title">
+    <span class="icon">📊</span> 市場トレンド
+    <span class="tag">MARKET</span>
+  </div>
+  <div class="trend-visual">
+    <div class="trend-item">
+      <div class="trend-label">東京23区中古マンション
+70㎡換算価格（6月）</div>
+      <div class="trend-value down">12,741万円 ▼0.8% ▼</div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-label">都心6区中古マンション
+平均価格（6月）</div>
+      <div class="trend-value down">18,512万円 ▼1.3% ▼</div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-label">首都圈中古マンション
+成約件数（4-6月期）</div>
+      <div class="trend-value down">7期ぶり減少 ▼ ▼</div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-label">首都圈中古一戸建
+平均価格（6月）</div>
+      <div class="trend-value down">4,241万円 ▼0.3% ▼</div>
+    </div>
+    <div class="trend-item">
+      <div class="trend-label">東京23区 賃料
+（6月・分譲賃貸）</div>
+      <div class="trend-value up">5,118円/㎡ ▲0.8% ▲</div>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <div class="section-title">
+    <span class="icon">🏛️</span> 政策動向
+    <span class="tag">POLICY</span>
+  </div>
+  <div class="card-grid cols-2">
+<div class="card policy">
+  <div class="date">7月27日 <span class="source">不動産経済研究所（日刊不動産経済通信）</span></div>
+  <h3>リニア中央新幹線静岡工区、年内に開業時期を明示へ</h3>
+  <p>长期胶着的リニア中央新幹線静岡工区工程正式推进。JR东海社长丹羽俊介7月24日与金子恭之国土交通大臣会面，国交相表示「对早期开业的期待值上升」，年内将明示静冈工区的开业时期。沿线不动产价值有望重估。</p>
+  <span class="label label-blue">不動産経済研究所（日刊不動産経済通信）</span>
+  <a href="https://fknews.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card policy">
+  <div class="date">7月22日 <span class="source">国土交通省 / 日管協</span></div>
+  <h3>国交省公表「地域とくらしのパートナー」新施策パッケージ</h3>
+  <p>国土交通省于7月22日公布「地域とくらしのパートナー」新施策包，围绕赁贷住宅管理业与地域共生，推动管理公司在人口减少地区承担更多生活支援功能，涉及空き家活用与地域运营的政策支持。</p>
+  <span class="label label-blue">国土交通省 / 日管協</span>
+  <a href="http://jpm.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card policy">
+  <div class="date">7月21日 <span class="source">週刊住宅タイムズ</span></div>
+  <h3>厚労省等就民泊管理发出技术性助言，地方现「ゼロ日规制」条例</h3>
+  <p>厚生劳动省等部门就民泊（住宅宿泊事业）管理向自治体发出技术性助言，部分自治体已出台「ゼロ日規制」条例全面限制民泊营业天数。对投资民泊物件的海外买家而言，选址前确认自治体条例愈发重要。</p>
+  <span class="label label-blue">週刊住宅タイムズ</span>
+  <a href="http://www.sjt.co.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card policy">
+  <div class="date">7月27日 <span class="source">不動産経済研究所</span></div>
+  <h3>フラット35：中古住宅利用比率创历史新高</h3>
+  <p>住宅金融支援机构数据显示，フラット35利用者中中古住宅的利用比率达到历史最高水平。在新建公寓价格高企背景下，购房需求持续向中古市场转移，与政府推动既有住宅流通的政策方向一致。</p>
+  <span class="label label-blue">不動産経済研究所</span>
+  <a href="https://fknews.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+  </div>
+</div>
+<div class="section">
+  <div class="section-title">
+    <span class="icon">💼</span> 市場取引・投資
+    <span class="tag">DEALS</span>
+  </div>
+  <div class="card-grid cols-2">
+<div class="card deal">
+  <div class="date">7月27日 <span class="source">不動産経済研究所</span></div>
+  <h3>2026年上半期首都圈新建分让公寓：发售5年连续减少，均价首破1亿日元</h3>
+  <p>不動産経済研究所发布2026年上半期首都圈新建分让公寓市场动向：发售户数连续5年减少，平均价格历史上首次突破1亿日元大关。供给收缩与价格高企并存，刚需进一步流向中古市场与近郊。</p>
+  <span class="label label-gold">不動産経済研究所</span>
+  <a href="http://www.fudousankeizai.co.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card deal">
+  <div class="date">7月27日 <span class="source">東日本レインズ</span></div>
+  <h3>4-6月期首都圈中古公寓：成约件数7个季度以来首次减少，价格几乎持平</h3>
+  <p>東日本不動産流通機構（レインズ）发布2026年4-6月期首都圈不动产流通市场动向：中古公寓成约件数7个季度以来首次转为减少，成约价格则大致横盘。高价格对成交量的抑制效应开始显现。</p>
+  <span class="label label-gold">東日本レインズ</span>
+  <a href="http://www.reins.or.jp/library/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card deal">
+  <div class="date">7月23日 <span class="source">東京カンテイ</span></div>
+  <h3>东京23区中古公寓价格26个月来首次下跌，都心6区连续走低</h3>
+  <p>東京カンテイ统计：2026年6月东京23区中古公寓70㎡换算希望售价环比下降0.8%至12,741万日元，为26个月来首次下跌。都心6区下降1.3%至18,512万日元，连续2个月走低且跌幅扩大，价格下调房源占比已超过半数。</p>
+  <span class="label label-gold">東京カンテイ</span>
+  <a href="http://www.kantei.ne.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card deal">
+  <div class="date">7月27日 <span class="source">R.E.port</span></div>
+  <h3>赁贷公寓房租：10个区域在全部面积段超越去年同期</h3>
+  <p>最新赁贷市场数据显示，首都圈赁贷公寓房租持续坚挺，10个区域在所有面积段均超过去年同月水平。東京カンテイ数据亦显示6月东京23区分譲賃貸租金环比上涨0.8%至5,118日元/㎡，租赁需求依然旺盛。</p>
+  <span class="label label-gold">R.E.port</span>
+  <a href="http://re-port.net/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+  </div>
+</div>
+<div class="section">
+  <div class="section-title">
+    <span class="icon">🏗️</span> 開発動向
+    <span class="tag">DEVELOP</span>
+  </div>
+  <div class="card-grid cols-2">
+<div class="card dev">
+  <div class="date">7月27日 <span class="source">東京建物</span></div>
+  <h3>东京站直结大规模复合再开发「TOFROM YAESU TOWER」9月10日开业确定</h3>
+  <p>東京建物宣布，东京站直结的大规模复合再开发项目「TOFROM YAESU TOWER」确定于2026年9月10日开业，商业区第一期定于今秋开放。八重洲地区再开发进入收获期，将进一步提升东京站周边的商业与办公价值。</p>
+  <span class="label label-green">東京建物</span>
+  <a href="https://www.tatemono.com/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card dev">
+  <div class="date">7月27日 <span class="source">R.E.port</span></div>
+  <h3>23区写字楼空置率连续12个季度改善</h3>
+  <p>最新调查显示，东京23区写字楼空置率连续12个季度改善，企业扩张性搬迁与馆内增床需求持续。办公市场的坚挺为都心综合再开发项目提供了支撑。</p>
+  <span class="label label-green">R.E.port</span>
+  <a href="http://re-port.net/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card dev">
+  <div class="date">7月21日 <span class="source">週刊住宅タイムズ</span></div>
+  <h3>东京墨田区7层25室中长期滞在型酒店开发；福冈赁贷住宅部分转用途为住宿设施</h3>
+  <p>PLT集团联携事业将在东京墨田区开发7层25室的中长期对应型酒店；福冈中央区亦有赁贷住宅部分用途转换为住宿设施的案例（ミヨシAM）。访日需求带动下，住宅与酒店之间的用途转换开发正在增加。</p>
+  <span class="label label-green">週刊住宅タイムズ</span>
+  <a href="http://www.sjt.co.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+  </div>
+</div>
+<div class="section">
+  <div class="section-title">
+    <span class="icon">🤖</span> 科技・イノベーション
+    <span class="tag">TECH</span>
+  </div>
+  <div class="card-grid cols-2">
+<div class="card tech">
+  <div class="date">7月25日 <span class="source">全国賃貸住宅新聞</span></div>
+  <h3>キマルーム强化「更新管理」系统销售，赁贷更新业务效率化</h3>
+  <p>面向赁贷不动产公司提供业务支援系统的キマルーム，正在强化销售可将更新契约业务效率化的「キマルーム 更新管理」，通过数字化为管理公司创造新的收益机会。赁贷管理DX持续渗透。</p>
+  <span class="label label-purple">全国賃貸住宅新聞</span>
+  <a href="http://www.zenchin.com/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card tech">
+  <div class="date">7月27日 <span class="source">R.E.port</span></div>
+  <h3>三井不动产设立一般社团，构建半导体产业生态系统</h3>
+  <p>三井不动产宣布设立一般社团法人，推动半导体产业生态系统构建。大型开发商正从单纯的园区开发转向产业生态运营，产业不动产成为新的增长赛道。</p>
+  <span class="label label-purple">R.E.port</span>
+  <a href="http://re-port.net/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+  </div>
+</div>
+<div class="section">
+  <div class="section-title">
+    <span class="icon">📊</span> 調査・トレンド
+    <span class="tag">RESEARCH</span>
+  </div>
+  <div class="card-grid cols-2">
+<div class="card survey">
+  <div class="date">7月9日 <span class="source">東京カンテイ</span></div>
+  <h3>6月首都圈中古一户建平均价格4,241万日元（-0.3%），东京都维持7000万日元台</h3>
+  <p>東京カンテイ调查：2026年6月首都圈中古一户建平均价格环比下降0.3%至4,241万日元，东京都维持在7,000万日元台。新建一户建下降0.5%，新建小规模一户建下降1.1%至6,203万日元，一户建市场整体温和回调。</p>
+  <span class="label label-red">東京カンテイ</span>
+  <a href="http://www.kantei.ne.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card survey">
+  <div class="date">7月27日 <span class="source">長谷工ライブネット</span></div>
+  <h3>首都圈公寓租金地图：紧凑家庭型第1位为「六本木一丁目」</h3>
+  <p>長谷工ライブネット发布令和6年度版首都圈公寓租金地图，紧凑家庭型（コンパクトファミリー）租金第1位为六本木一丁目。都心高级租赁需求依旧强劲，港区核心地段租金持续领跑。</p>
+  <span class="label label-red">長谷工ライブネット</span>
+  <a href="http://www.sjt.co.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+<div class="card survey">
+  <div class="date">7月13日 <span class="source">野村不動産ソリューションズ</span></div>
+  <h3>首都圈住宅地价INDEX：上涨率缩小，「值上がり」地点减少8个</h3>
+  <p>野村不動産ソリューションズ住宅地价INDEX显示，首都圈住宅地价上涨率缩小，「上涨」地点较上期减少8个。住宅地价上行动能边际减弱，与中古公寓价格回调的信号相互印证。</p>
+  <span class="label label-red">野村不動産ソリューションズ</span>
+  <a href="http://www.sjt.co.jp/" target="_blank" rel="noopener" class="source-link">📖 阅读原文 →</a>
+</div>
+  </div>
+</div>
+
+<!-- 贷款利率趋势 -->
+<div class="key-insight">
+  <h3>📈 贷款利率趋势</h3>
+  <p><strong>フラット35：</strong>3.14%（4个月来首次下降（2026年7月時点））。住宅金融支援機構7月1日发布：フラット35主力利率（返济期35年以下・融资率9成以下）为3.14%，较6月的3.21%回落，为4个月来首次下降。子育て支援等优惠下当初5年最低可至1.82%~2.32%区间。长期固定利率仍处于3%台的历史相对高位，中古住宅利用比率创历史新高。</p>
+  <p style="margin-top:10px;"><strong>💡 小虾点评：</strong>本周市场信号明确转向「量价拐点」：新建公寓均价首破1亿日元的同时，23区中古公寓价格26个月来首跌、成交量7个季度来首减，卖方降价房源占比已过半，市场议价权正向买方倾斜。对华人买家而言，フラット35利率4个月来首降叠加中古价格回调，下半年或迎来更从容的选筹窗口，但租金持续上涨的都心租赁市场依然支撑核心地段的长期持有逻辑。</p>
+</div>
+
+</div>
+
+<div class="footer">
+  <p>📡 数据来源：国土交通省 / 日経不動産マーケット情報 / 週刊住宅タイムズ / 週刊不動産経営 / 東京カンテイ / SUUMO / 不動産経済研究所 / 東日本レインズ / R.E.port</p>
+  <p style="margin-top:4px;">Generated by 🦐 小虾 · 2026年07月28日 · 东京 · 大誠有限会社 専用</p>
+</div>
+
+<!-- ===== Floating Share Button ===== -->
+<button class="share-btn-fab" id="shareBtn" onclick="openShareModal()">
+  📸
+  <span class="tooltip">生成朋友圈卡片</span>
+</button>
+
+<!-- ===== Share Modal ===== -->
+<div class="share-modal" id="shareModal">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span>📸 朋友圈卡片预览</span>
+      <button class="close-btn" onclick="closeShareModal()">✕</button>
+    </div>
+    <div id="share-card-container"></div>
+    <img id="shareCardImg" alt="朋友圈卡片" style="display:none" />
+    <div class="share-actions">
+      <button class="download-btn" id="downloadBtn" onclick="generateImage()">📥 保存图片</button>
+      <button class="download-btn ghost" id="copyBtn" onclick="copyCard()">📋 复制文案</button>
+    </div>
+    <div class="hint">手机：长按下方图片 → 保存到相册 / 转发朋友圈 · 电脑：点「保存图片」下载 PNG</div>
+  </div>
+</div>
+
+<!-- HTML2CANVAS_INLINE (WARNING 勿删：运行时注入内联 html2canvas 库；
+     库文件=仓库根 html2canvas.min.js，改 CDN 外链会被墙或微信拦截。
+     注入必须在 f-string 之外做，否则库内花括号会破坏 f-string 语法。
+     此占位符若缺失，分享图片功能直接崩。) -->
+
+<script>
+const COMPANY_NAME_JP = '大誠有限会社';
+const COMPANY_SITE = 'https://www.taisei-r.com/';
+function getDateRange() {
+  const el = document.getElementById('headerDateRange');
+  return el ? el.textContent.trim() : '📅 2026年6月 — 6月';
+}
+
+function getStats() {
+  const cards = document.querySelectorAll('#statsBar .stat-card');
+  const stats = [];
+  cards.forEach(c => {
+    const num = c.querySelector('.num');
+    const label = c.querySelector('.label');
+    if (num && label) {
+      stats.push({
+        num: num.textContent.trim(),
+        label: label.textContent.trim().replace(/\s+/g, ' ')
+      });
+    }
+  });
+  return stats;
+}
+
+function getHighlights() {
+  const items = document.querySelectorAll('#hotlist li');
+  const highlights = [];
+  items.forEach(li => {
+    const txt = li.textContent.trim().replace(/^\s*[—\-–]\s*/, '');
+    if (txt) highlights.push(txt);
+  });
+  return highlights.slice(0, 4);
+}
+
+function buildShareCard() {
+  const dateRange = getDateRange();
+  const stats = getStats();
+  const highlights = getHighlights();
+
+  const arrowClass = (txt) => {
+    if (txt.includes('▼') || txt.includes('下落') || txt.includes('減')) return 'down';
+    if (txt.includes('▲') || txt.includes('上昇') || txt.includes('増')) return 'up';
+    return 'flat';
+  };
+  const arrowSymbol = (txt) => {
+    if (txt.includes('▼')) return '▼';
+    if (txt.includes('▲')) return '▲';
+    return '→';
+  };
+
+  let statsHTML = '';
+  stats.forEach((s, i) => {
+    if (i >= 4) return;
+    const isUp = arrowClass(s.num);
+    const arrow = arrowSymbol(s.num);
+    statsHTML += '<div class="card-stat-box">' +
+      '<div class="stat-num">' + s.num + ' <span class="stat-arrow ' + isUp + '">' + arrow + '</span></div>' +
+      '<div class="stat-label">' + s.label + '</div>' +
+    '</div>';
+  });
+
+  let hlHTML = '';
+  const icons = ['🔴', '🟡', '🟢', '🔵'];
+  highlights.forEach((h, i) => {
+    hlHTML += '<li><span class="hl-icon">' + (icons[i] || '▸') + '</span>' + h + '</li>';
+  });
+
+  return '<div id="share-card">' +
+    '<div class="card-dots"></div>' +
+    '<div class="card-top-accent"></div>' +
+    '<div class="card-content">' +
+      '<div class="card-logo">TAISEI</div>' +
+      '<div class="card-meta">WEEKLY REAL ESTATE REPORT</div>' +
+      '<div class="card-date-badge">📅 ' + dateRange.replace('📅 ', '') + '</div>' +
+      '<hr class="card-divider">' +
+      '<div class="card-stats">' + statsHTML + '</div>' +
+      '<hr class="card-divider">' +
+      '<div class="card-highlights-title">✦ WEEKLY HIGHLIGHTS</div>' +
+      '<ul class="card-highlights">' + hlHTML + '</ul>' +
+      '<div class="card-bottom">' +
+        '<span class="brand">' + COMPANY_NAME_JP + ' · 不動産専門</span>' +
+        '<span class="cta">🔍 詳細は公式チャンネルで</span>' +
+      '</div>' +
+    '</div>' +
+  '</div>';
+}
+
+function buildCardText() {
+  const dateRange = getDateRange();
+  const stats = getStats();
+  const highlights = getHighlights();
+  const NL = String.fromCharCode(10);
+  let t = '【' + COMPANY_NAME_JP + ' 日本不动产周报】' + NL + dateRange + NL + NL;
+  stats.slice(0,4).forEach(function(s) { t += '• ' + s.label + '：' + s.num + NL; });
+  t += NL + '本周焦点：' + NL;
+  highlights.forEach(function(h) { t += '▸ ' + h + NL; });
+  t += NL + '详情见官方频道 / ' + COMPANY_SITE;
+  return t;
+}
+
+function openShareModal() {
+  document.getElementById('shareModal').classList.add('show');
+  document.body.style.overflow = 'hidden';
+  const container = document.getElementById('share-card-container');
+  const img = document.getElementById('shareCardImg');
+  container.innerHTML = buildShareCard();
+  container.style.display = 'block';   // 先显示HTML卡片
+  img.style.display = 'none';          // 图片先隐藏，渲染成功后再切换
+  img.removeAttribute('src');
+  renderCardImage();
+}
+
+function renderCardImage() {
+  // ⚠️ 关键：HTML卡片 与 渲染图片 同一时刻只能显示一个，否则出现「大图套小图」+
+  // 高度翻倍把按钮挤出屏幕。流程：先显HTML → 渲染PNG → 成功则隐藏HTML只留图片。
+  const src = document.getElementById('share-card-container');
+  const img = document.getElementById('shareCardImg');
+  if (typeof html2canvas === 'undefined') return; // 库未加载则只显示HTML卡片(退化)
+  try {
+    html2canvas(src, { backgroundColor: null, scale: 2, useCORS: true }).then(function(canvas) {
+      img.src = canvas.toDataURL('image/png');
+      img.style.display = 'block';
+      src.style.display = 'none';      // 图片就绪后隐藏HTML卡片，避免大图套小图
+    }).catch(function() { /* 失败则保留HTML卡片 */ });
+  } catch (e) { /* 忽略 */ }
+}
+
+function closeShareModal() {
+  document.getElementById('shareModal').classList.remove('show');
+  document.body.style.overflow = '';
+}
+
+document.getElementById('shareModal').addEventListener('click', function(e) {
+  if (e.target === this) closeShareModal();
+});
+
+document.addEventListener('keydown', function(e) {
+  if (e.key === 'Escape') closeShareModal();
+});
+
+function generateImage() {
+  const btn = document.getElementById('downloadBtn');
+  const img = document.getElementById('shareCardImg');
+  if (img && img.src && img.style.display !== 'none') {
+    // 图片已生成：直接触发下载
+    const a = document.createElement('a');
+    a.href = img.src;
+    a.download = 'taisei-weekly-card.png';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    const old = btn.textContent;
+    btn.textContent = '✅ 已保存';
+    setTimeout(function() { btn.textContent = old; }, 1500);
+  } else if (typeof html2canvas !== 'undefined') {
+    // 图片还没生成：现生成再下载
+    const src = document.getElementById('share-card-container');
+    html2canvas(src, { backgroundColor: null, scale: 2, useCORS: true }).then(function(canvas) {
+      const a = document.createElement('a');
+      a.href = canvas.toDataURL('image/png');
+      a.download = 'taisei-weekly-card.png';
+      document.body.appendChild(a);
+      a.click();
+      document.body.removeChild(a);
+    });
+  } else {
+    alert('图片生成库未加载，请用「复制文案」');
+  }
+}
+
+function copyCard() {
+  const btn = document.getElementById('downloadBtn');
+  const text = buildCardText();
+  function ok() {
+    const old = btn.textContent;
+    btn.textContent = '✅ 已复制，去粘贴吧';
+    setTimeout(function() { btn.textContent = old; }, 1800);
+  }
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(text).then(ok).catch(function() { fallbackCopy(text); });
+  } else {
+    fallbackCopy(text);
+  }
+}
+
+function fallbackCopy(text) {
+  const ta = document.createElement('textarea');
+  ta.value = text;
+  ta.style.position = 'fixed';
+  ta.style.opacity = '0';
+  document.body.appendChild(ta);
+  ta.select();
+  try { document.execCommand('copy'); } catch (e) {}
+  document.body.removeChild(ta);
+  const btn = document.getElementById('downloadBtn');
+  btn.textContent = '✅ 已复制，去粘贴吧';
+  setTimeout(function() { btn.textContent = '📋 复制文案'; }, 1800);
+}
+</script>
+</body>
+</html>
