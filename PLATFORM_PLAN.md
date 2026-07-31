@@ -59,3 +59,9 @@
 ## 不做的(保持简单)
 评论 / 用户系统 / 点赞 / 论坛 / AI 聊天 / AI 搜索 / 实时 AI 分析 / 复杂 CMS。
 系统定位:静态展示 + 数据持续积累 + 查询。
+
+## 线上修复记录 (2026-07-31)
+- build_projects.py 修复单引号转义导致 JS 整块语法错误(列表/详情/地图全空)，改用 String.fromCharCode(39) 拼引号。
+- build_map.py 修复 __CENTER__ 双括号导致 Leaflet setView 抛错(地图空白)，改为裸坐标注入。
+- 主页平台入口卡片改 repeat(2, minmax(0, 1fr)) 等宽 + 图标固定 42px 防比例失调。
+- commit 36a3c29 已上线，verify_all 39 项全 PASS。
