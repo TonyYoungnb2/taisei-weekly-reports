@@ -304,9 +304,7 @@ CSS = """
     transition: background .15s;
   }
   .home-btn:hover { background: rgba(255,255,255,.30); }
-  @media (max-width: 600px) {
-    .home-btn { top: 10px; left: 10px; font-size: 12px; padding: 6px 11px; }
-  }
+
   .header .logo-text {
     font-size: 2em;
     font-weight: 900;
@@ -657,11 +655,26 @@ CSS = """
   }
   .share-actions .download-btn.ghost:hover { background: #f1f6ff; box-shadow: none; }
     @media (max-width: 640px) {
+    /* 浮标统一收口，避免窄屏互相挤压 */
+    .home-btn { top: 10px; left: 10px; font-size: 12px; padding: 6px 11px; }
+    .lang-switch { right: 12px; top: 10px; padding: 4px 4px 4px 8px; }
+    /* 标题与统计卡收窄 */
     .header h1 { font-size: 1.5em; }
-    .stats-bar { grid-template-columns: repeat(2, 1fr); margin-top: -20px; }
+    .stats-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: -20px; padding: 0 12px; }
+    .stat-card { overflow: hidden; min-width: 0; }
+    .stat-card .label { word-break: break-word; line-height: 1.3; }
+    .card-grid.cols-2 { grid-template-columns: minmax(0, 1fr); }
     .card-grid.cols-2 { grid-template-columns: 1fr; }
+    .section-title { font-size: 1.05em; margin-bottom: 10px; padding-bottom: 8px; gap: 8px; }
+    /* 新闻卡手机紧凑化（仅手机，PC 完全不变） */
+    .card { padding: 14px 14px 12px; min-width: 0; }
+    .card h3 { font-size: 0.9em; line-height: 1.45; margin-bottom: 5px; }
+    .card p { font-size: 0.8em; line-height: 1.55; }
+    .card .date { margin-bottom: 3px; }
+    .card .source-link { font-size: 0.7em; margin-top: 6px; }
+    /* 分享弹窗全宽兜底，防横向溢出 */
     .share-btn-fab { bottom: 18px; right: 18px; width: 48px; height: 48px; font-size: 18px; }
-    .share-modal .modal-box { padding: 16px; }
+    .share-modal .modal-box { width: 100%; box-sizing: border-box; padding: 16px 14px; }
     #share-card { width: 100%; }
     #share-card .card-content { padding: 20px 18px; }
   }
@@ -690,9 +703,7 @@ CSS = """
     font-size: 13px; font-weight: 700; padding: 4px 10px; opacity: .65;
   }
   .lang-switch .seg button.active { background: #fff; color: #16213e; opacity: 1; }
-  @media (max-width: 600px) {
-    .lang-switch { right: 12px; top: 10px; padding: 4px 4px 4px 8px; }
-  }
+
 """
 
 # ─── 辅助函数 ──────────────────────────────────────────────────────────
