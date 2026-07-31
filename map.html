@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>大誠 · 東京不動產情報地図</title>
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; }
+  #top { position: sticky; top: 0; z-index: 1000; background: #0b3d91; color: #fff; padding: 12px 16px;
+         display: flex; align-items: center; justify-content: space-between; }
+  #top h1 { font-size: 17px; margin: 0; font-weight: 600; }
+  #top .meta { font-size: 12px; opacity: .85; }
+  #map { height: calc(100vh - 52px); width: 100%; }
+  .leaflet-popup-content { font-size: 13px; line-height: 1.6; }
+  .leaflet-popup-content b { color: #0b3d91; }
+  .pill { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 11px; margin-left: 6px; }
+  .pill.official { background: #0b3d91; color: #fff; }
+  .pill.media { background: #e8eefc; color: #0b3d91; }
+  #empty { position: absolute; inset: 52px 0 0 0; display: flex; align-items: center; justify-content: center;
+           color: #888; font-size: 14px; }
+</style>
+</head>
+<body>
+<div id="top">
+  <h1>大誠 · 東京不動產情報地図</h1>
+  <span class="meta">項目数: 3 ｜ 国土地理院地図</span>
+</div>
+<div id="map"></div>
+<div id="empty" style="display:none">暂无已定位的项目</div>
+<script src="vendor/leaflet/leaflet.js"></script>
+<script>
+var PROJECTS = [{"id": "P001", "name": "TOFROM YAESU TOWER（東京建物・八重洲）", "aliases": ["東京站直結大規模複合再開発", "八重洲再開発", "TOFROM YAESU", "东京站直结大规模复合再开发TOFROM YAESU TOWER"], "developer": "東京建物", "category": "综合开发", "status": "完工", "prefecture": "東京都", "city": "中央区", "district": "八重洲", "address": "東京都中央区八重洲", "latitude": 35.6795, "longitude": 139.767, "first_seen": "2026-07-27", "last_updated": "2026-07-27", "news_count": 1, "verified": false}, {"id": "P002", "name": "墨田区7层25室中长期滞在型酒店", "aliases": ["東京墨田区7層25室中長期滞在型ホテル開発", "墨田区中长期滞在型酒店"], "developer": "（開発者未記載）", "category": "酒店", "status": "规划", "prefecture": "東京都", "city": "墨田区", "district": "", "address": "東京都墨田区", "latitude": 35.7101, "longitude": 139.8003, "first_seen": "2026-07-21", "last_updated": "2026-07-21", "news_count": 1, "verified": false}, {"id": "P003", "name": "福岡賃貸住宅（一部宿泊施設転用）", "aliases": ["福岡賃貸住宅一部用途変更宿泊施設", "福冈赁贷住宅部分转用途为住宿设施"], "developer": "（開発者未記載）", "category": "酒店", "status": "规划", "prefecture": "福岡県", "city": "福岡市", "district": "", "address": "福岡県福岡市", "latitude": 33.5904, "longitude": 130.4017, "first_seen": "2026-07-21", "last_updated": "2026-07-21", "news_count": 1, "verified": false}];
+var map = L.map('map').setView([[34.99333333333333, 136.65633333333332]], 5);
+L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
+  attribution: '© 国土地理院',
+  maxZoom: 18
+}).addTo(map);
+if (!PROJECTS.length) {
+  document.getElementById('empty').style.display = 'flex';
+}
+PROJECTS.forEach(function(p) {
+  var color = p.verified ? '#0b3d91' : '#e9533b';
+  var marker = L.circleMarker([p.latitude, p.longitude], {
+    radius: 6 + Math.min(p.news_count || 0, 10) * 1.5,
+    color: color, weight: 2, fillColor: color, fillOpacity: 0.55
+  }).addTo(map);
+  var badge = p.verified
+    ? '<span class="pill official">官方</span>'
+    : '<span class="pill media">媒体</span>';
+  marker.bindPopup(
+    '<b>' + p.name + '</b>' + badge + '<br>' +
+    '开发商: ' + (p.developer || '-') + '<br>' +
+    '类型: ' + (p.category || '-') + ' ／ 状态: ' + (p.status || '-') + '<br>' +
+    '地区: ' + [p.prefecture, p.city, p.district].filter(Boolean).join(' ') + '<br>' +
+    '相关新闻: ' + (p.news_count || 0) + ' 篇<br>' +
+    '首次: ' + (p.first_seen || '-') + ' ／ 更新: ' + (p.last_updated || '-')
+  );
+});
+</script>
+</body>
+</html>

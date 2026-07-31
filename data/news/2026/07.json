@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "month": "2026-07",
+  "news": [
+    {
+      "id": "N2026072701",
+      "title": "东京站直结大规模复合再开发「TOFROM YAESU TOWER」9月10日开业确定",
+      "summary": "東京建物宣布，东京站直结的大规模复合再开发项目「TOFROM YAESU TOWER」确定于2026年9月10日开业，商业区第一期定于今秋开放。八重洲地区再开发进入收获期，将进一步提升东京站周边的商业与办公价值。",
+      "url": "https://www.tatemono.com/",
+      "url_text": "東京建物",
+      "publish_date": "2026-07-27",
+      "source": "東京建物",
+      "source_level": "media",
+      "project_id": "P001",
+      "created_at": "2026-07-31"
+    },
+    {
+      "id": "N2026072101",
+      "title": "东京墨田区7层25室中长期滞在型酒店开发；福冈赁贷住宅部分转用途为住宿设施",
+      "summary": "週刊住宅タイムズ报道：东京墨田区规划7层25室中长期滞在型酒店；福冈一处赁贷住宅部分转用途为住宿设施。",
+      "url": "",
+      "url_text": "週刊住宅タイムズ",
+      "publish_date": "2026-07-21",
+      "source": "週刊住宅タイムズ",
+      "source_level": "media",
+      "project_id": "P002",
+      "created_at": "2026-07-31"
+    },
+    {
+      "id": "N2026072102",
+      "title": "东京墨田区7层25室中长期滞在型酒店开发；福冈赁贷住宅部分转用途为住宿设施",
+      "summary": "同一报道含福冈项目：福冈赁贷住宅部分转用途为住宿设施。",
+      "url": "",
+      "url_text": "週刊住宅タイムズ",
+      "publish_date": "2026-07-21",
+      "source": "週刊住宅タイムズ",
+      "source_level": "media",
+      "project_id": "P003",
+      "created_at": "2026-07-31"
+    }
+  ]
+}
