@@ -149,7 +149,7 @@ function badge(p){
 }
 function card(p){
   var region = [p.prefecture, p.city, p.district].filter(Boolean).join(' ');
-  return '<div class="card" onclick="openDetail(''+p.id+'')">' +
+  return '<div class="card" onclick="openDetail('+String.fromCharCode(39)+p.id+String.fromCharCode(39)+')">' +
     '<h3>'+p.name+'</h3>' +
     '<div>'+badge(p)+'<span class="pill cat">'+(p.category||'其他')+'</span></div>' +
     '<div class="meta">開発：'+(p.developer||'-')+'<br>地区：'+region+'<br>状態：'+(p.status||'-')+' ｜ 関連ニュース：'+(p.news_count||0)+'件</div>' +

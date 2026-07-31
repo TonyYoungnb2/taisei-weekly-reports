@@ -1410,16 +1410,16 @@ body {{
 .card-meta {{ font-size: 12px; color: #a0aab8; margin-bottom: 12px; }}
 .card-arrow {{ font-size: 13px; color: #1a5fb4; font-weight: 700; }}
 /* Platform 入口 */
-.platform-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 14px; }}
+.platform-grid {{ display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }}
 @media (max-width: 720px) {{ .platform-grid {{ grid-template-columns: 1fr; }} }}
 .platform-card {{ display: flex; align-items: center; gap: 14px; background: #fff; border: 1px solid #e3edf9;
   border-radius: 16px; padding: 18px 20px; text-decoration: none; color: inherit; min-width: 0; overflow: hidden;
   box-shadow: 0 2px 10px rgba(31,39,51,.06); transition: transform .15s, box-shadow .15s; }}
 .platform-card:hover {{ transform: translateY(-3px); box-shadow: 0 8px 24px rgba(31,39,51,.14); }}
-.platform-ico {{ flex-shrink: 0; width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center;
-  justify-content: center; font-size: 22px; background: linear-gradient(135deg,#1a5fb4,#2a7fd4); color: #fff; }}
-.platform-card h3 {{ font-size: 16px; font-weight: 800; color: #12457f; margin-bottom: 3px; }}
-.platform-card p {{ font-size: 12.5px; color: #5a6675; word-break: break-word; }}
+.platform-ico {{ flex: 0 0 42px; width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center;
+  justify-content: center; font-size: 20px; line-height: 1; background: linear-gradient(135deg,#1a5fb4,#2a7fd4); color: #fff; }}
+.platform-card h3 {{ font-size: 16px; font-weight: 800; color: #12457f; margin-bottom: 3px; line-height: 1.3; }}
+.platform-card p {{ font-size: 12.5px; color: #5a6675; word-break: break-word; line-height: 1.5; }}
 /* Footer */
 .footer {{ background: #1a1a2e; color: #7e8aa0; text-align: center; padding: 26px 20px; font-size: 12.5px; }}
 .footer-brand {{ color: #cfe4ff; text-decoration: none; font-weight: 700; }}

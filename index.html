@@ -84,16 +84,16 @@ body {
 .card-meta { font-size: 12px; color: #a0aab8; margin-bottom: 12px; }
 .card-arrow { font-size: 13px; color: #1a5fb4; font-weight: 700; }
 /* Platform 入口 */
-.platform-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 14px; }
+.platform-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; }
 @media (max-width: 720px) { .platform-grid { grid-template-columns: 1fr; } }
 .platform-card { display: flex; align-items: center; gap: 14px; background: #fff; border: 1px solid #e3edf9;
   border-radius: 16px; padding: 18px 20px; text-decoration: none; color: inherit; min-width: 0; overflow: hidden;
   box-shadow: 0 2px 10px rgba(31,39,51,.06); transition: transform .15s, box-shadow .15s; }
 .platform-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(31,39,51,.14); }
-.platform-ico { flex-shrink: 0; width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center;
-  justify-content: center; font-size: 22px; background: linear-gradient(135deg,#1a5fb4,#2a7fd4); color: #fff; }
-.platform-card h3 { font-size: 16px; font-weight: 800; color: #12457f; margin-bottom: 3px; }
-.platform-card p { font-size: 12.5px; color: #5a6675; word-break: break-word; }
+.platform-ico { flex: 0 0 42px; width: 42px; height: 42px; border-radius: 12px; display: flex; align-items: center;
+  justify-content: center; font-size: 20px; line-height: 1; background: linear-gradient(135deg,#1a5fb4,#2a7fd4); color: #fff; }
+.platform-card h3 { font-size: 16px; font-weight: 800; color: #12457f; margin-bottom: 3px; line-height: 1.3; }
+.platform-card p { font-size: 12.5px; color: #5a6675; word-break: break-word; line-height: 1.5; }
 /* Footer */
 .footer { background: #1a1a2e; color: #7e8aa0; text-align: center; padding: 26px 20px; font-size: 12.5px; }
 .footer-brand { color: #cfe4ff; text-decoration: none; font-weight: 700; }
@@ -123,7 +123,7 @@ body {
 
 <div class="container">
   
-    <a href="reports/2026-07-31/report.html?v=202607311224" class="featured">
+    <a href="reports/2026-07-31/report.html?v=202607311327" class="featured">
       <div class="featured-left">
         <span class="featured-tag" data-i18n="feat_tag">📌 最新一期</span>
         <h2 class="featured-title">日本不动产周报</h2>
@@ -140,7 +140,7 @@ body {
   <div class="sec-title" data-i18n="archive_title">往期周报（2026年）</div>
   <div class="report-grid">
     <div class="report-card latest">
-      <a href="reports/2026-07-31/report.html?v=202607311224" class="card-link">
+      <a href="reports/2026-07-31/report.html?v=202607311327" class="card-link">
         <span class="card-badge">最新</span>
         <div class="card-date">2026年07月31日</div>
         <div class="card-title">第 31 期 · 日本不动产周报</div>
@@ -149,7 +149,7 @@ body {
       </a>
     </div>
     <div class="report-card">
-      <a href="reports/2026-07-28/report.html?v=202607311224" class="card-link">
+      <a href="reports/2026-07-28/report.html?v=202607311327" class="card-link">
         
         <div class="card-date">2026年07月28日</div>
         <div class="card-title">第 31 期 · 日本不动产周报</div>
@@ -158,7 +158,7 @@ body {
       </a>
     </div>
     <div class="report-card">
-      <a href="reports/2026-07-21/report.html?v=202607311224" class="card-link">
+      <a href="reports/2026-07-21/report.html?v=202607311327" class="card-link">
         
         <div class="card-date">2026年07月21日</div>
         <div class="card-title">第 30 期 · 日本不动产周报</div>
@@ -167,7 +167,7 @@ body {
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-07-14/report.html?v=202607311224" class="card-link">
+      <a href="reports/2026-07-14/report.html?v=202607311327" class="card-link">
         
         <div class="card-date">2026年07月14日</div>
         <div class="card-title">第 29 期 · 日本不动产周报</div>
@@ -176,7 +176,7 @@ body {
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-07-06/report.html?v=202607311224" class="card-link">
+      <a href="reports/2026-07-06/report.html?v=202607311327" class="card-link">
         
         <div class="card-date">2026年07月06日</div>
         <div class="card-title">第 28 期 · 日本不动产周报</div>
@@ -185,7 +185,7 @@ body {
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-06-29/report.html?v=202607311224" class="card-link">
+      <a href="reports/2026-06-29/report.html?v=202607311327" class="card-link">
         
         <div class="card-date">2026年06月29日</div>
         <div class="card-title">第 27 期 · 日本不动产周报</div>
@@ -194,7 +194,7 @@ body {
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-06-16/report.html?v=202607311224" class="card-link">
+      <a href="reports/2026-06-16/report.html?v=202607311327" class="card-link">
         
         <div class="card-date">2026年06月16日</div>
         <div class="card-title">第 25 期 · 日本不动产周报</div>

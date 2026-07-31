@@ -94,7 +94,7 @@ PROJECTS.forEach(function(p) {
 </script>
 </body>
 </html>
-'''.replace('__DATA__', inline).replace('__CENTER__', str(center)).replace('__ZOOM__', str(zoom)).replace('__COUNT__', str(len(projects)))
+'''.replace('__DATA__', inline).replace('__CENTER__', '%s, %s' % (center[0], center[1])).replace('__ZOOM__', str(zoom)).replace('__COUNT__', str(len(projects)))
 
 
 def main():
