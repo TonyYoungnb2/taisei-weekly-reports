@@ -73,3 +73,8 @@
 ## 2026-07-31 (14:20) 项目库首次填充 P001-P008
 - web_search 抓取 8 个真实东京开发项目(六本木五丁目西/新宿站西口/西新宿三丁目西/筑地二丁目/都立明治公园 等)
 - 数据来自公开再开发情报, 非编造; 已 re-generate projects.html, verify_all 39 PASS
+
+## 2026-07-31 (14:30) collect_projects.py 采集脚本 + 手机端单列修复
+- 新增 collect_projects.py: 非交互去重合并, 供项目库 cron(f5aa6e0a 每周二 09:30) 调用
+- 手机端 .grid 强制单列 minmax(0,1fr), 修复卡片挤成一团
+- 已 push 9a5a7d5, verify_all 39 PASS
