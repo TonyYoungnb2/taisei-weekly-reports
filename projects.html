@@ -196,7 +196,7 @@ function setView(v){
     if (!map) {
       map = L.map('map').setView(CENTER, ZOOM);
       L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', { attribution:'© 国土地理院', maxZoom:18 }).addTo(map);
-      renderMap(filtered());
+      setTimeout(function(){ map.invalidateSize(); renderMap(filtered()); }, 80);
     } else { setTimeout(function(){ map.invalidateSize(); }, 50); }
   }
 }
