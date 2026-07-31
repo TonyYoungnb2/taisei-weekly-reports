@@ -1238,7 +1238,12 @@ var I18N = {
     archive_title: '往期周报（' + new Date().getFullYear() + '年）',
     footer_note: '内容仅供参考，投资需谨慎',
     more_view: function(n){ return '查看更多往期周报（共 ' + n + ' 期） ↓'; },
-    more_collapse: '收起 ↑'
+    more_collapse: '收起 ↑',
+    platform_title: '🗺️ 不动产情报平台',
+    platform_proj: '项目库 · Project List',
+    platform_proj_desc: '在开发/规划中的不动产项目一览，可按企业·地区筛选，附相关新闻时间轴。',
+    platform_map: '地图 · Map',
+    platform_map_desc: '基于国土地理院地图，标注各项目位置与新闻热度。'
   },
   jp: {
     hero_title: '大誠有限会社 · 日本不動産週報',
@@ -1249,7 +1254,12 @@ var I18N = {
     archive_title: '過去の週報（' + new Date().getFullYear() + '年）',
     footer_note: '内容は参考用です。投資は慎重に。',
     more_view: function(n){ return '過去の週報をもっと見る（全 ' + n + ' 号） ↓'; },
-    more_collapse: '折りたたむ ↑'
+    more_collapse: '折りたたむ ↑',
+    platform_title: '🗺️ 不動産情報プラットフォーム',
+    platform_proj: 'プロジェクト一覧 · Project List',
+    platform_proj_desc: '開発・計画中の不動産プロジェクトを網羅。企業・地区で絞り込み、関連ニュースのタイムラインも。',
+    platform_map: '地図 · Map',
+    platform_map_desc: '国土地理院の地図上に各プロジェクトの位置とニュース数を表示。'
   }
 };
 function i18nText(key, arg){
@@ -1399,6 +1409,17 @@ body {{
 .card-title {{ font-size: 15px; font-weight: 800; color: #1f2733; margin-bottom: 6px; }}
 .card-meta {{ font-size: 12px; color: #a0aab8; margin-bottom: 12px; }}
 .card-arrow {{ font-size: 13px; color: #1a5fb4; font-weight: 700; }}
+/* Platform 入口 */
+.platform-grid {{ display: grid; grid-template-columns: repeat(auto-fit, minmax(0, 1fr)); gap: 14px; }}
+@media (max-width: 720px) {{ .platform-grid {{ grid-template-columns: 1fr; }} }}
+.platform-card {{ display: flex; align-items: center; gap: 14px; background: #fff; border: 1px solid #e3edf9;
+  border-radius: 16px; padding: 18px 20px; text-decoration: none; color: inherit; min-width: 0; overflow: hidden;
+  box-shadow: 0 2px 10px rgba(31,39,51,.06); transition: transform .15s, box-shadow .15s; }}
+.platform-card:hover {{ transform: translateY(-3px); box-shadow: 0 8px 24px rgba(31,39,51,.14); }}
+.platform-ico {{ flex-shrink: 0; width: 46px; height: 46px; border-radius: 12px; display: flex; align-items: center;
+  justify-content: center; font-size: 22px; background: linear-gradient(135deg,#1a5fb4,#2a7fd4); color: #fff; }}
+.platform-card h3 {{ font-size: 16px; font-weight: 800; color: #12457f; margin-bottom: 3px; }}
+.platform-card p {{ font-size: 12.5px; color: #5a6675; word-break: break-word; }}
 /* Footer */
 .footer {{ background: #1a1a2e; color: #7e8aa0; text-align: center; padding: 26px 20px; font-size: 12.5px; }}
 .footer-brand {{ color: #cfe4ff; text-decoration: none; font-weight: 700; }}
@@ -1431,7 +1452,24 @@ body {{
 
   <div class="sec-title" data-i18n="archive_title">往期周报（{year}年）</div>
   <div class="report-grid">{report_cards}
-  </div>{show_more}
+    <div class="sec-title"><span data-i18n="platform_title">🗺️ 不動産情報プラットフォーム</span></div>
+  <div class="platform-grid">
+    <a href="projects.html" class="platform-card">
+      <div class="platform-ico">🏢</div>
+      <div>
+        <h3 data-i18n="platform_proj">项目库 · Project List</h3>
+        <p data-i18n="platform_proj_desc">在开发/规划中的不动产项目一览，按企业·地区筛选，附相关新闻时间轴。</p>
+      </div>
+    </a>
+    <a href="map.html" class="platform-card">
+      <div class="platform-ico">🗺️</div>
+      <div>
+        <h3 data-i18n="platform_map">地图 · Map</h3>
+        <p data-i18n="platform_map_desc">基于国土地理院地图，标注各项目位置与新闻热度。</p>
+      </div>
+    </a>
+  </div>
+  <div style="height:28px"></div>
 </div>
 
 <footer class="footer">
