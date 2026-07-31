@@ -116,7 +116,8 @@ def build_html():
   .tl-sum.open { display: block; }
   .tl-link { font-size: 12px; color: #0b3d91; text-decoration: none; }
   @media (max-width: 640px) {
-    .grid { grid-template-columns: minmax(0, 1fr); }
+    .grid { grid-template-columns: minmax(0, 1fr); gap: 10px; }
+    .card { padding: 12px; }
     .sheet { border-radius: 14px 14px 0 0; }
     #search { flex: 1 1 100%; }
   }
