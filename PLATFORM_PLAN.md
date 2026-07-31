@@ -78,3 +78,7 @@
 - 新增 collect_projects.py: 非交互去重合并, 供项目库 cron(f5aa6e0a 每周二 09:30) 调用
 - 手机端 .grid 强制单列 minmax(0,1fr), 修复卡片挤成一团
 - 已 push 9a5a7d5, verify_all 39 PASS
+
+## 2026-07-31 (15:00) EdgeOne 边缘缓存刷新触发
+- build_projects.py 手机端 (<640px) 已含单列 + padding/gap 收紧, GitHub main 已最新 (commit 1cc45c9)
+- EdgeOne 边缘节点此前停在旧版, 本次仅改 PLATFORM_PLAN.md 触发全量重部署
