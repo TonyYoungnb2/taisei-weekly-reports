@@ -67,3 +67,5 @@
 - commit 36a3c29 已上线，verify_all 39 项全 PASS。
 
 - commit b29c9bc: 主页平台入口改单卡 hero（删除单独地图入口，platform-card 整行宽 + 渐变背景 + 箭头元素）；build_projects.py 修复 Leaflet 地图从 display:none 切到 block 后容器尺寸未刷新导致点不动的问题（创建后 setTimeout(80ms) invalidateSize）。
+
+- commit b12c888: 修复主页 platform_proj_desc 字段去重（cn/jp 两句粘连），把首页项目库卡片描述恢复单句。
