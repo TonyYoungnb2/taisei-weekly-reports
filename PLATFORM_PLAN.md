@@ -65,3 +65,5 @@
 - build_map.py 修复 __CENTER__ 双括号导致 Leaflet setView 抛错(地图空白)，改为裸坐标注入。
 - 主页平台入口卡片改 repeat(2, minmax(0, 1fr)) 等宽 + 图标固定 42px 防比例失调。
 - commit 36a3c29 已上线，verify_all 39 项全 PASS。
+
+- commit b29c9bc: 主页平台入口改单卡 hero（删除单独地图入口，platform-card 整行宽 + 渐变背景 + 箭头元素）；build_projects.py 修复 Leaflet 地图从 display:none 切到 block 后容器尺寸未刷新导致点不动的问题（创建后 setTimeout(80ms) invalidateSize）。
