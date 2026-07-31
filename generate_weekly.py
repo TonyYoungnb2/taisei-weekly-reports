@@ -1241,7 +1241,7 @@ var I18N = {
     more_collapse: '收起 ↑',
     platform_title: '🗺️ 不动产情报平台',
     platform_proj: '项目库 · Project List',
-    platform_proj_desc: '在开发/规划中的不动产项目一览，可按企业·地区筛选，附相关新闻时间轴。，附相关新闻时间轴与地图视图。',
+    platform_proj_desc: '在开发/规划中的不动产项目一览，可按企业·地区筛选，附相关新闻时间轴与地图视图。',
   },
   jp: {
     hero_title: '大誠有限会社 · 日本不動産週報',
@@ -1255,7 +1255,7 @@ var I18N = {
     more_collapse: '折りたたむ ↑',
     platform_title: '🗺️ 不動産情報プラットフォーム',
     platform_proj: 'プロジェクト一覧 · Project List',
-    platform_proj_desc: '開発・計画中の不動産プロジェクトを網羅。企業・地区で絞り込み、関連ニュースのタイムラインも。と地図ビューも。',
+    platform_proj_desc: '開発・計画中の不動産プロジェクトを網羅。企業・地区で絞り込み、関連ニュースのタイムラインと地図ビューも。',
   }
 };
 function i18nText(key, arg){
