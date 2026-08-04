@@ -138,6 +138,11 @@ def _sim(a, b):
     return base
 
 
+def _today():
+    from datetime import date
+    return date.today().strftime('%Y-%m-%d')
+
+
 def load_projects():
     if not os.path.isfile(PROJ):
         return {'version': 1, 'updated_at': '', 'projects': []}
@@ -174,22 +179,28 @@ def match_existing(d, item):
 def merge_item(d, item):
     p, score = match_existing(d, item)
     if p is not None and score >= AUTO_MERGE:
-        # 命中：补充 aliases + 更新 last_updated + 覆盖可更新的字段
-        today = d['updated_at'] or ''
+        # 命中现有项目：只在「有新信息」时才修改，避免每周空转改写库。
+        today = d['updated_at'] or _today()
         new_aliases = list(p.get('aliases', []))
+        added_alias = False
         for a in item.get('aliases', []):
             if a and a not in new_aliases:
-                new_aliases.append(a)
-        p['aliases'] = new_aliases
-        p['last_updated'] = today
-        # 若原 developer 为空而新传入有值，补上
+                new_aliases.append(a); added_alias = True
+        filled = {}
         if (not p.get('developer') or p.get('developer') == '（開発者未記載）') and item.get('developer'):
-            p['developer'] = item['developer']
-        # 若原地址为空而新传入有值，补上
+            filled['developer'] = item['developer']
         for fld in ('address', 'latitude', 'longitude', 'status', 'city', 'district', 'prefecture'):
             if not p.get(fld) and item.get(fld) is not None:
-                p[fld] = item[fld]
-        return 'UPDATED', p['id'], score
+                filled[fld] = item[fld]
+        if added_alias or filled:
+            if added_alias:
+                p['aliases'] = new_aliases
+            for k, v in filled.items():
+                p[k] = v
+            p['last_updated'] = today
+            return 'UPDATED', p['id'], score
+        # 纯命中、无新信息：跳过，不修改库
+        return 'MATCH', p['id'], score
     else:
         # 未命中：新建
         seq = len(d['projects']) + 1
@@ -244,22 +255,31 @@ def main():
         data = [data]
 
     d = load_projects()
-    n_new = n_upd = n_review = 0
+    n_new = n_upd = n_review = n_match = 0
+    changed = False
     for item in data:
         act, pid, score = merge_item(d, item)
         if act == 'NEW':
             n_new += 1
+            changed = True
             tag = ' [待人工复核]' if score >= REVIEW_MIN else ''
             print('  [NEW] %s = %s (sim=%.0f%%)%s' % (pid, item.get('name', ''), score * 100, tag))
             if tag:
                 n_review += 1
-        else:
+        elif act == 'UPDATED':
             n_upd += 1
+            changed = True
             print('  [UPD] %s = %s (sim=%.0f%%)' % (pid, item.get('name', ''), score * 100))
+        else:  # MATCH：已在库中且无新信息，跳过
+            n_match += 1
+            print('  [SKIP] 已在库中(重复): %s' % pid)
 
-    save_projects(d)
-    print('[OK] 合并完成: 新建 %d / 更新 %d / 待复核 %d / 现有总计 %d'
-          % (n_new, n_upd, n_review, len(d['projects'])))
+    if changed:
+        save_projects(d)
+        print('[OK] 合并完成: 新建 %d / 更新 %d / 跳过 %d / 待复核 %d / 现有总计 %d'
+              % (n_new, n_upd, n_match, n_review, len(d['projects'])))
+    else:
+        print('[SKIP] 无新项目，未修改库（现有总计 %d）' % len(d['projects']))
 
 
 if __name__ == '__main__':
