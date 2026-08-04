@@ -92,8 +92,7 @@ def build_html():
   .card h3 { margin: 0 0 8px; font-size: 15px; line-height: 1.4; word-break: break-word; }
   .card .meta { font-size: 12px; color: #5a6a85; line-height: 1.7; word-break: break-word; }
   .pill { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 11px; margin-right: 6px; }
-  .pill.official { background: #0b3d91; color: #fff; }
-  .pill.media { background: #e8eefc; color: #0b3d91; }
+  #srcChips { display: none; }
   .pill.cat { background: #eef1f7; color: #46546e; }
   .proj-label { background: rgba(11,61,145,.85); color:#fff; border:none; border-radius:4px;
                 padding:1px 5px; font-size:11px; font-weight:600; white-space:nowrap;
@@ -163,7 +162,7 @@ var CENTER = __CENTER__;
 var ZOOM = __ZOOM__;
 var map = null, markers = {};
 
-var state = { view: 'list', cat: 'all', pref: 'all', src: 'all', q: '', group: 'none' };
+var state = { view: 'list', cat: 'all', pref: 'all', q: '', group: 'none' };
 
 // 类别 / 地区 / 来源 选项
 function uniq(arr){ return arr.filter(function(v,i){ return arr.indexOf(v)===i; }); }
@@ -180,7 +179,7 @@ function buildChips(){
     '<span class="chip" data-k="src" data-v="media">媒体</span>';
   document.getElementById('catChips').innerHTML = catHtml;
   document.getElementById('prefChips').innerHTML = prefHtml;
-  document.getElementById('srcChips').innerHTML = srcHtml;
+  document.getElementById('srcChips').style.display = 'none';
   document.querySelectorAll('.chip').forEach(function(el){
     el.onclick = function(){
       var k = el.getAttribute('data-k');
@@ -197,8 +196,6 @@ function filtered(){
   return PROJECTS.filter(function(p){
     if (state.cat !== 'all' && (p.category||'其他') !== state.cat) return false;
     if (state.pref !== 'all' && (p.prefecture||'不明') !== state.pref) return false;
-    if (state.src === 'official' && !p.verified) return false;
-    if (state.src === 'media' && p.verified) return false;
     if (q) {
       var hay = (p.name + ' ' + (p.developer||'') + ' ' + (p.prefecture||'') + ' ' + (p.city||'') + ' ' + (p.aliases||[]).join(' ')).toLowerCase();
       if (hay.indexOf(q) === -1) return false;
@@ -207,14 +204,12 @@ function filtered(){
   });
 }
 
-function badge(p){
-  return p.verified ? '<span class="pill official">官方</span>' : '<span class="pill media">媒体</span>';
-}
+function badge(p){ return ''; }
 function card(p){
   var region = [p.prefecture, p.city, p.district].filter(Boolean).join(' ');
   return '<div class="card" onclick="openDetail('+String.fromCharCode(39)+p.id+String.fromCharCode(39)+')">' +
     '<h3>'+p.name+'</h3>' +
-    '<div>'+badge(p)+'<span class="pill cat">'+(p.category||'其他')+'</span></div>' +
+    '<div><span class="pill cat">'+(p.category||'其他')+'</span></div>' +
     '<div class="meta">開発：'+(p.developer||'-')+'<br>地区：'+region+'<br>状態：'+(p.status||'-')+' ｜ 関連ニュース：'+(p.news_count||0)+'件</div>' +
     '</div>';
 }
@@ -243,7 +238,7 @@ function renderMap(list){
   function haloR(z, news){ return dotR(z, news)*1.9; }
   list.forEach(function(p){
     if (!p.latitude || !p.longitude) return;
-    var color = p.verified ? '#0b3d91' : '#e9533b';
+    var color = '#0b3d91';
     var z0 = map ? map.getZoom() : ZOOM;
     var halo = L.circleMarker([p.latitude, p.longitude], {
       radius: haloR(z0, p.news_count), color:'#fff', weight:2, fillColor:'#fff', fillOpacity:.6
@@ -251,7 +246,13 @@ function renderMap(list){
     var dot = L.circleMarker([p.latitude, p.longitude], {
       radius: dotR(z0, p.news_count), color: color, weight: 2, fillColor: color, fillOpacity: .9
     }).addTo(map);
-    var pop = '<b>'+p.name+'</b><br>開発：'+(p.developer||'-')+'<br>関連ニュース：'+(p.news_count||0)+'件';
+    var news = (NEWS||[]).filter(function(n){ return n.project_id === p.id; })
+      .sort(function(a,b){ return (b.publish_date||'').localeCompare(a.publish_date||''); });
+    var newsHtml = news.length ? news.slice(0,3).map(function(n){
+      var link = n.url ? ' <a href="'+n.url+'" target="_blank" rel="noopener">['+(n.url_text||'链接')+']</a>' : '';
+      return '・'+n.title+link;
+    }).join('<br>') : '(暂无关联新闻)';    var pop = '<b>'+p.name+'</b><br>開発：'+(p.developer||'-')+'<br>状態：'+(p.status||'-')+
+      '<br>関連ニュース('+news.length+'件)：<br>'+newsHtml;
     dot.bindPopup(pop); halo.bindPopup(pop);
     dot.bindTooltip(L.tooltip({permanent:false, direction:'top', opacity:1, className:'proj-label'}).setContent(p.name));
     markers[p.id] = { dot: dot, halo: halo, news: p.news_count };
@@ -298,10 +299,10 @@ function openDetail(id){
   }).join('') || '<div class="tl-src">関連ニュースなし</div>';
   document.getElementById('sheet').innerHTML =
     '<button class="close" onclick="closeDetail()">×</button>'+
-    '<h2>'+p.name+' '+badge(p)+'</h2>'+
+    '<h2>'+p.name+'</h2>'+
     '<div class="info">企業：'+(p.developer||'-')+'<br>類別：'+(p.category||'-')+' ／ 状態：'+(p.status||'-')+
       '<br>地区：'+region+'<br>初見：'+(p.first_seen||'-')+' ／ 更新：'+(p.last_updated||'-')+
-      (p.verified?'<br>出所：公式確認済':'<br>出所：メディア報道（未確認）')+'</div>'+
+      ''+'</div>' +
     '<h4>関連ニュース（'+(news.length)+'件）</h4><div class="tl">'+tl+'</div>';
   document.getElementById('detail').classList.add('show');
 }

@@ -10,7 +10,27 @@ import io, os, json, sys
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 PROJ = os.path.join(BASE, 'data', 'projects.json')
+NEWS_DIR = os.path.join(BASE, 'data', 'news')
 OUT = os.path.join(BASE, 'map.html')
+
+
+def load_news():
+    news = []
+    if not os.path.isdir(NEWS_DIR):
+        return news
+    for root, _, fnames in os.walk(NEWS_DIR):
+        for fn in fnames:
+            if not fn.endswith('.json'):
+                continue
+            try:
+                d = json.load(io.open(os.path.join(root, fn), encoding='utf-8'))
+            except Exception:
+                continue
+            if isinstance(d, list):
+                news.extend(d)
+            elif isinstance(d, dict) and 'news' in d:
+                news.extend(d['news'])
+    return news
 
 
 def load_projects():
@@ -20,8 +40,10 @@ def load_projects():
 def build_html():
     data = load_projects()
     projects = [p for p in data.get('projects', []) if p.get('latitude') and p.get('longitude')]
+    news = load_news()
     # 内联数据（避免跨文件加载 / 404）
     inline = json.dumps(projects, ensure_ascii=False)
+    news_inline = json.dumps(news, ensure_ascii=False)
     lats = [p['latitude'] for p in projects]
     lngs = [p['longitude'] for p in projects]
     # 计算所有点的边界，用于载入时自适应框选（fitBounds）
@@ -53,8 +75,25 @@ def build_html():
   .leaflet-popup-content { font-size: 13px; line-height: 1.6; }
   .leaflet-popup-content b { color: #0b3d91; }
   .pill { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 11px; margin-left: 6px; }
-  .pill.official { background: #0b3d91; color: #fff; }
-  .pill.media { background: #e8eefc; color: #0b3d91; }
+  /* 项目标记：渐变圆点 + 白边 + 文字，告别丑 circleMarker */
+  .proj-pin { background: radial-gradient(circle at 32% 28%, #4d7fd6 0%, #0b3d91 62%, #062a66 100%);
+    border: 2px solid #fff; border-radius: 50%; box-shadow: 0 2px 6px rgba(0,0,0,.35);
+    display: flex; align-items: center; justify-content: center; color: #fff;
+    font: 700 11px/1 -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    box-sizing: border-box; transition: transform .12s ease; }
+  .proj-halo { background: rgba(255,255,255,.55); border: none; box-shadow: 0 0 0 1px rgba(11,61,145,.25); }
+  .proj-pin.has-news { background: radial-gradient(circle at 32% 28%, #ff8a5c 0%, #e9533b 60%, #b8331f 100%); }
+  .proj-pin:hover { transform: scale(1.12); }
+  .proj-label { background: rgba(11,61,145,.9); color:#fff; border:none; border-radius:4px;
+    padding:1px 6px; font-size:11px; font-weight:600; white-space:nowrap; box-shadow:0 1px 3px rgba(0,0,0,.3); }
+  .proj-label::before { display:none; }
+  #zoomhint { background: rgba(11,61,145,.85); color:#fff; padding:3px 8px; border-radius:10px;
+    font-size:11px; font-weight:600; box-shadow:0 1px 4px rgba(0,0,0,.3); }
+  .leaflet-popup-content { font-size: 13px; line-height: 1.55; }
+  .leaflet-popup-content b { font-size: 14px; color: #0b3d91; }
+  .pop-news { margin-top: 4px; }
+  .pop-news a { color: #e9533b; text-decoration: none; }
+  .pop-news a:hover { text-decoration: underline; }
   /* 项目标记：醒目，放大地图时点放大 */
   .proj-halo { color: #fff; opacity: .55; }
   .proj-dot { color: #0b3d91; }
@@ -78,6 +117,7 @@ def build_html():
 <script src="vendor/leaflet/leaflet.js"></script>
 <script>
 var PROJECTS = __DATA__;
+var NEWS = __NEWS__;
 var map = L.map('map').setView([__CENTER__], __ZOOM__);
 L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
   attribution: '© 国土地理院',
@@ -102,42 +142,50 @@ function haloRadius(zoom, news) { return dotRadius(zoom, news) * 1.9; }
 
 var markers = [];
 PROJECTS.forEach(function(p) {
-  var color = p.verified ? '#0b3d91' : '#e9533b';
   var z0 = map.getZoom();
+  var r = dotRadius(z0, p.news_count);
   // 外层白色光晕（提升在复杂地图底图上的辨识度）
   var halo = L.circleMarker([p.latitude, p.longitude], {
-    radius: haloRadius(z0, p.news_count), color: '#fff', weight: 2,
-    fillColor: '#fff', fillOpacity: 0.6, className: 'proj-halo'
+    radius: haloRadius(z0, p.news_count), color: '#fff', weight: 0,
+    fillColor: '#fff', fillOpacity: 0.55, className: 'proj-halo'
   }).addTo(map);
-  var dot = L.circleMarker([p.latitude, p.longitude], {
-    radius: dotRadius(z0, p.news_count), color: color, weight: 2,
-    fillColor: color, fillOpacity: 0.9, className: 'proj-dot'
-  }).addTo(map);
-  var badge = p.verified
-    ? '<span class="pill official">官方</span>'
-    : '<span class="pill media">媒体</span>';
-  var html = '<b>' + p.name + '</b>' + badge + '<br>' +
+  // 渐变圆点：有新闻=暖橙，无新闻=品牌蓝；中心显示新闻数
+  var dotLabel = (p.news_count && p.news_count > 0) ? String(p.news_count) : '';
+  var dot = L.divIcon({ className: 'proj-pin' + (dotLabel ? ' has-news' : ''),
+    html: '<div style="width:' + (r*2) + 'px;height:' + (r*2) + 'px;display:flex;align-items:center;justify-content:center;font:700 ' + Math.max(10, Math.round(r*0.95)) + 'px/1 sans-serif;color:#fff">' + dotLabel + '</div>',
+    iconSize: [r*2, r*2], iconAnchor: [r, r] });
+  var mk = L.marker([p.latitude, p.longitude], { icon: dot }).addTo(map);
+  // 关联新闻：弹窗列出（至多3条）
+  var news = (typeof NEWS !== 'undefined' ? NEWS : []).filter(function(n){ return n.project_id === p.id; })
+    .sort(function(a,b){ return (b.publish_date||'').localeCompare(a.publish_date||''); });
+  var newsHtml = news.length ? news.slice(0,3).map(function(n){
+      var link = n.url ? ' <a href="' + n.url + '" target="_blank" rel="noopener">[' + (n.url_text || '链接') + ']</a>' : '';
+      return '・' + n.title + link;
+    }).join('<br>') : '(暂无关联新闻)';
+  var html = '<b>' + p.name + '</b><br>' +
     '开发商: ' + (p.developer || '-') + '<br>' +
     '类型: ' + (p.category || '-') + ' ／ 状态: ' + (p.status || '-') + '<br>' +
     '地区: ' + [p.prefecture, p.city, p.district].filter(Boolean).join(' ') + '<br>' +
-    '相关新闻: ' + (p.news_count || 0) + ' 篇<br>' +
-    '首次: ' + (p.first_seen || '-') + ' ／ 更新: ' + (p.last_updated || '-');
-  dot.bindPopup(html);
-  halo.bindPopup(html);
+    '<div class="pop-news">相关新闻 (' + news.length + ' 篇):<br>' + newsHtml + '</div>';
+  mk.bindPopup(html);
   // 悬停显示项目名标签
   var label = L.tooltip({
     permanent: false, direction: 'top', className: 'proj-label', opacity: 1
   }).setContent(p.name);
-  dot.bindTooltip(label);
-  markers.push({ halo: halo, dot: dot, news: p.news_count });
+  mk.bindTooltip(label);
+  markers.push({ halo: halo, dot: mk, news: p.news_count, r: r });
 });
 
 // 缩放时重算所有点大小，保持“放大→点变大”
 function rescale() {
   var z = map.getZoom();
   markers.forEach(function(m) {
-    m.dot.setRadius(dotRadius(z, m.news));
+    var r = dotRadius(z, m.news);
     m.halo.setRadius(haloRadius(z, m.news));
+    var lbl = (m.news && m.news > 0) ? String(m.news) : '';
+    m.dot.setIcon(L.divIcon({ className: 'proj-pin' + (lbl ? ' has-news' : ''),
+      html: '<div style="width:' + (r*2) + 'px;height:' + (r*2) + 'px;display:flex;align-items:center;justify-content:center;font:700 ' + Math.max(10, Math.round(r*0.95)) + 'px/1 sans-serif;color:#fff">' + lbl + '</div>',
+      iconSize: [r*2, r*2], iconAnchor: [r, r] }));
   });
 }
 map.on('zoomend', rescale);
@@ -151,7 +199,7 @@ hint.addTo(map);
 </script>
 </body>
 </html>
-'''.replace('__DATA__', inline).replace('__CENTER__', '%s, %s' % (center[0], center[1])).replace('__ZOOM__', str(zoom)).replace('__COUNT__', str(len(projects))).replace('__BOUNDS__', bounds)
+'''.replace('__DATA__', inline).replace('__NEWS__', news_inline).replace('__CENTER__', '%s, %s' % (center[0], center[1])).replace('__ZOOM__', str(zoom)).replace('__COUNT__', str(len(projects))).replace('__BOUNDS__', bounds)
 
 
 def main():

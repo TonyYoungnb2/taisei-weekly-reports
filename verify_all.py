@@ -18,7 +18,18 @@ def chk(name, ok, detail=''):
 
 
 def gsi_only(html):
-    ext = set(re.findall(r'https?://([^/\s\'"]+)', html))
+    # 仅检查会被浏览器加载的外部资源（脚本/样式/瓦片/图片）；
+    # 数据里的 a.href（新闻链接）是用户点击跳转，不算外链资源，放行。
+    loaded = []
+    for pat in [r'<script[^>]+src=["\'](https?://[^"\']+)["\']',
+               r'<link[^>]+href=["\'](https?://[^"\']+)["\']',
+               r'L\.tileLayer\(\s*["\'](https?://[^"\']+)["\']',
+               r'<img[^>]+src=["\'](https?://[^"\']+)["\']']:
+        loaded += re.findall(pat, html)
+    ext = set()
+    for u in loaded:
+        mm = re.match(r'https?://([^/\s\'"<>]+)', u)
+        if mm: ext.add(mm.group(1))
     ext.discard('cyberjapandata.gsi.go.jp')
     return ext
 
