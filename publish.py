@@ -22,15 +22,29 @@ def main():
     basic = base64.b64encode((tok + ':').encode('utf-8')).decode('ascii')
     env = dict(os.environ)
     env['GIT_TERMINAL_PROMPT'] = '0'
-    r = subprocess.run(
-        ['git', '-c', 'credential.helper=',
-         '-c', 'http.extraHeader=Authorization: Basic ' + basic,
-         'push', 'origin', 'master:main'],
-        cwd=REPO, capture_output=True, text=True, encoding='utf-8', errors='replace',
-        timeout=120, env=env)
+
+    def git(*args, timeout=120):
+        r = subprocess.run(
+            ['git', '-c', 'credential.helper=',
+             '-c', 'http.extraHeader=Authorization: Basic ' + basic] + list(args),
+            cwd=REPO, capture_output=True, text=True, encoding='utf-8', errors='replace',
+            timeout=timeout, env=env)
+        print('$ git', ' '.join(args), '->', r.returncode)
+        if r.stdout.strip():
+            print(r.stdout.strip())
+        if r.stderr.strip():
+            print(r.stderr.strip())
+        return r
+
+    # 先拉取远端 main 并并入本地 master，避免周报自动更新抢跑导致 non-fast-forward。
+    # 远端只动周报(index.html/weekly_data_sample.json)，与平台文件无冲突；
+    # 若万一冲突，fetch 阶段会报错暴露，而非静默覆盖。
+    fr = git('fetch', 'origin', 'main')
+    if fr.returncode == 0:
+        git('merge', '--no-edit', 'origin/main')
+
+    r = git('push', 'origin', 'master:main')
     print('push rc =', r.returncode)
-    print(r.stdout.strip())
-    print(r.stderr.strip())
     if r.returncode == 0:
         print('[OK] 已推送，EdgeOne 约 1-2 分钟自动部署。')
     else:

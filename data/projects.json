@@ -441,6 +441,1983 @@
       "last_updated": "2026-08-04",
       "news_count": 0,
       "verified": false
+    },
+    {
+      "id": "P020",
+      "name": "横浜コネクトスクエア／三井ガーデンホテル横浜みなとみらいプレミア",
+      "aliases": [
+        "高さ145.8m｜地上28階・地下1階｜2023年1月竣工"
+      ],
+      "developer": "三井不動産",
+      "category": "酒店",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "西区",
+      "address": "横浜市西区みなとみらい三丁目3番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P021",
+      "name": "ESR東扇島ディストリビューションセンター1",
+      "aliases": [
+        "高さ62.4m｜地上9階｜2023年3月竣工"
+      ],
+      "developer": "ESR",
+      "category": "物流",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "川崎市",
+      "district": "川崎区",
+      "address": "川崎市川崎区東扇島21番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P022",
+      "name": "東芝 研究開発センター イノベーション・パレット",
+      "aliases": [
+        "高さ59.6m｜地上13階｜2023年12月竣工"
+      ],
+      "developer": "東芝",
+      "category": "研发",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "川崎市",
+      "district": "幸区",
+      "address": "川崎市幸区小向東芝町1番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P023",
+      "name": "シタディーンハーバーフロント横浜",
+      "aliases": [
+        "高さ60.0m｜地上17階・地下2階｜2023年4月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "酒店",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "中区",
+      "address": "横浜市中区日本大通5番2",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P024",
+      "name": "ミュージックテラス ヒルトン横浜",
+      "aliases": [
+        "高さ106.8m｜地上26階・地下1階｜2023年7月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "酒店",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "西区",
+      "address": "横浜市西区みなとみらい六丁目2番2",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P025",
+      "name": "ミュージックテラス Kタワー横浜",
+      "aliases": [
+        "高さ99.5m｜地上21階・地下1階｜2023年7月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "西区",
+      "address": "横浜市西区みなとみらい六丁目2番2",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false,
+      "needs_review": {
+        "maybe_same_as": "P024",
+        "candidate_name": "ミュージックテラス ヒルトン横浜",
+        "score": 0.733
+      }
+    },
+    {
+      "id": "P026",
+      "name": "新綱島スクエア／ドレッセタワー新綱島",
+      "aliases": [
+        "高さ99.9m｜地上29階・地下2階｜2023年10月竣工"
+      ],
+      "developer": "大和ハウス工業",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "港北区",
+      "address": "横浜市港北区綱島東1丁目9番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P027",
+      "name": "グランドメゾン山下公園",
+      "aliases": [
+        "高さ59.0m｜地上17階・地下1階｜2024年1月竣工"
+      ],
+      "developer": "積水ハウス",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "中区",
+      "address": "横浜市中区山下町31番7",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P028",
+      "name": "THE YOKOHAMA FRONT（ザ ヨコハマ フロント）",
+      "aliases": [
+        "高さ178.4m｜地上43階・地下2階｜2024年3月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "神奈川区",
+      "address": "横浜市神奈川区鶴屋町1丁目41番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P029",
+      "name": "リビオタワー羽沢横浜国大",
+      "aliases": [
+        "高さ92.5m｜地上23階・地下1階｜2024年3月竣工"
+      ],
+      "developer": "大和ハウス工業",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "神奈川区",
+      "address": "横浜市神奈川区羽沢南二丁目",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P030",
+      "name": "横浜シンフォステージ ウエストタワー",
+      "aliases": [
+        "高さ158.0m｜地上30階・地下1階｜2024年3月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "西区",
+      "address": "横浜市西区みなとみらい五丁目1番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P031",
+      "name": "横浜シンフォステージ イーストタワー",
+      "aliases": [
+        "高さ90.0m｜地上30階・地下1階｜2024年3月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "西区",
+      "address": "横浜市西区みなとみらい五丁目1番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P032",
+      "name": "大同生命横浜ビル",
+      "aliases": [
+        "高さ59.0m｜地上13階・地下1階｜2024年4月竣工"
+      ],
+      "developer": "大同生命",
+      "category": "办公",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "中区",
+      "address": "横浜市中区本町2番16",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P033",
+      "name": "ドレッセタワー武蔵小杉",
+      "aliases": [
+        "高さ78.8m｜地上23階｜2024年5月竣工"
+      ],
+      "developer": "大和ハウス工業",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "川崎市",
+      "district": "中原区",
+      "address": "川崎市中原区小杉町三丁目1番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false,
+      "needs_review": {
+        "maybe_same_as": "P026",
+        "candidate_name": "新綱島スクエア／ドレッセタワー新綱島",
+        "score": 0.483
+      }
+    },
+    {
+      "id": "P034",
+      "name": "レーベン小田原 THE TOWER",
+      "aliases": [
+        "高さ54.9m｜地上17階・地下1階｜2024年5月竣工",
+        "高さ60.0m｜地上19階・地下1階｜2028年2月竣工"
+      ],
+      "developer": "タカラレーベン",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "小田原市",
+      "district": "",
+      "address": "小田原市城山一丁目566番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P035",
+      "name": "シティハウス横浜",
+      "aliases": [
+        "高さ60.0m｜地上18階｜2024年6月竣工"
+      ],
+      "developer": "住友不動産",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "西区",
+      "address": "横浜市西区北幸二丁目11番15",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P036",
+      "name": "川崎市役所本庁舎",
+      "aliases": [
+        "高さ116.9m｜地上25階・地下2階｜2023年6月竣工"
+      ],
+      "developer": "川崎市",
+      "category": "公共",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "川崎市",
+      "district": "川崎区",
+      "address": "川崎市川崎区宮本町1番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P037",
+      "name": "横浜ヴェールタワー／横浜ヴェールスクエアCeeU",
+      "aliases": [
+        "高さ75.0m｜地上22階・地下1階｜2025年1月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "西区",
+      "address": "横浜市西区南幸2丁目16番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P038",
+      "name": "NECイノベーション新棟（仮称）",
+      "aliases": [
+        "高さ76.0m｜地上12階｜2025年6月竣工"
+      ],
+      "developer": "NEC",
+      "category": "研发",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "川崎市",
+      "district": "中原区",
+      "address": "川崎市中原区下沼部字玉川向1753番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P039",
+      "name": "THE TOWER 湘南辻堂",
+      "aliases": [
+        "高さ98.9m｜地上29階・地下2階｜2025年9月竣工"
+      ],
+      "developer": "小田急不動産",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "藤沢市",
+      "district": "",
+      "address": "藤沢市辻堂1丁目1589番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false,
+      "needs_review": {
+        "maybe_same_as": "P034",
+        "candidate_name": "レーベン小田原 THE TOWER",
+        "score": 0.593
+      }
+    },
+    {
+      "id": "P040",
+      "name": "スイテ新横浜",
+      "aliases": [
+        "高さ59.5m｜地上14階・地下1階｜2025年10月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "港北区",
+      "address": "横浜市港北区新横浜三丁目7番8",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P041",
+      "name": "プラウドタワー相模大野クロス",
+      "aliases": [
+        "高さ154.1m｜地上41階・地下3階｜2025年11月竣工"
+      ],
+      "developer": "野村不動産",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "相模原市",
+      "district": "南区",
+      "address": "相模原市南区相模大野4丁目4009番45",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P042",
+      "name": "パークタワー向ヶ丘遊園",
+      "aliases": [
+        "高さ90.0m｜地上25階｜2025年11月竣工"
+      ],
+      "developer": "三井不動産レジデンス",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "川崎市",
+      "district": "多摩区",
+      "address": "川崎市多摩区登戸51街区",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P043",
+      "name": "BASEGATE横浜関内",
+      "aliases": [
+        "高さ169.0m｜地上34階・地下1階｜2025年12月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "中区",
+      "address": "横浜市中区港町1丁目1番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P044",
+      "name": "ダイワコーポレーション川崎営業所新築工事",
+      "aliases": [
+        "高さ58.1m｜地上7階｜2026年4月竣工"
+      ],
+      "developer": "大和ハウス工業",
+      "category": "办公",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "川崎市",
+      "district": "川崎区",
+      "address": "川崎市川崎区東扇島26番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P045",
+      "name": "ブランズタワー橋本",
+      "aliases": [
+        "高さ110.2m｜地上29階｜2026年6月竣工"
+      ],
+      "developer": "東急不動産",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "神奈川県",
+      "city": "相模原市",
+      "district": "緑区",
+      "address": "相模原市緑区橋本2丁目336番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P046",
+      "name": "（仮称）北仲通北地区A1・2地区プロジェクト",
+      "aliases": [
+        "高さ150.0m｜地上40階・地下2階｜2026年11月竣工"
+      ],
+      "developer": "東急不動産・京浜急行電鉄・第一生命",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "中区",
+      "address": "横浜市中区北仲通六丁目103番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P047",
+      "name": "日本郵船 横浜タワー棟",
+      "aliases": [
+        "高さ100.0m｜地上21階・地下1階｜2027年1月竣工"
+      ],
+      "developer": "日本郵船",
+      "category": "办公",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "中区",
+      "address": "横浜市中区海岸通3丁目9番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P048",
+      "name": "リーフィアタワー海老名クロノスコート",
+      "aliases": [
+        "地上31階｜2027年3月竣工"
+      ],
+      "developer": "大和ハウス工業",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "海老名市",
+      "district": "",
+      "address": "海老名市めぐみ町512番13",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P049",
+      "name": "みなとみらい21中央地区52街区開発事業計画",
+      "aliases": [
+        "高さ179.8m｜地上29階・地下2階｜2027年6月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "西区",
+      "address": "横浜市西区みなとみらい五丁目1番2",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P050",
+      "name": "ザ・パークハウス武蔵小杉タワーズ サウス",
+      "aliases": [
+        "高さ175.7m｜地上50階・地下1階｜2027年9月竣工"
+      ],
+      "developer": "三菱地所レジデンス",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "川崎市",
+      "district": "中原区",
+      "address": "川崎市中原区小杉町一丁目390番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P051",
+      "name": "ハーバーステージ横浜北仲／ブランズタワー横浜北仲",
+      "aliases": [
+        "高さ170.0m｜地上40階・地下1階｜2027年11月竣工"
+      ],
+      "developer": "東急不動産",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "中区",
+      "address": "横浜市中区北仲通5丁目25番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P052",
+      "name": "ザ・パークハウス武蔵小杉タワーズ ノース",
+      "aliases": [
+        "高さ175.7m｜地上50階・地下1階｜2028年5月竣工"
+      ],
+      "developer": "三菱地所レジデンス",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "川崎市",
+      "district": "中原区",
+      "address": "川崎市中原区小杉町一丁目390番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P053",
+      "name": "MM60・61プロジェクト（西街区）新築工事",
+      "aliases": [
+        "高さ59.5m｜地上13階・地下1階｜2028年7月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "西区",
+      "address": "横浜市西区みなとみらい六丁目2番22",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false,
+      "needs_review": {
+        "maybe_same_as": "P046",
+        "candidate_name": "（仮称）北仲通北地区A1・2地区プロジェクト",
+        "score": 0.5
+      }
+    },
+    {
+      "id": "P054",
+      "name": "（仮称）HARBOR EDGE PROJECT",
+      "aliases": [
+        "高さ60.0m｜地上14階・地下2階｜2028年9月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "中区",
+      "address": "横浜市中区みなとみらい6丁目3番2",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P055",
+      "name": "ルジェンテ溝の口 The SKY",
+      "aliases": [
+        "高さ60.0m｜地上19階・地下1階｜2028年10月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "川崎市",
+      "district": "高津区",
+      "address": "川崎市高津区下作延2丁目20番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P056",
+      "name": "綱島駅東口駅前地区第一種市街地再開発事業",
+      "aliases": [
+        "地上27階・地下1階｜2028年竣工"
+      ],
+      "developer": "市街地再開発組合",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "港北区",
+      "address": "横浜市港北区綱島東1丁目",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P057",
+      "name": "（仮称）京急川崎駅西口地区第一種市街地再開発事業",
+      "aliases": [
+        "高さ119.0m｜地上23階・地下1階｜2028年竣工"
+      ],
+      "developer": "市街地再開発組合",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "川崎市",
+      "district": "川崎区",
+      "address": "川崎市川崎区駅前本町21番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P058",
+      "name": "（仮称）東扇島物流施設建設計画",
+      "aliases": [
+        "高さ67.0m｜地上9階｜2029年1月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "物流",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "川崎市",
+      "district": "川崎区",
+      "address": "川崎市川崎区東扇島23番地1号",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P059",
+      "name": "MM60・61プロジェクト（東街区）新築工事",
+      "aliases": [
+        "高さ99.9m｜地上27階・地下1階｜2029年2月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "西区",
+      "address": "横浜市西区みなとみらい六丁目2番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false,
+      "needs_review": {
+        "maybe_same_as": "P046",
+        "candidate_name": "（仮称）北仲通北地区A1・2地区プロジェクト",
+        "score": 0.5
+      }
+    },
+    {
+      "id": "P060",
+      "name": "若松町1丁目地区第一種市街地再開発事業",
+      "aliases": [
+        "高さ128.5m｜地上33階・地下1階｜2029年5月竣工"
+      ],
+      "developer": "市街地再開発組合",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "横須賀市",
+      "district": "",
+      "address": "横須賀市若松町1丁目",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P061",
+      "name": "（仮称）新川通計画新築工事",
+      "aliases": [
+        "高さ59.7m｜地上19階｜2029年9月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "川崎市",
+      "district": "川崎区",
+      "address": "川崎市川崎区新川通2番2",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P062",
+      "name": "（仮称）横浜市港北区新横浜3丁目8計画",
+      "aliases": [
+        "高さ75.0m｜地上22階｜2029年10月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "港北区",
+      "address": "横浜市港北区新横浜3丁目8番16",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P063",
+      "name": "登戸駅前地区第一種市街地再開発事業",
+      "aliases": [
+        "高さ145.6m｜地上38階・地下1階｜2029年11月竣工"
+      ],
+      "developer": "市街地再開発組合",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "川崎市",
+      "district": "多摩区",
+      "address": "川崎市多摩区登戸90街区",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P064",
+      "name": "追浜駅前第2街区第一種市街地再開発事業 A地区",
+      "aliases": [
+        "高さ97.5m｜地上24階・地下1階｜2029年11月竣工"
+      ],
+      "developer": "市街地再開発組合",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "横須賀市",
+      "district": "",
+      "address": "横須賀市追浜町3丁目",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P065",
+      "name": "追浜駅前第2街区第一種市街地再開発事業 B地区",
+      "aliases": [
+        "高さ99.4m｜地上27階・地下1階｜2029年11月竣工"
+      ],
+      "developer": "市街地再開発組合",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "横須賀市",
+      "district": "",
+      "address": "横須賀市追浜町3丁目",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P066",
+      "name": "（仮称）溝の口南口計画",
+      "aliases": [
+        "高さ79.9m｜地上24階・地下1階｜2029年12月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "川崎市",
+      "district": "高津区",
+      "address": "川崎市高津区久本1丁目4番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P067",
+      "name": "中山駅南口地区第一種市街地再開発事業",
+      "aliases": [
+        "高さ100.0m｜地上29階・地下1階｜2029年竣工"
+      ],
+      "developer": "市街地再開発組合",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "緑区",
+      "address": "横浜市緑区谷村町・寺山町",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P068",
+      "name": "（仮称）東高島駅北地区 C地区棟計画 C-2地区B棟",
+      "aliases": [
+        "高さ195.0m｜地上52階・地下2階｜2029年竣工"
+      ],
+      "developer": "市街地再開発組合",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "神奈川区",
+      "address": "横浜市神奈川区星野町・神奈川1丁目",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P069",
+      "name": "（仮称）東高島駅北地区 C地区棟計画 C-1地区",
+      "aliases": [
+        "高さ180.0m｜地上47階・地下2階｜2029年竣工"
+      ],
+      "developer": "市街地再開発組合",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "神奈川区",
+      "address": "横浜市神奈川区星野町・神奈川1丁目",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P070",
+      "name": "（仮称）東高島駅北地区 C地区棟計画 C-2地区A棟",
+      "aliases": [
+        "高さ165.0m｜地上42階・地下2階｜2029年竣工"
+      ],
+      "developer": "市街地再開発組合",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "神奈川県",
+      "city": "横浜市",
+      "district": "神奈川区",
+      "address": "横浜市神奈川区星野町・神奈川1丁目",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P071",
+      "name": "（仮称）鈴木町駅前南地区開発計画",
+      "aliases": [
+        "高さ90.0m｜地上26階｜2030年10月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "规划",
+      "prefecture": "神奈川県",
+      "city": "川崎市",
+      "district": "川崎区",
+      "address": "川崎市川崎区港町12番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P072",
+      "name": "Kawasaki Arena-City Project（川崎アリーナ シティ プロジェクト）",
+      "aliases": [
+        "高さ80.0m｜地上17階｜2030年竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "规划",
+      "prefecture": "神奈川県",
+      "city": "川崎市",
+      "district": "川崎区",
+      "address": "川崎市川崎区駅前本町25番4",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P073",
+      "name": "プラウドタワー川口クロス／樹モールプラザ",
+      "aliases": [
+        "高さ108.4m｜地上28階・地下2階｜2023年3月竣工"
+      ],
+      "developer": "野村不動産",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "埼玉県",
+      "city": "川口市",
+      "district": "",
+      "address": "川口市栄町三丁目601番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P074",
+      "name": "大宮ソラミチKOZ",
+      "aliases": [
+        "高さ56.9m｜地上13階｜2023年5月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "埼玉県",
+      "city": "さいたま市",
+      "district": "大宮区",
+      "address": "さいたま市大宮区桜木町1丁目195番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P075",
+      "name": "ザ・パークハウス川越タワー",
+      "aliases": [
+        "高さ86.2m｜地上25階・地下1階｜2023年10月竣工"
+      ],
+      "developer": "三菱地所レジデンス",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "埼玉県",
+      "city": "川越市",
+      "district": "",
+      "address": "川越市脇田本町16番5",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P076",
+      "name": "ザ・パークハウス大宮吉敷町翠邸",
+      "aliases": [
+        "高さ59.5m｜地上19階｜2023年11月竣工"
+      ],
+      "developer": "三菱地所レジデンス",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "埼玉県",
+      "city": "さいたま市",
+      "district": "大宮区",
+      "address": "さいたま市大宮区吉敷町2丁目86番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false,
+      "needs_review": {
+        "maybe_same_as": "P075",
+        "candidate_name": "ザ・パークハウス川越タワー",
+        "score": 0.538
+      }
+    },
+    {
+      "id": "P077",
+      "name": "レーベン東川口 GRANDEST",
+      "aliases": [
+        "高さ60.0m｜地上18階・地下2階｜2023年12月竣工"
+      ],
+      "developer": "タカラレーベン",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "埼玉県",
+      "city": "川口市",
+      "district": "",
+      "address": "川口市戸塚2丁目1番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P078",
+      "name": "プラウドシティ武蔵浦和ステーションアリーナ",
+      "aliases": [
+        "高さ60.0m｜地上19階・地下1階｜2024年2月竣工"
+      ],
+      "developer": "野村不動産",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "埼玉県",
+      "city": "さいたま市",
+      "district": "南区",
+      "address": "さいたま市南区沼影一丁目98番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P079",
+      "name": "アドグレイス大宮／ダイワロイネットホテル大宮西口",
+      "aliases": [
+        "高さ92.4m｜地上22階｜2024年2月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "酒店",
+      "status": "完工",
+      "prefecture": "埼玉県",
+      "city": "さいたま市",
+      "district": "大宮区",
+      "address": "さいたま市大宮区桜木町1丁目379番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P080",
+      "name": "大宮スカイ＆スクエア ザ・タワー",
+      "aliases": [
+        "高さ99.5m｜地上28階・地下2階｜2024年5月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "埼玉県",
+      "city": "さいたま市",
+      "district": "大宮区",
+      "address": "さいたま市大宮区桜木町2丁目902番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P081",
+      "name": "大宮サウスゲートフロント",
+      "aliases": [
+        "高さ56.8m｜地上12階・地下1階｜2025年12月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "埼玉県",
+      "city": "さいたま市",
+      "district": "中央区",
+      "address": "さいたま市中央区新都心7番2",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P082",
+      "name": "パークタワー川口本町",
+      "aliases": [
+        "高さ93.8m｜地上28階・地下1階｜2026年6月竣工"
+      ],
+      "developer": "三井不動産レジデンス",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "埼玉県",
+      "city": "川口市",
+      "district": "",
+      "address": "川口市川口本町四丁目9番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false,
+      "needs_review": {
+        "maybe_same_as": "P075",
+        "candidate_name": "ザ・パークハウス川越タワー",
+        "score": 0.545
+      }
+    },
+    {
+      "id": "P083",
+      "name": "URAWA THE TOWER",
+      "aliases": [
+        "高さ98.6m｜地上27階・地下2階｜2026年6月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "埼玉県",
+      "city": "さいたま市",
+      "district": "浦和区",
+      "address": "さいたま市浦和区高砂1丁目",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P084",
+      "name": "ザ・パークハウス川越フロント",
+      "aliases": [
+        "高さ58.2m｜地上19階｜2027年1月竣工"
+      ],
+      "developer": "三菱地所レジデンス",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "埼玉県",
+      "city": "川越市",
+      "district": "",
+      "address": "川越市脇田本町13番3",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false,
+      "needs_review": {
+        "maybe_same_as": "P075",
+        "candidate_name": "ザ・パークハウス川越タワー",
+        "score": 0.72
+      }
+    },
+    {
+      "id": "P085",
+      "name": "W CITY TOWERS WEST",
+      "aliases": [
+        "高さ99.8m｜地上28階・地下1階｜2027年5月竣工"
+      ],
+      "developer": "西武プロパティーズ",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "埼玉県",
+      "city": "蕨市",
+      "district": "",
+      "address": "蕨市中央1丁目1番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false,
+      "needs_review": {
+        "maybe_same_as": "P083",
+        "candidate_name": "URAWA THE TOWER",
+        "score": 0.5
+      }
+    },
+    {
+      "id": "P086",
+      "name": "W CITY TOWERS EAST",
+      "aliases": [
+        "高さ99.7m｜地上28階・地下1階｜2027年5月竣工"
+      ],
+      "developer": "西武プロパティーズ",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "埼玉県",
+      "city": "蕨市",
+      "district": "",
+      "address": "蕨市中央1丁目1番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false,
+      "needs_review": {
+        "maybe_same_as": "P083",
+        "candidate_name": "URAWA THE TOWER",
+        "score": 0.5
+      }
+    },
+    {
+      "id": "P087",
+      "name": "大宮駅西口第3-A・D地区第一種市街地再開発事業 住宅棟",
+      "aliases": [
+        "高さ105.4m｜地上27階・地下2階｜2028年3月竣工"
+      ],
+      "developer": "市街地再開発組合",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "埼玉県",
+      "city": "さいたま市",
+      "district": "大宮区",
+      "address": "さいたま市大宮区桜木町二丁目236番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P088",
+      "name": "大宮駅西口第3-A・D地区第一種市街地再開発事業 業務棟",
+      "aliases": [
+        "高さ104.1m｜地上21階・地下2階｜2028年3月竣工"
+      ],
+      "developer": "市街地再開発組合",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "埼玉県",
+      "city": "さいたま市",
+      "district": "大宮区",
+      "address": "さいたま市大宮区桜木町二丁目236番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P089",
+      "name": "バウス所沢小手指タワー",
+      "aliases": [
+        "高さ112.0m｜地上29階｜2028年3月竣工"
+      ],
+      "developer": "青山メイン",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "埼玉県",
+      "city": "所沢市",
+      "district": "",
+      "address": "所沢市小手指町一丁目25番8",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P090",
+      "name": "バウス志木タワー",
+      "aliases": [
+        "高さ85.3m｜地上22階｜2028年12月竣工"
+      ],
+      "developer": "青山メイン",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "埼玉県",
+      "city": "新座市",
+      "district": "",
+      "address": "新座市東北二丁目32番110",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false,
+      "needs_review": {
+        "maybe_same_as": "P089",
+        "candidate_name": "バウス所沢小手指タワー",
+        "score": 0.632
+      }
+    },
+    {
+      "id": "P091",
+      "name": "大宮駅東口大門町3丁目中地区市街地再開発事業",
+      "aliases": [
+        "高さ100.0m｜地上21階・地下2階｜2028年竣工"
+      ],
+      "developer": "市街地再開発組合",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "埼玉県",
+      "city": "さいたま市",
+      "district": "大宮区",
+      "address": "さいたま市大宮区大門町3丁目",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P092",
+      "name": "所沢東町10番地区共同ビル建設計画",
+      "aliases": [
+        "高さ60.0m｜地上19階・地下1階｜2030年3月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "办公",
+      "status": "规划",
+      "prefecture": "埼玉県",
+      "city": "所沢市",
+      "district": "",
+      "address": "所沢市東町83番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P093",
+      "name": "（仮称）和光市駅北口地区第一種市街地再開発事業",
+      "aliases": [
+        "高さ100.0m｜地上28階程度｜2030年竣工"
+      ],
+      "developer": "市街地再開発組合",
+      "category": "综合开发",
+      "status": "规划",
+      "prefecture": "埼玉県",
+      "city": "和光市",
+      "district": "",
+      "address": "和光市新倉1丁目1番34",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P094",
+      "name": "さいたま市新庁舎",
+      "aliases": [
+        "高さ94.0m｜地上19階・地下1階｜2031年2月竣工"
+      ],
+      "developer": "さいたま市",
+      "category": "公共",
+      "status": "规划",
+      "prefecture": "埼玉県",
+      "city": "さいたま市",
+      "district": "大宮区",
+      "address": "さいたま市大宮区北袋町1丁目603番地1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P095",
+      "name": "中央一丁目地区第一種市街地再開発事業 第1街区",
+      "aliases": [
+        "地上27階",
+        "地上20階"
+      ],
+      "developer": "市街地再開発組合",
+      "category": "综合开发",
+      "status": "规划",
+      "prefecture": "埼玉県",
+      "city": "春日部市",
+      "district": "",
+      "address": "春日部市中央一丁目",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P096",
+      "name": "大和ハウス工業東関東支社",
+      "aliases": [
+        "高さ56.6m｜地上12階｜2023年2月竣工"
+      ],
+      "developer": "大和ハウス工業",
+      "category": "办公",
+      "status": "完工",
+      "prefecture": "千葉県",
+      "city": "船橋市",
+      "district": "",
+      "address": "船橋市本町1丁目115番19",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P097",
+      "name": "シエリア幕張",
+      "aliases": [
+        "高さ54.9m｜地上18階｜2023年9月竣工"
+      ],
+      "developer": "関電不動産開発",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "千葉県",
+      "city": "千葉市",
+      "district": "花見川区",
+      "address": "千葉市花見川区幕張町6丁目128番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P098",
+      "name": "幕張ベイパーク ミッドスクエアタワー",
+      "aliases": [
+        "高さ155.6m｜地上43階｜2023年10月竣工"
+      ],
+      "developer": "三井不動産レジデンス・野村不動産",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "千葉県",
+      "city": "千葉市",
+      "district": "美浜区",
+      "address": "千葉市美浜区若葉3丁目1番11",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P099",
+      "name": "エクセレント ザ タワー",
+      "aliases": [
+        "高さ107.3m｜地上31階｜2023年12月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "千葉県",
+      "city": "千葉市",
+      "district": "中央区",
+      "address": "千葉市中央区中央2丁目3番3",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P100",
+      "name": "パークウェルステイト幕張ベイパーク",
+      "aliases": [
+        "高さ105.6m｜地上28階｜2024年5月竣工"
+      ],
+      "developer": "三井不動産レジデンス",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "千葉県",
+      "city": "千葉市",
+      "district": "美浜区",
+      "address": "千葉市美浜区若葉3丁目1番23",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P101",
+      "name": "ネクストサイト千葉ビル",
+      "aliases": [
+        "高さ57.8m｜地上12階・地下1階｜2024年8月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "办公",
+      "status": "完工",
+      "prefecture": "千葉県",
+      "city": "千葉市",
+      "district": "中央区",
+      "address": "千葉市中央区富士見一丁目12番2",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P102",
+      "name": "幕張ベイパーク ライズゲートタワー",
+      "aliases": [
+        "高さ141.6m｜地上38階｜2026年2月竣工"
+      ],
+      "developer": "三井不動産レジデンス・野村不動産",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "千葉県",
+      "city": "千葉市",
+      "district": "美浜区",
+      "address": "千葉市美浜区若葉3丁目1番13",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false,
+      "needs_review": {
+        "maybe_same_as": "P098",
+        "candidate_name": "幕張ベイパーク ミッドスクエアタワー",
+        "score": 0.606
+      }
+    },
+    {
+      "id": "P103",
+      "name": "ブリリアタワー千葉",
+      "aliases": [
+        "高さ80.3m｜地上23階・地下1階｜2026年4月竣工"
+      ],
+      "developer": "東京建物",
+      "category": "综合开发",
+      "status": "完工",
+      "prefecture": "千葉県",
+      "city": "千葉市",
+      "district": "中央区",
+      "address": "千葉市中央区富士見2丁目6番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P104",
+      "name": "リーフシティ市川 ザ・タワー",
+      "aliases": [
+        "高さ104.2m｜地上29階｜2026年9月竣工"
+      ],
+      "developer": "大和ハウス工業",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "千葉県",
+      "city": "市川市",
+      "district": "",
+      "address": "市川市市川南二丁目8番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P105",
+      "name": "パークタワー柏の葉キャンパス",
+      "aliases": [
+        "高さ161.1m｜地上43階｜2027年7月竣工"
+      ],
+      "developer": "三井不動産レジデンス",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "千葉県",
+      "city": "柏市",
+      "district": "",
+      "address": "柏市若柴字元堂178番4",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P106",
+      "name": "幕張新都心タウンセンター地区",
+      "aliases": [
+        "地上23階｜2027年竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "千葉県",
+      "city": "千葉市",
+      "district": "美浜区",
+      "address": "千葉市美浜区ひび野一丁目8番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P107",
+      "name": "プレミストタワー船橋",
+      "aliases": [
+        "高さ193.0m｜地上51階・地下1階｜2028年3月竣工"
+      ],
+      "developer": "大和ハウス工業",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "千葉県",
+      "city": "船橋市",
+      "district": "",
+      "address": "船橋市本町一丁目115番6",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false,
+      "needs_review": {
+        "maybe_same_as": "P099",
+        "candidate_name": "エクセレント ザ タワー",
+        "score": 0.5
+      }
+    },
+    {
+      "id": "P108",
+      "name": "幕張ベイパーク ブルームテラスタワー",
+      "aliases": [
+        "高さ159.0m｜地上42階｜2028年3月竣工"
+      ],
+      "developer": "三井不動産レジデンス・野村不動産",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "千葉県",
+      "city": "千葉市",
+      "district": "美浜区",
+      "address": "千葉市美浜区若葉三丁目1番21",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false,
+      "needs_review": {
+        "maybe_same_as": "P102",
+        "candidate_name": "幕張ベイパーク ライズゲートタワー",
+        "score": 0.667
+      }
+    },
+    {
+      "id": "P109",
+      "name": "北小金駅南口東地区第一種市街地再開発事業",
+      "aliases": [
+        "高さ60.0m｜地上20階｜2028年10月竣工"
+      ],
+      "developer": "市街地再開発組合",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "千葉県",
+      "city": "松戸市",
+      "district": "",
+      "address": "松戸市東平賀",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P110",
+      "name": "（仮称）千葉市中央区富士見1丁目計画新築工事",
+      "aliases": [
+        "高さ58.2m｜地上19階｜2029年7月竣工"
+      ],
+      "developer": "（開発者未記載）",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "千葉県",
+      "city": "千葉市",
+      "district": "中央区",
+      "address": "千葉市中央区富士見1丁目3番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P111",
+      "name": "柏駅西口北地区第一種市街地再開発事業 住宅棟",
+      "aliases": [
+        "2028年竣工"
+      ],
+      "developer": "市街地再開発組合",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "千葉県",
+      "city": "柏市",
+      "district": "",
+      "address": "柏市末広町1番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P112",
+      "name": "津田沼駅南口地区第一種市街地再開発事業 住宅棟",
+      "aliases": [
+        "高さ198.5m｜地上52階｜2031年竣工"
+      ],
+      "developer": "市街地再開発組合",
+      "category": "综合开发",
+      "status": "规划",
+      "prefecture": "千葉県",
+      "city": "習志野市",
+      "district": "",
+      "address": "習志野市谷津1丁目16番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false,
+      "needs_review": {
+        "maybe_same_as": "P111",
+        "candidate_name": "柏駅西口北地区第一種市街地再開発事業 住宅棟",
+        "score": 0.588
+      }
+    },
+    {
+      "id": "P113",
+      "name": "本八幡駅北口駅前地区第一種市街地再開発事業",
+      "aliases": [
+        "高さ160.0m｜地上44階・地下1階｜2032年11月竣工"
+      ],
+      "developer": "市街地再開発組合",
+      "category": "综合开发",
+      "status": "规划",
+      "prefecture": "千葉県",
+      "city": "市川市",
+      "district": "",
+      "address": "市川市八幡2丁目15番",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P114",
+      "name": "（仮称）佐倉市ユーカリが丘駅北再開発地区 a-1敷地",
+      "aliases": [
+        "高さ100.0m｜地上28階"
+      ],
+      "developer": "市街地再開発組合",
+      "category": "综合开发",
+      "status": "规划",
+      "prefecture": "千葉県",
+      "city": "佐倉市",
+      "district": "",
+      "address": "佐倉市ユーカリが丘三丁目1番1",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-08-04",
+      "last_updated": "2026-08-04",
+      "news_count": 0,
+      "verified": false
     }
   ]
 }

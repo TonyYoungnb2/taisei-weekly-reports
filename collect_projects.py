@@ -46,6 +46,49 @@ HAN2NUM = {'一': '1', '二': '2', '三': '3', '四': '4', '五': '5',
            '六': '6', '七': '7', '八': '8', '九': '9', '十': '10'}
 _CHOME_RE = re.compile(r'([0-9０-９一二三四五六七八九十]+)丁目')
 
+# 兄弟塔保护：一个再开发项目常拆成“東棟/西棟”“A地区/B地区”“第1〜4街区”
+# “サウス/ノース”“C-1/C-2A/C-2B”等多栋。它们名字高度相似（只差尾部判别词），
+# 若不做保护会把不同栋误合并成一条。判别改用“最长公共前缀(LCP)”法（见 _guard_siblings），
+# 比尾部剥离更通用（可覆盖 C-1地区 / C-2地区A棟 / C-2地区B棟 这种复合代号）。
+_BLOCK_KW = ('地区', '棟', '街区', 'タワー', 'タワーズ', 'ビル',
+            'サウス', 'ノース', 'ウエスト', 'イースト', '東', '西', '南', '北',
+            'west', 'east', 'south', 'north', 'north', 'tower', 'towers', 'building')
+
+
+def _is_block_code(s):
+    """差异后缀是否像楼栋/街区代号（而非整个新项目名）。"""
+    if not s:
+        return False
+    if any(k in s for k in _BLOCK_KW):
+        return True
+    if re.search(r'[A-Da-d]', s) and len(s) <= 6:
+        return True
+    if re.search(r'[0-9]', s):
+        return True
+    return False
+
+
+def _guard_siblings(a, b):
+    """兄弟塔保护（LCP 法）：两名字清洗后共享很长前缀（>=8字），且除前缀外的差异后缀都
+       很短（<=14字）、且都像“楼栋/街区代号”（含 地区/棟/街区/東西南北/字母/数字），
+       则强制判为不同项目（sim=0）。例：東高島 C地区 C-1/C-2A/C-2B；
+       ウエスト/イースト；サウス/ノース；住宅棟/業務棟；WEST/EAST。"""
+    def clean(x):
+        x = re.sub(r'[\s\-－‐・、。.,/()（）]', '', x or '')
+        for w in _BOILERPLATE:
+            x = x.replace(w, '')
+        return x.lower()
+    ca, cb = clean(a), clean(b)
+    L = 0
+    lim = min(len(ca), len(cb))
+    while L < lim and ca[L] == cb[L]:
+        L += 1
+    sa, sb = ca[L:], cb[L:]
+    if L >= 8 and len(sa) <= 14 and len(sb) <= 14:
+        if _is_block_code(sa) and _is_block_code(sb) and sa != sb:
+            return 0.0
+    return None
+
 
 def _chome(s):
     out = set()
@@ -72,6 +115,11 @@ def _sim(a, b):
     ca, cb = _chome(a), _chome(b)
     if ca and cb and not (ca & cb):
         return 0.0
+
+    # 兄弟塔保护：東棟/西棟、A地区/B地区、第N街区、サウス/ノース 等只差尾部判别词
+    g = _guard_siblings(a, b)
+    if g is not None:
+        return g
 
     na, nb = _norm(a), _norm(b)
     if not na or not nb:
@@ -112,6 +160,10 @@ def match_existing(d, item):
     """返回 (project, score) 最佳匹配。"""
     best, best_score = None, 0.0
     for p in d['projects']:
+        # 不同都道府県 → 不可能是同一项目（本数据集无跨县项目），直接跳过，
+        # 既防误并也避免跨县噪音污染 needs_review。
+        if item.get('prefecture') and p.get('prefecture') and item['prefecture'] != p['prefecture']:
+            continue
         cands = [p['name']] + p.get('aliases', [])
         score = max(_sim(item.get('name', ''), c) for c in cands)
         if score > best_score:
