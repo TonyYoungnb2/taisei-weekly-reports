@@ -24,12 +24,16 @@ def build_html():
     inline = json.dumps(projects, ensure_ascii=False)
     lats = [p['latitude'] for p in projects]
     lngs = [p['longitude'] for p in projects]
+    # 计算所有点的边界，用于载入时自适应框选（fitBounds）
     if lats:
-        center = [sum(lats) / len(lats), sum(lngs) / len(lngs)]
-        zoom = 5
+        min_lat, max_lat = min(lats), max(lats)
+        min_lng, max_lng = min(lngs), max(lngs)
+        center = [(min_lat + max_lat) / 2, (min_lng + max_lng) / 2]
+        bounds = '[[%s, %s], [%s, %s]]' % (min_lat, min_lng, max_lat, max_lng)
     else:
         center = [36.5, 138.5]
-        zoom = 5
+        bounds = 'null'
+    zoom = 5
 
     return '''<!DOCTYPE html>
 <html lang="zh">
@@ -51,6 +55,15 @@ def build_html():
   .pill { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 11px; margin-left: 6px; }
   .pill.official { background: #0b3d91; color: #fff; }
   .pill.media { background: #e8eefc; color: #0b3d91; }
+  /* 项目标记：醒目，放大地图时点放大 */
+  .proj-halo { color: #fff; opacity: .55; }
+  .proj-dot { color: #0b3d91; }
+  .proj-label { background: rgba(11,61,145,.85); color:#fff; border:none; border-radius:4px;
+                padding:1px 5px; font-size:11px; font-weight:600; white-space:nowrap;
+                box-shadow:0 1px 3px rgba(0,0,0,.3); }
+  .proj-label::before { display:none; }
+  #zoomhint { position:absolute; right:10px; bottom:10px; z-index:1000; background:rgba(0,0,0,.55);
+              color:#fff; font-size:11px; padding:5px 9px; border-radius:6px; }
   #empty { position: absolute; inset: 52px 0 0 0; display: flex; align-items: center; justify-content: center;
            color: #888; font-size: 14px; }
 </style>
@@ -70,31 +83,75 @@ L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', {
   attribution: '© 国土地理院',
   maxZoom: 18
 }).addTo(map);
+
+// 载入时自适应框选所有项目（而不是死盯日本中心）
+var BOUNDS = __BOUNDS__;
+if (BOUNDS) { map.fitBounds(BOUNDS, { padding: [40, 40] }); }
+
 if (!PROJECTS.length) {
   document.getElementById('empty').style.display = 'flex';
 }
+
+// 半径随缩放放大：zoom 越大点越大（修复“放大后点变小”的观感）
+function dotRadius(zoom, news) {
+  var base = 5 + (zoom - 5) * 1.1;          // 5级≈5px，每升一级+1.1px
+  if (base < 4) base = 4;
+  return base + Math.min(news || 0, 12) * 0.9; // 新闻多→更大
+}
+function haloRadius(zoom, news) { return dotRadius(zoom, news) * 1.9; }
+
+var markers = [];
 PROJECTS.forEach(function(p) {
   var color = p.verified ? '#0b3d91' : '#e9533b';
-  var marker = L.circleMarker([p.latitude, p.longitude], {
-    radius: 6 + Math.min(p.news_count || 0, 10) * 1.5,
-    color: color, weight: 2, fillColor: color, fillOpacity: 0.55
+  var z0 = map.getZoom();
+  // 外层白色光晕（提升在复杂地图底图上的辨识度）
+  var halo = L.circleMarker([p.latitude, p.longitude], {
+    radius: haloRadius(z0, p.news_count), color: '#fff', weight: 2,
+    fillColor: '#fff', fillOpacity: 0.6, className: 'proj-halo'
+  }).addTo(map);
+  var dot = L.circleMarker([p.latitude, p.longitude], {
+    radius: dotRadius(z0, p.news_count), color: color, weight: 2,
+    fillColor: color, fillOpacity: 0.9, className: 'proj-dot'
   }).addTo(map);
   var badge = p.verified
     ? '<span class="pill official">官方</span>'
     : '<span class="pill media">媒体</span>';
-  marker.bindPopup(
-    '<b>' + p.name + '</b>' + badge + '<br>' +
+  var html = '<b>' + p.name + '</b>' + badge + '<br>' +
     '开发商: ' + (p.developer || '-') + '<br>' +
     '类型: ' + (p.category || '-') + ' ／ 状态: ' + (p.status || '-') + '<br>' +
     '地区: ' + [p.prefecture, p.city, p.district].filter(Boolean).join(' ') + '<br>' +
     '相关新闻: ' + (p.news_count || 0) + ' 篇<br>' +
-    '首次: ' + (p.first_seen || '-') + ' ／ 更新: ' + (p.last_updated || '-')
-  );
+    '首次: ' + (p.first_seen || '-') + ' ／ 更新: ' + (p.last_updated || '-');
+  dot.bindPopup(html);
+  halo.bindPopup(html);
+  // 悬停显示项目名标签
+  var label = L.tooltip({
+    permanent: false, direction: 'top', className: 'proj-label', opacity: 1
+  }).setContent(p.name);
+  dot.bindTooltip(label);
+  markers.push({ halo: halo, dot: dot, news: p.news_count });
 });
+
+// 缩放时重算所有点大小，保持“放大→点变大”
+function rescale() {
+  var z = map.getZoom();
+  markers.forEach(function(m) {
+    m.dot.setRadius(dotRadius(z, m.news));
+    m.halo.setRadius(haloRadius(z, m.news));
+  });
+}
+map.on('zoomend', rescale);
+rescale();
+
+// 缩放提示
+var hint = L.control({ position: 'bottomright' });
+hint.onAdd = function() { var d = L.DomUtil.create('div'); d.id = 'zoomhint';
+  d.innerHTML = '🔍 滚轮放大 · 点越大'; return d; };
+hint.addTo(map);
 </script>
 </body>
 </html>
-'''.replace('__DATA__', inline).replace('__CENTER__', '%s, %s' % (center[0], center[1])).replace('__ZOOM__', str(zoom)).replace('__COUNT__', str(len(projects)))
+'''.replace('__DATA__', inline).replace('__CENTER__', '%s, %s' % (center[0], center[1])).replace('__ZOOM__', str(zoom)).replace('__COUNT__', str(len(projects))).replace('__BOUNDS__', bounds)
 
 
 def main():

@@ -95,6 +95,10 @@ def build_html():
   .pill.official { background: #0b3d91; color: #fff; }
   .pill.media { background: #e8eefc; color: #0b3d91; }
   .pill.cat { background: #eef1f7; color: #46546e; }
+  .proj-label { background: rgba(11,61,145,.85); color:#fff; border:none; border-radius:4px;
+                padding:1px 5px; font-size:11px; font-weight:600; white-space:nowrap;
+                box-shadow:0 1px 3px rgba(0,0,0,.3); }
+  .proj-label::before { display:none; }
   #map { display: none; height: calc(100vh - 104px); width: 100%; }
   #empty { text-align: center; color: #9aa5b8; padding: 40px 0; font-size: 14px; }
   /* 详情抽屉 */
@@ -234,16 +238,36 @@ function render(){
   if (map) { renderMap(list); }
 }
 function renderMap(list){
-  Object.keys(markers).forEach(function(id){ map.removeLayer(markers[id]); delete markers[id]; });
+  Object.keys(markers).forEach(function(id){ map.removeLayer(markers[id].halo); map.removeLayer(markers[id].dot); delete markers[id]; });
+  function dotR(z, news){ var b = 5 + (z-5)*1.1; if(b<4)b=4; return b + Math.min(news||0,12)*0.9; }
+  function haloR(z, news){ return dotR(z, news)*1.9; }
   list.forEach(function(p){
     if (!p.latitude || !p.longitude) return;
     var color = p.verified ? '#0b3d91' : '#e9533b';
-    var m = L.circleMarker([p.latitude, p.longitude], {
-      radius: 6 + Math.min(p.news_count||0, 10) * 1.5, color: color, weight: 2, fillColor: color, fillOpacity: .55
+    var z0 = map ? map.getZoom() : ZOOM;
+    var halo = L.circleMarker([p.latitude, p.longitude], {
+      radius: haloR(z0, p.news_count), color:'#fff', weight:2, fillColor:'#fff', fillOpacity:.6
     }).addTo(map);
-    m.bindPopup('<b>'+p.name+'</b><br>開発：'+(p.developer||'-')+'<br>関連ニュース：'+(p.news_count||0)+'件');
-    markers[p.id] = m;
+    var dot = L.circleMarker([p.latitude, p.longitude], {
+      radius: dotR(z0, p.news_count), color: color, weight: 2, fillColor: color, fillOpacity: .9
+    }).addTo(map);
+    var pop = '<b>'+p.name+'</b><br>開発：'+(p.developer||'-')+'<br>関連ニュース：'+(p.news_count||0)+'件';
+    dot.bindPopup(pop); halo.bindPopup(pop);
+    dot.bindTooltip(L.tooltip({permanent:false, direction:'top', opacity:1, className:'proj-label'}).setContent(p.name));
+    markers[p.id] = { dot: dot, halo: halo, news: p.news_count };
   });
+  if (map) {
+    map.off('zoomend', map._rescaleMap);
+    map._rescaleMap = function(){
+      var z = map.getZoom();
+      Object.keys(markers).forEach(function(id){
+        var r = markers[id];
+        r.dot.setRadius(dotR(z, r.news));
+        r.halo.setRadius(haloR(z, r.news));
+      });
+    };
+    map.on('zoomend', map._rescaleMap);
+  }
 }
 function setView(v){
   state.view = v;
