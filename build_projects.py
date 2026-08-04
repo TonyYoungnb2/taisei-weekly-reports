@@ -94,26 +94,22 @@ def build_html():
   .pill { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 11px; margin-right: 6px; }
   #srcChips { display: none; }
   .pill.cat { background: #eef1f7; color: #46546e; }
-  .st-done { border-color:#1f9d55 !important; background:rgba(31,157,85,.2); }
-  .st-dev  { border-color:#0b3d91 !important; background:rgba(11,61,145,.2); }
-  .st-plan { border-color:#8a96ac !important; background:rgba(138,150,172,.2); }
+  .st-done   { border-color:#1f9d55 !important; background:rgba(31,157,85,.12); }
+  .st-undone { border-color:#e9533b !important; background:rgba(233,83,59,.12); }
   .proj-label { background: rgba(11,61,145,.85); color:#fff; border:none; border-radius:4px;
                 padding:1px 5px; font-size:11px; font-weight:600; white-space:nowrap;
                 box-shadow:0 1px 3px rgba(0,0,0,.3); }
   .proj-label::before { display:none; }
-  /* 简洁实心圆点：状态色填充 + 白边 + 淡投影，无彩色光晕（不刺眼） */
+  /* 简洁空心圈：仅描边 + 细白外圈 + 淡投影（不刺眼，新闻不表示） */
   .proj-pin {
     border-radius: 50%;
-    border: 2px solid #fff;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.28);
-    display: flex; align-items: center; justify-content: center;
-    color: #fff; font: 700 11px/1 -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    border: 3px solid #e9533b;
+    background: rgba(233,83,59,0.06);
+    box-shadow: 0 0 0 1.5px #fff, 0 1px 3px rgba(0,0,0,0.22);
     box-sizing: border-box; transition: transform .12s ease;
   }
-  .proj-pin.st-done { background:#1f9d55; }
-  .proj-pin.st-dev  { background:#0b3d91; }
-  .proj-pin.st-plan { background:#9aa5b8; }
-  .proj-pin.has-news { background:#e9533b; }
+  .proj-pin.st-done   { border-color:#1f9d55; background:rgba(31,157,85,0.06); }
+  .proj-pin.st-undone { border-color:#e9533b; background:rgba(233,83,59,0.06); }
   .proj-pin:hover { transform: scale(1.12); }
 
   
@@ -124,10 +120,8 @@ def build_html():
     box-shadow:0 2px 8px rgba(0,0,0,.12); }
   #maplegend .row { display:flex; align-items:center; gap:6px; }
   #maplegend .dot { width:11px; height:11px; border-radius:50%; display:inline-block; border:2px solid; box-sizing:border-box; }
-  #maplegend .d-done { border-color:#1f9d55; background:rgba(31,157,85,.2); }
-  #maplegend .d-dev  { border-color:#0b3d91; background:rgba(11,61,145,.2); }
-  #maplegend .d-plan { border-color:#8a96ac; background:rgba(138,150,172,.2); }
-  #maplegend .d-news { border-color:#e9533b; background:rgba(233,83,59,.25); }
+  #maplegend .d-done   { border-color:#1f9d55; background:#1f9d55; }
+  #maplegend .d-undone { border-color:#e9533b; background:#e9533b; }
   #empty { text-align: center; color: #9aa5b8; padding: 40px 0; font-size: 14px; }
   /* 详情抽屉 */
   #detail { position: fixed; inset: 0; background: rgba(20,30,50,.45); z-index: 2000; display: none;
@@ -197,7 +191,7 @@ var state = { view: 'list', cat: 'all', pref: 'all', q: '', group: 'none' };
 function uniq(arr){ return arr.filter(function(v,i){ return arr.indexOf(v)===i; }); }
 var CATS = uniq(PROJECTS.map(function(p){ return p.category || '其他'; }));
 var PREFS = uniq(PROJECTS.map(function(p){ return p.prefecture || '不明'; }));
-function statusKey(p){ var s=(p.status||''); if(s==='完工')return 'done'; if(s==='规划')return 'plan'; return 'dev'; }
+function doneKey(p){ return (p.status==='完工') ? 'done' : 'undone'; }
 
 function buildChips(){
   var catHtml = '<span class="chip on" data-k="cat" data-v="all">全部类别</span>' +
@@ -238,10 +232,10 @@ function badge(p){ return ''; }
 function card(p){
   var region = [p.prefecture, p.city, p.district].filter(Boolean).join(' ');
   var src = p.source_url ? ' <a href="'+p.source_url+'" target="_blank" rel="noopener" style="color:#0b3d91;text-decoration:none">［引用］</a>' : '';
-  return '<div class="card" onclick="openDetail('+String.fromCharCode(39)+p.id+String.fromCharCode(39)+')">' +
-    '<h3><span style="display:inline-block;width:9px;height:9px;border-radius:50%;border:2px solid;box-sizing:border-box;margin-right:6px;vertical-align:middle" class="st-'+statusKey(p)+'"></span>'+p.name+'</h3>' +
+  return '<div class="card" onclick="gotoMap('+String.fromCharCode(39)+p.id+String.fromCharCode(39)+')">' +
+    '<h3><span style="display:inline-block;width:9px;height:9px;border-radius:50%;border:2px solid;box-sizing:border-box;margin-right:6px;vertical-align:middle" class="st-'+doneKey(p)+'"></span>'+p.name+'</h3>' +
     '<div><span class="pill cat">'+(p.category||'其他')+'</span></div>' +
-    '<div class="meta">開発：'+(p.developer||'-')+'<br>地区：'+region+'<br>状態：'+(p.status||'-')+' ｜ 関連ニュース：'+(p.news_count||0)+'件<br>引用：'+(p.source_name||'-')+src+'</div>' +
+    '<div class="meta">開発：'+(p.developer||'-')+'<br>地区：'+region+'<br>状態：'+(p.status||'-')+'<br>引用：'+(p.source_name||'-')+src+'</div>' +
     '</div>';
 }
 function render(){
@@ -265,32 +259,28 @@ function render(){
 }
 function renderMap(list){
   Object.keys(markers).forEach(function(id){ map.removeLayer(markers[id].mk); delete markers[id]; });
-  function dotR(z, news){ var b = 5 + (z-5)*1.1; if(b<4)b=4; return b + Math.min(news||0,12)*0.9; }
+  function dotR(z){ var b = 6 + (z-5)*1.1; if(b<5)b=5; return b; }
   function mkIcon(p, z){
-    var r = dotR(z, p.news_count||0);
-    var lbl = (p.news_count && p.news_count>0) ? String(p.news_count) : '';
-    return L.divIcon({ className: 'proj-pin st-' + statusKey(p) + (lbl ? ' has-news' : ''),
-      html: '<div style="width:'+(r*2)+'px;height:'+(r*2)+'px;display:flex;align-items:center;justify-content:center;font:800 '+Math.max(10,Math.round(r*0.95))+'px/1 sans-serif;color:#fff">'+lbl+'</div>',
+    var r = dotR(z);
+    return L.divIcon({ className: 'proj-pin st-' + doneKey(p),
+      html: '<div style="width:'+(r*2)+'px;height:'+(r*2)+'px"></div>',
       iconSize:[r*2,r*2], iconAnchor:[r,r] });
   }
   list.forEach(function(p){
     if (!p.latitude || !p.longitude) return;
     var z0 = map ? map.getZoom() : ZOOM;
     var mk = L.marker([p.latitude, p.longitude], { icon: mkIcon(p, z0) }).addTo(map);
-    markers[p.id] = { mk: mk, news: p.news_count, p: p };
-    var news = (NEWS||[]).filter(function(n){ return n.project_id === p.id; })
-      .sort(function(a,b){ return (b.publish_date||'').localeCompare(a.publish_date||''); });
-    var newsHtml = news.length ? news.slice(0,3).map(function(n){
-      var link = n.url ? ' <a href="'+n.url+'" target="_blank" rel="noopener">['+(n.url_text||'リンク')+']</a>' : '';
-      return '・'+n.title+link;
-    }).join('<br>') : '関連ニュースなし';
     var srcLink = p.source_url ? ' <a href="'+p.source_url+'" target="_blank" rel="noopener">[リンク]</a>' : '';
     var pop = '<b>'+p.name+'</b><br>開発：'+(p.developer||'-')+'<br>状態：'+(p.status||'-')+
       '<br>引用：'+(p.source_name||'-')+srcLink+
-      '<br>関連ニュース('+news.length+'件)：<br>'+newsHtml;
+      '<br><span class="detail-link" data-pid="'+p.id+'" style="color:#0b3d91;cursor:pointer">詳細を見る ›</span>';
     mk.bindPopup(pop);
+    mk.on('popupopen', function(e){
+      var el = e.popup.getElement().querySelector('.detail-link');
+      if (el) el.onclick = function(){ openDetail(p.id); };
+    });
     mk.bindTooltip(L.tooltip({permanent:false, direction:'top', opacity:1, className:'proj-label'}).setContent(p.name));
-    markers[p.id] = { mk: mk, news: p.news_count };
+    markers[p.id] = { mk: mk, p: p };
   });
   if (map) {
     map.off('zoomend', map._rescaleMap);
@@ -298,7 +288,7 @@ function renderMap(list){
       var z = map.getZoom();
       Object.keys(markers).forEach(function(id){
         var r = markers[id];
-        r.mk.setIcon(mkIcon({ news_count: r.news, status: r.p ? r.p.status : '' }, z));
+        r.mk.setIcon(mkIcon(r.p, z));
       });
     };
     map.on('zoomend', map._rescaleMap);
@@ -318,14 +308,22 @@ function setView(v){
         if (!document.getElementById('maplegend')) {
           var lg = document.createElement('div'); lg.id = 'maplegend';
           lg.innerHTML = '<div class="row"><span class="dot d-done"></span>完工</div>' +
-            '<div class="row"><span class="dot d-dev"></span>开发中</div>' +
-            '<div class="row"><span class="dot d-plan"></span>规划</div>' +
-            '<div class="row"><span class="dot d-news"></span>有新闻</div>';
+            '<div class="row"><span class="dot d-undone"></span>未完工</div>';
           document.getElementById('map').parentNode.appendChild(lg);
         }
       }, 80);
     } else { setTimeout(function(){ map.invalidateSize(); }, 50); }
   }
+}
+function gotoMap(id){
+  setView('map');
+  setTimeout(function(){
+    if (!map) return;
+    var p = PROJECTS.find(function(x){ return x.id===id; });
+    if (!p || !p.latitude) return;
+    map.flyTo([p.latitude, p.longitude], Math.max(map.getZoom(), 13));
+    if (markers[id] && markers[id].mk) markers[id].mk.openPopup();
+  }, 140);
 }
 function openDetail(id){
   var p = PROJECTS.find(function(x){ return x.id===id; });

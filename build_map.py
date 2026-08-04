@@ -77,22 +77,17 @@ def build_html():
   .pop-news { margin-top: 6px; }
   .pop-news a { color: #e9533b; text-decoration: none; }
   .pop-news a:hover { text-decoration: underline; }
-  /* 透明但醒目的环形标记：细描边 + 外发光，中心半透明可透出底图 */
-  /* 简洁实心圆点：状态色填充 + 白边 + 淡投影，无彩色光晕（不刺眼） */
+  /* 简洁空心圈：仅描边 + 细白外圈 + 淡投影（不刺眼，新闻不表示） */
   .proj-pin {
     border-radius: 50%;
-    border: 2px solid #fff;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.28);
-    display: flex; align-items: center; justify-content: center;
-    color: #fff; font: 700 11px/1 -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    border: 3px solid #e9533b;
+    background: rgba(233,83,59,0.06);
+    box-shadow: 0 0 0 1.5px #fff, 0 1px 3px rgba(0,0,0,0.22);
     box-sizing: border-box; transition: transform .12s ease;
   }
-  .proj-pin.st-done { background:#1f9d55; }
-  .proj-pin.st-dev  { background:#0b3d91; }
-  .proj-pin.st-plan { background:#9aa5b8; }
-  .proj-pin.has-news { background:#e9533b; }
+  .proj-pin.st-done   { border-color:#1f9d55; background:rgba(31,157,85,0.06); }
+  .proj-pin.st-undone { border-color:#e9533b; background:rgba(233,83,59,0.06); }
   .proj-pin:hover { transform: scale(1.12); }
-  /* 状态色：完工=绿 开发中=蓝 规划=灰（has-news 橙色优先） */
 
 
   
@@ -100,10 +95,8 @@ def build_html():
   #legend { background:rgba(255,255,255,.92); border:1px solid #e3e8f2; border-radius:8px; padding:8px 10px; font-size:11px; line-height:1.8; color:#1a2233; box-shadow:0 2px 8px rgba(0,0,0,.12); }
   #legend .row { display:flex; align-items:center; gap:6px; }
   #legend .dot { width:11px; height:11px; border-radius:50%; display:inline-block; border:2px solid; box-sizing:border-box; }
-  #legend .d-done { border-color:#1f9d55; background:rgba(31,157,85,.2); }
-  #legend .d-dev  { border-color:#0b3d91; background:rgba(11,61,145,.2); }
-  #legend .d-plan { border-color:#8a96ac; background:rgba(138,150,172,.2); }
-  #legend .d-news { border-color:#e9533b; background:rgba(233,83,59,.25); }
+  #legend .d-done   { border-color:#1f9d55; background:#1f9d55; }
+  #legend .d-undone { border-color:#e9533b; background:#e9533b; }
   .proj-label { background: rgba(11,61,145,.9); color:#fff; border:none; border-radius:4px;
     padding:1px 6px; font-size:11px; font-weight:600; white-space:nowrap; box-shadow:0 1px 3px rgba(0,0,0,.3); }
   .proj-label::before { display:none; }
@@ -138,24 +131,22 @@ if (!PROJECTS.length) {
   document.getElementById('empty').style.display = 'flex';
 }
 
-// 状态→颜色键：完工=done 开发中=dev 规划=plan
-function statusKey(p){ var s=(p.status||''); if(s==='完工')return 'done'; if(s==='规划')return 'plan'; return 'dev'; }
+// 仅两状态：完工=done / 未完工=undone
+function doneKey(p){ return (p.status==='完工') ? 'done' : 'undone'; }
 // 半径随缩放放大：zoom 越大点越大（修复“放大后点变小”的观感）
-function dotRadius(zoom, news) {
-  var base = 5 + (zoom - 5) * 1.1;          // 5级≈5px，每升一级+1.1px
-  if (base < 4) base = 4;
-  return base + Math.min(news || 0, 12) * 0.9; // 新闻多→更大
+function dotRadius(zoom) {
+  var base = 6 + (zoom - 5) * 1.1;          // 空心圈直径随缩放增大
+  if (base < 5) base = 5;
+  return base;
 }
 function haloRadius(zoom, news) { return dotRadius(zoom, news) * 1.9; }
 
 var markers = [];
 PROJECTS.forEach(function(p) {
   var z0 = map.getZoom();
-  var r = dotRadius(z0, p.news_count);
-  // 渐变圆点：有新闻=暖橙，无新闻=品牌蓝；中心显示新闻数
-  var dotLabel = (p.news_count && p.news_count > 0) ? String(p.news_count) : '';
-  var dot = L.divIcon({ className: 'proj-pin st-' + statusKey(p) + (dotLabel ? ' has-news' : ''),
-    html: '<div style="width:' + (r*2) + 'px;height:' + (r*2) + 'px;display:flex;align-items:center;justify-content:center;font:700 ' + Math.max(10, Math.round(r*0.95)) + 'px/1 sans-serif;color:#fff">' + dotLabel + '</div>',
+  var r = dotRadius(z0);
+  var dot = L.divIcon({ className: 'proj-pin st-' + doneKey(p),
+    html: '<div style="width:' + (r*2) + 'px;height:' + (r*2) + 'px"></div>',
     iconSize: [r*2, r*2], iconAnchor: [r, r] });
   var mk = L.marker([p.latitude, p.longitude], { icon: dot }).addTo(map);
   // 关联新闻：弹窗列出（至多3条）
@@ -184,10 +175,9 @@ PROJECTS.forEach(function(p) {
 function rescale() {
   var z = map.getZoom();
   markers.forEach(function(m) {
-    var r = dotRadius(z, m.news);
-    var lbl = (m.news && m.news > 0) ? String(m.news) : '';
-    m.dot.setIcon(L.divIcon({ className: 'proj-pin st-' + statusKey(m.p) + (lbl ? ' has-news' : ''),
-      html: '<div style="width:' + (r*2) + 'px;height:' + (r*2) + 'px;display:flex;align-items:center;justify-content:center;font:700 ' + Math.max(10, Math.round(r*0.95)) + 'px/1 sans-serif;color:#fff">' + lbl + '</div>',
+    var r = dotRadius(z);
+    m.dot.setIcon(L.divIcon({ className: 'proj-pin st-' + doneKey(m.p),
+      html: '<div style="width:' + (r*2) + 'px;height:' + (r*2) + 'px"></div>',
       iconSize: [r*2, r*2], iconAnchor: [r, r] }));
   });
 }
@@ -204,9 +194,7 @@ var legend = L.control({ position: 'bottomleft' });
 legend.onAdd = function() {
   var d = L.DomUtil.create('div'); d.id = 'legend';
   d.innerHTML = '<div class="row"><span class="dot d-done"></span>完工</div>' +
-    '<div class="row"><span class="dot d-dev"></span>开发中</div>' +
-    '<div class="row"><span class="dot d-plan"></span>规划</div>' +
-    '<div class="row"><span class="dot d-news"></span>有新闻</div>';
+    '<div class="row"><span class="dot d-undone"></span>未完工</div>';
   return d;
 };
 legend.addTo(map);
