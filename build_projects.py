@@ -94,6 +94,9 @@ def build_html():
   .pill { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 11px; margin-right: 6px; }
   #srcChips { display: none; }
   .pill.cat { background: #eef1f7; color: #46546e; }
+  .st-done { border-color:#1f9d55 !important; background:rgba(31,157,85,.2); }
+  .st-dev  { border-color:#0b3d91 !important; background:rgba(11,61,145,.2); }
+  .st-plan { border-color:#8a96ac !important; background:rgba(138,150,172,.2); }
   .proj-label { background: rgba(11,61,145,.85); color:#fff; border:none; border-radius:4px;
                 padding:1px 5px; font-size:11px; font-weight:600; white-space:nowrap;
                 box-shadow:0 1px 3px rgba(0,0,0,.3); }
@@ -115,7 +118,19 @@ def build_html():
     text-shadow: 0 0 4px rgba(184,51,31,.95);
   }
   .proj-pin:hover { transform: scale(1.15); }
+  .proj-pin.st-done { border-color:#1f9d55; background:rgba(31,157,85,0.14); box-shadow:0 0 0 4px rgba(31,157,85,0.12),0 0 12px 3px rgba(31,157,85,0.5); text-shadow:0 0 4px rgba(31,157,85,.95); }
+  .proj-pin.st-dev  { border-color:#0b3d91; background:rgba(11,61,145,0.14); box-shadow:0 0 0 4px rgba(11,61,145,0.12),0 0 12px 3px rgba(11,61,145,0.5); text-shadow:0 0 4px rgba(11,61,145,.95); }
+  .proj-pin.st-plan { border-color:#8a96ac; background:rgba(138,150,172,0.14); box-shadow:0 0 0 4px rgba(138,150,172,0.12),0 0 12px 3px rgba(138,150,172,0.5); text-shadow:0 0 4px rgba(138,150,172,.95); }
   #map { display: none; height: calc(100vh - 104px); width: 100%; }
+  #maplegend { position:absolute; left:10px; bottom:10px; z-index:1100; background:rgba(255,255,255,.92);
+    border:1px solid #e3e8f2; border-radius:8px; padding:8px 10px; font-size:11px; line-height:1.8; color:#1a2233;
+    box-shadow:0 2px 8px rgba(0,0,0,.12); }
+  #maplegend .row { display:flex; align-items:center; gap:6px; }
+  #maplegend .dot { width:11px; height:11px; border-radius:50%; display:inline-block; border:2px solid; box-sizing:border-box; }
+  #maplegend .d-done { border-color:#1f9d55; background:rgba(31,157,85,.2); }
+  #maplegend .d-dev  { border-color:#0b3d91; background:rgba(11,61,145,.2); }
+  #maplegend .d-plan { border-color:#8a96ac; background:rgba(138,150,172,.2); }
+  #maplegend .d-news { border-color:#e9533b; background:rgba(233,83,59,.25); }
   #empty { text-align: center; color: #9aa5b8; padding: 40px 0; font-size: 14px; }
   /* 详情抽屉 */
   #detail { position: fixed; inset: 0; background: rgba(20,30,50,.45); z-index: 2000; display: none;
@@ -185,6 +200,7 @@ var state = { view: 'list', cat: 'all', pref: 'all', q: '', group: 'none' };
 function uniq(arr){ return arr.filter(function(v,i){ return arr.indexOf(v)===i; }); }
 var CATS = uniq(PROJECTS.map(function(p){ return p.category || '其他'; }));
 var PREFS = uniq(PROJECTS.map(function(p){ return p.prefecture || '不明'; }));
+function statusKey(p){ var s=(p.status||''); if(s==='完工')return 'done'; if(s==='规划')return 'plan'; return 'dev'; }
 
 function buildChips(){
   var catHtml = '<span class="chip on" data-k="cat" data-v="all">全部类别</span>' +
@@ -224,10 +240,11 @@ function filtered(){
 function badge(p){ return ''; }
 function card(p){
   var region = [p.prefecture, p.city, p.district].filter(Boolean).join(' ');
+  var src = p.source_url ? ' <a href="'+p.source_url+'" target="_blank" rel="noopener" style="color:#0b3d91;text-decoration:none">［引用］</a>' : '';
   return '<div class="card" onclick="openDetail('+String.fromCharCode(39)+p.id+String.fromCharCode(39)+')">' +
-    '<h3>'+p.name+'</h3>' +
+    '<h3><span style="display:inline-block;width:9px;height:9px;border-radius:50%;border:2px solid;box-sizing:border-box;margin-right:6px;vertical-align:middle" class="st-'+statusKey(p)+'"></span>'+p.name+'</h3>' +
     '<div><span class="pill cat">'+(p.category||'其他')+'</span></div>' +
-    '<div class="meta">開発：'+(p.developer||'-')+'<br>地区：'+region+'<br>状態：'+(p.status||'-')+' ｜ 関連ニュース：'+(p.news_count||0)+'件</div>' +
+    '<div class="meta">開発：'+(p.developer||'-')+'<br>地区：'+region+'<br>状態：'+(p.status||'-')+' ｜ 関連ニュース：'+(p.news_count||0)+'件<br>引用：'+(p.source_name||'-')+src+'</div>' +
     '</div>';
 }
 function render(){
@@ -255,7 +272,7 @@ function renderMap(list){
   function mkIcon(p, z){
     var r = dotR(z, p.news_count||0);
     var lbl = (p.news_count && p.news_count>0) ? String(p.news_count) : '';
-    return L.divIcon({ className: 'proj-pin' + (lbl ? ' has-news' : ''),
+    return L.divIcon({ className: 'proj-pin st-' + statusKey(p) + (lbl ? ' has-news' : ''),
       html: '<div style="width:'+(r*2)+'px;height:'+(r*2)+'px;display:flex;align-items:center;justify-content:center;font:800 '+Math.max(10,Math.round(r*0.95))+'px/1 sans-serif;color:#fff">'+lbl+'</div>',
       iconSize:[r*2,r*2], iconAnchor:[r,r] });
   }
@@ -263,13 +280,16 @@ function renderMap(list){
     if (!p.latitude || !p.longitude) return;
     var z0 = map ? map.getZoom() : ZOOM;
     var mk = L.marker([p.latitude, p.longitude], { icon: mkIcon(p, z0) }).addTo(map);
+    markers[p.id] = { mk: mk, news: p.news_count, p: p };
     var news = (NEWS||[]).filter(function(n){ return n.project_id === p.id; })
       .sort(function(a,b){ return (b.publish_date||'').localeCompare(a.publish_date||''); });
     var newsHtml = news.length ? news.slice(0,3).map(function(n){
       var link = n.url ? ' <a href="'+n.url+'" target="_blank" rel="noopener">['+(n.url_text||'リンク')+']</a>' : '';
       return '・'+n.title+link;
     }).join('<br>') : '関連ニュースなし';
+    var srcLink = p.source_url ? ' <a href="'+p.source_url+'" target="_blank" rel="noopener">[リンク]</a>' : '';
     var pop = '<b>'+p.name+'</b><br>開発：'+(p.developer||'-')+'<br>状態：'+(p.status||'-')+
+      '<br>引用：'+(p.source_name||'-')+srcLink+
       '<br>関連ニュース('+news.length+'件)：<br>'+newsHtml;
     mk.bindPopup(pop);
     mk.bindTooltip(L.tooltip({permanent:false, direction:'top', opacity:1, className:'proj-label'}).setContent(p.name));
@@ -281,7 +301,7 @@ function renderMap(list){
       var z = map.getZoom();
       Object.keys(markers).forEach(function(id){
         var r = markers[id];
-        r.mk.setIcon(mkIcon({ news_count: r.news }, z));
+        r.mk.setIcon(mkIcon({ news_count: r.news, status: r.p ? r.p.status : '' }, z));
       });
     };
     map.on('zoomend', map._rescaleMap);
@@ -297,7 +317,16 @@ function setView(v){
     if (!map) {
       map = L.map('map').setView(CENTER, ZOOM);
       L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png', { attribution:'© 国土地理院', maxZoom:18 }).addTo(map);
-      setTimeout(function(){ map.invalidateSize(); renderMap(filtered()); }, 80);
+      setTimeout(function(){ map.invalidateSize(); renderMap(filtered());
+        if (!document.getElementById('maplegend')) {
+          var lg = document.createElement('div'); lg.id = 'maplegend';
+          lg.innerHTML = '<div class="row"><span class="dot d-done"></span>完工</div>' +
+            '<div class="row"><span class="dot d-dev"></span>开发中</div>' +
+            '<div class="row"><span class="dot d-plan"></span>规划</div>' +
+            '<div class="row"><span class="dot d-news"></span>有新闻</div>';
+          document.getElementById('map').parentNode.appendChild(lg);
+        }
+      }, 80);
     } else { setTimeout(function(){ map.invalidateSize(); }, 50); }
   }
 }
@@ -319,7 +348,8 @@ function openDetail(id){
     '<h2>'+p.name+'</h2>'+
     '<div class="info">企業：'+(p.developer||'-')+'<br>類別：'+(p.category||'-')+' ／ 状態：'+(p.status||'-')+
       '<br>地区：'+region+'<br>初見：'+(p.first_seen||'-')+' ／ 更新：'+(p.last_updated||'-')+
-      ''+'</div>' +
+      '<br>引用：'+(p.source_name||'-')+(p.source_url ? ' <a class="tl-link" href="'+p.source_url+'" target="_blank" rel="noopener">[リンク]</a>' : '')+
+      '</div>' +
     '<h4>関連ニュース（'+(news.length)+'件）</h4><div class="tl">'+tl+'</div>';
   document.getElementById('detail').classList.add('show');
 }

@@ -88,6 +88,10 @@ def build_html():
     text-shadow: 0 0 4px rgba(11,61,145,.95);
     box-sizing: border-box; transition: transform .12s ease;
   }
+  /* 状态色：完工=绿 开发中=蓝 规划=灰（has-news 橙色优先） */
+  .proj-pin.st-done { border-color:#1f9d55; background:rgba(31,157,85,0.14); box-shadow:0 0 0 4px rgba(31,157,85,0.12),0 0 12px 3px rgba(31,157,85,0.5); text-shadow:0 0 4px rgba(31,157,85,.95); }
+  .proj-pin.st-dev  { border-color:#0b3d91; background:rgba(11,61,145,0.14); box-shadow:0 0 0 4px rgba(11,61,145,0.12),0 0 12px 3px rgba(11,61,145,0.5); text-shadow:0 0 4px rgba(11,61,145,.95); }
+  .proj-pin.st-plan { border-color:#8a96ac; background:rgba(138,150,172,0.14); box-shadow:0 0 0 4px rgba(138,150,172,0.12),0 0 12px 3px rgba(138,150,172,0.5); text-shadow:0 0 4px rgba(138,150,172,.95); }
   .proj-pin.has-news {
     border-color: #e9533b;
     background: rgba(233,83,59,0.18);
@@ -96,6 +100,13 @@ def build_html():
   }
   .proj-pin:hover { transform: scale(1.15); }
   .proj-halo { display: none; }
+  #legend { background:rgba(255,255,255,.92); border:1px solid #e3e8f2; border-radius:8px; padding:8px 10px; font-size:11px; line-height:1.8; color:#1a2233; box-shadow:0 2px 8px rgba(0,0,0,.12); }
+  #legend .row { display:flex; align-items:center; gap:6px; }
+  #legend .dot { width:11px; height:11px; border-radius:50%; display:inline-block; border:2px solid; box-sizing:border-box; }
+  #legend .d-done { border-color:#1f9d55; background:rgba(31,157,85,.2); }
+  #legend .d-dev  { border-color:#0b3d91; background:rgba(11,61,145,.2); }
+  #legend .d-plan { border-color:#8a96ac; background:rgba(138,150,172,.2); }
+  #legend .d-news { border-color:#e9533b; background:rgba(233,83,59,.25); }
   .proj-label { background: rgba(11,61,145,.9); color:#fff; border:none; border-radius:4px;
     padding:1px 6px; font-size:11px; font-weight:600; white-space:nowrap; box-shadow:0 1px 3px rgba(0,0,0,.3); }
   .proj-label::before { display:none; }
@@ -130,6 +141,8 @@ if (!PROJECTS.length) {
   document.getElementById('empty').style.display = 'flex';
 }
 
+// 状态→颜色键：完工=done 开发中=dev 规划=plan
+function statusKey(p){ var s=(p.status||''); if(s==='完工')return 'done'; if(s==='规划')return 'plan'; return 'dev'; }
 // 半径随缩放放大：zoom 越大点越大（修复“放大后点变小”的观感）
 function dotRadius(zoom, news) {
   var base = 5 + (zoom - 5) * 1.1;          // 5级≈5px，每升一级+1.1px
@@ -144,7 +157,7 @@ PROJECTS.forEach(function(p) {
   var r = dotRadius(z0, p.news_count);
   // 渐变圆点：有新闻=暖橙，无新闻=品牌蓝；中心显示新闻数
   var dotLabel = (p.news_count && p.news_count > 0) ? String(p.news_count) : '';
-  var dot = L.divIcon({ className: 'proj-pin' + (dotLabel ? ' has-news' : ''),
+  var dot = L.divIcon({ className: 'proj-pin st-' + statusKey(p) + (dotLabel ? ' has-news' : ''),
     html: '<div style="width:' + (r*2) + 'px;height:' + (r*2) + 'px;display:flex;align-items:center;justify-content:center;font:700 ' + Math.max(10, Math.round(r*0.95)) + 'px/1 sans-serif;color:#fff">' + dotLabel + '</div>',
     iconSize: [r*2, r*2], iconAnchor: [r, r] });
   var mk = L.marker([p.latitude, p.longitude], { icon: dot }).addTo(map);
@@ -159,6 +172,7 @@ PROJECTS.forEach(function(p) {
     '开发商: ' + (p.developer || '-') + '<br>' +
     '类型: ' + (p.category || '-') + ' ／ 状态: ' + (p.status || '-') + '<br>' +
     '地区: ' + [p.prefecture, p.city, p.district].filter(Boolean).join(' ') + '<br>' +
+    '引用: ' + (p.source_name || '-') + (p.source_url ? ' <a href="' + p.source_url + '" target="_blank" rel="noopener">[リンク]</a>' : '') + '<br>' +
     '<div class="pop-news">相关新闻 (' + news.length + ' 篇):<br>' + newsHtml + '</div>';
   mk.bindPopup(html);
   // 悬停显示项目名标签
@@ -166,7 +180,7 @@ PROJECTS.forEach(function(p) {
     permanent: false, direction: 'top', className: 'proj-label', opacity: 1
   }).setContent(p.name);
   mk.bindTooltip(label);
-  markers.push({ dot: mk, news: p.news_count, r: r });
+  markers.push({ dot: mk, news: p.news_count, r: r, p: p });
 });
 
 // 缩放时重算所有点大小，保持“放大→点变大”
@@ -175,7 +189,7 @@ function rescale() {
   markers.forEach(function(m) {
     var r = dotRadius(z, m.news);
     var lbl = (m.news && m.news > 0) ? String(m.news) : '';
-    m.dot.setIcon(L.divIcon({ className: 'proj-pin' + (lbl ? ' has-news' : ''),
+    m.dot.setIcon(L.divIcon({ className: 'proj-pin st-' + statusKey(m.p) + (lbl ? ' has-news' : ''),
       html: '<div style="width:' + (r*2) + 'px;height:' + (r*2) + 'px;display:flex;align-items:center;justify-content:center;font:700 ' + Math.max(10, Math.round(r*0.95)) + 'px/1 sans-serif;color:#fff">' + lbl + '</div>',
       iconSize: [r*2, r*2], iconAnchor: [r, r] }));
   });
@@ -188,6 +202,17 @@ var hint = L.control({ position: 'bottomright' });
 hint.onAdd = function() { var d = L.DomUtil.create('div'); d.id = 'zoomhint';
   d.innerHTML = '🔍 滚轮放大 · 点越大'; return d; };
 hint.addTo(map);
+// 图例（状态色 + 新闻）
+var legend = L.control({ position: 'bottomleft' });
+legend.onAdd = function() {
+  var d = L.DomUtil.create('div'); d.id = 'legend';
+  d.innerHTML = '<div class="row"><span class="dot d-done"></span>完工</div>' +
+    '<div class="row"><span class="dot d-dev"></span>开发中</div>' +
+    '<div class="row"><span class="dot d-plan"></span>规划</div>' +
+    '<div class="row"><span class="dot d-news"></span>有新闻</div>';
+  return d;
+};
+legend.addTo(map);
 </script>
 </body>
 </html>
