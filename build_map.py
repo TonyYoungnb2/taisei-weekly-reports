@@ -75,18 +75,20 @@ def build_html():
   .leaflet-popup-content { font-size: 13px; line-height: 1.55; }
   .leaflet-popup-content b { font-size: 14px; color: #0b3d91; }
   .pop-news { margin-top: 6px; }
-  .pop-news a { color: #e9533b; text-decoration: none; }
+  .pop-news a { color: #0b3d91; text-decoration: none; }
   .pop-news a:hover { text-decoration: underline; }
-  /* 简洁空心圈：仅描边 + 细白外圈 + 淡投影（不刺眼，新闻不表示） */
+  /* 简洁空心圈：仅描边 + 细白外圈 + 淡投影（不刺眼，新闻不表示）
+     状态色：完工=青绿(teal) #0d9488 / 未完工=紫罗兰(violet) #7c3aed
+     —— 均非东京地铁线路色（绿=千代田线、橙=银座线），且色盲可区分 */
   .proj-pin {
     border-radius: 50%;
-    border: 3px solid #e9533b;
-    background: rgba(233,83,59,0.06);
+    border: 3px solid #7c3aed;
+    background: rgba(124,58,237,0.06);
     box-shadow: 0 0 0 1.5px #fff, 0 1px 3px rgba(0,0,0,0.22);
     box-sizing: border-box; transition: transform .12s ease;
   }
-  .proj-pin.st-done   { border-color:#1f9d55; background:rgba(31,157,85,0.06); }
-  .proj-pin.st-undone { border-color:#e9533b; background:rgba(233,83,59,0.06); }
+  .proj-pin.st-done   { border-color:#0d9488; background:rgba(13,148,136,0.06); }
+  .proj-pin.st-undone { border-color:#7c3aed; background:rgba(124,58,237,0.06); }
   .proj-pin:hover { transform: scale(1.12); }
 
 
@@ -95,8 +97,8 @@ def build_html():
   #legend { background:rgba(255,255,255,.92); border:1px solid #e3e8f2; border-radius:8px; padding:8px 10px; font-size:11px; line-height:1.8; color:#1a2233; box-shadow:0 2px 8px rgba(0,0,0,.12); }
   #legend .row { display:flex; align-items:center; gap:6px; }
   #legend .dot { width:11px; height:11px; border-radius:50%; display:inline-block; border:2px solid; box-sizing:border-box; }
-  #legend .d-done   { border-color:#1f9d55; background:#1f9d55; }
-  #legend .d-undone { border-color:#e9533b; background:#e9533b; }
+  #legend .d-done   { border-color:#0d9488; background:#0d9488; }
+  #legend .d-undone { border-color:#7c3aed; background:#7c3aed; }
   .proj-label { background: rgba(11,61,145,.9); color:#fff; border:none; border-radius:4px;
     padding:1px 6px; font-size:11px; font-weight:600; white-space:nowrap; box-shadow:0 1px 3px rgba(0,0,0,.3); }
   .proj-label::before { display:none; }

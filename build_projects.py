@@ -94,22 +94,24 @@ def build_html():
   .pill { display: inline-block; padding: 1px 8px; border-radius: 10px; font-size: 11px; margin-right: 6px; }
   #srcChips { display: none; }
   .pill.cat { background: #eef1f7; color: #46546e; }
-  .st-done   { border-color:#1f9d55 !important; background:rgba(31,157,85,.12); }
-  .st-undone { border-color:#e9533b !important; background:rgba(233,83,59,.12); }
+  .st-done   { border-color:#0d9488 !important; background:rgba(13,148,136,.12); }
+  .st-undone { border-color:#7c3aed !important; background:rgba(124,58,237,.12); }
   .proj-label { background: rgba(11,61,145,.85); color:#fff; border:none; border-radius:4px;
                 padding:1px 5px; font-size:11px; font-weight:600; white-space:nowrap;
                 box-shadow:0 1px 3px rgba(0,0,0,.3); }
   .proj-label::before { display:none; }
-  /* 简洁空心圈：仅描边 + 细白外圈 + 淡投影（不刺眼，新闻不表示） */
+  /* 简洁空心圈：仅描边 + 细白外圈 + 淡投影（不刺眼，新闻不表示）
+     状态色：完工=青绿(teal) #0d9488 / 未完工=紫罗兰(violet) #7c3aed
+     —— 均非东京地铁线路色（绿=千代田线、橙=银座线），且色盲可区分 */
   .proj-pin {
     border-radius: 50%;
-    border: 3px solid #e9533b;
-    background: rgba(233,83,59,0.06);
+    border: 3px solid #7c3aed;
+    background: rgba(124,58,237,0.06);
     box-shadow: 0 0 0 1.5px #fff, 0 1px 3px rgba(0,0,0,0.22);
     box-sizing: border-box; transition: transform .12s ease;
   }
-  .proj-pin.st-done   { border-color:#1f9d55; background:rgba(31,157,85,0.06); }
-  .proj-pin.st-undone { border-color:#e9533b; background:rgba(233,83,59,0.06); }
+  .proj-pin.st-done   { border-color:#0d9488; background:rgba(13,148,136,0.06); }
+  .proj-pin.st-undone { border-color:#7c3aed; background:rgba(124,58,237,0.06); }
   .proj-pin:hover { transform: scale(1.12); }
 
   
@@ -120,8 +122,8 @@ def build_html():
     box-shadow:0 2px 8px rgba(0,0,0,.12); }
   #maplegend .row { display:flex; align-items:center; gap:6px; }
   #maplegend .dot { width:11px; height:11px; border-radius:50%; display:inline-block; border:2px solid; box-sizing:border-box; }
-  #maplegend .d-done   { border-color:#1f9d55; background:#1f9d55; }
-  #maplegend .d-undone { border-color:#e9533b; background:#e9533b; }
+  #maplegend .d-done   { border-color:#0d9488; background:#0d9488; }
+  #maplegend .d-undone { border-color:#7c3aed; background:#7c3aed; }
   #empty { text-align: center; color: #9aa5b8; padding: 40px 0; font-size: 14px; }
   /* 详情抽屉 */
   #detail { position: fixed; inset: 0; background: rgba(20,30,50,.45); z-index: 2000; display: none;
