@@ -19,27 +19,24 @@
   .pop-news a { color: #e9533b; text-decoration: none; }
   .pop-news a:hover { text-decoration: underline; }
   /* 透明但醒目的环形标记：细描边 + 外发光，中心半透明可透出底图 */
+  /* 简洁实心圆点：状态色填充 + 白边 + 淡投影，无彩色光晕（不刺眼） */
   .proj-pin {
     border-radius: 50%;
-    border: 3px solid #0b3d91;
-    background: rgba(11,61,145,0.14);
-    box-shadow: 0 0 0 4px rgba(11,61,145,0.12), 0 0 12px 3px rgba(11,61,145,0.5);
+    border: 2px solid #fff;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.28);
     display: flex; align-items: center; justify-content: center;
-    color: #fff; font: 800 12px/1 -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
-    text-shadow: 0 0 4px rgba(11,61,145,.95);
+    color: #fff; font: 700 11px/1 -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
     box-sizing: border-box; transition: transform .12s ease;
   }
+  .proj-pin.st-done { background:#1f9d55; }
+  .proj-pin.st-dev  { background:#0b3d91; }
+  .proj-pin.st-plan { background:#9aa5b8; }
+  .proj-pin.has-news { background:#e9533b; }
+  .proj-pin:hover { transform: scale(1.12); }
   /* 状态色：完工=绿 开发中=蓝 规划=灰（has-news 橙色优先） */
-  .proj-pin.st-done { border-color:#1f9d55; background:rgba(31,157,85,0.14); box-shadow:0 0 0 4px rgba(31,157,85,0.12),0 0 12px 3px rgba(31,157,85,0.5); text-shadow:0 0 4px rgba(31,157,85,.95); }
-  .proj-pin.st-dev  { border-color:#0b3d91; background:rgba(11,61,145,0.14); box-shadow:0 0 0 4px rgba(11,61,145,0.12),0 0 12px 3px rgba(11,61,145,0.5); text-shadow:0 0 4px rgba(11,61,145,.95); }
-  .proj-pin.st-plan { border-color:#8a96ac; background:rgba(138,150,172,0.14); box-shadow:0 0 0 4px rgba(138,150,172,0.12),0 0 12px 3px rgba(138,150,172,0.5); text-shadow:0 0 4px rgba(138,150,172,.95); }
-  .proj-pin.has-news {
-    border-color: #e9533b;
-    background: rgba(233,83,59,0.18);
-    box-shadow: 0 0 0 4px rgba(233,83,59,0.16), 0 0 14px 4px rgba(233,83,59,0.65);
-    text-shadow: 0 0 4px rgba(184,51,31,.95);
-  }
-  .proj-pin:hover { transform: scale(1.15); }
+
+
+  
   .proj-halo { display: none; }
   #legend { background:rgba(255,255,255,.92); border:1px solid #e3e8f2; border-radius:8px; padding:8px 10px; font-size:11px; line-height:1.8; color:#1a2233; box-shadow:0 2px 8px rgba(0,0,0,.12); }
   #legend .row { display:flex; align-items:center; gap:6px; }
