@@ -98,6 +98,23 @@ def build_html():
                 padding:1px 5px; font-size:11px; font-weight:600; white-space:nowrap;
                 box-shadow:0 1px 3px rgba(0,0,0,.3); }
   .proj-label::before { display:none; }
+  .proj-pin {
+    border-radius: 50%;
+    border: 3px solid #0b3d91;
+    background: rgba(11,61,145,0.14);
+    box-shadow: 0 0 0 4px rgba(11,61,145,0.12), 0 0 12px 3px rgba(11,61,145,0.5);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font: 800 12px/1 -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    text-shadow: 0 0 4px rgba(11,61,145,.95);
+    box-sizing: border-box; transition: transform .12s ease;
+  }
+  .proj-pin.has-news {
+    border-color: #e9533b;
+    background: rgba(233,83,59,0.18);
+    box-shadow: 0 0 0 4px rgba(233,83,59,0.16), 0 0 14px 4px rgba(233,83,59,0.65);
+    text-shadow: 0 0 4px rgba(184,51,31,.95);
+  }
+  .proj-pin:hover { transform: scale(1.15); }
   #map { display: none; height: calc(100vh - 104px); width: 100%; }
   #empty { text-align: center; color: #9aa5b8; padding: 40px 0; font-size: 14px; }
   /* 详情抽屉 */
@@ -233,29 +250,30 @@ function render(){
   if (map) { renderMap(list); }
 }
 function renderMap(list){
-  Object.keys(markers).forEach(function(id){ map.removeLayer(markers[id].halo); map.removeLayer(markers[id].dot); delete markers[id]; });
+  Object.keys(markers).forEach(function(id){ map.removeLayer(markers[id].mk); delete markers[id]; });
   function dotR(z, news){ var b = 5 + (z-5)*1.1; if(b<4)b=4; return b + Math.min(news||0,12)*0.9; }
-  function haloR(z, news){ return dotR(z, news)*1.9; }
+  function mkIcon(p, z){
+    var r = dotR(z, p.news_count||0);
+    var lbl = (p.news_count && p.news_count>0) ? String(p.news_count) : '';
+    return L.divIcon({ className: 'proj-pin' + (lbl ? ' has-news' : ''),
+      html: '<div style="width:'+(r*2)+'px;height:'+(r*2)+'px;display:flex;align-items:center;justify-content:center;font:800 '+Math.max(10,Math.round(r*0.95))+'px/1 sans-serif;color:#fff">'+lbl+'</div>',
+      iconSize:[r*2,r*2], iconAnchor:[r,r] });
+  }
   list.forEach(function(p){
     if (!p.latitude || !p.longitude) return;
-    var color = '#0b3d91';
     var z0 = map ? map.getZoom() : ZOOM;
-    var halo = L.circleMarker([p.latitude, p.longitude], {
-      radius: haloR(z0, p.news_count), color:'#fff', weight:2, fillColor:'#fff', fillOpacity:.6
-    }).addTo(map);
-    var dot = L.circleMarker([p.latitude, p.longitude], {
-      radius: dotR(z0, p.news_count), color: color, weight: 2, fillColor: color, fillOpacity: .9
-    }).addTo(map);
+    var mk = L.marker([p.latitude, p.longitude], { icon: mkIcon(p, z0) }).addTo(map);
     var news = (NEWS||[]).filter(function(n){ return n.project_id === p.id; })
       .sort(function(a,b){ return (b.publish_date||'').localeCompare(a.publish_date||''); });
     var newsHtml = news.length ? news.slice(0,3).map(function(n){
-      var link = n.url ? ' <a href="'+n.url+'" target="_blank" rel="noopener">['+(n.url_text||'链接')+']</a>' : '';
+      var link = n.url ? ' <a href="'+n.url+'" target="_blank" rel="noopener">['+(n.url_text||'リンク')+']</a>' : '';
       return '・'+n.title+link;
-    }).join('<br>') : '(暂无关联新闻)';    var pop = '<b>'+p.name+'</b><br>開発：'+(p.developer||'-')+'<br>状態：'+(p.status||'-')+
+    }).join('<br>') : '関連ニュースなし';
+    var pop = '<b>'+p.name+'</b><br>開発：'+(p.developer||'-')+'<br>状態：'+(p.status||'-')+
       '<br>関連ニュース('+news.length+'件)：<br>'+newsHtml;
-    dot.bindPopup(pop); halo.bindPopup(pop);
-    dot.bindTooltip(L.tooltip({permanent:false, direction:'top', opacity:1, className:'proj-label'}).setContent(p.name));
-    markers[p.id] = { dot: dot, halo: halo, news: p.news_count };
+    mk.bindPopup(pop);
+    mk.bindTooltip(L.tooltip({permanent:false, direction:'top', opacity:1, className:'proj-label'}).setContent(p.name));
+    markers[p.id] = { mk: mk, news: p.news_count };
   });
   if (map) {
     map.off('zoomend', map._rescaleMap);
@@ -263,8 +281,7 @@ function renderMap(list){
       var z = map.getZoom();
       Object.keys(markers).forEach(function(id){
         var r = markers[id];
-        r.dot.setRadius(dotR(z, r.news));
-        r.halo.setRadius(haloR(z, r.news));
+        r.mk.setIcon(mkIcon({ news_count: r.news }, z));
       });
     };
     map.on('zoomend', map._rescaleMap);

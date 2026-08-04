@@ -72,34 +72,32 @@ def build_html():
   #top h1 { font-size: 17px; margin: 0; font-weight: 600; }
   #top .meta { font-size: 12px; opacity: .85; }
   #map { height: calc(100vh - 52px); width: 100%; }
-  .leaflet-popup-content { font-size: 13px; line-height: 1.6; }
-  .leaflet-popup-content b { color: #0b3d91; }
-  .pill { display: inline-block; padding: 1px 7px; border-radius: 10px; font-size: 11px; margin-left: 6px; }
-  /* 项目标记：渐变圆点 + 白边 + 文字，告别丑 circleMarker */
-  .proj-pin { background: radial-gradient(circle at 32% 28%, #4d7fd6 0%, #0b3d91 62%, #062a66 100%);
-    border: 2px solid #fff; border-radius: 50%; box-shadow: 0 2px 6px rgba(0,0,0,.35);
-    display: flex; align-items: center; justify-content: center; color: #fff;
-    font: 700 11px/1 -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    box-sizing: border-box; transition: transform .12s ease; }
-  .proj-halo { background: rgba(255,255,255,.55); border: none; box-shadow: 0 0 0 1px rgba(11,61,145,.25); }
-  .proj-pin.has-news { background: radial-gradient(circle at 32% 28%, #ff8a5c 0%, #e9533b 60%, #b8331f 100%); }
-  .proj-pin:hover { transform: scale(1.12); }
-  .proj-label { background: rgba(11,61,145,.9); color:#fff; border:none; border-radius:4px;
-    padding:1px 6px; font-size:11px; font-weight:600; white-space:nowrap; box-shadow:0 1px 3px rgba(0,0,0,.3); }
-  .proj-label::before { display:none; }
-  #zoomhint { background: rgba(11,61,145,.85); color:#fff; padding:3px 8px; border-radius:10px;
-    font-size:11px; font-weight:600; box-shadow:0 1px 4px rgba(0,0,0,.3); }
   .leaflet-popup-content { font-size: 13px; line-height: 1.55; }
   .leaflet-popup-content b { font-size: 14px; color: #0b3d91; }
-  .pop-news { margin-top: 4px; }
+  .pop-news { margin-top: 6px; }
   .pop-news a { color: #e9533b; text-decoration: none; }
   .pop-news a:hover { text-decoration: underline; }
-  /* 项目标记：醒目，放大地图时点放大 */
-  .proj-halo { color: #fff; opacity: .55; }
-  .proj-dot { color: #0b3d91; }
-  .proj-label { background: rgba(11,61,145,.85); color:#fff; border:none; border-radius:4px;
-                padding:1px 5px; font-size:11px; font-weight:600; white-space:nowrap;
-                box-shadow:0 1px 3px rgba(0,0,0,.3); }
+  /* 透明但醒目的环形标记：细描边 + 外发光，中心半透明可透出底图 */
+  .proj-pin {
+    border-radius: 50%;
+    border: 3px solid #0b3d91;
+    background: rgba(11,61,145,0.14);
+    box-shadow: 0 0 0 4px rgba(11,61,145,0.12), 0 0 12px 3px rgba(11,61,145,0.5);
+    display: flex; align-items: center; justify-content: center;
+    color: #fff; font: 800 12px/1 -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    text-shadow: 0 0 4px rgba(11,61,145,.95);
+    box-sizing: border-box; transition: transform .12s ease;
+  }
+  .proj-pin.has-news {
+    border-color: #e9533b;
+    background: rgba(233,83,59,0.18);
+    box-shadow: 0 0 0 4px rgba(233,83,59,0.16), 0 0 14px 4px rgba(233,83,59,0.65);
+    text-shadow: 0 0 4px rgba(184,51,31,.95);
+  }
+  .proj-pin:hover { transform: scale(1.15); }
+  .proj-halo { display: none; }
+  .proj-label { background: rgba(11,61,145,.9); color:#fff; border:none; border-radius:4px;
+    padding:1px 6px; font-size:11px; font-weight:600; white-space:nowrap; box-shadow:0 1px 3px rgba(0,0,0,.3); }
   .proj-label::before { display:none; }
   #zoomhint { position:absolute; right:10px; bottom:10px; z-index:1000; background:rgba(0,0,0,.55);
               color:#fff; font-size:11px; padding:5px 9px; border-radius:6px; }
@@ -144,11 +142,6 @@ var markers = [];
 PROJECTS.forEach(function(p) {
   var z0 = map.getZoom();
   var r = dotRadius(z0, p.news_count);
-  // 外层白色光晕（提升在复杂地图底图上的辨识度）
-  var halo = L.circleMarker([p.latitude, p.longitude], {
-    radius: haloRadius(z0, p.news_count), color: '#fff', weight: 0,
-    fillColor: '#fff', fillOpacity: 0.55, className: 'proj-halo'
-  }).addTo(map);
   // 渐变圆点：有新闻=暖橙，无新闻=品牌蓝；中心显示新闻数
   var dotLabel = (p.news_count && p.news_count > 0) ? String(p.news_count) : '';
   var dot = L.divIcon({ className: 'proj-pin' + (dotLabel ? ' has-news' : ''),
@@ -173,7 +166,7 @@ PROJECTS.forEach(function(p) {
     permanent: false, direction: 'top', className: 'proj-label', opacity: 1
   }).setContent(p.name);
   mk.bindTooltip(label);
-  markers.push({ halo: halo, dot: mk, news: p.news_count, r: r });
+  markers.push({ dot: mk, news: p.news_count, r: r });
 });
 
 // 缩放时重算所有点大小，保持“放大→点变大”
@@ -181,7 +174,6 @@ function rescale() {
   var z = map.getZoom();
   markers.forEach(function(m) {
     var r = dotRadius(z, m.news);
-    m.halo.setRadius(haloRadius(z, m.news));
     var lbl = (m.news && m.news > 0) ? String(m.news) : '';
     m.dot.setIcon(L.divIcon({ className: 'proj-pin' + (lbl ? ' has-news' : ''),
       html: '<div style="width:' + (r*2) + 'px;height:' + (r*2) + 'px;display:flex;align-items:center;justify-content:center;font:700 ' + Math.max(10, Math.round(r*0.95)) + 'px/1 sans-serif;color:#fff">' + lbl + '</div>',
