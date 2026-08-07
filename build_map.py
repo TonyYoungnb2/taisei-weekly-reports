@@ -83,7 +83,6 @@ def build_html():
   .pf-search .pagefind-ui__drawer{position:relative;z-index:31;}
   @media (max-width:640px){.pf-search{max-width:none;margin:8px 12px 8px;}}
   #pf-index-dump{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
-</style>
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; }
   #top { position: sticky; top: 0; z-index: 1000; background: #0b3d91; color: #fff; padding: 12px 16px;

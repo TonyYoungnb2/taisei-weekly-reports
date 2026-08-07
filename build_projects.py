@@ -82,7 +82,6 @@ def build_html():
   @media (max-width:640px){.pf-search{max-width:none;margin:8px 12px 8px;}}
   /* 仅供搜索引擎索引的项目名文本（不可见，但可被 Pagefind 抓取） */
   #pf-index-dump{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
-</style>
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
     background: #f4f6fb; color: #1a2233; }
