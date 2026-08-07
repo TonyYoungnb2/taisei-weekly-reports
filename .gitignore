@@ -4,3 +4,7 @@ config_local.py
 *.log
 __pycache__/
 .pytest_cache/
+
+# Pagefind binary is downloaded on demand (build_search.py); ~56MB, must not bloat repo
+vendor/pagefind/pagefind-linux/pagefind
+vendor/pagefind/pagefind-win/pagefind.exe
