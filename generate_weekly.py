@@ -1220,7 +1220,7 @@ function setReportLang(lang) {{
 def build_index_html(reports):
     _build_v = datetime.now().strftime('%Y%m%d%H%M')  # cache-busting 版本号
     """构建中文可视化索引页HTML（精美主页）"""
-    PAGELOAD_CSS = '<style>.pf-search{position:relative;z-index:30;max-width:340px;margin:18px 16px 6px auto;padding:0 4px;}.pf-search .pagefind-ui{--pagefind-ui-scale:0.82;--pagefind-ui-primary:#0f3460;--pagefind-ui-text:#1a1a2e;--pagefind-ui-background:#ffffff;--pagefind-ui-border:#d7dce5;--pagefind-ui-tag:#eef1f7;--pagefind-ui-border-width:1px;--pagefind-ui-border-radius:10px;--pagefind-ui-font:inherit;}.pf-search .pagefind-ui__drawer{position:relative;z-index:31;}@media (max-width:640px){.pf-search{max-width:none;margin:14px 12px 8px;}}</style>'
+    PAGELOAD_CSS = '<style>.home-search{position:relative;z-index:30;max-width:560px;margin:18px auto 22px;padding:14px 16px;background:#fff;border:1px solid #e3e8f0;border-radius:14px;box-shadow:0 2px 12px rgba(15,52,96,.07);}.home-search-label{font-size:13px;font-weight:700;color:#0f3460;margin-bottom:9px;letter-spacing:.03em;}.home-search .pagefind-ui{--pagefind-ui-scale:0.95;--pagefind-ui-primary:#0f3460;--pagefind-ui-text:#1a1a2e;--pagefind-ui-background:#fff;--pagefind-ui-border:#d7dce5;--pagefind-ui-tag:#eef1f7;--pagefind-ui-border-width:1px;--pagefind-ui-border-radius:10px;--pagefind-ui-font:inherit;}.home-search .pagefind-ui__drawer{position:relative;z-index:31;}@media (max-width:640px){.home-search{max-width:none;margin:14px 0 18px;}}</style>'
     ANALYTICS = _an.snippet()
     today_str = datetime.now().strftime('%Y年%m月%d日')
     year = datetime.now().year
@@ -1481,17 +1481,18 @@ body {{
   <div class="hero-updated">更新于 {today_str}</div>
 </header>
 
-<div class="pf-search" data-pagefind-ignore>
-  <div id="pfsearch"></div>
-</div>
-<script src="/pagefind/pagefind-ui.js"></script>
-<script>
-  window.addEventListener("DOMContentLoaded", function () {{
-    new PagefindUI({{ element: "#pfsearch", showSubResults: true }});
-  }});
-</script>
-
 <div class="container">
+  <div class="home-search" data-pagefind-ignore>
+    <div class="home-search-label">🔍 全站搜索</div>
+    <div id="pfsearch"></div>
+  </div>
+  <script src="/pagefind/pagefind-ui.js"></script>
+  <script>
+    window.addEventListener("DOMContentLoaded", function () {{
+      new PagefindUI({{ element: "#pfsearch", showSubResults: true }});
+    }});
+  </script>
+
   {featured_html}
 
   <div class="sec-title" data-i18n="archive_title">往期周报（{year}年）</div>
