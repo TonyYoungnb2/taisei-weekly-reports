@@ -1,3 +1,0 @@
-EDGE mobile single-col rule: False
-EDGE card padding in 640: False
-EDGE len=16305

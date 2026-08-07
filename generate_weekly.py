@@ -10,6 +10,9 @@ sys.stdout = io.TextIOWrapper(sys.stdout.buffer, encoding='utf-8', errors='repla
 import os, sys, re, json
 from datetime import datetime, timedelta
 
+# 隐私统计 (Umami) — 留空则不打点；填入实例地址与站点 ID 即可全站启用
+import _analytics as _an
+
 # ─── 設定 ───────────────────────────────────────────────────────────────
 GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN', '')
 REPO_OWNER   = 'TonyYoungnb2'
@@ -180,6 +183,10 @@ def load_weekly_data():
                     _out['flat35'][_jk] = _jp['flat35'][_jk]
         if 'comment_jp' in _jp:
             _out['comment_jp'] = _jp['comment_jp']
+    # 暴露给 build_report_html 用于统计卡 cn/jp 对齐（按索引从上同源取 label_jp）
+    global _WEEKLY_CN, _WEEKLY_JP
+    _WEEKLY_CN = _cn
+    _WEEKLY_JP = _jp
     return _out
 
 def _merge_cn(primary, cn):
@@ -806,13 +813,29 @@ def build_report_html():
     # 顶部统计卡（中文 label_cn 优先；JP 作 data-jp 后备）
     _color_by_idx = ['gold', 'orange', 'green', '', 'gold']
     stats_html = ''
-    for _i, _s in enumerate(NEWS_DATA.get('stats', DEFAULT_STATS)):
+    # ★ 修复 CN/JP 错位（2026-08-04）：
+    #   原始 primary(cn/sample) 与 jp 的 stats 列表【按索引不对齐】，
+    #   旧渲染把 primary 的 value 与 cn/jp 的 label 按同索引硬拼 -> 值/标签描述不同指标。
+    #   现统一以中文数据(cn)为权威源（含 value + label_cn），再按索引叠加 jp 的 label_jp，
+    #   保证「同一指标的数值与中/日标签」必然对应。cn 缺失时退回 sample 兜底。
+    _stats_src = None
+    if isinstance(_WEEKLY_CN, dict) and isinstance(_WEEKLY_CN.get('stats'), list) and _WEEKLY_CN['stats']:
+        _stats_src = _WEEKLY_CN['stats']
+    elif isinstance(_data.get('stats'), list) and _data['stats']:
+        _stats_src = _data['stats']
+    else:
+        _stats_src = DEFAULT_STATS
+    _jp_stats = _WEEKLY_JP.get('stats') if isinstance(_WEEKLY_JP, dict) else None
+    for _i, _s in enumerate(_stats_src):
+        _s = _s if isinstance(_s, dict) else {'label': str(_s)}
         _color = _color_by_idx[_i] if _i < len(_color_by_idx) else ''
         _cls = f' num {_color}' if _color else ' num'
-        _lbl_cn = _s.get('label_cn', _s['label'])
-        _lbl_jp = _s.get('label_jp', _s['label'])
+        _lbl_cn = _s.get('label_cn', _s.get('label', ''))
+        _lbl_jp = _s.get('label_jp', '')
+        if not _lbl_jp and isinstance(_jp_stats, list) and _i < len(_jp_stats) and isinstance(_jp_stats[_i], dict):
+            _lbl_jp = _jp_stats[_i].get('label_jp', '')
         stats_html += f'''    <div class="stat-card">
-      <div class="{_cls.strip()}">{_s['value']}</div>
+      <div class="{_cls.strip()}">{_s.get('value', '')}</div>
       <div class="label"><span class="lang-cn">{_lbl_cn}</span><span class="lang-jp" data-jp="{_lbl_jp.replace(chr(34), chr(39))}">{_lbl_jp}</span></div>
     </div>
 '''
@@ -832,14 +855,22 @@ def build_report_html():
 
     news_sections_html = '\n'.join(render_news_section(k) for k in ['policy','deals','develop','tech','survey'])
 
+    # Pagefind 搜索框 + 隐私统计(Umami) 注入所需变量（占位串，避免 f-string 内花括号冲突）
+    PAGELOAD_CSS = '<style>.pf-search{position:relative;z-index:30;max-width:340px;margin:-22px 16px 10px auto;padding:0 4px;}.pf-search .pagefind-ui{--pagefind-ui-scale:0.82;--pagefind-ui-primary:#0f3460;--pagefind-ui-text:#1a1a2e;--pagefind-ui-background:#ffffff;--pagefind-ui-border:#d7dce5;--pagefind-ui-tag:#eef1f7;--pagefind-ui-border-width:1px;--pagefind-ui-border-radius:10px;--pagefind-ui-font:inherit;}.pf-search .pagefind-ui__drawer{position:relative;z-index:31;}@media (max-width:640px){.pf-search{max-width:none;margin:8px 12px 12px;}.pf-search .pagefind-ui{--pagefind-ui-scale:0.9;}}</style>'
+    PAGELOAD_JS = '<div class="pf-search" data-pagefind-ignore><div id="pfsearch"></div></div><script src="/pagefind/pagefind-ui.js"></script><script>window.addEventListener("DOMContentLoaded",function(){new PagefindUI({element:"#pfsearch",showSubResults:true});});</script>'
+    ANALYTICS = _an.snippet()
+
     html = f'''<!DOCTYPE html>
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css">
 <meta name="description" content="大誠有限会社専用不動產週報 {date_range}">
 <title>大誠不动產週報 {date_range}</title>
 <style>{CSS}</style>
+{PAGELOAD_CSS}
+{ANALYTICS}
 </head>
 <body>
 
@@ -861,11 +892,13 @@ def build_report_html():
   </div>
 </div>
 
+{PAGELOAD_JS}
+
 <!-- Stats -->
 <div class="stats-bar" id="statsBar">
 {stats_html}</div>
 
-<div class="container">
+<div class="container" data-pagefind-body>
 
 <!-- 热点速览 -->
 <div class="key-insight">
@@ -1187,6 +1220,8 @@ function setReportLang(lang) {{
 def build_index_html(reports):
     _build_v = datetime.now().strftime('%Y%m%d%H%M')  # cache-busting 版本号
     """构建中文可视化索引页HTML（精美主页）"""
+    PAGELOAD_CSS = '<style>.pf-search{position:relative;z-index:30;max-width:340px;margin:18px 16px 6px auto;padding:0 4px;}.pf-search .pagefind-ui{--pagefind-ui-scale:0.82;--pagefind-ui-primary:#0f3460;--pagefind-ui-text:#1a1a2e;--pagefind-ui-background:#ffffff;--pagefind-ui-border:#d7dce5;--pagefind-ui-tag:#eef1f7;--pagefind-ui-border-width:1px;--pagefind-ui-border-radius:10px;--pagefind-ui-font:inherit;}.pf-search .pagefind-ui__drawer{position:relative;z-index:31;}@media (max-width:640px){.pf-search{max-width:none;margin:14px 12px 8px;}}</style>'
+    ANALYTICS = _an.snippet()
     today_str = datetime.now().strftime('%Y年%m月%d日')
     year = datetime.now().year
 
@@ -1430,8 +1465,11 @@ body {{
   .hero h1 {{ font-size: 24px; }}
 }}
 </style>
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css">
+{PAGELOAD_CSS}
+{ANALYTICS}
 </head>
-<body>
+<body data-pagefind-body>
 <header class="hero">
   <div class="lang-switch" id="langSwitch">
     <button type="button" class="lang-btn" data-lang="cn" onclick="setLang('cn')">中文</button>
@@ -1442,6 +1480,16 @@ body {{
   <p data-i18n="hero_sub">东京不动产市场最新动态 · 每周精选推送</p>
   <div class="hero-updated">更新于 {today_str}</div>
 </header>
+
+<div class="pf-search" data-pagefind-ignore>
+  <div id="pfsearch"></div>
+</div>
+<script src="/pagefind/pagefind-ui.js"></script>
+<script>
+  window.addEventListener("DOMContentLoaded", function () {{
+    new PagefindUI({{ element: "#pfsearch", showSubResults: true }});
+  }});
+</script>
 
 <div class="container">
   {featured_html}

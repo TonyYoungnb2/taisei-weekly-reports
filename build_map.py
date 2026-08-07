@@ -7,6 +7,7 @@ build_map.py — 生成房地产情报平台地图页（Phase 0.5）。
 用法: python build_map.py  -> 写入 map.html
 """
 import io, os, json, sys
+import _analytics as _an
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 PROJ = os.path.join(BASE, 'data', 'projects.json')
@@ -44,6 +45,17 @@ def build_html():
     # 内联数据（避免跨文件加载 / 404）
     inline = json.dumps(projects, ensure_ascii=False)
     news_inline = json.dumps(news, ensure_ascii=False)
+
+    # 仅供 Pagefind 索引的隐藏文本（项目名/别名/开发商/地区）
+    _dump = ['<div id="pf-index-dump" aria-hidden="true">']
+    for p in projects:
+        _bits = [p.get('name', ''), p.get('developer', ''), p.get('prefecture', ''), p.get('category', '')]
+        _bits += list(p.get('aliases', []) or [])
+        _txt = ' '.join([b for b in _bits if b])
+        if _txt:
+            _dump.append('<span>%s</span>' % _txt.replace('<', '&lt;').replace('>', '&gt;'))
+    _dump.append('</div>')
+    indexable_projects = ''.join(_dump)
     lats = [p['latitude'] for p in projects]
     lngs = [p['longitude'] for p in projects]
     # 计算所有点的边界，用于载入时自适应框选（fitBounds）
@@ -64,7 +76,14 @@ def build_html():
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>大誠 · 東京不動產情報地図</title>
 <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css">
 <style>
+  .pf-search{position:relative;z-index:30;max-width:340px;margin:8px 16px 4px auto;padding:0 4px;}
+  .pf-search .pagefind-ui{--pagefind-ui-scale:0.82;--pagefind-ui-primary:#0f3460;--pagefind-ui-text:#1a1a2e;--pagefind-ui-background:#ffffff;--pagefind-ui-border:#d7dce5;--pagefind-ui-tag:#eef1f7;--pagefind-ui-border-width:1px;--pagefind-ui-border-radius:10px;--pagefind-ui-font:inherit;}
+  .pf-search .pagefind-ui__drawer{position:relative;z-index:31;}
+  @media (max-width:640px){.pf-search{max-width:none;margin:8px 12px 8px;}}
+  #pf-index-dump{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+</style>
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; }
   #top { position: sticky; top: 0; z-index: 1000; background: #0b3d91; color: #fff; padding: 12px 16px;
@@ -113,8 +132,17 @@ def build_html():
   <h1>大誠 · 東京不動產情報地図</h1>
   <span class="meta">項目数: __COUNT__ ｜ 国土地理院地図</span>
 </div>
-<div id="map"></div>
+<div id="map" data-pagefind-body>__INDEXABLE_PROJECTS__</div>
 <div id="empty" style="display:none">暂无已定位的项目</div>
+<div class="pf-search" data-pagefind-ignore>
+  <div id="pfsearch"></div>
+</div>
+<script src="/pagefind/pagefind-ui.js"></script>
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    new PagefindUI({ element: "#pfsearch", showSubResults: true });
+  });
+</script>
 <script src="vendor/leaflet/leaflet.js"></script>
 <script>
 var PROJECTS = __DATA__;
@@ -203,7 +231,7 @@ legend.addTo(map);
 </script>
 </body>
 </html>
-'''.replace('__DATA__', inline).replace('__NEWS__', news_inline).replace('__CENTER__', '%s, %s' % (center[0], center[1])).replace('__ZOOM__', str(zoom)).replace('__COUNT__', str(len(projects))).replace('__BOUNDS__', bounds)
+'''.replace('__DATA__', inline).replace('__NEWS__', news_inline).replace('__CENTER__', '%s, %s' % (center[0], center[1])).replace('__ZOOM__', str(zoom)).replace('__COUNT__', str(len(projects))).replace('__BOUNDS__', bounds).replace('__INDEXABLE_PROJECTS__', indexable_projects).replace('</head>', _an.snippet() + '</head>')
 
 
 def main():

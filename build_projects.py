@@ -8,6 +8,7 @@ build_projects.py — 生成房地产情报平台主界面（Phase 1）。
 用法: python build_projects.py  -> 写入 projects.html
 """
 import io, os, json, glob, sys
+import _analytics as _an
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 PROJ = os.path.join(BASE, 'data', 'projects.json')
@@ -46,6 +47,17 @@ def build_html():
     proj_inline = json.dumps(projects, ensure_ascii=False)
     news_inline = json.dumps(news, ensure_ascii=False)
 
+    # 仅供 Pagefind 索引的隐藏文本（项目名/别名/开发商/地区），使项目可被站内搜索命中
+    _dump = ['<div id="pf-index-dump" aria-hidden="true">']
+    for p in projects:
+        _bits = [p.get('name', ''), p.get('developer', ''), p.get('prefecture', ''), p.get('category', '')]
+        _bits += list(p.get('aliases', []) or [])
+        _txt = ' '.join([b for b in _bits if b])
+        if _txt:
+            _dump.append('<span>%s</span>' % _txt.replace('<', '&lt;').replace('>', '&gt;'))
+    _dump.append('</div>')
+    indexable_projects = ''.join(_dump)
+
     lats = [p['latitude'] for p in projects if p.get('latitude')]
     lngs = [p['longitude'] for p in projects if p.get('longitude')]
     if lats:
@@ -62,7 +74,15 @@ def build_html():
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>大誠 · 東京不動産プロジェクト一覧</title>
 <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<link rel="stylesheet" href="/pagefind/pagefind-ui.css">
 <style>
+  .pf-search{position:relative;z-index:30;max-width:340px;margin:8px 16px 4px auto;padding:0 4px;}
+  .pf-search .pagefind-ui{--pagefind-ui-scale:0.82;--pagefind-ui-primary:#0f3460;--pagefind-ui-text:#1a1a2e;--pagefind-ui-background:#ffffff;--pagefind-ui-border:#d7dce5;--pagefind-ui-tag:#eef1f7;--pagefind-ui-border-width:1px;--pagefind-ui-border-radius:10px;--pagefind-ui-font:inherit;}
+  .pf-search .pagefind-ui__drawer{position:relative;z-index:31;}
+  @media (max-width:640px){.pf-search{max-width:none;margin:8px 12px 8px;}}
+  /* 仅供搜索引擎索引的项目名文本（不可见，但可被 Pagefind 抓取） */
+  #pf-index-dump{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;}
+</style>
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
     background: #f4f6fb; color: #1a2233; }
@@ -172,8 +192,18 @@ def build_html():
     </select>
   </span>
 </div>
-<div id="list"><div id="listBody"></div></div>
+<div id="list" data-pagefind-body><div id="listBody"></div>__INDEXABLE_PROJECTS__</div>
 <div id="map"></div>
+
+<div class="pf-search" data-pagefind-ignore>
+  <div id="pfsearch"></div>
+</div>
+<script src="/pagefind/pagefind-ui.js"></script>
+<script>
+  window.addEventListener("DOMContentLoaded", function () {
+    new PagefindUI({ element: "#pfsearch", showSubResults: true });
+  });
+</script>
 
 <div id="detail" onclick="if(event.target===this)closeDetail()">
   <div class="sheet" id="sheet"></div>
@@ -359,7 +389,7 @@ render();
 </script>
 </body>
 </html>
-'''.replace('__DATA__', proj_inline).replace('__NEWS__', news_inline).replace('__CENTER__', str(center)).replace('__ZOOM__', str(zoom))
+'''.replace('__DATA__', proj_inline).replace('__NEWS__', news_inline).replace('__CENTER__', str(center)).replace('__ZOOM__', str(zoom)).replace('__INDEXABLE_PROJECTS__', indexable_projects).replace('</head>', _an.snippet() + '</head>')
 
 
 def main():
