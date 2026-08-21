@@ -50,6 +50,14 @@ def generate():
     # 租金地图（方案B 独立页）随每次发布重生成
     # 賃貸相場データ（e-Stat 抽出 + GSI ジオコード）を毎回再生成
     try:
+        # 璩冭哺鏈堟蹇冩牱 (Option A): 褰撳墠鏈?缃?濡傛灉宸插瓨鍦?璺宠繃)
+        try:
+            import build_rent_snapshot as brs
+            brs.main()
+            print('      [OK] 璩冭哺鏈堢偣蹇冩牱: data/rent/history/*.json')
+        except Exception as e:
+            print('      [WARN] rent snapshot 璺宠繃: %s' % e)
+
         import build_rent_data as brd
         brd.main()
         print('      [OK] 賃貸データ再生成: data/rent/*.json')

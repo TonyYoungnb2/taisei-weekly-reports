@@ -262,12 +262,14 @@ function cardHtml(m){
     '</div>' +
     '<div class="rc-chips">' + bandChip + '</div>' +
     sub +
-    (m.is_ward ? '<div class="rc-spark"><div class="t">東京23区 平均賃料推移（参考）</div>' + sparkline() + '</div>' : '') +
+    (m.is_ward ? '<div class="rc-spark"><div class="t">' + nameCn(m) + ' 1K 月额推移(自集計)</div>' + sparkline(m.trend, m.name) + '</div>' : '') +
     '<div class="rc-yield">表面利回り(概算): 約 ' + yieldPct.toFixed(1) + '%' +
       '<small>年賃料 ÷ 23区平均中古㎡単価(約108万円) を目安に概算（25㎡想定）</small></div>' +
     '<div class="rc-link">' + link + '</div>' +
     '<div class="rc-src">メイン出所: ' + (META.source || 'e-Stat') + '（'+ (META.metric||'') +'）<br>' +
       (META.note || '') + '<br>' +
+      (m.is_ward ? '<span style="color:#2f6fd6">●</span> '+nameCn(m)+' 1K 趋势为每月自集計快照(2026-07 起), 点数累积中。' + '<br>' : '') +
+      '※ 表面利回り概算・23区1K/推移: housingassist 参考。';
       '※ 表面利回りは概算。23区 1K/推移は housingassist 参照。</div>';
 }
 function openPanel(m){

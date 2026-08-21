@@ -1,0 +1,171 @@
+{
+ "meta": {
+  "month": "2026-08",
+  "source": "housingassist Tokyo Rent Index",
+  "url": "https://housingassist.com/rent-index",
+  "fetched": "2026-08-21"
+ },
+ "wards": [
+  {
+   "name": "足立区",
+   "en": "adachi",
+   "rent_1k": 75999,
+   "zero_key_pct": 38,
+   "listings": 893
+  },
+  {
+   "name": "葛飾区",
+   "en": "katsushika",
+   "rent_1k": 77251,
+   "zero_key_pct": 28,
+   "listings": 720
+  },
+  {
+   "name": "江戸川区",
+   "en": "edogawa",
+   "rent_1k": 77822,
+   "zero_key_pct": 35,
+   "listings": 733
+  },
+  {
+   "name": "練馬区",
+   "en": "nerima",
+   "rent_1k": 86363,
+   "zero_key_pct": 28,
+   "listings": 1035
+  },
+  {
+   "name": "杉並区",
+   "en": "suginami",
+   "rent_1k": 89134,
+   "zero_key_pct": 48,
+   "listings": 1069
+  },
+  {
+   "name": "世田谷区",
+   "en": "setagaya",
+   "rent_1k": 92646,
+   "zero_key_pct": 37,
+   "listings": 1019
+  },
+  {
+   "name": "板橋区",
+   "en": "itabashi",
+   "rent_1k": 94284,
+   "zero_key_pct": 40,
+   "listings": 1370
+  },
+  {
+   "name": "荒川区",
+   "en": "arakawa",
+   "rent_1k": 96275,
+   "zero_key_pct": 56,
+   "listings": 1519
+  },
+  {
+   "name": "大田区",
+   "en": "ota",
+   "rent_1k": 97211,
+   "zero_key_pct": 43,
+   "listings": 1221
+  },
+  {
+   "name": "北区",
+   "en": "kita",
+   "rent_1k": 98795,
+   "zero_key_pct": 52,
+   "listings": 1561
+  },
+  {
+   "name": "中野区",
+   "en": "nakano",
+   "rent_1k": 101244,
+   "zero_key_pct": 36,
+   "listings": 1245
+  },
+  {
+   "name": "墨田区",
+   "en": "sumida",
+   "rent_1k": 106429,
+   "zero_key_pct": 48,
+   "listings": 1934
+  },
+  {
+   "name": "豊島区",
+   "en": "toshima",
+   "rent_1k": 109970,
+   "zero_key_pct": 49,
+   "listings": 1246
+  },
+  {
+   "name": "江東区",
+   "en": "koto",
+   "rent_1k": 116722,
+   "zero_key_pct": 59,
+   "listings": 1967
+  },
+  {
+   "name": "品川区",
+   "en": "shinagawa",
+   "rent_1k": 118878,
+   "zero_key_pct": 46,
+   "listings": 1652
+  },
+  {
+   "name": "台東区",
+   "en": "taito",
+   "rent_1k": 121313,
+   "zero_key_pct": 59,
+   "listings": 1637
+  },
+  {
+   "name": "新宿区",
+   "en": "shinjuku",
+   "rent_1k": 128092,
+   "zero_key_pct": 41,
+   "listings": 1706
+  },
+  {
+   "name": "渋谷区",
+   "en": "shibuya",
+   "rent_1k": 128370,
+   "zero_key_pct": 34,
+   "listings": 1192
+  },
+  {
+   "name": "文京区",
+   "en": "bunkyo",
+   "rent_1k": 130369,
+   "zero_key_pct": 66,
+   "listings": 1781
+  },
+  {
+   "name": "中央区",
+   "en": "chuo",
+   "rent_1k": 134965,
+   "zero_key_pct": 38,
+   "listings": 1668
+  },
+  {
+   "name": "目黒区",
+   "en": "meguro",
+   "rent_1k": 135408,
+   "zero_key_pct": 41,
+   "listings": 1270
+  },
+  {
+   "name": "千代田区",
+   "en": "chiyoda",
+   "rent_1k": 141405,
+   "zero_key_pct": 44,
+   "listings": 1396
+  },
+  {
+   "name": "港区",
+   "en": "minato",
+   "rent_1k": 143440,
+   "zero_key_pct": 29,
+   "listings": 1508
+  }
+ ]
+}

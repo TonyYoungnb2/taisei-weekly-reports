@@ -20,6 +20,7 @@ EXTRACT = os.path.join(BASE, '_estat_extract.json')   # 抽出済 (code,name,pre
 OLD_RENT = os.path.join(BASE, 'data', 'rent', '_ward_source_2026-07.json')  # 稳定23区源(来自 git 历史, 不再被输出覆盖)
 GEO_CACHE = os.path.join(BASE, '_rent_geo_cache.json')
 OUT = os.path.join(BASE, 'data', 'rent', '2026-07.json')
+HIST_DIR = os.path.join(BASE, 'data', 'rent', 'history')
 
 PREF_NAME = {11: '埼玉県', 12: '千葉県', 13: '東京都', 14: '神奈川県'}
 PREF_CN = {11: '埼玉县', 12: '千叶县', 13: '东京都', 14: '神奈川县'}
@@ -115,6 +116,31 @@ def load_estat():
     return out
 
 
+def load_trends():
+    """读取 data/rent/history/<YYYY-MM>.json 月次快照, 汇成 区名 -> [{m, v}] 升序序列。
+    真实逐区趋势(Option A), 不足2点则返回空。"""
+    td = {}
+    if not os.path.isdir(HIST_DIR):
+        return td
+    for fn in sorted(os.listdir(HIST_DIR)):
+        if not fn.endswith('.json'):
+            continue
+        month = fn[:-5]
+        try:
+            snap = json.load(io.open(os.path.join(HIST_DIR, fn), encoding='utf-8'))
+        except Exception:
+            continue
+        for w in snap.get('wards', []):
+            nm = w.get('name')
+            v = w.get('rent_1k')
+            if not nm or not v:
+                continue
+            td.setdefault(nm, []).append({'m': month, 'v': v})
+    for nm in list(td.keys()):
+        td[nm].sort(key=lambda p: p['m'])
+    return td
+
+
 def main():
     # 1) e-stat extract (or reuse)
     if os.path.isfile(EXTRACT):
@@ -143,6 +169,7 @@ def main():
     io.open(GEO_CACHE, 'w', encoding='utf-8').write(json.dumps(cache, ensure_ascii=False))
 
     # 3) merge 23-ward housingassist (old data) by matching name
+    trend_by_ward = load_trends()
     old = {}
     old_meta = {}
     if os.path.isfile(OLD_RENT):
@@ -160,9 +187,10 @@ def main():
             m['rent_1k'] = w.get('rent_1k')
             m['mom_pct'] = w.get('mom_pct', 0)
             m['yoy_pct'] = w.get('yoy_pct', 0)
-            m['trend'] = w.get('trend', [])
+            m['trend'] = trend_by_ward.get(m['name'], w.get('trend', []))
         else:
             m['is_ward'] = False
+            m['trend'] = trend_by_ward.get(m['name'], [])
 
     # 4) proj counts by name
     try:

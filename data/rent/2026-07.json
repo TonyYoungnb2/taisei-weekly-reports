@@ -79,6 +79,7 @@
    "lat": 35.857033,
    "lng": 139.649017,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 105
@@ -91,6 +92,7 @@
    "lat": 35.861683,
    "lng": 139.645676,
    "is_ward": false,
+   "trend": [],
    "proj_count": 11,
    "tier": 4,
    "rank": 73
@@ -103,6 +105,7 @@
    "lat": 35.925198,
    "lng": 139.579727,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 89
@@ -115,6 +118,7 @@
    "lat": 35.930927,
    "lng": 139.620193,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 70
@@ -127,6 +131,7 @@
    "lat": 35.901855,
    "lng": 139.6306,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 40
@@ -139,6 +144,7 @@
    "lat": 35.935276,
    "lng": 139.654449,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 123
@@ -151,6 +157,7 @@
    "lat": 35.88398,
    "lng": 139.62616,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 56
@@ -163,6 +170,7 @@
    "lat": 35.856171,
    "lng": 139.610321,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 131
@@ -175,6 +183,7 @@
    "lat": 35.862011,
    "lng": 139.645584,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 52
@@ -187,6 +196,7 @@
    "lat": 35.845264,
    "lng": 139.645432,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 5,
    "rank": 37
@@ -199,6 +209,7 @@
    "lat": 35.871113,
    "lng": 139.684143,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 54
@@ -211,6 +222,7 @@
    "lat": 35.949722,
    "lng": 139.694168,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 149
@@ -223,6 +235,7 @@
    "lat": 35.925098,
    "lng": 139.485825,
    "is_ward": false,
+   "trend": [],
    "proj_count": 2,
    "tier": 3,
    "rank": 109
@@ -235,6 +248,7 @@
    "lat": 36.147221,
    "lng": 139.388611,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 166
@@ -247,6 +261,7 @@
    "lat": 35.806717,
    "lng": 139.723404,
    "is_ward": false,
+   "trend": [],
    "proj_count": 3,
    "tier": 4,
    "rank": 57
@@ -259,6 +274,7 @@
    "lat": 36.138889,
    "lng": 139.455841,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 180
@@ -271,6 +287,7 @@
    "lat": 35.991596,
    "lng": 139.085251,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 185
@@ -283,6 +300,7 @@
    "lat": 35.799648,
    "lng": 139.468704,
    "is_ward": false,
+   "trend": [],
    "proj_count": 2,
    "tier": 3,
    "rank": 97
@@ -295,6 +313,7 @@
    "lat": 35.855656,
    "lng": 139.327621,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 127
@@ -307,6 +326,7 @@
    "lat": 36.13139,
    "lng": 139.601944,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 174
@@ -319,6 +339,7 @@
    "lat": 36.24374,
    "lng": 139.19046,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 183
@@ -331,6 +352,7 @@
    "lat": 36.042221,
    "lng": 139.400009,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 170
@@ -343,6 +365,7 @@
    "lat": 35.974045,
    "lng": 139.754761,
    "is_ward": false,
+   "trend": [],
    "proj_count": 1,
    "tier": 2,
    "rank": 141
@@ -355,6 +378,7 @@
    "lat": 35.853054,
    "lng": 139.412231,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 173
@@ -367,6 +391,7 @@
    "lat": 36.172634,
    "lng": 139.548477,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 178
@@ -379,6 +404,7 @@
    "lat": 36.065834,
    "lng": 139.522232,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 154
@@ -391,6 +417,7 @@
    "lat": 36.197018,
    "lng": 139.281708,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 158
@@ -403,6 +430,7 @@
    "lat": 35.977417,
    "lng": 139.593185,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 147
@@ -415,6 +443,7 @@
    "lat": 35.825394,
    "lng": 139.805374,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 80
@@ -427,6 +456,7 @@
    "lat": 35.890644,
    "lng": 139.791031,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 104
@@ -439,6 +469,7 @@
    "lat": 35.825581,
    "lng": 139.679581,
    "is_ward": false,
+   "trend": [],
    "proj_count": 2,
    "tier": 3,
    "rank": 83
@@ -451,6 +482,7 @@
    "lat": 35.817623,
    "lng": 139.677979,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 5,
    "rank": 38
@@ -463,6 +495,7 @@
    "lat": 35.835835,
    "lng": 139.391113,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 151
@@ -475,6 +508,7 @@
    "lat": 35.797188,
    "lng": 139.593735,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 42
@@ -487,6 +521,7 @@
    "lat": 35.83659,
    "lng": 139.580246,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 71
@@ -499,6 +534,7 @@
    "lat": 35.781387,
    "lng": 139.605835,
    "is_ward": false,
+   "trend": [],
    "proj_count": 1,
    "tier": 4,
    "rank": 53
@@ -511,6 +547,7 @@
    "lat": 35.793159,
    "lng": 139.565628,
    "is_ward": false,
+   "trend": [],
    "proj_count": 1,
    "tier": 3,
    "rank": 92
@@ -523,6 +560,7 @@
    "lat": 36.002766,
    "lng": 139.55838,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 138
@@ -535,6 +573,7 @@
    "lat": 36.062222,
    "lng": 139.666946,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 157
@@ -547,6 +586,7 @@
    "lat": 36.026661,
    "lng": 139.529984,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 152
@@ -559,6 +599,7 @@
    "lat": 35.822308,
    "lng": 139.839661,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 72
@@ -571,6 +612,7 @@
    "lat": 35.856667,
    "lng": 139.549164,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 102
@@ -583,6 +625,7 @@
    "lat": 35.830151,
    "lng": 139.872284,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 117
@@ -595,6 +638,7 @@
    "lat": 35.99435,
    "lng": 139.66214,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 125
@@ -607,6 +651,7 @@
    "lat": 35.957222,
    "lng": 139.403061,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 172
@@ -619,6 +664,7 @@
    "lat": 36.078056,
    "lng": 139.725845,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 181
@@ -631,6 +677,7 @@
    "lat": 35.934444,
    "lng": 139.393066,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 129
@@ -643,6 +690,7 @@
    "lat": 35.90778,
    "lng": 139.339172,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 189
@@ -655,6 +703,7 @@
    "lat": 35.89595,
    "lng": 139.855652,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 130
@@ -667,6 +716,7 @@
    "lat": 35.879272,
    "lng": 139.519516,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 99
@@ -679,6 +729,7 @@
    "lat": 36.019089,
    "lng": 139.67691,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 81
@@ -691,6 +742,7 @@
    "lat": 35.607037,
    "lng": 140.106064,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 113
@@ -703,6 +755,7 @@
    "lat": 35.607037,
    "lng": 140.106064,
    "is_ward": false,
+   "trend": [],
    "proj_count": 10,
    "tier": 2,
    "rank": 132
@@ -715,6 +768,7 @@
    "lat": 35.607414,
    "lng": 140.122833,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 108
@@ -727,6 +781,7 @@
    "lat": 35.662834,
    "lng": 140.069046,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 115
@@ -739,6 +794,7 @@
    "lat": 35.63625,
    "lng": 140.107224,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 163
@@ -751,6 +807,7 @@
    "lat": 35.634022,
    "lng": 140.155655,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 146
@@ -763,6 +820,7 @@
    "lat": 35.560493,
    "lng": 140.176239,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 116
@@ -775,6 +833,7 @@
    "lat": 35.640453,
    "lng": 140.06311,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 137
@@ -787,6 +846,7 @@
    "lat": 35.734699,
    "lng": 140.826569,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 193
@@ -799,6 +859,7 @@
    "lat": 35.721855,
    "lng": 139.931061,
    "is_ward": false,
+   "trend": [],
    "proj_count": 2,
    "tier": 4,
    "rank": 46
@@ -811,6 +872,7 @@
    "lat": 35.694721,
    "lng": 139.982498,
    "is_ward": false,
+   "trend": [],
    "proj_count": 2,
    "tier": 4,
    "rank": 74
@@ -823,6 +885,7 @@
    "lat": 34.996468,
    "lng": 139.870041,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 177
@@ -835,6 +898,7 @@
    "lat": 35.381248,
    "lng": 139.924896,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 156
@@ -847,6 +911,7 @@
    "lat": 35.787666,
    "lng": 139.903198,
    "is_ward": false,
+   "trend": [],
    "proj_count": 1,
    "tier": 3,
    "rank": 111
@@ -859,6 +924,7 @@
    "lat": 35.955051,
    "lng": 139.874878,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 176
@@ -871,6 +937,7 @@
    "lat": 35.428528,
    "lng": 140.287796,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 169
@@ -883,6 +950,7 @@
    "lat": 35.776665,
    "lng": 140.318344,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 168
@@ -895,6 +963,7 @@
    "lat": 35.723492,
    "lng": 140.223969,
    "is_ward": false,
+   "trend": [],
    "proj_count": 1,
    "tier": 2,
    "rank": 143
@@ -907,6 +976,7 @@
    "lat": 35.559998,
    "lng": 140.366119,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 184
@@ -919,6 +989,7 @@
    "lat": 35.716034,
    "lng": 140.648178,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 175
@@ -931,6 +1002,7 @@
    "lat": 35.68166,
    "lng": 140.027267,
    "is_ward": false,
+   "trend": [],
    "proj_count": 1,
    "tier": 3,
    "rank": 107
@@ -943,6 +1015,7 @@
    "lat": 35.867508,
    "lng": 139.975937,
    "is_ward": false,
+   "trend": [],
    "proj_count": 2,
    "tier": 3,
    "rank": 93
@@ -955,6 +1028,7 @@
    "lat": 35.152233,
    "lng": 140.320923,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 194
@@ -967,6 +1041,7 @@
    "lat": 35.498055,
    "lng": 140.115555,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 164
@@ -979,6 +1054,7 @@
    "lat": 35.856285,
    "lng": 139.90274,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 60
@@ -991,6 +1067,7 @@
    "lat": 35.7225,
    "lng": 140.099731,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 134
@@ -1003,6 +1080,7 @@
    "lat": 35.864166,
    "lng": 140.028336,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 144
@@ -1015,6 +1093,7 @@
    "lat": 35.114075,
    "lng": 140.098953,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 192
@@ -1027,6 +1106,7 @@
    "lat": 35.776943,
    "lng": 140.000839,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 114
@@ -1039,6 +1119,7 @@
    "lat": 35.330555,
    "lng": 139.902496,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 191
@@ -1051,6 +1132,7 @@
    "lat": 35.304169,
    "lng": 139.857117,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 188
@@ -1063,6 +1145,7 @@
    "lat": 35.65316,
    "lng": 139.901978,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 43
@@ -1075,6 +1158,7 @@
    "lat": 35.670216,
    "lng": 140.168228,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 136
@@ -1087,6 +1171,7 @@
    "lat": 35.429874,
    "lng": 139.954453,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 150
@@ -1099,6 +1184,7 @@
    "lat": 35.665878,
    "lng": 140.318008,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 179
@@ -1111,6 +1197,7 @@
    "lat": 35.832336,
    "lng": 140.145798,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 75
@@ -1123,6 +1210,7 @@
    "lat": 35.791279,
    "lng": 140.056046,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 84
@@ -1135,6 +1223,7 @@
    "lat": 35.72681,
    "lng": 140.343109,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 148
@@ -1147,6 +1236,7 @@
    "lat": 35.043152,
    "lng": 139.839981,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 187
@@ -1159,6 +1249,7 @@
    "lat": 35.707909,
    "lng": 140.564224,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 190
@@ -1171,6 +1262,7 @@
    "lat": 35.897739,
    "lng": 140.499298,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 171
@@ -1183,6 +1275,7 @@
    "lat": 35.602943,
    "lng": 140.413544,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 182
@@ -1195,6 +1288,7 @@
    "lat": 35.253887,
    "lng": 140.385284,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 186
@@ -1207,6 +1301,7 @@
    "lat": 35.52169,
    "lng": 140.320953,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 140
@@ -1219,6 +1314,7 @@
    "lat": 35.758015,
    "lng": 139.529892,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 5,
    "rank": 29
@@ -1245,7 +1341,16 @@
    "rent_1k": 141405,
    "mom_pct": 1.5,
    "yoy_pct": 5.5,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 141405
+    },
+    {
+     "m": "2026-08",
+     "v": 141405
+    }
+   ],
    "proj_count": 5,
    "tier": 5,
    "rank": 3
@@ -1261,7 +1366,16 @@
    "rent_1k": 134965,
    "mom_pct": 1.3,
    "yoy_pct": 5.3,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 134965
+    },
+    {
+     "m": "2026-08",
+     "v": 134965
+    }
+   ],
    "proj_count": 5,
    "tier": 5,
    "rank": 2
@@ -1277,7 +1391,16 @@
    "rent_1k": 143440,
    "mom_pct": 1.5,
    "yoy_pct": 5.6,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 143440
+    },
+    {
+     "m": "2026-08",
+     "v": 143440
+    }
+   ],
    "proj_count": 2,
    "tier": 5,
    "rank": 1
@@ -1293,7 +1416,16 @@
    "rent_1k": 128092,
    "mom_pct": 1.3,
    "yoy_pct": 5.2,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 128092
+    },
+    {
+     "m": "2026-08",
+     "v": 128092
+    }
+   ],
    "proj_count": 2,
    "tier": 5,
    "rank": 9
@@ -1309,7 +1441,16 @@
    "rent_1k": 130369,
    "mom_pct": 1.2,
    "yoy_pct": 5.0,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 130369
+    },
+    {
+     "m": "2026-08",
+     "v": 130369
+    }
+   ],
    "proj_count": 0,
    "tier": 5,
    "rank": 8
@@ -1325,7 +1466,16 @@
    "rent_1k": 121313,
    "mom_pct": 1.1,
    "yoy_pct": 4.9,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 121313
+    },
+    {
+     "m": "2026-08",
+     "v": 121313
+    }
+   ],
    "proj_count": 1,
    "tier": 5,
    "rank": 7
@@ -1341,7 +1491,16 @@
    "rent_1k": 106429,
    "mom_pct": 1.1,
    "yoy_pct": 4.8,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 106429
+    },
+    {
+     "m": "2026-08",
+     "v": 106429
+    }
+   ],
    "proj_count": 1,
    "tier": 5,
    "rank": 12
@@ -1357,7 +1516,16 @@
    "rent_1k": 116722,
    "mom_pct": 1.2,
    "yoy_pct": 5.1,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 116722
+    },
+    {
+     "m": "2026-08",
+     "v": 116722
+    }
+   ],
    "proj_count": 0,
    "tier": 5,
    "rank": 13
@@ -1373,7 +1541,16 @@
    "rent_1k": 118878,
    "mom_pct": 1.2,
    "yoy_pct": 5.0,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 118878
+    },
+    {
+     "m": "2026-08",
+     "v": 118878
+    }
+   ],
    "proj_count": 0,
    "tier": 5,
    "rank": 10
@@ -1389,7 +1566,16 @@
    "rent_1k": 135408,
    "mom_pct": 1.2,
    "yoy_pct": 5.1,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 135408
+    },
+    {
+     "m": "2026-08",
+     "v": 135408
+    }
+   ],
    "proj_count": 0,
    "tier": 5,
    "rank": 5
@@ -1405,7 +1591,16 @@
    "rent_1k": 97211,
    "mom_pct": 0.9,
    "yoy_pct": 4.5,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 97211
+    },
+    {
+     "m": "2026-08",
+     "v": 97211
+    }
+   ],
    "proj_count": 1,
    "tier": 5,
    "rank": 20
@@ -1421,7 +1616,16 @@
    "rent_1k": 92646,
    "mom_pct": 0.9,
    "yoy_pct": 4.4,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 92646
+    },
+    {
+     "m": "2026-08",
+     "v": 92646
+    }
+   ],
    "proj_count": 0,
    "tier": 5,
    "rank": 11
@@ -1437,7 +1641,16 @@
    "rent_1k": 128370,
    "mom_pct": 1.4,
    "yoy_pct": 5.4,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 128370
+    },
+    {
+     "m": "2026-08",
+     "v": 128370
+    }
+   ],
    "proj_count": 2,
    "tier": 5,
    "rank": 4
@@ -1453,7 +1666,16 @@
    "rent_1k": 101244,
    "mom_pct": 1.1,
    "yoy_pct": 4.7,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 101244
+    },
+    {
+     "m": "2026-08",
+     "v": 101244
+    }
+   ],
    "proj_count": 0,
    "tier": 5,
    "rank": 24
@@ -1469,7 +1691,16 @@
    "rent_1k": 89134,
    "mom_pct": 1.0,
    "yoy_pct": 4.5,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 89134
+    },
+    {
+     "m": "2026-08",
+     "v": 89134
+    }
+   ],
    "proj_count": 0,
    "tier": 5,
    "rank": 28
@@ -1485,7 +1716,16 @@
    "rent_1k": 109970,
    "mom_pct": 1.0,
    "yoy_pct": 4.6,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 109970
+    },
+    {
+     "m": "2026-08",
+     "v": 109970
+    }
+   ],
    "proj_count": 0,
    "tier": 5,
    "rank": 19
@@ -1501,7 +1741,16 @@
    "rent_1k": 98795,
    "mom_pct": 0.8,
    "yoy_pct": 4.3,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 98795
+    },
+    {
+     "m": "2026-08",
+     "v": 98795
+    }
+   ],
    "proj_count": 0,
    "tier": 5,
    "rank": 30
@@ -1517,7 +1766,16 @@
    "rent_1k": 96275,
    "mom_pct": 1.0,
    "yoy_pct": 4.6,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 96275
+    },
+    {
+     "m": "2026-08",
+     "v": 96275
+    }
+   ],
    "proj_count": 1,
    "tier": 5,
    "rank": 18
@@ -1533,7 +1791,16 @@
    "rent_1k": 94284,
    "mom_pct": 0.8,
    "yoy_pct": 4.2,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 94284
+    },
+    {
+     "m": "2026-08",
+     "v": 94284
+    }
+   ],
    "proj_count": 0,
    "tier": 4,
    "rank": 44
@@ -1549,7 +1816,16 @@
    "rent_1k": 86363,
    "mom_pct": 0.9,
    "yoy_pct": 4.3,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 86363
+    },
+    {
+     "m": "2026-08",
+     "v": 86363
+    }
+   ],
    "proj_count": 0,
    "tier": 5,
    "rank": 26
@@ -1565,7 +1841,16 @@
    "rent_1k": 75999,
    "mom_pct": 0.8,
    "yoy_pct": 4.1,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 75999
+    },
+    {
+     "m": "2026-08",
+     "v": 75999
+    }
+   ],
    "proj_count": 0,
    "tier": 3,
    "rank": 79
@@ -1581,7 +1866,16 @@
    "rent_1k": 77251,
    "mom_pct": 0.6,
    "yoy_pct": 3.9,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 77251
+    },
+    {
+     "m": "2026-08",
+     "v": 77251
+    }
+   ],
    "proj_count": 0,
    "tier": 4,
    "rank": 65
@@ -1597,7 +1891,16 @@
    "rent_1k": 77822,
    "mom_pct": 0.7,
    "yoy_pct": 4.0,
-   "trend": [],
+   "trend": [
+    {
+     "m": "2026-07",
+     "v": 77822
+    },
+    {
+     "m": "2026-08",
+     "v": 77822
+    }
+   ],
    "proj_count": 0,
    "tier": 5,
    "rank": 36
@@ -1610,6 +1913,7 @@
    "lat": 35.666668,
    "lng": 139.315842,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 124
@@ -1622,6 +1926,7 @@
    "lat": 35.71389,
    "lng": 139.407776,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 82
@@ -1634,6 +1939,7 @@
    "lat": 35.717777,
    "lng": 139.566116,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 5,
    "rank": 22
@@ -1646,6 +1952,7 @@
    "lat": 35.683315,
    "lng": 139.55983,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 39
@@ -1658,6 +1965,7 @@
    "lat": 35.787956,
    "lng": 139.275848,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 160
@@ -1670,6 +1978,7 @@
    "lat": 35.669403,
    "lng": 139.477585,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 66
@@ -1682,6 +1991,7 @@
    "lat": 35.705673,
    "lng": 139.353607,
    "is_ward": false,
+   "trend": [],
    "proj_count": 1,
    "tier": 2,
    "rank": 128
@@ -1694,6 +2004,7 @@
    "lat": 35.650555,
    "lng": 139.540833,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 5,
    "rank": 34
@@ -1706,6 +2017,7 @@
    "lat": 35.546604,
    "lng": 139.438644,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 133
@@ -1718,6 +2030,7 @@
    "lat": 35.699444,
    "lng": 139.503052,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 78
@@ -1730,6 +2043,7 @@
    "lat": 35.728474,
    "lng": 139.477509,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 103
@@ -1742,6 +2056,7 @@
    "lat": 35.671391,
    "lng": 139.395004,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 87
@@ -1754,6 +2069,7 @@
    "lat": 35.75465,
    "lng": 139.468582,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 112
@@ -1766,6 +2082,7 @@
    "lat": 35.696728,
    "lng": 139.469788,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 47
@@ -1778,6 +2095,7 @@
    "lat": 35.683968,
    "lng": 139.441391,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 95
@@ -1790,6 +2108,7 @@
    "lat": 35.738461,
    "lng": 139.32695,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 161
@@ -1802,6 +2121,7 @@
    "lat": 35.63483,
    "lng": 139.578705,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 76
@@ -1814,6 +2134,7 @@
    "lat": 35.745396,
    "lng": 139.426865,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 155
@@ -1826,6 +2147,7 @@
    "lat": 35.785275,
    "lng": 139.526855,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 165
@@ -1838,6 +2160,7 @@
    "lat": 35.758015,
    "lng": 139.529892,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 101
@@ -1850,6 +2173,7 @@
    "lat": 35.754864,
    "lng": 139.387436,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 153
@@ -1862,6 +2186,7 @@
    "lat": 35.636944,
    "lng": 139.446396,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 121
@@ -1874,6 +2199,7 @@
    "lat": 35.637939,
    "lng": 139.504578,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 58
@@ -1886,6 +2212,7 @@
    "lat": 35.767223,
    "lng": 139.311111,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 135
@@ -1898,6 +2225,7 @@
    "lat": 35.728889,
    "lng": 139.294174,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 110
@@ -1910,6 +2238,7 @@
    "lat": 35.725704,
    "lng": 139.538483,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 55
@@ -1922,6 +2251,7 @@
    "lat": 35.447735,
    "lng": 139.642532,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 59
@@ -1934,6 +2264,7 @@
    "lat": 35.450336,
    "lng": 139.634216,
    "is_ward": false,
+   "trend": [],
    "proj_count": 28,
    "tier": 4,
    "rank": 45
@@ -1946,6 +2277,7 @@
    "lat": 35.508492,
    "lng": 139.682388,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 48
@@ -1958,6 +2290,7 @@
    "lat": 35.476944,
    "lng": 139.62944,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 61
@@ -1970,6 +2303,7 @@
    "lat": 35.453609,
    "lng": 139.616943,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 5,
    "rank": 33
@@ -1982,6 +2316,7 @@
    "lat": 35.444721,
    "lng": 139.642227,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 5,
    "rank": 17
@@ -1994,6 +2329,7 @@
    "lat": 35.434429,
    "lng": 139.627533,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 94
@@ -2006,6 +2342,7 @@
    "lat": 35.4599,
    "lng": 139.595978,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 100
@@ -2018,6 +2355,7 @@
    "lat": 35.402424,
    "lng": 139.618484,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 86
@@ -2030,6 +2368,7 @@
    "lat": 35.338116,
    "lng": 139.624496,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 88
@@ -2042,6 +2381,7 @@
    "lat": 35.518982,
    "lng": 139.633011,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 5,
    "rank": 21
@@ -2054,6 +2394,7 @@
    "lat": 35.400017,
    "lng": 139.533493,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 68
@@ -2066,6 +2407,7 @@
    "lat": 35.400887,
    "lng": 139.59256,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 62
@@ -2078,6 +2420,7 @@
    "lat": 35.474724,
    "lng": 139.544724,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 91
@@ -2090,6 +2433,7 @@
    "lat": 35.512321,
    "lng": 139.537964,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 64
@@ -2102,6 +2446,7 @@
    "lat": 35.46603,
    "lng": 139.498779,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 122
@@ -2114,6 +2459,7 @@
    "lat": 35.364384,
    "lng": 139.554092,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 69
@@ -2126,6 +2472,7 @@
    "lat": 35.417847,
    "lng": 139.488785,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 50
@@ -2138,6 +2485,7 @@
    "lat": 35.552822,
    "lng": 139.536987,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 5,
    "rank": 16
@@ -2150,6 +2498,7 @@
    "lat": 35.544842,
    "lng": 139.57077,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 5,
    "rank": 6
@@ -2162,6 +2511,7 @@
    "lat": 35.530865,
    "lng": 139.703033,
    "is_ward": false,
+   "trend": [],
    "proj_count": 17,
    "tier": 5,
    "rank": 32
@@ -2174,6 +2524,7 @@
    "lat": 35.529667,
    "lng": 139.703842,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 51
@@ -2186,6 +2537,7 @@
    "lat": 35.544453,
    "lng": 139.686966,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 5,
    "rank": 35
@@ -2198,6 +2550,7 @@
    "lat": 35.576294,
    "lng": 139.655777,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 5,
    "rank": 14
@@ -2210,6 +2563,7 @@
    "lat": 35.599445,
    "lng": 139.608063,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 5,
    "rank": 23
@@ -2222,6 +2576,7 @@
    "lat": 35.619564,
    "lng": 139.562073,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 49
@@ -2234,6 +2589,7 @@
    "lat": 35.589169,
    "lng": 139.578613,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 5,
    "rank": 31
@@ -2246,6 +2602,7 @@
    "lat": 35.60379,
    "lng": 139.50589,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 41
@@ -2258,6 +2615,7 @@
    "lat": 35.571388,
    "lng": 139.373337,
    "is_ward": false,
+   "trend": [],
    "proj_count": 2,
    "tier": 3,
    "rank": 106
@@ -2270,6 +2628,7 @@
    "lat": 35.595558,
    "lng": 139.337708,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 96
@@ -2282,6 +2641,7 @@
    "lat": 35.571388,
    "lng": 139.373337,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 139
@@ -2294,6 +2654,7 @@
    "lat": 35.530323,
    "lng": 139.430466,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 85
@@ -2306,6 +2667,7 @@
    "lat": 35.281467,
    "lng": 139.672226,
    "is_ward": false,
+   "trend": [],
    "proj_count": 3,
    "tier": 2,
    "rank": 145
@@ -2318,6 +2680,7 @@
    "lat": 35.335224,
    "lng": 139.349579,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 120
@@ -2330,6 +2693,7 @@
    "lat": 35.319225,
    "lng": 139.546936,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 5,
    "rank": 27
@@ -2342,6 +2706,7 @@
    "lat": 35.338879,
    "lng": 139.491241,
    "is_ward": false,
+   "trend": [],
    "proj_count": 1,
    "tier": 4,
    "rank": 67
@@ -2354,6 +2719,7 @@
    "lat": 35.264725,
    "lng": 139.152222,
    "is_ward": false,
+   "trend": [],
    "proj_count": 1,
    "tier": 2,
    "rank": 119
@@ -2366,6 +2732,7 @@
    "lat": 35.333874,
    "lng": 139.403687,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 4,
    "rank": 77
@@ -2378,6 +2745,7 @@
    "lat": 35.295574,
    "lng": 139.580429,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 5,
    "rank": 25
@@ -2390,6 +2758,7 @@
    "lat": 35.144176,
    "lng": 139.620773,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 159
@@ -2402,6 +2771,7 @@
    "lat": 35.374737,
    "lng": 139.220047,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 162
@@ -2414,6 +2784,7 @@
    "lat": 35.443054,
    "lng": 139.362503,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 142
@@ -2426,6 +2797,7 @@
    "lat": 35.487499,
    "lng": 139.458054,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 90
@@ -2438,6 +2810,7 @@
    "lat": 35.40295,
    "lng": 139.314987,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 118
@@ -2450,6 +2823,7 @@
    "lat": 35.446388,
    "lng": 139.390839,
    "is_ward": false,
+   "trend": [],
    "proj_count": 1,
    "tier": 4,
    "rank": 63
@@ -2462,6 +2836,7 @@
    "lat": 35.488628,
    "lng": 139.4077,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 2,
    "rank": 126
@@ -2474,6 +2849,7 @@
    "lat": 35.320557,
    "lng": 139.100006,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 1,
    "rank": 167
@@ -2486,6 +2862,7 @@
    "lat": 35.437153,
    "lng": 139.426376,
    "is_ward": false,
+   "trend": [],
    "proj_count": 0,
    "tier": 3,
    "rank": 98
