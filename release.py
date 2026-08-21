@@ -48,6 +48,13 @@ def generate():
         f.write(index_html)
     print('      已生成: reports/%s/report.html  (index.html 已更新)' % date_folder)
     # 租金地图（方案B 独立页）随每次发布重生成
+    # 賃貸相場データ（e-Stat 抽出 + GSI ジオコード）を毎回再生成
+    try:
+        import build_rent_data as brd
+        brd.main()
+        print('      [OK] 賃貸データ再生成: data/rent/*.json')
+    except Exception as e:
+        print('      [WARN] rent data 生成スキップ: %s' % e)
     try:
         import build_rentmap as brm
         brm.main()

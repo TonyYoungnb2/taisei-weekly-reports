@@ -1290,7 +1290,7 @@ var I18N = {
     platform_proj: '项目库 · Project List',
     platform_proj_desc: '在开发/规划中的不动产项目一览，可按企业·地区筛选，附相关新闻时间轴与地图视图。',
     platform_rent: '租金地图 · 賃貸相場',
-    platform_rent_desc: '东京23区租金一图看懂：各区1K中位月额、表面利回、近6月趋势，可跳转到该区收益物件。',
+    platform_rent_desc: '一都三县194市区町村租金一图看懂：以e-Stat月额租金(中位数)统一比较，可跳转到该市区收益物件。',
   },
   jp: {
     hero_title: '大誠有限会社 · 日本不動産週報',
@@ -1306,7 +1306,7 @@ var I18N = {
     platform_proj: 'プロジェクト一覧 · Project List',
     platform_proj_desc: '開発・計画中の不動産プロジェクトを網羅。企業・地区で絞り込み、関連ニュースのタイムラインと地図ビューも。',
     platform_rent: '賃貸相場マップ · 23区',
-    platform_rent_desc: '東京23区の家賃を一目で：各区の1K中央家賃・表面利回り・直近6ヶ月の推移、該当区の収益物件へジャンプ。',
+    platform_rent_desc: '一都三県194市区町村の賃貸相場を1枚で：e-Stat月額賃料(中央値)で比較、市区の収益物件へジャンプ可。',
   }
 };
 function i18nText(key, arg){

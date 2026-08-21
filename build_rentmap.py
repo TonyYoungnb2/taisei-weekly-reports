@@ -1,16 +1,17 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
-"""
-build_rentmap.py — 生成「東京23区 賃貸相場マップ」（方案B 独立页 rentmap.html）。
+u"""
+build_rentmap.py — 生成「一都三県 賃貸相場マップ」（方案B 独立页 rentmap.html）。
 纯静态：data/rent/YYYY-MM.json 内联进 HTML，本地 vendor Leaflet + GSI 国土地理院瓦片。
 零后端、零 CDN 外链、国内/微信可开。品牌蓝 #0b3d91。
 
-数据来源（诚实标注）：
-- 各区 1K 中位月額：housingassist Tokyo Rent Index（SUUMO/Homes/at Home 掲載事例 19,000+ 件, 2026-06-26 公表）
-- 東京23区 分譲マンション募集賃料（¥/㎡ 平均）：東京カンテイ 月次
-- 表面利回り：23区平均中古㎡単価(約108万円)を目安に概算
-- 前月比/前年比：23区全体の市場趨勢(東京カンテイ/SAVILLS) を目安に各区へ按分 → 推定値
-- 該区収益物件件数：data/projects.json の city フィールドから動的集計
+データソース（誠実な明示）:
+- メイン指標「月額賃料 中央値（全規模）」: 総務省 e-Stat 2023 住宅・土地統計調査 (Rent116)
+  → 市区町村まで同一手法で比較可能な、全国統一の公的統計。
+- 23区限定サブ指標「1K 中位月額 + 推移」: housingassist Tokyo Rent Index（掲載事例 19,000+ 件）
+  既存 rentmap との連続性のため、23区カードにのみ副表示。
+- 該市区 収益物件件数: data/projects.json の city フィールドから動的集計。
+- 緯度経度: 国土地理院 住所検索 API (GSI, 無料・key不要) で事前取得。
 
 用法: python build_rentmap.py  -> 写入 rentmap.html
 """
@@ -23,42 +24,32 @@ PROJ = os.path.join(BASE, 'data', 'projects.json')
 OUT = os.path.join(BASE, 'rentmap.html')
 
 BRAND = '#0b3d91'
-# 表面利回り概算用：23区平均 中古㎡単価（目安・概算）
-AVG_RESIDUAL_SQMPRICE = 1080000
+AVG_RESIDUAL_SQMPRICE = 1080000   # 表面利回り概算用（23区平均中古㎡単価・目安）
 SQMPER_TSUBO = 3.30578
 TYPICAL_SIZE = 25
 
-# 家賃帯（雨量警戒色風・5段階）— 色が主信号、円の大きさは補助
-# 境界: 9.0 / 10.5 / 12.0 / 13.5 万円（1K 中位月額）
+# 家賃帯（雨量警戒色風・5段階）— 色が主信号、円の大きさは補助。
+# 境界は build 時にデータの「5分位」で動的決定（市区町村数に依存しない）。
 TIERS = [
-    {'id': 1, 'label_jp': '安値圏',   'label_cn': '低价圈', 'lo': 0,      'hi': 89999,  'color': '#2f6fd6', 'text': '#ffffff', 'rng': '〜¥9.0万'},
-    {'id': 2, 'label_jp': 'やや安',   'label_cn': '偏低',   'lo': 90000,  'hi': 104999, 'color': '#2faa55', 'text': '#ffffff', 'rng': '¥9.0〜10.5万'},
-    {'id': 3, 'label_jp': '中値圏',   'label_cn': '中等',   'lo': 105000, 'hi': 119999, 'color': '#f5c518', 'text': '#1a2233', 'rng': '¥10.5〜12.0万'},
-    {'id': 4, 'label_jp': 'やや高',   'label_cn': '偏高',   'lo': 120000, 'hi': 134999, 'color': '#f08a24', 'text': '#ffffff', 'rng': '¥12.0〜13.5万'},
-    {'id': 5, 'label_jp': '高値圏',   'label_cn': '高价圈', 'lo': 135000, 'hi': 10**12, 'color': '#e23b3b', 'text': '#ffffff', 'rng': '¥13.5万〜'},
+    {'id': 1, 'label_jp': '安値圏', 'label_cn': '低价圈', 'color': '#2f6fd6', 'text': '#ffffff'},
+    {'id': 2, 'label_jp': 'やや安', 'label_cn': '偏低',   'color': '#2faa55', 'text': '#ffffff'},
+    {'id': 3, 'label_jp': '中値圏', 'label_cn': '中等',   'color': '#f5c518', 'text': '#1a2233'},
+    {'id': 4, 'label_jp': 'やや高', 'label_cn': '偏高',   'color': '#f08a24', 'text': '#ffffff'},
+    {'id': 5, 'label_jp': '高値圏', 'label_cn': '高价圈', 'color': '#e23b3b', 'text': '#ffffff'},
 ]
-
+PREF_NAME = {11: '埼玉県', 12: '千葉県', 13: '東京都', 14: '神奈川県'}
+PREF_CN = {11: '埼玉县', 12: '千叶县', 13: '东京都', 14: '神奈川县'}
+PREF_CENTER = {
+    11: [35.86, 139.65], 12: [35.61, 140.10], 13: [35.69, 139.70], 14: [35.45, 139.64],
+}
+PREF_ZOOM = {11: 10, 12: 10, 13: 11, 14: 10}
 
 def latest_rent_file():
     files = sorted(glob.glob(os.path.join(RENT_DIR, '*.json')))
-    # YYYY-MM.json 命名；最新を採用
     cand = [f for f in files if os.path.basename(f)[:7].replace('-', '').isdigit()]
     if not cand:
         return files[-1] if files else None
     return sorted(cand)[-1]
-
-
-def ward_project_counts():
-    try:
-        d = json.load(io.open(PROJ, encoding='utf-8'))
-    except Exception:
-        return {}
-    cnt = {}
-    for p in d.get('projects', []):
-        c = p.get('city') or ''
-        if c:
-            cnt[c] = cnt.get(c, 0) + 1
-    return cnt
 
 
 def build_html():
@@ -67,49 +58,44 @@ def build_html():
         raise SystemExit('[ERR] data/rent/*.json が見つかりません')
     rent = json.load(io.open(rf, encoding='utf-8'))
     meta = rent.get('meta', {})
-    wards = rent.get('wards', [])
-    # ランク付け（月額降順）
-    ranks = sorted(wards, key=lambda w: w['rent_1k'], reverse=True)
-    for i, w in enumerate(ranks):
-        w['rank'] = i + 1
-    wcount = ward_project_counts()
-    for w in wards:
-        w['proj_count'] = wcount.get(w['ward_ja'], 0)
-    # 家賃帯（TIERS）を付与
-    for w in wards:
-        t = next((x for x in TIERS if x['lo'] <= w['rent_1k'] <= x['hi']), TIERS[-1])
-        w['tier'] = t['id']
+    munis = rent.get('municipalities', [])
+    # ランク付け（中央値降順）は build_rent_data 側で済みだが再計算して安全
+    for i, m in enumerate(sorted(munis, key=lambda x: -x['rent_median']), 1):
+        m['rank'] = i
+    # 5分位ティアは build_rent_data 側で付与済
 
-    data_inline = json.dumps({'meta': meta, 'wards': wards, 'tiers': TIERS,
+    data_inline = json.dumps({'meta': meta, 'municipalities': munis, 'tiers': TIERS,
+                              'pref_name': PREF_NAME, 'pref_cn': PREF_CN,
                               'avg_sqm_price': AVG_RESIDUAL_SQMPRICE,
                               'sqm_per_tsubo': SQMPER_TSUBO,
                               'typical_size': TYPICAL_SIZE},
                              ensure_ascii=False)
-
-    rents = [w['rent_1k'] for w in wards]
-    rmin, rmax = min(rents), max(rents)
 
     return '''<!DOCTYPE html>
 <html lang="zh">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-<title>大誠 · 東京23区 賃貸相場マップ</title>
+<title>大誠 · 一都三県 賃貸相場マップ</title>
 <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
 <style>
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
     background: #f4f6fb; color: #1a2233; }
   #top { position: sticky; top: 0; z-index: 1500; background: __BRAND__; color: #fff;
-    padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+    padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; }
   #top h1 { font-size: 16px; margin: 0; font-weight: 600; line-height: 1.3; }
   #top .sub { font-size: 11px; opacity: .82; margin-top: 2px; font-weight: 400; }
-  .view-switch { display: flex; gap: 6px; flex: 0 0 auto; }
+  .view-switch { display: flex; gap: 6px; flex: 0 0 auto; flex-wrap: wrap; }
   .view-switch button { background: rgba(255,255,255,.15); color: #fff; border: 0; border-radius: 8px;
     padding: 6px 12px; font-size: 13px; cursor: pointer; }
   .view-switch button.on { background: #fff; color: __BRAND__; font-weight: 600; }
-  #map { height: calc(100vh - 58px); width: 100%; }
-  /* 图例：雨量警戒色風 5段階 */
+  #pfilt { display: flex; gap: 6px; flex: 1 1 100%; flex-wrap: wrap; margin-top: 4px; }
+  #pfilt button { background: rgba(255,255,255,.15); color: #fff; border: 0; border-radius: 14px;
+    padding: 4px 12px; font-size: 12px; cursor: pointer; }
+  #pfilt button.on { background: #fff; color: __BRAND__; font-weight: 700; }
+  #map { height: calc(100vh - 104px); width: 100%; }
+  /* 図例：雨量警戒色風 5段階 */
   #legend { position: absolute; left: 10px; bottom: 12px; z-index: 1200; background: rgba(255,255,255,.95);
     border: 1px solid #e3e8f2; border-radius: 10px; padding: 11px 13px; font-size: 11px; line-height: 1.7;
     color: #1a2233; box-shadow: 0 2px 10px rgba(0,0,0,.12); max-width: 250px; }
@@ -119,11 +105,9 @@ def build_html():
   #legend .tn { flex: 1 1 auto; font-weight: 600; }
   #legend .tr { color: #5a6a85; font-size: 10.5px; }
   #legend .note { margin-top: 8px; font-size: 10px; color: #8a96ac; line-height: 1.5; }
-  /* 地图气泡 tooltip（区名 + 月額） */
   .proj-label { background: rgba(255,255,255,.95); color: __BRAND__; border: 1px solid #cdd9f3;
     border-radius: 8px; padding: 2px 8px; font-size: 12px; font-weight: 600; box-shadow: 0 1px 4px rgba(11,61,145,.18); }
   .proj-label::before { display: none; }
-  /* 侧栏卡片 */
   #panel { position: fixed; top: 0; right: 0; height: 100vh; width: 380px; max-width: 92vw; background: #fff;
     z-index: 2500; box-shadow: -6px 0 24px rgba(11,61,145,.18); transform: translateX(105%); transition: transform .22s ease;
     overflow-y: auto; padding: 0 0 24px; }
@@ -144,6 +128,8 @@ def build_html():
   .rc-chips .up { background: rgba(11,61,145,.10); color: __BRAND__; }
   .rc-chips .down { background: rgba(13,148,136,.12); color: #0d9488; }
   .rc-chips .band { box-shadow: 0 1px 3px rgba(0,0,0,.15); }
+  .rc-sub { background: #f0f4fb; border-left: 3px solid __BRAND__; border-radius: 6px; padding: 8px 10px; margin: 8px 0; font-size: 11.5px; color: #46546e; }
+  .rc-sub b { color: __BRAND__; }
   .rc-spark { background: #f4f6fb; border-radius: 10px; padding: 12px; margin: 8px 0; }
   .rc-spark .t { font-size: 11px; color: #5a6a85; margin-bottom: 6px; }
   .rc-yield { font-size: 14px; font-weight: 700; color: #1a2233; margin: 12px 0 6px; }
@@ -153,7 +139,6 @@ def build_html():
     display: inline-block; padding: 9px 14px; border: 1px solid #cdd9f3; border-radius: 10px; width: 100%; text-align: center; }
   .rc-link a.none { color: #9aa5b8; pointer-events: none; border-color: #e3e8f2; }
   .rc-src { font-size: 10.5px; color: #8a96ac; line-height: 1.6; border-top: 1px solid #eef1f7; padding-top: 10px; margin-top: 8px; }
-  /* 一覧 */
   #list { display: none; padding: 12px; }
   .lrow { background: #fff; border: 1px solid #e3e8f2; border-radius: 10px; padding: 12px 14px; margin-bottom: 8px;
     display: flex; align-items: center; gap: 12px; cursor: pointer; }
@@ -167,29 +152,33 @@ def build_html():
   @media (max-width: 640px) {
     #legend { max-width: 180px; font-size: 10px; padding: 8px 9px; }
     #top h1 { font-size: 14px; }
+    #map { height: calc(100vh - 132px); }
   }
 </style>
 </head>
 <body>
 <div id="top">
   <div>
-    <h1>大誠 · 東京23区 賃貸相場マップ</h1>
-    <div class="sub">データ: housingassist (掲載事例 19,000+ 件) ／ 東京カンテイ 分譲賃料</div>
+    <h1>大誠 · 一都三県 賃貸相場マップ</h1>
+    <div class="sub">メイン指標: e-Stat 住宅・土地統計調査 2023（月額賃料 中央値・全規模）</div>
   </div>
   <div class="view-switch">
     <button id="btnMap" class="on" onclick="setView('map')">地図</button>
     <button id="btnList" onclick="setView('list')">一覧</button>
   </div>
+  <div id="pfilt">
+    <button data-p="0" class="on" onclick="setPref(0)">全国 (194市区)</button>
+    <button data-p="13" onclick="setPref(13)">東京都</button>
+    <button data-p="14" onclick="setPref(14)">神奈川</button>
+    <button data-p="11" onclick="setPref(11)">埼玉</button>
+    <button data-p="12" onclick="setPref(12)">千葉</button>
+  </div>
 </div>
 <div id="map"></div>
 <div id="legend">
-  <div class="lt">家賃帯（1K 中位月額）</div>
-  <div class="tier"><span class="sw" style="background:#2f6fd6"></span><span class="tn">安値圏・低价</span><span class="tr">〜¥9.0万</span></div>
-  <div class="tier"><span class="sw" style="background:#2faa55"></span><span class="tn">やや安・偏低</span><span class="tr">¥9.0〜10.5万</span></div>
-  <div class="tier"><span class="sw" style="background:#f5c518"></span><span class="tn">中値圏・中等</span><span class="tr">¥10.5〜12.0万</span></div>
-  <div class="tier"><span class="sw" style="background:#f08a24"></span><span class="tn">やや高・偏高</span><span class="tr">¥12.0〜13.5万</span></div>
-  <div class="tier"><span class="sw" style="background:#e23b3b"></span><span class="tn">高値圏・高价</span><span class="tr">¥13.5万〜</span></div>
-  <div class="note">色＝家賃帯（5段階）／円の大きさ＝金額の目安。<br>出所: housingassist（掲載事例 19,000+ 件）</div>
+  <div class="lt">家賃帯（月額中央値・5分位）</div>
+  <div id="legendTiers"></div>
+  <div class="note">色＝家賃帯（安→高）。円の大きさは目安。<br>出所: e-Stat 2023 住宅・土地統計調査（確定値）。</div>
 </div>
 <div id="list"><div id="listBody"></div></div>
 
@@ -205,27 +194,28 @@ def build_html():
 <script src="vendor/leaflet/leaflet.js"></script>
 <script>
 var DATA = __DATA__;
-var WARDS = DATA.wards;
+var MUNIS = DATA.municipalities;
 var META = DATA.meta;
-var BRAND = '__BRAND__';
-var rmin = Math.min.apply(null, WARDS.map(function(w){ return w.rent_1k; }));
-var rmax = Math.max.apply(null, WARDS.map(function(w){ return w.rent_1k; }));
 var TIERS = DATA.tiers;
-function tierById(id){ return TIERS.filter(function(t){ return t.id === id; })[0]; }
-// 家賃帯 → 色（雨量警戒色風・5段階、視認性重視）
-function colorForTier(tid){
-  var t = tierById(tid) || TIERS[TIERS.length - 1];
-  return t.color;
-}
-// 円の大きさ（補助）：帯内でも多少差を出す（帯毎にミニ階調）
-function radiusFor(v){
-  var t = (v - rmin) / (rmax - rmin || 1);
-  return 11 + t * 12; // 11..23 px（変化を抑え、色を主信号に）
-}
-var map = null, markers = {};
-var state = { view: 'map' };
+var PREF_NAME = DATA.pref_name, PREF_CN = DATA.pref_cn;
+var BRAND = '__BRAND__';
+var map = null, markers = {}, byCode = {};
+var state = { view: 'map', pref: 0 };
+MUNIS.forEach(function(m){ byCode[m.code] = m; });
 
+function tierById(id){ return TIERS.filter(function(t){ return t.id === id; })[0]; }
+function colorForTier(tid){ var t = tierById(tid) || TIERS[TIERS.length-1]; return t.color; }
 function fmt(n){ return n.toLocaleString('ja-JP'); }
+function nameCn(m){ return m.name.replace(/区$|市$|町$|村$/, '') || m.name; }
+
+function radiusFor(v){
+  var vals = MUNIS.map(function(m){ return m.rent_median; });
+  var mn = Math.min.apply(null, vals), mx = Math.max.apply(null, vals);
+  var t = (v - mn) / (mx - mn || 1);
+  return 8 + t * 16; // 8..24 px（補助）
+}
+function visMuni(m){ return state.pref === 0 || m.pref === state.pref; }
+
 function sparkline(){
   var tr = (META.trend_23w || []).map(function(p){ return p.v; });
   if (tr.length < 2) return '';
@@ -243,79 +233,100 @@ function sparkline(){
     '<path d="'+d+'" fill="none" stroke="'+BRAND+'" stroke-width="2.5" stroke-linejoin="round"/>'+
     '<circle cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="3.5" fill="'+BRAND+'"/></svg>';
 }
-function cardHtml(w){
-  var perSqm = Math.round(w.rent_1k / DATA.typical_size);
+function cardHtml(m){
+  var tier = tierById(m.tier);
+  var median = m.rent_median;
+  var perSqm = Math.round(median / DATA.typical_size);
   var perTsubo = Math.round(perSqm * DATA.sqm_per_tsubo);
-  var annual = w.rent_1k * 12;
+  var annual = median * 12;
   var price = DATA.typical_size * DATA.avg_sqm_price;
   var yieldPct = (annual / price * 100);
-  var mom = (w.mom_pct >= 0 ? '+' : '') + w.mom_pct.toFixed(1) + '%';
-  var yoy = (w.yoy_pct >= 0 ? '+' : '') + w.yoy_pct.toFixed(1) + '%';
-  var tier = tierById(w.tier);
+  var mom = (m.mom_pct >= 0 ? '+' : '') + (m.mom_pct||0).toFixed(1) + '%';
+  var yoy = (m.yoy_pct >= 0 ? '+' : '') + (m.yoy_pct||0).toFixed(1) + '%';
   var bandChip = tier
-    ? '<span class="chip band" style="background:' + tier.color + ';color:' + tier.text + ';border-color:' + tier.color + '">' + tier.label_jp + ' / ' + tier.label_cn + '</span>'
+    ? '<span class="chip band" style="background:'+tier.color+';color:'+tier.text+';border-color:'+tier.color+'">'+tier.label_jp+' / '+tier.label_cn+'</span>'
     : '';
-  var link;
-  if (w.proj_count > 0) {
-    link = '<a href="projects.html?city=' + encodeURIComponent(w.ward_ja) + '">該区の収益物件 ' + w.proj_count + '件を見る ›</a>';
-  } else {
-    link = '<a class="none">該区の収益物件はまだ登録なし</a>';
+  var link = m.proj_count > 0
+    ? '<a href="projects.html?city='+encodeURIComponent(m.name)+'">該市区の収益物件 '+m.proj_count+'件を見る ›</a>'
+    : '<a class="none">該市区の収益物件はまだ登録なし</a>';
+  var sub = '';
+  if (m.is_ward) {
+    sub = '<div class="rc-sub">🏙 <b>23区 1K 専有面積 中位月額</b>：¥'+(m.rent_1k/10000).toFixed(1)+'万<br>'+
+      '前月比 '+mom+' / 前年比 '+yoy+'（推定）・出所: housingassist</div>';
   }
   return '' +
-    '<div class="rc-main">¥' + (w.rent_1k/10000).toFixed(1) + '万<small>1K 中位月額</small></div>' +
+    '<div class="rc-main">¥' + (median/10000).toFixed(1) + '万<small>月額賃料 中央値（全規模）</small></div>' +
     '<div class="rc-units">' +
-      '<div class="u"><span class="num">¥' + fmt(perSqm) + '</span><span class="lab">¥/㎡（推算: 1K÷25㎡）</span></div>' +
+      '<div class="u"><span class="num">¥' + fmt(perSqm) + '</span><span class="lab">¥/㎡（推算: 中央値÷25㎡）</span></div>' +
       '<div class="u"><span class="num">¥' + fmt(perTsubo) + '</span><span class="lab">坪単価（推算）</span></div>' +
     '</div>' +
-    '<div class="rc-chips">' +
-      bandChip +
-      '<span class="chip up">前月比 ' + mom + ' (推定)</span>' +
-      '<span class="chip up">前年比 ' + yoy + ' (推定)</span>' +
-    '</div>' +
-    '<div class="rc-spark"><div class="t">東京23区 平均賃料推移（参考）</div>' + sparkline() + '</div>' +
+    '<div class="rc-chips">' + bandChip + '</div>' +
+    sub +
+    (m.is_ward ? '<div class="rc-spark"><div class="t">東京23区 平均賃料推移（参考）</div>' + sparkline() + '</div>' : '') +
     '<div class="rc-yield">表面利回り(概算): 約 ' + yieldPct.toFixed(1) + '%' +
       '<small>年賃料 ÷ 23区平均中古㎡単価(約108万円) を目安に概算（25㎡想定）</small></div>' +
     '<div class="rc-link">' + link + '</div>' +
-    '<div class="rc-src">出所: ' + (META.source || 'housingassist') + '<br>' +
-      '東京カンテイ 分譲賃料 23区平均 ' + (META.official_check || '') + '<br>' +
-      '※ 前月比/前年比は市場趨勢からの推定値。表面利回りは概算。</div>';
+    '<div class="rc-src">メイン出所: ' + (META.source || 'e-Stat') + '（'+ (META.metric||'') +'）<br>' +
+      (META.note || '') + '<br>' +
+      '※ 表面利回りは概算。23区 1K/推移は housingassist 参照。</div>';
 }
-function openPanel(w){
-  document.getElementById('pNm').textContent = w.ward_cn + '（' + w.ward_ja + '）';
-  document.getElementById('pRk').textContent = '家賃ランク ' + w.rank + ' / ' + WARDS.length + ' 区';
-  document.getElementById('pBody').innerHTML = cardHtml(w);
+function openPanel(m){
+  document.getElementById('pNm').textContent = m.name + '（' + (PREF_NAME[m.pref]||'') + '）';
+  document.getElementById('pRk').textContent = '家賃ランク ' + m.rank + ' / ' + MUNIS.length + ' 市区町村';
+  document.getElementById('pBody').innerHTML = cardHtml(m);
   document.getElementById('panel').classList.add('show');
 }
 function closePanel(){ document.getElementById('panel').classList.remove('show'); }
 
+function buildLegend(){
+  var tb = META.tier_bounds || [];
+  var html = '';
+  TIERS.forEach(function(t){
+    var b = tb.filter(function(x){ return x.tier === t.id; })[0];
+    var rng = b ? ('¥'+(b.lo/10000).toFixed(1)+'〜'+(b.hi/10000).toFixed(1)+'万') : '';
+    html += '<div class="tier"><span class="sw" style="background:'+t.color+'"></span>'+
+      '<span class="tn">'+t.label_jp+' / '+t.label_cn+'</span><span class="tr">'+rng+'</span></div>';
+  });
+  document.getElementById('legendTiers').innerHTML = html;
+}
 function renderMap(){
-  map = L.map('map').setView([35.6895, 139.7595], 11);
+  if (map) { map.remove(); map = null; }
+  var center = state.pref ? PREF_CENTER[state.pref] : [35.62, 139.78];
+  var zoom = state.pref ? PREF_ZOOM[state.pref] : 9;
+  map = L.map('map').setView(center, zoom);
   L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png',
     { attribution: '© 国土地理院', maxZoom: 18 }).addTo(map);
-  WARDS.forEach(function(w){
-    var r = radiusFor(w.rent_1k);
-    var tier = tierById(w.tier);
-    var mk = L.circleMarker([w.lat, w.lng], {
-      radius: r, color: '#ffffff', weight: 2, fillColor: colorForTier(w.tier), fillOpacity: 0.92
+  markers = {};
+  MUNIS.forEach(function(m){
+    if (!visMuni(m)) return;
+    if (!m.lat || !m.lng) return;
+    var r = radiusFor(m.rent_median);
+    var mk = L.circleMarker([m.lat, m.lng], {
+      radius: r, color: '#ffffff', weight: 1.5, fillColor: colorForTier(m.tier), fillOpacity: 0.9
     }).addTo(map);
-    mk.bindTooltip(w.ward_cn + ' ¥' + (w.rent_1k/10000).toFixed(1) + '万 ・ ' + (tier ? tier.label_jp : ''),
+    mk.bindTooltip(m.name + ' ¥' + (m.rent_median/10000).toFixed(1) + '万 ・ ' + (tierById(m.tier)||{}).label_jp,
       { direction: 'top', opacity: 1, className: 'proj-label' });
-    mk.on('click', function(){ openPanel(w); });
-    markers[w.ward_ja] = mk;
+    mk.on('click', function(){ openPanel(m); });
+    markers[m.code] = mk;
   });
 }
 function renderList(){
   var body = document.getElementById('listBody');
-  var rows = WARDS.slice().sort(function(a,b){ return b.rent_1k - a.rent_1k; }).map(function(w){
-    return '<div class="lrow" onclick="openPanel(WARDS.find(function(x){return x.ward_ja===' +
-      JSON.stringify(w.ward_ja) + ';}))">' +
-      '<div class="lrank">' + w.rank + '</div>' +
-      '<span class="ldot" style="background:' + colorForTier(w.tier) + '"></span>' +
-      '<div class="lname">' + w.ward_cn + '<br><span style="font-size:11px;color:#8a96ac;font-weight:400">' + w.ward_ja + '</span></div>' +
-      '<div class="lval">¥' + (w.rent_1k/10000).toFixed(1) + '万<small>1K</small></div>' +
+  var rows = MUNIS.filter(visMuni).slice().sort(function(a,b){ return b.rent_median - a.rent_median; }).map(function(m){
+    return '<div class="lrow" onclick="openPanel(byCode['+JSON.stringify(m.code)+'])">' +
+      '<div class="lrank">' + m.rank + '</div>' +
+      '<span class="ldot" style="background:' + colorForTier(m.tier) + '"></span>' +
+      '<div class="lname">' + m.name + '<br><span style="font-size:11px;color:#8a96ac;font-weight:400">' + (PREF_NAME[m.pref]||'') + '</span></div>' +
+      '<div class="lval">¥' + (m.rent_median/10000).toFixed(1) + '万<small>中央値</small></div>' +
     '</div>';
   }).join('');
   body.innerHTML = rows;
+}
+function setPref(p){
+  state.pref = p;
+  var btns = document.querySelectorAll('#pfilt button');
+  btns.forEach(function(b){ b.classList.toggle('on', +b.getAttribute('data-p') === p); });
+  if (state.view === 'map') renderMap(); else renderList();
 }
 function setView(v){
   state.view = v;
@@ -323,10 +334,11 @@ function setView(v){
   document.getElementById('btnList').classList.toggle('on', v==='list');
   document.getElementById('map').style.display = v==='map' ? 'block' : 'none';
   document.getElementById('list').style.display = v==='list' ? 'block' : 'none';
+  if (v==='map') renderMap(); else renderList();
   if (v==='map' && map) setTimeout(function(){ map.invalidateSize(); }, 50);
 }
-renderMap();
-renderList();
+buildLegend();
+setView('map');
 </script>
 <script>__ANALYTICS__</script>
 </body>
@@ -339,7 +351,8 @@ renderList();
 def main():
     html = build_html()
     io.open(OUT, 'w', encoding='utf-8').write(html)
-    print('[OK] 賃貸相場マップ生成: rentmap.html (%d 区)' % len(json.load(io.open(latest_rent_file(), encoding='utf-8')).get('wards', [])))
+    n = len(json.load(io.open(latest_rent_file(), encoding='utf-8')).get('municipalities', []))
+    print('[OK] 賃貸相場マップ生成: rentmap.html (%d 市区町村)' % n)
 
 
 if __name__ == '__main__':
