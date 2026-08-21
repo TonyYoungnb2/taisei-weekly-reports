@@ -28,6 +28,16 @@ AVG_RESIDUAL_SQMPRICE = 1080000
 SQMPER_TSUBO = 3.30578
 TYPICAL_SIZE = 25
 
+# 家賃帯（雨量警戒色風・5段階）— 色が主信号、円の大きさは補助
+# 境界: 9.0 / 10.5 / 12.0 / 13.5 万円（1K 中位月額）
+TIERS = [
+    {'id': 1, 'label_jp': '安値圏',   'label_cn': '低价圈', 'lo': 0,      'hi': 89999,  'color': '#2f6fd6', 'text': '#ffffff', 'rng': '〜¥9.0万'},
+    {'id': 2, 'label_jp': 'やや安',   'label_cn': '偏低',   'lo': 90000,  'hi': 104999, 'color': '#2faa55', 'text': '#ffffff', 'rng': '¥9.0〜10.5万'},
+    {'id': 3, 'label_jp': '中値圏',   'label_cn': '中等',   'lo': 105000, 'hi': 119999, 'color': '#f5c518', 'text': '#1a2233', 'rng': '¥10.5〜12.0万'},
+    {'id': 4, 'label_jp': 'やや高',   'label_cn': '偏高',   'lo': 120000, 'hi': 134999, 'color': '#f08a24', 'text': '#ffffff', 'rng': '¥12.0〜13.5万'},
+    {'id': 5, 'label_jp': '高値圏',   'label_cn': '高价圈', 'lo': 135000, 'hi': 10**12, 'color': '#e23b3b', 'text': '#ffffff', 'rng': '¥13.5万〜'},
+]
+
 
 def latest_rent_file():
     files = sorted(glob.glob(os.path.join(RENT_DIR, '*.json')))
@@ -65,8 +75,12 @@ def build_html():
     wcount = ward_project_counts()
     for w in wards:
         w['proj_count'] = wcount.get(w['ward_ja'], 0)
+    # 家賃帯（TIERS）を付与
+    for w in wards:
+        t = next((x for x in TIERS if x['lo'] <= w['rent_1k'] <= x['hi']), TIERS[-1])
+        w['tier'] = t['id']
 
-    data_inline = json.dumps({'meta': meta, 'wards': wards,
+    data_inline = json.dumps({'meta': meta, 'wards': wards, 'tiers': TIERS,
                               'avg_sqm_price': AVG_RESIDUAL_SQMPRICE,
                               'sqm_per_tsubo': SQMPER_TSUBO,
                               'typical_size': TYPICAL_SIZE},
@@ -95,15 +109,16 @@ def build_html():
     padding: 6px 12px; font-size: 13px; cursor: pointer; }
   .view-switch button.on { background: #fff; color: __BRAND__; font-weight: 600; }
   #map { height: calc(100vh - 58px); width: 100%; }
-  /* 图例 */
-  #legend { position: absolute; left: 10px; bottom: 12px; z-index: 1200; background: rgba(255,255,255,.94);
-    border: 1px solid #e3e8f2; border-radius: 10px; padding: 10px 12px; font-size: 11px; line-height: 1.7;
-    color: #1a2233; box-shadow: 0 2px 10px rgba(0,0,0,.12); max-width: 220px; }
-  #legend .bar { height: 10px; border-radius: 5px; margin: 6px 0 3px;
-    background: linear-gradient(90deg, #dbe7fb, #9bc0f0, #4f86d6, __BRAND__); }
-  #legend .row { display: flex; justify-content: space-between; }
-  #legend .cir { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
-  #legend .cir i { display: inline-block; border-radius: 50%; background: rgba(11,61,145,.15); border: 1.5px solid __BRAND__; }
+  /* 图例：雨量警戒色風 5段階 */
+  #legend { position: absolute; left: 10px; bottom: 12px; z-index: 1200; background: rgba(255,255,255,.95);
+    border: 1px solid #e3e8f2; border-radius: 10px; padding: 11px 13px; font-size: 11px; line-height: 1.7;
+    color: #1a2233; box-shadow: 0 2px 10px rgba(0,0,0,.12); max-width: 250px; }
+  #legend .lt { font-size: 11px; font-weight: 700; color: #46546e; margin-bottom: 7px; }
+  #legend .tier { display: flex; align-items: center; gap: 8px; margin: 5px 0; }
+  #legend .sw { flex: 0 0 16px; width: 16px; height: 16px; border-radius: 4px; box-shadow: 0 0 0 1px rgba(0,0,0,.08) inset; }
+  #legend .tn { flex: 1 1 auto; font-weight: 600; }
+  #legend .tr { color: #5a6a85; font-size: 10.5px; }
+  #legend .note { margin-top: 8px; font-size: 10px; color: #8a96ac; line-height: 1.5; }
   /* 地图气泡 tooltip（区名 + 月額） */
   .proj-label { background: rgba(255,255,255,.95); color: __BRAND__; border: 1px solid #cdd9f3;
     border-radius: 8px; padding: 2px 8px; font-size: 12px; font-weight: 600; box-shadow: 0 1px 4px rgba(11,61,145,.18); }
@@ -125,9 +140,10 @@ def build_html():
   .rc-units .u .num { font-size: 16px; font-weight: 700; color: #1a2233; }
   .rc-units .u .lab { display: block; font-size: 10.5px; color: #8a96ac; margin-top: 3px; line-height: 1.4; }
   .rc-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 12px; }
-  .rc-chips .chip { font-size: 12px; padding: 4px 10px; border-radius: 12px; font-weight: 600; }
+  .rc-chips .chip { font-size: 12px; padding: 4px 10px; border-radius: 12px; font-weight: 600; border: 1px solid transparent; }
   .rc-chips .up { background: rgba(11,61,145,.10); color: __BRAND__; }
   .rc-chips .down { background: rgba(13,148,136,.12); color: #0d9488; }
+  .rc-chips .band { box-shadow: 0 1px 3px rgba(0,0,0,.15); }
   .rc-spark { background: #f4f6fb; border-radius: 10px; padding: 12px; margin: 8px 0; }
   .rc-spark .t { font-size: 11px; color: #5a6a85; margin-bottom: 6px; }
   .rc-yield { font-size: 14px; font-weight: 700; color: #1a2233; margin: 12px 0 6px; }
@@ -145,6 +161,7 @@ def build_html():
   .lrank { flex: 0 0 34px; height: 34px; border-radius: 50%; background: #eef1f7; color: #46546e; font-weight: 700;
     display: flex; align-items: center; justify-content: center; font-size: 13px; }
   .lname { flex: 1 1 auto; font-size: 15px; font-weight: 600; }
+  .ldot { flex: 0 0 14px; width: 14px; height: 14px; border-radius: 50%; box-shadow: 0 0 0 1px rgba(0,0,0,.08) inset; }
   .lval { font-size: 15px; font-weight: 800; color: __BRAND__; }
   .lval small { font-size: 11px; color: #8a96ac; font-weight: 500; margin-left: 4px; }
   @media (max-width: 640px) {
@@ -166,10 +183,13 @@ def build_html():
 </div>
 <div id="map"></div>
 <div id="legend">
-  <div>円の大きさ・色 = 1K 中位月額</div>
-  <div class="bar"></div>
-  <div class="row"><span>安 __RMIN_K__万</span><span>高 __RMAX_K__万</span></div>
-  <div class="cir"><i style="width:10px;height:10px"></i><i style="width:16px;height:16px"></i> 家賃が高いほど大きい</div>
+  <div class="lt">家賃帯（1K 中位月額）</div>
+  <div class="tier"><span class="sw" style="background:#2f6fd6"></span><span class="tn">安値圏・低价</span><span class="tr">〜¥9.0万</span></div>
+  <div class="tier"><span class="sw" style="background:#2faa55"></span><span class="tn">やや安・偏低</span><span class="tr">¥9.0〜10.5万</span></div>
+  <div class="tier"><span class="sw" style="background:#f5c518"></span><span class="tn">中値圏・中等</span><span class="tr">¥10.5〜12.0万</span></div>
+  <div class="tier"><span class="sw" style="background:#f08a24"></span><span class="tn">やや高・偏高</span><span class="tr">¥12.0〜13.5万</span></div>
+  <div class="tier"><span class="sw" style="background:#e23b3b"></span><span class="tn">高値圏・高价</span><span class="tr">¥13.5万〜</span></div>
+  <div class="note">色＝家賃帯（5段階）／円の大きさ＝金額の目安。<br>出所: housingassist（掲載事例 19,000+ 件）</div>
 </div>
 <div id="list"><div id="listBody"></div></div>
 
@@ -190,27 +210,22 @@ var META = DATA.meta;
 var BRAND = '__BRAND__';
 var rmin = Math.min.apply(null, WARDS.map(function(w){ return w.rent_1k; }));
 var rmax = Math.max.apply(null, WARDS.map(function(w){ return w.rent_1k; }));
+var TIERS = DATA.tiers;
+function tierById(id){ return TIERS.filter(function(t){ return t.id === id; })[0]; }
+// 家賃帯 → 色（雨量警戒色風・5段階、視認性重視）
+function colorForTier(tid){
+  var t = tierById(tid) || TIERS[TIERS.length - 1];
+  return t.color;
+}
+// 円の大きさ（補助）：帯内でも多少差を出す（帯毎にミニ階調）
+function radiusFor(v){
+  var t = (v - rmin) / (rmax - rmin || 1);
+  return 11 + t * 12; // 11..23 px（変化を抑え、色を主信号に）
+}
 var map = null, markers = {};
 var state = { view: 'map' };
 
 function fmt(n){ return n.toLocaleString('ja-JP'); }
-// 円→色（低:薄い青 → 高:ブランド青）
-function colorFor(v){
-  var t = (v - rmin) / (rmax - rmin || 1); // 0..1
-  // 薄 (#dbe7fb) → 濃 (#0b3d91)
-  var stops = [[219,231,251],[155,192,240],[79,134,214],[11,61,145]];
-  var seg = t * (stops.length - 1);
-  var i = Math.floor(seg), f = seg - i;
-  if (i >= stops.length - 1) i = stops.length - 2, f = 1;
-  var a = stops[i], b = stops[i+1];
-  var c = a.map(function(x,k){ return Math.round(x + (b[k]-x)*f); });
-  return 'rgb('+c[0]+','+c[1]+','+c[2]+')';
-}
-function radiusFor(v){
-  var t = (v - rmin) / (rmax - rmin || 1);
-  return 10 + t * 16; // 10..26 px
-}
-// 火花线（23区全体 平均推移）
 function sparkline(){
   var tr = (META.trend_23w || []).map(function(p){ return p.v; });
   if (tr.length < 2) return '';
@@ -236,6 +251,10 @@ function cardHtml(w){
   var yieldPct = (annual / price * 100);
   var mom = (w.mom_pct >= 0 ? '+' : '') + w.mom_pct.toFixed(1) + '%';
   var yoy = (w.yoy_pct >= 0 ? '+' : '') + w.yoy_pct.toFixed(1) + '%';
+  var tier = tierById(w.tier);
+  var bandChip = tier
+    ? '<span class="chip band" style="background:' + tier.color + ';color:' + tier.text + ';border-color:' + tier.color + '">' + tier.label_jp + ' / ' + tier.label_cn + '</span>'
+    : '';
   var link;
   if (w.proj_count > 0) {
     link = '<a href="projects.html?city=' + encodeURIComponent(w.ward_ja) + '">該区の収益物件 ' + w.proj_count + '件を見る ›</a>';
@@ -249,6 +268,7 @@ function cardHtml(w){
       '<div class="u"><span class="num">¥' + fmt(perTsubo) + '</span><span class="lab">坪単価（推算）</span></div>' +
     '</div>' +
     '<div class="rc-chips">' +
+      bandChip +
       '<span class="chip up">前月比 ' + mom + ' (推定)</span>' +
       '<span class="chip up">前年比 ' + yoy + ' (推定)</span>' +
     '</div>' +
@@ -274,10 +294,11 @@ function renderMap(){
     { attribution: '© 国土地理院', maxZoom: 18 }).addTo(map);
   WARDS.forEach(function(w){
     var r = radiusFor(w.rent_1k);
+    var tier = tierById(w.tier);
     var mk = L.circleMarker([w.lat, w.lng], {
-      radius: r, color: BRAND, weight: 2, fillColor: colorFor(w.rent_1k), fillOpacity: 0.55
+      radius: r, color: '#ffffff', weight: 2, fillColor: colorForTier(w.tier), fillOpacity: 0.92
     }).addTo(map);
-    mk.bindTooltip(w.ward_cn + ' ¥' + (w.rent_1k/10000).toFixed(1) + '万',
+    mk.bindTooltip(w.ward_cn + ' ¥' + (w.rent_1k/10000).toFixed(1) + '万 ・ ' + (tier ? tier.label_jp : ''),
       { direction: 'top', opacity: 1, className: 'proj-label' });
     mk.on('click', function(){ openPanel(w); });
     markers[w.ward_ja] = mk;
@@ -289,6 +310,7 @@ function renderList(){
     return '<div class="lrow" onclick="openPanel(WARDS.find(function(x){return x.ward_ja===' +
       JSON.stringify(w.ward_ja) + ';}))">' +
       '<div class="lrank">' + w.rank + '</div>' +
+      '<span class="ldot" style="background:' + colorForTier(w.tier) + '"></span>' +
       '<div class="lname">' + w.ward_cn + '<br><span style="font-size:11px;color:#8a96ac;font-weight:400">' + w.ward_ja + '</span></div>' +
       '<div class="lval">¥' + (w.rent_1k/10000).toFixed(1) + '万<small>1K</small></div>' +
     '</div>';
@@ -311,8 +333,6 @@ renderList();
 </html>
 '''.replace('__BRAND__', BRAND) \
    .replace('__DATA__', data_inline) \
-   .replace('__RMIN_K__', '%.1f' % (rmin/10000)) \
-   .replace('__RMAX_K__', '%.1f' % (rmax/10000)) \
    .replace('__ANALYTICS__', _an.snippet())
 
 
