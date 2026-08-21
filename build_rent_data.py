@@ -17,7 +17,7 @@ import io, os, json, re, subprocess, time, urllib.parse, statistics
 BASE = os.path.dirname(os.path.abspath(__file__))
 ESTAT_XLSX = os.path.join(BASE, '_estat116.zip')      # 事前取得済
 EXTRACT = os.path.join(BASE, '_estat_extract.json')   # 抽出済 (code,name,pref,rent_median)
-OLD_RENT = os.path.join(BASE, 'data', 'rent', '2026-07.json')  # 旧23区 housingassist
+OLD_RENT = os.path.join(BASE, 'data', 'rent', '_ward_source_2026-07.json')  # 稳定23区源(来自 git 历史, 不再被输出覆盖)
 GEO_CACHE = os.path.join(BASE, '_rent_geo_cache.json')
 OUT = os.path.join(BASE, 'data', 'rent', '2026-07.json')
 
@@ -144,10 +144,12 @@ def main():
 
     # 3) merge 23-ward housingassist (old data) by matching name
     old = {}
+    old_meta = {}
     if os.path.isfile(OLD_RENT):
         od = json.load(io.open(OLD_RENT, encoding='utf-8'))
         for w in od.get('wards', []):
             old[w.get('ward_ja')] = w
+        old_meta = od.get('meta', {})
     for m in munis:
         if m['pref'] == 13 and m['code'][2:5] == '100':
             # 特別区部(total) skip; we only merge individual wards below
@@ -207,8 +209,8 @@ def main():
         'metric': '月額賃料 中央値（全規模・専用住宅）',
         'note': '2023年確定値。全規模の中央値のため、1K単身向けより高めに出る場合あり。',
         'sub_source': '23区限定: housingassist Tokyo Rent Index (1K 専有面積中位月額)',
-        'trend_23w': old.get('meta', {}).get('trend_23w', []),
-        'official_check': old.get('meta', {}).get('official_check', ''),
+        'trend_23w': old_meta.get('trend_23w', []),
+        'official_check': old_meta.get('official_check', ''),
         'tier_bounds': tier_bounds,
         'pref_counts': {PREF_CN[p]: sum(1 for m in munis if m['pref'] == p) for p in PREF_NAME},
         'total': len(munis),
