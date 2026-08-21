@@ -1,0 +1,46 @@
+{
+  "meta": {
+    "month": "2026-07",
+    "source": "housingassist Tokyo Rent Index (集計: SUUMO / Homes.co.jp / at Home 掲載事例 19,000+ 件, 2026-06-26 公表)",
+    "source_url": "https://housingassist.com/rent-index",
+    "official_check": "東京カンテイ 分譲マンション募集賃料 23区平均 5,078円/㎡ (2026年5月時点)",
+    "unit_note": "卡片「月額」は 1K/1DK の中間値（想定 25㎡ 換算ではなく、掲載事例の中央値）。表面利回りは東京カンテイ 23区 中古㎡単価(約108万円/㎡)から概算。",
+    "typical_size_sqm": 25,
+    "updated": "2026-07",
+    "trend_23w": [
+      {"m": "2026-01", "v": 4793},
+      {"m": "2026-02", "v": 4906},
+      {"m": "2026-03", "v": 4972},
+      {"m": "2026-04", "v": 5019},
+      {"m": "2026-05", "v": 5078},
+      {"m": "2026-06", "v": 5111},
+      {"m": "2026-07", "v": 5150}
+    ],
+    "trend_note": "23区全体 分譲マンション募集賃料 1㎡あたり(円)。出所: JAPAN PROPERTY CENTRAL が公開した東京カンテイ月次値を基に23W平均を算出・補完。"
+  },
+  "wards": [
+    {"ward_ja": "足立区", "ward_cn": "足立区", "lat": 35.775002, "lng": 139.804733, "rent_1k": 75999, "yoy_pct": 4.1, "mom_pct": 0.8, "zero_key_pct": 38, "listings": 893, "sample_size": "中"},
+    {"ward_ja": "葛飾区", "ward_cn": "葛饰区", "lat": 35.743332, "lng": 139.847229, "rent_1k": 77251, "yoy_pct": 3.9, "mom_pct": 0.6, "zero_key_pct": 28, "listings": 720, "sample_size": "中"},
+    {"ward_ja": "江戸川区", "ward_cn": "江户川区", "lat": 35.706738, "lng": 139.868057, "rent_1k": 77822, "yoy_pct": 4.0, "mom_pct": 0.7, "zero_key_pct": 35, "listings": 733, "sample_size": "中"},
+    {"ward_ja": "練馬区", "ward_cn": "练马区", "lat": 35.735641, "lng": 139.65184, "rent_1k": 86363, "yoy_pct": 4.3, "mom_pct": 0.9, "zero_key_pct": 28, "listings": 1035, "sample_size": "大"},
+    {"ward_ja": "杉並区", "ward_cn": "杉并区", "lat": 35.699532, "lng": 139.636475, "rent_1k": 89134, "yoy_pct": 4.5, "mom_pct": 1.0, "zero_key_pct": 48, "listings": 1069, "sample_size": "大"},
+    {"ward_ja": "世田谷区", "ward_cn": "世田谷区", "lat": 35.64595, "lng": 139.653183, "rent_1k": 92646, "yoy_pct": 4.4, "mom_pct": 0.9, "zero_key_pct": 37, "listings": 1019, "sample_size": "大"},
+    {"ward_ja": "板橋区", "ward_cn": "板桥区", "lat": 35.751221, "lng": 139.709229, "rent_1k": 94284, "yoy_pct": 4.2, "mom_pct": 0.8, "zero_key_pct": 40, "listings": 1370, "sample_size": "大"},
+    {"ward_ja": "荒川区", "ward_cn": "荒川区", "lat": 35.736111, "lng": 139.78334, "rent_1k": 96275, "yoy_pct": 4.6, "mom_pct": 1.0, "zero_key_pct": 56, "listings": 1519, "sample_size": "大"},
+    {"ward_ja": "大田区", "ward_cn": "大田区", "lat": 35.561211, "lng": 139.716019, "rent_1k": 97211, "yoy_pct": 4.5, "mom_pct": 0.9, "zero_key_pct": 43, "listings": 1221, "sample_size": "大"},
+    {"ward_ja": "北区", "ward_cn": "北区", "lat": 35.752777, "lng": 139.733612, "rent_1k": 98795, "yoy_pct": 4.3, "mom_pct": 0.8, "zero_key_pct": 52, "listings": 1561, "sample_size": "大"},
+    {"ward_ja": "中野区", "ward_cn": "中野区", "lat": 35.708893, "lng": 139.662872, "rent_1k": 101244, "yoy_pct": 4.7, "mom_pct": 1.1, "zero_key_pct": 36, "listings": 1245, "sample_size": "大"},
+    {"ward_ja": "墨田区", "ward_cn": "墨田区", "lat": 35.710678, "lng": 139.801514, "rent_1k": 106429, "yoy_pct": 4.8, "mom_pct": 1.1, "zero_key_pct": 48, "listings": 1934, "sample_size": "大"},
+    {"ward_ja": "豊島区", "ward_cn": "丰岛区", "lat": 35.726112, "lng": 139.71666, "rent_1k": 109970, "yoy_pct": 4.6, "mom_pct": 1.0, "zero_key_pct": 49, "listings": 1246, "sample_size": "大"},
+    {"ward_ja": "江東区", "ward_cn": "江东区", "lat": 35.67318, "lng": 139.817047, "rent_1k": 116722, "yoy_pct": 5.1, "mom_pct": 1.2, "zero_key_pct": 59, "listings": 1967, "sample_size": "大"},
+    {"ward_ja": "品川区", "ward_cn": "品川区", "lat": 35.608997, "lng": 139.730225, "rent_1k": 118878, "yoy_pct": 5.0, "mom_pct": 1.2, "zero_key_pct": 46, "listings": 1652, "sample_size": "大"},
+    {"ward_ja": "台東区", "ward_cn": "台东区", "lat": 35.712631, "lng": 139.779678, "rent_1k": 121313, "yoy_pct": 4.9, "mom_pct": 1.1, "zero_key_pct": 59, "listings": 1637, "sample_size": "大"},
+    {"ward_ja": "新宿区", "ward_cn": "新宿区", "lat": 35.69389, "lng": 139.703613, "rent_1k": 128092, "yoy_pct": 5.2, "mom_pct": 1.3, "zero_key_pct": 41, "listings": 1706, "sample_size": "大"},
+    {"ward_ja": "渋谷区", "ward_cn": "涩谷区", "lat": 35.66367, "lng": 139.697723, "rent_1k": 128370, "yoy_pct": 5.4, "mom_pct": 1.4, "zero_key_pct": 34, "listings": 1192, "sample_size": "大"},
+    {"ward_ja": "文京区", "ward_cn": "文京区", "lat": 35.707817, "lng": 139.752655, "rent_1k": 130369, "yoy_pct": 5.0, "mom_pct": 1.2, "zero_key_pct": 66, "listings": 1781, "sample_size": "大"},
+    {"ward_ja": "中央区", "ward_cn": "中央区", "lat": 35.670601, "lng": 139.772003, "rent_1k": 134965, "yoy_pct": 5.3, "mom_pct": 1.3, "zero_key_pct": 38, "listings": 1668, "sample_size": "大"},
+    {"ward_ja": "目黒区", "ward_cn": "目黑区", "lat": 35.641479, "lng": 139.698196, "rent_1k": 135408, "yoy_pct": 5.1, "mom_pct": 1.2, "zero_key_pct": 41, "listings": 1270, "sample_size": "大"},
+    {"ward_ja": "千代田区", "ward_cn": "千代田区", "lat": 35.69389, "lng": 139.753616, "rent_1k": 141405, "yoy_pct": 5.5, "mom_pct": 1.5, "zero_key_pct": 44, "listings": 1396, "sample_size": "大"},
+    {"ward_ja": "港区", "ward_cn": "港区", "lat": 35.658054, "lng": 139.751663, "rent_1k": 143440, "yoy_pct": 5.6, "mom_pct": 1.5, "zero_key_pct": 29, "listings": 1508, "sample_size": "大"}
+  ]
+}

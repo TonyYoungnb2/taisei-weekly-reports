@@ -14,7 +14,19 @@ from datetime import datetime, timedelta
 import _analytics as _an
 
 # ─── 設定 ───────────────────────────────────────────────────────────────
-GITHUB_TOKEN = os.environ.get('GITHUB_TOKEN', '')
+def _load_github_token():
+    # 1) 优先环境变量；2) 回退到仓库【外部】安全 token 文件（绝不硬编码明文 Token）
+    tok = os.environ.get('GITHUB_TOKEN', '').strip()
+    if tok:
+        return tok
+    tok_file = os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), '.github_token')
+    if os.path.isfile(tok_file):
+        try:
+            return open(tok_file, encoding='utf-8').read().strip()
+        except Exception:
+            pass
+    return ''
+GITHUB_TOKEN = _load_github_token()
 REPO_OWNER   = 'TonyYoungnb2'
 REPO_NAME    = 'taisei-weekly-reports'
 BRANCH       = 'main'
@@ -1277,6 +1289,8 @@ var I18N = {
     platform_title: '🗺️ 不动产情报平台',
     platform_proj: '项目库 · Project List',
     platform_proj_desc: '在开发/规划中的不动产项目一览，可按企业·地区筛选，附相关新闻时间轴与地图视图。',
+    platform_rent: '租金地图 · 賃貸相場',
+    platform_rent_desc: '东京23区租金一图看懂：各区1K中位月额、表面利回、近6月趋势，可跳转到该区收益物件。',
   },
   jp: {
     hero_title: '大誠有限会社 · 日本不動産週報',
@@ -1291,6 +1305,8 @@ var I18N = {
     platform_title: '🗺️ 不動産情報プラットフォーム',
     platform_proj: 'プロジェクト一覧 · Project List',
     platform_proj_desc: '開発・計画中の不動産プロジェクトを網羅。企業・地区で絞り込み、関連ニュースのタイムラインと地図ビューも。',
+    platform_rent: '賃貸相場マップ · 23区',
+    platform_rent_desc: '東京23区の家賃を一目で：各区の1K中央家賃・表面利回り・直近6ヶ月の推移、該当区の収益物件へジャンプ。',
   }
 };
 function i18nText(key, arg){
@@ -1503,6 +1519,14 @@ body {{
     <div class="info">
       <h3 data-i18n="platform_proj">项目库 · Project List</h3>
       <p data-i18n="platform_proj_desc">在开发/规划中的不动产项目一览，可按企业·地区筛选，附相关新闻时间轴与地图视图。</p>
+    </div>
+    <div class="arrow">→</div>
+  </a>
+  <a href="rentmap.html" class="platform-card">
+    <div class="platform-ico">🏠</div>
+    <div class="info">
+      <h3 data-i18n="platform_rent">租金地图 · 賃貸相場</h3>
+      <p data-i18n="platform_rent_desc">东京23区租金一图看懂：各区1K中位月额、表面利回、近6月趋势，可跳转到该区收益物件。</p>
     </div>
     <div class="arrow">→</div>
   </a>

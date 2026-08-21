@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<title>大誠 · 東京23区 賃貸相場マップ</title>
+<link rel="stylesheet" href="vendor/leaflet/leaflet.css">
+<style>
+  * { box-sizing: border-box; }
+  html, body { margin: 0; padding: 0; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+    background: #f4f6fb; color: #1a2233; }
+  #top { position: sticky; top: 0; z-index: 1500; background: #0b3d91; color: #fff;
+    padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  #top h1 { font-size: 16px; margin: 0; font-weight: 600; line-height: 1.3; }
+  #top .sub { font-size: 11px; opacity: .82; margin-top: 2px; font-weight: 400; }
+  .view-switch { display: flex; gap: 6px; flex: 0 0 auto; }
+  .view-switch button { background: rgba(255,255,255,.15); color: #fff; border: 0; border-radius: 8px;
+    padding: 6px 12px; font-size: 13px; cursor: pointer; }
+  .view-switch button.on { background: #fff; color: #0b3d91; font-weight: 600; }
+  #map { height: calc(100vh - 58px); width: 100%; }
+  /* 图例 */
+  #legend { position: absolute; left: 10px; bottom: 12px; z-index: 1200; background: rgba(255,255,255,.94);
+    border: 1px solid #e3e8f2; border-radius: 10px; padding: 10px 12px; font-size: 11px; line-height: 1.7;
+    color: #1a2233; box-shadow: 0 2px 10px rgba(0,0,0,.12); max-width: 220px; }
+  #legend .bar { height: 10px; border-radius: 5px; margin: 6px 0 3px;
+    background: linear-gradient(90deg, #dbe7fb, #9bc0f0, #4f86d6, #0b3d91); }
+  #legend .row { display: flex; justify-content: space-between; }
+  #legend .cir { display: flex; align-items: center; gap: 6px; margin-top: 6px; }
+  #legend .cir i { display: inline-block; border-radius: 50%; background: rgba(11,61,145,.15); border: 1.5px solid #0b3d91; }
+  /* 地图气泡 tooltip（区名 + 月額） */
+  .proj-label { background: rgba(255,255,255,.95); color: #0b3d91; border: 1px solid #cdd9f3;
+    border-radius: 8px; padding: 2px 8px; font-size: 12px; font-weight: 600; box-shadow: 0 1px 4px rgba(11,61,145,.18); }
+  .proj-label::before { display: none; }
+  /* 侧栏卡片 */
+  #panel { position: fixed; top: 0; right: 0; height: 100vh; width: 380px; max-width: 92vw; background: #fff;
+    z-index: 2500; box-shadow: -6px 0 24px rgba(11,61,145,.18); transform: translateX(105%); transition: transform .22s ease;
+    overflow-y: auto; padding: 0 0 24px; }
+  #panel.show { transform: translateX(0); }
+  #panel .ph { background: #0b3d91; color: #fff; padding: 16px 18px; position: sticky; top: 0; }
+  #panel .ph .close { float: right; cursor: pointer; font-size: 22px; line-height: 1; border: 0; background: none; color: #fff; }
+  #panel .ph .nm { font-size: 20px; font-weight: 700; }
+  #panel .ph .rk { font-size: 12px; opacity: .85; margin-top: 3px; }
+  #panel .body { padding: 16px 18px; }
+  .rc-main { font-size: 30px; font-weight: 800; color: #0b3d91; letter-spacing: .5px; }
+  .rc-main small { font-size: 13px; font-weight: 500; color: #5a6a85; margin-left: 6px; }
+  .rc-units { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin: 14px 0; }
+  .rc-units .u { background: #f4f6fb; border-radius: 10px; padding: 10px; }
+  .rc-units .u .num { font-size: 16px; font-weight: 700; color: #1a2233; }
+  .rc-units .u .lab { display: block; font-size: 10.5px; color: #8a96ac; margin-top: 3px; line-height: 1.4; }
+  .rc-chips { display: flex; flex-wrap: wrap; gap: 8px; margin: 6px 0 12px; }
+  .rc-chips .chip { font-size: 12px; padding: 4px 10px; border-radius: 12px; font-weight: 600; }
+  .rc-chips .up { background: rgba(11,61,145,.10); color: #0b3d91; }
+  .rc-chips .down { background: rgba(13,148,136,.12); color: #0d9488; }
+  .rc-spark { background: #f4f6fb; border-radius: 10px; padding: 12px; margin: 8px 0; }
+  .rc-spark .t { font-size: 11px; color: #5a6a85; margin-bottom: 6px; }
+  .rc-yield { font-size: 14px; font-weight: 700; color: #1a2233; margin: 12px 0 6px; }
+  .rc-yield small { font-size: 11px; color: #8a96ac; font-weight: 400; display: block; margin-top: 2px; }
+  .rc-link { margin: 14px 0 8px; }
+  .rc-link a { color: #0b3d91; text-decoration: none; font-weight: 600; font-size: 14px;
+    display: inline-block; padding: 9px 14px; border: 1px solid #cdd9f3; border-radius: 10px; width: 100%; text-align: center; }
+  .rc-link a.none { color: #9aa5b8; pointer-events: none; border-color: #e3e8f2; }
+  .rc-src { font-size: 10.5px; color: #8a96ac; line-height: 1.6; border-top: 1px solid #eef1f7; padding-top: 10px; margin-top: 8px; }
+  /* 一覧 */
+  #list { display: none; padding: 12px; }
+  .lrow { background: #fff; border: 1px solid #e3e8f2; border-radius: 10px; padding: 12px 14px; margin-bottom: 8px;
+    display: flex; align-items: center; gap: 12px; cursor: pointer; }
+  .lrow:active { background: #f0f4fb; }
+  .lrank { flex: 0 0 34px; height: 34px; border-radius: 50%; background: #eef1f7; color: #46546e; font-weight: 700;
+    display: flex; align-items: center; justify-content: center; font-size: 13px; }
+  .lname { flex: 1 1 auto; font-size: 15px; font-weight: 600; }
+  .lval { font-size: 15px; font-weight: 800; color: #0b3d91; }
+  .lval small { font-size: 11px; color: #8a96ac; font-weight: 500; margin-left: 4px; }
+  @media (max-width: 640px) {
+    #legend { max-width: 180px; font-size: 10px; padding: 8px 9px; }
+    #top h1 { font-size: 14px; }
+  }
+</style>
+</head>
+<body>
+<div id="top">
+  <div>
+    <h1>大誠 · 東京23区 賃貸相場マップ</h1>
+    <div class="sub">データ: housingassist (掲載事例 19,000+ 件) ／ 東京カンテイ 分譲賃料</div>
+  </div>
+  <div class="view-switch">
+    <button id="btnMap" class="on" onclick="setView('map')">地図</button>
+    <button id="btnList" onclick="setView('list')">一覧</button>
+  </div>
+</div>
+<div id="map"></div>
+<div id="legend">
+  <div>円の大きさ・色 = 1K 中位月額</div>
+  <div class="bar"></div>
+  <div class="row"><span>安 7.6万</span><span>高 14.3万</span></div>
+  <div class="cir"><i style="width:10px;height:10px"></i><i style="width:16px;height:16px"></i> 家賃が高いほど大きい</div>
+</div>
+<div id="list"><div id="listBody"></div></div>
+
+<div id="panel" onclick="if(event.target===this)closePanel()">
+  <div class="ph">
+    <button class="close" onclick="closePanel()">×</button>
+    <div class="nm" id="pNm"></div>
+    <div class="rk" id="pRk"></div>
+  </div>
+  <div class="body" id="pBody"></div>
+</div>
+
+<script src="vendor/leaflet/leaflet.js"></script>
+<script>
+var DATA = {"meta": {"month": "2026-07", "source": "housingassist Tokyo Rent Index (集計: SUUMO / Homes.co.jp / at Home 掲載事例 19,000+ 件, 2026-06-26 公表)", "source_url": "https://housingassist.com/rent-index", "official_check": "東京カンテイ 分譲マンション募集賃料 23区平均 5,078円/㎡ (2026年5月時点)", "unit_note": "卡片「月額」は 1K/1DK の中間値（想定 25㎡ 換算ではなく、掲載事例の中央値）。表面利回りは東京カンテイ 23区 中古㎡単価(約108万円/㎡)から概算。", "typical_size_sqm": 25, "updated": "2026-07", "trend_23w": [{"m": "2026-01", "v": 4793}, {"m": "2026-02", "v": 4906}, {"m": "2026-03", "v": 4972}, {"m": "2026-04", "v": 5019}, {"m": "2026-05", "v": 5078}, {"m": "2026-06", "v": 5111}, {"m": "2026-07", "v": 5150}], "trend_note": "23区全体 分譲マンション募集賃料 1㎡あたり(円)。出所: JAPAN PROPERTY CENTRAL が公開した東京カンテイ月次値を基に23W平均を算出・補完。"}, "wards": [{"ward_ja": "足立区", "ward_cn": "足立区", "lat": 35.775002, "lng": 139.804733, "rent_1k": 75999, "yoy_pct": 4.1, "mom_pct": 0.8, "zero_key_pct": 38, "listings": 893, "sample_size": "中", "rank": 23, "proj_count": 0}, {"ward_ja": "葛飾区", "ward_cn": "葛饰区", "lat": 35.743332, "lng": 139.847229, "rent_1k": 77251, "yoy_pct": 3.9, "mom_pct": 0.6, "zero_key_pct": 28, "listings": 720, "sample_size": "中", "rank": 22, "proj_count": 0}, {"ward_ja": "江戸川区", "ward_cn": "江户川区", "lat": 35.706738, "lng": 139.868057, "rent_1k": 77822, "yoy_pct": 4.0, "mom_pct": 0.7, "zero_key_pct": 35, "listings": 733, "sample_size": "中", "rank": 21, "proj_count": 0}, {"ward_ja": "練馬区", "ward_cn": "练马区", "lat": 35.735641, "lng": 139.65184, "rent_1k": 86363, "yoy_pct": 4.3, "mom_pct": 0.9, "zero_key_pct": 28, "listings": 1035, "sample_size": "大", "rank": 20, "proj_count": 0}, {"ward_ja": "杉並区", "ward_cn": "杉并区", "lat": 35.699532, "lng": 139.636475, "rent_1k": 89134, "yoy_pct": 4.5, "mom_pct": 1.0, "zero_key_pct": 48, "listings": 1069, "sample_size": "大", "rank": 19, "proj_count": 0}, {"ward_ja": "世田谷区", "ward_cn": "世田谷区", "lat": 35.64595, "lng": 139.653183, "rent_1k": 92646, "yoy_pct": 4.4, "mom_pct": 0.9, "zero_key_pct": 37, "listings": 1019, "sample_size": "大", "rank": 18, "proj_count": 0}, {"ward_ja": "板橋区", "ward_cn": "板桥区", "lat": 35.751221, "lng": 139.709229, "rent_1k": 94284, "yoy_pct": 4.2, "mom_pct": 0.8, "zero_key_pct": 40, "listings": 1370, "sample_size": "大", "rank": 17, "proj_count": 0}, {"ward_ja": "荒川区", "ward_cn": "荒川区", "lat": 35.736111, "lng": 139.78334, "rent_1k": 96275, "yoy_pct": 4.6, "mom_pct": 1.0, "zero_key_pct": 56, "listings": 1519, "sample_size": "大", "rank": 16, "proj_count": 1}, {"ward_ja": "大田区", "ward_cn": "大田区", "lat": 35.561211, "lng": 139.716019, "rent_1k": 97211, "yoy_pct": 4.5, "mom_pct": 0.9, "zero_key_pct": 43, "listings": 1221, "sample_size": "大", "rank": 15, "proj_count": 1}, {"ward_ja": "北区", "ward_cn": "北区", "lat": 35.752777, "lng": 139.733612, "rent_1k": 98795, "yoy_pct": 4.3, "mom_pct": 0.8, "zero_key_pct": 52, "listings": 1561, "sample_size": "大", "rank": 14, "proj_count": 0}, {"ward_ja": "中野区", "ward_cn": "中野区", "lat": 35.708893, "lng": 139.662872, "rent_1k": 101244, "yoy_pct": 4.7, "mom_pct": 1.1, "zero_key_pct": 36, "listings": 1245, "sample_size": "大", "rank": 13, "proj_count": 0}, {"ward_ja": "墨田区", "ward_cn": "墨田区", "lat": 35.710678, "lng": 139.801514, "rent_1k": 106429, "yoy_pct": 4.8, "mom_pct": 1.1, "zero_key_pct": 48, "listings": 1934, "sample_size": "大", "rank": 12, "proj_count": 1}, {"ward_ja": "豊島区", "ward_cn": "丰岛区", "lat": 35.726112, "lng": 139.71666, "rent_1k": 109970, "yoy_pct": 4.6, "mom_pct": 1.0, "zero_key_pct": 49, "listings": 1246, "sample_size": "大", "rank": 11, "proj_count": 0}, {"ward_ja": "江東区", "ward_cn": "江东区", "lat": 35.67318, "lng": 139.817047, "rent_1k": 116722, "yoy_pct": 5.1, "mom_pct": 1.2, "zero_key_pct": 59, "listings": 1967, "sample_size": "大", "rank": 10, "proj_count": 0}, {"ward_ja": "品川区", "ward_cn": "品川区", "lat": 35.608997, "lng": 139.730225, "rent_1k": 118878, "yoy_pct": 5.0, "mom_pct": 1.2, "zero_key_pct": 46, "listings": 1652, "sample_size": "大", "rank": 9, "proj_count": 0}, {"ward_ja": "台東区", "ward_cn": "台东区", "lat": 35.712631, "lng": 139.779678, "rent_1k": 121313, "yoy_pct": 4.9, "mom_pct": 1.1, "zero_key_pct": 59, "listings": 1637, "sample_size": "大", "rank": 8, "proj_count": 1}, {"ward_ja": "新宿区", "ward_cn": "新宿区", "lat": 35.69389, "lng": 139.703613, "rent_1k": 128092, "yoy_pct": 5.2, "mom_pct": 1.3, "zero_key_pct": 41, "listings": 1706, "sample_size": "大", "rank": 7, "proj_count": 2}, {"ward_ja": "渋谷区", "ward_cn": "涩谷区", "lat": 35.66367, "lng": 139.697723, "rent_1k": 128370, "yoy_pct": 5.4, "mom_pct": 1.4, "zero_key_pct": 34, "listings": 1192, "sample_size": "大", "rank": 6, "proj_count": 2}, {"ward_ja": "文京区", "ward_cn": "文京区", "lat": 35.707817, "lng": 139.752655, "rent_1k": 130369, "yoy_pct": 5.0, "mom_pct": 1.2, "zero_key_pct": 66, "listings": 1781, "sample_size": "大", "rank": 5, "proj_count": 0}, {"ward_ja": "中央区", "ward_cn": "中央区", "lat": 35.670601, "lng": 139.772003, "rent_1k": 134965, "yoy_pct": 5.3, "mom_pct": 1.3, "zero_key_pct": 38, "listings": 1668, "sample_size": "大", "rank": 4, "proj_count": 5}, {"ward_ja": "目黒区", "ward_cn": "目黑区", "lat": 35.641479, "lng": 139.698196, "rent_1k": 135408, "yoy_pct": 5.1, "mom_pct": 1.2, "zero_key_pct": 41, "listings": 1270, "sample_size": "大", "rank": 3, "proj_count": 0}, {"ward_ja": "千代田区", "ward_cn": "千代田区", "lat": 35.69389, "lng": 139.753616, "rent_1k": 141405, "yoy_pct": 5.5, "mom_pct": 1.5, "zero_key_pct": 44, "listings": 1396, "sample_size": "大", "rank": 2, "proj_count": 5}, {"ward_ja": "港区", "ward_cn": "港区", "lat": 35.658054, "lng": 139.751663, "rent_1k": 143440, "yoy_pct": 5.6, "mom_pct": 1.5, "zero_key_pct": 29, "listings": 1508, "sample_size": "大", "rank": 1, "proj_count": 2}], "avg_sqm_price": 1080000, "sqm_per_tsubo": 3.30578, "typical_size": 25};
+var WARDS = DATA.wards;
+var META = DATA.meta;
+var BRAND = '#0b3d91';
+var rmin = Math.min.apply(null, WARDS.map(function(w){ return w.rent_1k; }));
+var rmax = Math.max.apply(null, WARDS.map(function(w){ return w.rent_1k; }));
+var map = null, markers = {};
+var state = { view: 'map' };
+
+function fmt(n){ return n.toLocaleString('ja-JP'); }
+// 円→色（低:薄い青 → 高:ブランド青）
+function colorFor(v){
+  var t = (v - rmin) / (rmax - rmin || 1); // 0..1
+  // 薄 (#dbe7fb) → 濃 (#0b3d91)
+  var stops = [[219,231,251],[155,192,240],[79,134,214],[11,61,145]];
+  var seg = t * (stops.length - 1);
+  var i = Math.floor(seg), f = seg - i;
+  if (i >= stops.length - 1) i = stops.length - 2, f = 1;
+  var a = stops[i], b = stops[i+1];
+  var c = a.map(function(x,k){ return Math.round(x + (b[k]-x)*f); });
+  return 'rgb('+c[0]+','+c[1]+','+c[2]+')';
+}
+function radiusFor(v){
+  var t = (v - rmin) / (rmax - rmin || 1);
+  return 10 + t * 16; // 10..26 px
+}
+// 火花线（23区全体 平均推移）
+function sparkline(){
+  var tr = (META.trend_23w || []).map(function(p){ return p.v; });
+  if (tr.length < 2) return '';
+  var W = 320, H = 64, pad = 6;
+  var mn = Math.min.apply(null, tr), mx = Math.max.apply(null, tr);
+  var span = (mx - mn) || 1;
+  var pts = tr.map(function(v, i){
+    var x = pad + i * (W - pad*2) / (tr.length - 1);
+    var y = H - pad - (v - mn) / span * (H - pad*2);
+    return [x, y];
+  });
+  var d = pts.map(function(p, i){ return (i?'L':'M') + p[0].toFixed(1) + ' ' + p[1].toFixed(1); }).join(' ');
+  var last = pts[pts.length - 1];
+  return '<svg width="100%" viewBox="0 0 '+W+' '+H+'" preserveAspectRatio="none" style="display:block">'+
+    '<path d="'+d+'" fill="none" stroke="'+BRAND+'" stroke-width="2.5" stroke-linejoin="round"/>'+
+    '<circle cx="'+last[0].toFixed(1)+'" cy="'+last[1].toFixed(1)+'" r="3.5" fill="'+BRAND+'"/></svg>';
+}
+function cardHtml(w){
+  var perSqm = Math.round(w.rent_1k / DATA.typical_size);
+  var perTsubo = Math.round(perSqm * DATA.sqm_per_tsubo);
+  var annual = w.rent_1k * 12;
+  var price = DATA.typical_size * DATA.avg_sqm_price;
+  var yieldPct = (annual / price * 100);
+  var mom = (w.mom_pct >= 0 ? '+' : '') + w.mom_pct.toFixed(1) + '%';
+  var yoy = (w.yoy_pct >= 0 ? '+' : '') + w.yoy_pct.toFixed(1) + '%';
+  var link;
+  if (w.proj_count > 0) {
+    link = '<a href="projects.html?city=' + encodeURIComponent(w.ward_ja) + '">該区の収益物件 ' + w.proj_count + '件を見る ›</a>';
+  } else {
+    link = '<a class="none">該区の収益物件はまだ登録なし</a>';
+  }
+  return '' +
+    '<div class="rc-main">¥' + (w.rent_1k/10000).toFixed(1) + '万<small>1K 中位月額</small></div>' +
+    '<div class="rc-units">' +
+      '<div class="u"><span class="num">¥' + fmt(perSqm) + '</span><span class="lab">¥/㎡（推算: 1K÷25㎡）</span></div>' +
+      '<div class="u"><span class="num">¥' + fmt(perTsubo) + '</span><span class="lab">坪単価（推算）</span></div>' +
+    '</div>' +
+    '<div class="rc-chips">' +
+      '<span class="chip up">前月比 ' + mom + ' (推定)</span>' +
+      '<span class="chip up">前年比 ' + yoy + ' (推定)</span>' +
+    '</div>' +
+    '<div class="rc-spark"><div class="t">東京23区 平均賃料推移（参考）</div>' + sparkline() + '</div>' +
+    '<div class="rc-yield">表面利回り(概算): 約 ' + yieldPct.toFixed(1) + '%' +
+      '<small>年賃料 ÷ 23区平均中古㎡単価(約108万円) を目安に概算（25㎡想定）</small></div>' +
+    '<div class="rc-link">' + link + '</div>' +
+    '<div class="rc-src">出所: ' + (META.source || 'housingassist') + '<br>' +
+      '東京カンテイ 分譲賃料 23区平均 ' + (META.official_check || '') + '<br>' +
+      '※ 前月比/前年比は市場趨勢からの推定値。表面利回りは概算。</div>';
+}
+function openPanel(w){
+  document.getElementById('pNm').textContent = w.ward_cn + '（' + w.ward_ja + '）';
+  document.getElementById('pRk').textContent = '家賃ランク ' + w.rank + ' / ' + WARDS.length + ' 区';
+  document.getElementById('pBody').innerHTML = cardHtml(w);
+  document.getElementById('panel').classList.add('show');
+}
+function closePanel(){ document.getElementById('panel').classList.remove('show'); }
+
+function renderMap(){
+  map = L.map('map').setView([35.6895, 139.7595], 11);
+  L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png',
+    { attribution: '© 国土地理院', maxZoom: 18 }).addTo(map);
+  WARDS.forEach(function(w){
+    var r = radiusFor(w.rent_1k);
+    var mk = L.circleMarker([w.lat, w.lng], {
+      radius: r, color: BRAND, weight: 2, fillColor: colorFor(w.rent_1k), fillOpacity: 0.55
+    }).addTo(map);
+    mk.bindTooltip(w.ward_cn + ' ¥' + (w.rent_1k/10000).toFixed(1) + '万',
+      { direction: 'top', opacity: 1, className: 'proj-label' });
+    mk.on('click', function(){ openPanel(w); });
+    markers[w.ward_ja] = mk;
+  });
+}
+function renderList(){
+  var body = document.getElementById('listBody');
+  var rows = WARDS.slice().sort(function(a,b){ return b.rent_1k - a.rent_1k; }).map(function(w){
+    return '<div class="lrow" onclick="openPanel(WARDS.find(function(x){return x.ward_ja===' +
+      JSON.stringify(w.ward_ja) + ';}))">' +
+      '<div class="lrank">' + w.rank + '</div>' +
+      '<div class="lname">' + w.ward_cn + '<br><span style="font-size:11px;color:#8a96ac;font-weight:400">' + w.ward_ja + '</span></div>' +
+      '<div class="lval">¥' + (w.rent_1k/10000).toFixed(1) + '万<small>1K</small></div>' +
+    '</div>';
+  }).join('');
+  body.innerHTML = rows;
+}
+function setView(v){
+  state.view = v;
+  document.getElementById('btnMap').classList.toggle('on', v==='map');
+  document.getElementById('btnList').classList.toggle('on', v==='list');
+  document.getElementById('map').style.display = v==='map' ? 'block' : 'none';
+  document.getElementById('list').style.display = v==='list' ? 'block' : 'none';
+  if (v==='map' && map) setTimeout(function(){ map.invalidateSize(); }, 50);
+}
+renderMap();
+renderList();
+</script>
+<script></script>
+</body>
+</html>

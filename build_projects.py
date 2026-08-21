@@ -174,6 +174,7 @@ def build_html():
 <div id="top">
   <div><h1>大誠 · 不動産プロジェクト</h1><span class="count" id="count"></span></div>
   <div class="view-switch">
+    <a href="rentmap.html" style="background:rgba(255,255,255,.15);color:#fff;border:0;border-radius:8px;padding:6px 12px;font-size:13px;text-decoration:none;display:inline-flex;align-items:center;">🏠 賃貸相場</a>
     <button id="btnList" class="on" onclick="setView('list')">列表</button>
     <button id="btnMap" onclick="setView('map')">地図</button>
   </div>
@@ -216,7 +217,16 @@ var CENTER = __CENTER__;
 var ZOOM = __ZOOM__;
 var map = null, markers = {};
 
-var state = { view: 'list', cat: 'all', pref: 'all', q: '', group: 'none' };
+var state = { view: 'list', cat: 'all', pref: 'all', city: 'all', q: '', group: 'none' };
+
+// 租金地图跳转：?city=港区 → 初始按区筛选
+(function initFromQuery(){
+  try {
+    var qs = new URLSearchParams(location.search);
+    var c = qs.get('city');
+    if (c) { state.city = decodeURIComponent(c); }
+  } catch(e) {}
+})();
 
 // 类别 / 地区 / 来源 选项
 function uniq(arr){ return arr.filter(function(v,i){ return arr.indexOf(v)===i; }); }
@@ -235,6 +245,16 @@ function buildChips(){
   document.getElementById('catChips').innerHTML = catHtml;
   document.getElementById('prefChips').innerHTML = prefHtml;
   document.getElementById('srcChips').style.display = 'none';
+  // クエリ(?city=) から初期化された state を UI に反映
+  document.querySelectorAll('.chip[data-k="pref"]').forEach(function(x){
+    var v = x.getAttribute('data-v');
+    if (v === state.pref) { x.classList.add('on'); }
+    else { x.classList.remove('on'); }
+  });
+  if (state.pref !== 'all') {
+    document.querySelector('.chip[data-k="pref"][data-v="all"]').classList.remove('on');
+  }
+  document.getElementById('groupSel').value = state.group;
   document.querySelectorAll('.chip').forEach(function(el){
     el.onclick = function(){
       var k = el.getAttribute('data-k');
@@ -251,6 +271,7 @@ function filtered(){
   return PROJECTS.filter(function(p){
     if (state.cat !== 'all' && (p.category||'其他') !== state.cat) return false;
     if (state.pref !== 'all' && (p.prefecture||'不明') !== state.pref) return false;
+    if (state.city !== 'all' && (p.city||'') !== state.city) return false;
     if (q) {
       var hay = (p.name + ' ' + (p.developer||'') + ' ' + (p.prefecture||'') + ' ' + (p.city||'') + ' ' + (p.aliases||[]).join(' ')).toLowerCase();
       if (hay.indexOf(q) === -1) return false;
@@ -272,7 +293,6 @@ function card(p){
 function render(){
   var list = filtered();
   document.getElementById('count').textContent = '（'+list.length+' / '+PROJECTS.length+' 件）';
-  // 列表
   var body = document.getElementById('listBody');
   if (!list.length) { body.innerHTML = '<div id="empty">該当するプロジェクトがありません</div>'; }
   else if (state.group === 'none') {

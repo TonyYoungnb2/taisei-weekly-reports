@@ -47,6 +47,20 @@ def generate():
     with io.open(os.path.join(BASE, 'index.html'), 'w', encoding='utf-8') as f:
         f.write(index_html)
     print('      已生成: reports/%s/report.html  (index.html 已更新)' % date_folder)
+    # 租金地图（方案B 独立页）随每次发布重生成
+    try:
+        import build_rentmap as brm
+        brm.main()
+        print('      已生成: rentmap.html （东京23区賃貸相場）')
+    except Exception as e:
+        print('      [WARN] rentmap 生成跳过: %s' % e)
+    # 平台主界面（含「賃貸相場」入口）随每次发布重生成
+    try:
+        import build_projects as bp
+        bp.main()
+        print('      已生成: projects.html （平台主界面）')
+    except Exception as e:
+        print('      [WARN] projects 生成跳过: %s' % e)
     return date_folder
 
 
