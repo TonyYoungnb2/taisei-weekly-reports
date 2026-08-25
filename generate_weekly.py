@@ -1342,9 +1342,10 @@ document.addEventListener('DOMContentLoaded', function(){
 function toggleMore(){
   var hidden = document.querySelectorAll('.report-hidden');
   var btn = document.getElementById('moreBtn');
+  var total = document.querySelectorAll('.report-card').length;
   var currentlyHidden = hidden.length && hidden[0].style.display !== 'block';
   for (var i=0;i<hidden.length;i++){ hidden[i].style.display = currentlyHidden ? 'block' : 'none'; }
-  btn.textContent = currentlyHidden ? i18nText('more_collapse') : i18nText('more_view', {total_reports});
+  btn.textContent = currentlyHidden ? i18nText('more_collapse') : i18nText('more_view', total);
 }
 </script>'''
     script_js = script_js.replace('N', str(total_reports))
@@ -1513,6 +1514,7 @@ body {{
 
   <div class="sec-title" data-i18n="archive_title">往期周报（{year}年）</div>
   <div class="report-grid">{report_cards}
+    </div>{show_more}
     <div class="sec-title"><span data-i18n="platform_title">🗺️ 不動産情報プラットフォーム</span></div>
   <a href="projects.html" class="platform-card">
     <div class="platform-ico">🏢</div>
