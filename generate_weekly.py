@@ -675,26 +675,29 @@ CSS = """
   .share-actions .download-btn.ghost:hover { background: #f1f6ff; box-shadow: none; }
     @media (max-width: 640px) {
     /* 浮标统一收口，避免窄屏互相挤压 */
-    .home-btn { top: 10px; left: 10px; font-size: 12px; padding: 6px 11px; }
+    .home-btn { top: 10px; left: 10px; font-size: 12px; padding: 6px 11px; border-radius: 18px; }
     .lang-switch { right: 12px; top: 10px; padding: 4px 4px 4px 8px; }
-    /* 标题与统计卡收窄 */
-    .header h1 { font-size: 1.5em; }
-    .stats-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: -20px; padding: 0 12px; }
-    .stat-card { overflow: hidden; min-width: 0; }
-    .stat-card .label { word-break: break-word; line-height: 1.3; }
-    .card-grid.cols-2 { grid-template-columns: minmax(0, 1fr); }
-    .card-grid.cols-2 { grid-template-columns: 1fr; }
-    .section-title { font-size: 1.05em; margin-bottom: 10px; padding-bottom: 8px; gap: 8px; }
-    /* 新闻卡手机紧凑化（仅手机，PC 完全不变） */
-    .card { padding: 14px 14px 12px; min-width: 0; }
-    .card h3 { font-size: 0.9em; line-height: 1.45; margin-bottom: 5px; }
-    .card p { font-size: 0.8em; line-height: 1.55; }
-    .card .date { margin-bottom: 3px; }
-    .card .source-link { font-size: 0.7em; margin-top: 6px; }
+    /* 标题收窄 + 字距收一点 */
+    .header h1 { font-size: 1.5em; letter-spacing: 1px; }
+    /* 统计卡：2列 + 圆角/留白/质感统一（防溢出基线不变） */
+    .stats-bar { grid-template-columns: repeat(2, minmax(0, 1fr)); margin-top: -20px; padding: 0 12px; gap: 10px; }
+    .stat-card { overflow: hidden; min-width: 0; border-radius: 16px; padding: 14px 10px; box-shadow: 0 4px 14px rgba(15,52,96,.08); }
+    .stat-card .num { font-size: 1.4em; }
+    .stat-card .label { word-break: break-word; line-height: 1.35; font-size: 0.7em; margin-top: 5px; }
+    /* 新闻卡：单列 + 圆角/留白/质感统一 */
+    .card-grid.cols-2 { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+    .section { margin-bottom: 22px; }
+    .section-title { font-size: 1.05em; margin-bottom: 12px; padding-bottom: 8px; gap: 8px; }
+    .card { padding: 16px 15px 14px; min-width: 0; border-radius: 16px; box-shadow: 0 3px 14px rgba(15,52,96,.07); }
+    .card h3 { font-size: 0.92em; line-height: 1.5; margin-bottom: 6px; }
+    .card p { font-size: 0.82em; line-height: 1.6; color: #4a5563; }
+    .card .date { margin-bottom: 4px; }
+    .card .date .source { border-radius: 6px; }
+    .card .source-link { font-size: 0.72em; margin-top: 8px; }
     /* 分享弹窗全宽兜底，防横向溢出 */
-    .share-btn-fab { bottom: 18px; right: 18px; width: 48px; height: 48px; font-size: 18px; }
-    .share-modal .modal-box { width: 100%; box-sizing: border-box; padding: 16px 14px; }
-    #share-card { width: 100%; }
+    .share-btn-fab { bottom: 18px; right: 18px; width: 48px; height: 48px; font-size: 18px; border-radius: 50%; }
+    .share-modal .modal-box { width: 100%; box-sizing: border-box; padding: 18px 16px; border-radius: 20px; }
+    #share-card { width: 100%; border-radius: 18px; }
     #share-card .card-content { padding: 20px 18px; }
   }
 
@@ -1313,9 +1316,9 @@ def build_index_html(reports):
 var I18N = {
   cn: {
     hero_title: '大誠有限会社 · 日本不动产半月报',
-    hero_sub: '东京不动产市场最新动态 · 每周精选推送',
+    hero_sub: '东京不动产市场最新动态 · 半月精选推送',
     feat_tag: '📌 最新一期',
-    feat_desc: '覆盖政策动向、市场交易、开发动态、科技前沿与调查数据五大板块，精选本周日本（以东京圈为主）不动产核心资讯，附小虾点评。',
+    feat_desc: '覆盖政策动向、市场交易、开发动态、科技前沿与调查数据五大板块，精选本半月日本（以东京圈为主）不动产核心资讯，附小虾点评。',
     feat_cta: '立即阅读 →',
     archive_title: '往期半月报（' + new Date().getFullYear() + '年）',
     footer_note: '内容仅供参考，投资需谨慎',
@@ -1329,9 +1332,9 @@ var I18N = {
   },
   jp: {
     hero_title: '大誠有限会社 · 日本不動産半月報',
-    hero_sub: '東京不動産マーケット最新情報 · 毎週厳選お届け',
+    hero_sub: '東京不動産マーケット最新情報 · 半月ごとに厳選お届け',
     feat_tag: '📌 最新号',
-    feat_desc: '政策動向・市場取引・開発動向・テクノロジー・調査データの5分野を網羅。今週の日本（東京圏中心）不動産の核心情報を厳選し、小蝦（シャオエビ）の解説付き。',
+    feat_desc: '政策動向・市場取引・開発動向・テクノロジー・調査データの5分野を網羅。この半月の日本（東京圏中心）不動産の核心情報を厳選し、小蝦（シャオエビ）の解説付き。',
     feat_cta: '今すぐ読む →',
     archive_title: '過去の半月報（' + new Date().getFullYear() + '年）',
     footer_note: '内容は参考用です。投資は慎重に。',
@@ -1401,7 +1404,7 @@ function toggleMore(){
         <h2 class="featured-title">日本不动产半月报</h2>
         <div class="featured-date">{feat_date} · {feat_issue}</div>
         <p class="featured-desc">覆盖政策动向、市场交易、开发动态、科技前沿与调查数据五大板块，
-        精选本周日本（以东京圈为主）不动产核心资讯，附小虾点评。</p>
+        精选本半月日本（以东京圈为主）不动产核心资讯，附小虾点评。</p>
         <span class="featured-cta" data-i18n="feat_cta">立即阅读 →</span>
       </div>
       <div class="featured-right">
@@ -1516,9 +1519,20 @@ body {{
 .more-btn {{ background: #fff; border: 1.5px solid #1a5fb4; color: #1a5fb4; font-size: 14px; font-weight: 700; padding: 11px 30px; border-radius: 24px; cursor: pointer; transition: all .15s; }}
 .more-btn:hover {{ background: #1a5fb4; color: #fff; }}
 @media (max-width: 720px) {{
-  .featured {{ flex-direction: column; text-align: center; }}
-  .featured-desc {{ margin-left: auto; margin-right: auto; }}
-  .hero h1 {{ font-size: 24px; }}
+  .hero {{ padding: 44px 16px 52px; }}
+  .hero h1 {{ font-size: 23px; letter-spacing: 1px; }}
+  .hero p {{ font-size: 13px; }}
+  .container {{ padding: 0 14px 48px; }}
+  .featured {{ flex-direction: column; text-align: center; border-radius: 18px; padding: 24px 20px; margin: -28px auto 28px; }}
+  .featured-desc {{ margin-left: auto; margin-right: auto; font-size: 13px; }}
+  .featured-cta {{ padding: 9px 22px; font-size: 13px; }}
+  .ring {{ width: 96px; height: 96px; }}
+  .ring span {{ font-size: 32px; }}
+  .report-grid {{ grid-template-columns: minmax(0, 1fr); gap: 12px; }}
+  .report-card {{ border-radius: 16px; }}
+  .card-link {{ padding: 16px 15px; }}
+  .sec-title {{ font-size: 15px; }}
+  .platform-card {{ border-radius: 16px; padding: 18px 16px; }}
 }}
 </style>
 <link rel="stylesheet" href="/pagefind/pagefind-ui.css">
@@ -1533,7 +1547,7 @@ body {{
   </div>
   <div class="hero-brand">TAISEI</div>
   <h1 data-i18n="hero_title">大誠有限会社 · 日本不动产半月报</h1>
-  <p data-i18n="hero_sub">东京不动产市场最新动态 · 每周精选推送</p>
+  <p data-i18n="hero_sub">东京不动产市场最新动态 · 半月精选推送</p>
   <div class="hero-updated">更新于 {today_str}</div>
 </header>
 
