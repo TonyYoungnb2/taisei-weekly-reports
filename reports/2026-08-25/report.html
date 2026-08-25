@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/pagefind/pagefind-ui.css">
-<meta name="description" content="大誠有限会社専用不動產週報 2026年8月25日">
-<title>大誠不动產週報 2026年8月25日</title>
+<meta name="description" content="大誠有限会社専用不動產半月報 2026年8月16日 — 2026年8月31日">
+<title>大誠不动產半月報 2026年8月16日 — 2026年8月31日</title>
 <style>
   /* 不使用 Google Fonts：国内/微信环境会挂起导致截图卡死，改用系统字体 */
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -476,9 +476,9 @@
   <div class="logo-wrap">
     <span class="logo-text">TAISEI</span>
     <div class="title-group">
-      <h1><span class="lang-cn">大诚会社专用不动产周报</span><span class="lang-jp" data-jp="大誠会社専用不動產週報">大誠会社専用不動產週報</span></h1>
+      <h1><span class="lang-cn">大诚会社专用不动产半月报</span><span class="lang-jp" data-jp="大誠会社専用不動產半月報">大誠会社専用不動產半月報</span></h1>
       <div class="subtitle"><span class="lang-cn">政策 · 市场 · 开发 · 趋势</span><span class="lang-jp" data-jp="政策 · 市場 · 開発 · トレンド">政策 · 市場 · 開発 · トレンド</span></div>
-      <div class="date-range" id="headerDateRange">📅 2026年8月25日</div>
+      <div class="date-range" id="headerDateRange">📅 2026年8月16日 — 2026年8月31日</div>
     </div>
   </div>
 </div>
@@ -513,7 +513,7 @@
 
 <!-- 热点速览 -->
 <div class="key-insight">
-  <h3><span class="lang-cn">🔥 本周热点速览</span><span class="lang-jp" data-jp="🔥 今週の注目トピックス">🔥 今週の注目トピックス</span></h3>
+  <h3><span class="lang-cn">🔥 本期热点速览</span><span class="lang-jp" data-jp="🔥 今期の注目トピックス">🔥 今期の注目トピックス</span></h3>
   <ul id="hotlist">
 <li><span class="lang-cn"><strong>东京核心区二手公寓连3月下跌</strong> — 都心6区7月环比-1.7%至1.8195亿，创2012年以来最长连跌</span><span class="lang-jp" data-jp="首都圏新築マンション平均価格が初の1億円突破 — 2026年上半期の発売戸数は5年連続減、供給縮小と高価格が併存（不動産経済研究所）"><strong>首都圏新築マンション平均価格が初の1億円突破</strong> — 2026年上半期の発売戸数は5年連続減、供給縮小と高価格が併存（不動産経済研究所）</span></li>
 <li><span class="lang-cn"><strong>Flat35 8月利率创历史新高</strong> — 最低3.29%，连续3个月站上3%</span><span class="lang-jp" data-jp="東京23区中古マンションが26カ月ぶり下落 — 6月の70㎡価格は12,741万円（-0.8%）、都心6区は2カ月連続下落・値下げ物件が過半数"><strong>東京23区中古マンションが26カ月ぶり下落</strong> — 6月の70㎡価格は12,741万円（-0.8%）、都心6区は2カ月連続下落・値下げ物件が過半数</span></li>
@@ -871,12 +871,12 @@ function buildShareCard() {
     '<div class="card-top-accent"></div>' +
     '<div class="card-content">' +
       '<div class="card-logo">TAISEI</div>' +
-      '<div class="card-meta">WEEKLY REAL ESTATE REPORT</div>' +
+      '<div class="card-meta">BI-WEEKLY REAL ESTATE REPORT</div>' +
       '<div class="card-date-badge">📅 ' + dateRange.replace('📅 ', '') + '</div>' +
       '<hr class="card-divider">' +
       '<div class="card-stats">' + statsHTML + '</div>' +
       '<hr class="card-divider">' +
-      '<div class="card-highlights-title">✦ WEEKLY HIGHLIGHTS</div>' +
+      '<div class="card-highlights-title">✦ BI-WEEKLY HIGHLIGHTS</div>' +
       '<ul class="card-highlights">' + hlHTML + '</ul>' +
       '<div class="card-bottom">' +
         '<span class="brand">' + COMPANY_NAME_JP + ' · 不動産専門</span>' +
@@ -891,9 +891,9 @@ function buildCardText() {
   const stats = getStats();
   const highlights = getHighlights();
   const NL = String.fromCharCode(10);
-  let t = '【' + COMPANY_NAME_JP + ' 日本不动产周报】' + NL + dateRange + NL + NL;
+  let t = '【' + COMPANY_NAME_JP + ' 日本不动产半月报】' + NL + dateRange + NL + NL;
   stats.slice(0,4).forEach(function(s) { t += '• ' + s.label + '：' + s.num + NL; });
-  t += NL + '本周焦点：' + NL;
+  t += NL + '本期焦点：' + NL;
   highlights.forEach(function(h) { t += '▸ ' + h + NL; });
   t += NL + '详情见官方频道 / ' + COMPANY_SITE;
   return t;

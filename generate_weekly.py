@@ -744,6 +744,37 @@ def week_number():
     today = datetime.now()
     return today.isocalendar()[1]
 
+def _ym_cn(dt):
+    """2026年8月（去前导零）"""
+    return dt.strftime('%Y年%m月').replace('年0', '年').replace('月0', '月')
+
+def get_half_month_label(dt=None):
+    """上旬号 / 下旬号（基于日期）"""
+    if dt is None:
+        dt = datetime.now()
+    return '上旬号' if dt.day <= 15 else '下旬号'
+
+def report_issue_label(dt=None):
+    """半月报期数标签，例如 '2026年8月 上旬号'"""
+    if dt is None:
+        dt = datetime.now()
+    return f'{_ym_cn(dt)} {get_half_month_label(dt)}'
+
+def get_half_month_range(dt=None):
+    """本期覆盖的日期区间（上旬 1~15 / 下旬 16~月末）"""
+    import calendar
+    if dt is None:
+        dt = datetime.now()
+    if dt.day <= 15:
+        start = dt.replace(day=1)
+        end = dt.replace(day=15)
+    else:
+        start = dt.replace(day=16)
+        last = calendar.monthrange(dt.year, dt.month)[1]
+        end = dt.replace(day=last)
+    fmt = lambda d: d.strftime('%Y年%m月%d日').replace('年0', '年').replace('月0', '月')
+    return f'{fmt(start)} — {fmt(end)}'
+
 def render_news_card(news, accent_class, label_class):
     meta  = f'<div class="date">{news["date"]} <span class="source">{news["source"]}</span></div>'
     # 双语：默认显示中文(title_cn/body_cn)，日文作 data-jp 后备
@@ -781,11 +812,11 @@ def render_news_section(key):
 </div>'''
 
 def build_report_html():
-    """构建本周报告HTML（设计风格照搬 27/28 周大诚会社周报）"""
+    """构建本期报告HTML（设计风格照搬 27/28 周大诚会社周报）"""
     today_str  = datetime.now().strftime('%Y年%m月%d日')\
         .replace('年0','年').replace('月0','月')
-    date_range = today_str   # 仅显示发布当天，不再写周区间
-    week_num   = week_number()
+    date_range = get_half_month_range()   # 本期覆盖的半月区间
+    issue_label = report_issue_label()    # 例如「2026年8月 上旬号」
 
     # ⚠️ 读取真实周报数据（cron 抓取的 JSON 优先；缺失则退回内置 NEWS_DATA）
     #    用 global 覆盖，使下方 render_news_section 读到最新数据
@@ -878,8 +909,8 @@ def build_report_html():
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <link rel="stylesheet" href="/pagefind/pagefind-ui.css">
-<meta name="description" content="大誠有限会社専用不動產週報 {date_range}">
-<title>大誠不动產週報 {date_range}</title>
+<meta name="description" content="大誠有限会社専用不動產半月報 {date_range}">
+<title>大誠不动產半月報 {date_range}</title>
 <style>{CSS}</style>
 {PAGELOAD_CSS}
 {ANALYTICS}
@@ -897,7 +928,7 @@ def build_report_html():
   <div class="logo-wrap">
     <span class="logo-text">TAISEI</span>
     <div class="title-group">
-      <h1><span class="lang-cn">大诚会社专用不动产周报</span><span class="lang-jp" data-jp="大誠会社専用不動產週報">大誠会社専用不動產週報</span></h1>
+      <h1><span class="lang-cn">大诚会社专用不动产半月报</span><span class="lang-jp" data-jp="大誠会社専用不動產半月報">大誠会社専用不動產半月報</span></h1>
       <div class="subtitle"><span class="lang-cn">政策 · 市场 · 开发 · 趋势</span><span class="lang-jp" data-jp="政策 · 市場 · 開発 · トレンド">政策 · 市場 · 開発 · トレンド</span></div>
       <div class="date-range" id="headerDateRange">📅 {date_range}</div>
     </div>
@@ -914,7 +945,7 @@ def build_report_html():
 
 <!-- 热点速览 -->
 <div class="key-insight">
-  <h3><span class="lang-cn">🔥 本周热点速览</span><span class="lang-jp" data-jp="🔥 今週の注目トピックス">🔥 今週の注目トピックス</span></h3>
+  <h3><span class="lang-cn">🔥 本期热点速览</span><span class="lang-jp" data-jp="🔥 今期の注目トピックス">🔥 今期の注目トピックス</span></h3>
   <ul id="hotlist">
 {hot_html}
   </ul>
@@ -1055,12 +1086,12 @@ function buildShareCard() {{
     '<div class="card-top-accent"></div>' +
     '<div class="card-content">' +
       '<div class="card-logo">TAISEI</div>' +
-      '<div class="card-meta">WEEKLY REAL ESTATE REPORT</div>' +
+      '<div class="card-meta">BI-WEEKLY REAL ESTATE REPORT</div>' +
       '<div class="card-date-badge">📅 ' + dateRange.replace('📅 ', '') + '</div>' +
       '<hr class="card-divider">' +
       '<div class="card-stats">' + statsHTML + '</div>' +
       '<hr class="card-divider">' +
-      '<div class="card-highlights-title">✦ WEEKLY HIGHLIGHTS</div>' +
+      '<div class="card-highlights-title">✦ BI-WEEKLY HIGHLIGHTS</div>' +
       '<ul class="card-highlights">' + hlHTML + '</ul>' +
       '<div class="card-bottom">' +
         '<span class="brand">' + COMPANY_NAME_JP + ' · 不動産専門</span>' +
@@ -1075,9 +1106,9 @@ function buildCardText() {{
   const stats = getStats();
   const highlights = getHighlights();
   const NL = String.fromCharCode(10);
-  let t = '【' + COMPANY_NAME_JP + ' 日本不动产周报】' + NL + dateRange + NL + NL;
+  let t = '【' + COMPANY_NAME_JP + ' 日本不动产半月报】' + NL + dateRange + NL + NL;
   stats.slice(0,4).forEach(function(s) {{ t += '\u2022 ' + s.label + '\uff1a' + s.num + NL; }});
-  t += NL + '本周焦点：' + NL;
+  t += NL + '本期焦点：' + NL;
   highlights.forEach(function(h) {{ t += '\u25b8 ' + h + NL; }});
   t += NL + '详情见官方频道 / ' + COMPANY_SITE;
   return t;
@@ -1240,7 +1271,7 @@ def build_index_html(reports):
     reports_sorted = list(reports)
     latest = reports_sorted[0] if reports_sorted else None
 
-    REPORT_LIMIT = 3  # 首页「往期周报」默认展示数量；超过则显示「查看更多」按钮
+    REPORT_LIMIT = 3  # 首页「往期半月报」默认展示数量；超过则显示「查看更多」按钮
     total_reports = len(reports_sorted)
 
     # 报告网格（最新一期标记「最新」徽标，超出限制部分默认折叠）
@@ -1248,7 +1279,11 @@ def build_index_html(reports):
     for idx, r in enumerate(reports_sorted):
         folder = r['folder']
         date_str = r['date_str']
-        week_num = r['week_num']
+        day = r['sort_key'].day
+        hm = '上旬号' if day <= 15 else '下旬号'
+        ym = r['sort_key'].strftime('%Y年%m月').replace('年0','年').replace('月0','月')
+        issue = f'{ym} {hm}'
+        hm_char = '上' if day <= 15 else '下'
         badge = '<span class="card-badge">最新</span>' if idx == 0 else ''
         hidden = ' report-hidden' if idx >= REPORT_LIMIT else ''
         report_cards += f'''
@@ -1256,7 +1291,7 @@ def build_index_html(reports):
       <a href="reports/{folder}/report.html?v={_build_v}" class="card-link">
         {badge}
         <div class="card-date">{date_str}</div>
-        <div class="card-title">第 {week_num} 期 · 日本不动产周报</div>
+        <div class="card-title">{issue} · 日本不动产半月报</div>
         <div class="card-meta">{year}年 · 东京市场动态</div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
@@ -1266,7 +1301,7 @@ def build_index_html(reports):
     if total_reports > REPORT_LIMIT:
         show_more = f'''
   <div class="more-wrap">
-    <button class="more-btn" id="moreBtn" onclick="toggleMore()">查看更多往期周报（共 {total_reports} 期） ↓</button>
+    <button class="more-btn" id="moreBtn" onclick="toggleMore()">查看更多往期半月报（共 {total_reports} 期） ↓</button>
   </div>'''
     else:
         show_more = ''
@@ -1277,14 +1312,14 @@ def build_index_html(reports):
 /* ===== i18n 语言切换（中/日） ===== */
 var I18N = {
   cn: {
-    hero_title: '大誠有限会社 · 日本不动产周报',
+    hero_title: '大誠有限会社 · 日本不动产半月报',
     hero_sub: '东京不动产市场最新动态 · 每周精选推送',
     feat_tag: '📌 最新一期',
     feat_desc: '覆盖政策动向、市场交易、开发动态、科技前沿与调查数据五大板块，精选本周日本（以东京圈为主）不动产核心资讯，附小虾点评。',
     feat_cta: '立即阅读 →',
-    archive_title: '往期周报（' + new Date().getFullYear() + '年）',
+    archive_title: '往期半月报（' + new Date().getFullYear() + '年）',
     footer_note: '内容仅供参考，投资需谨慎',
-    more_view: function(n){ return '查看更多往期周报（共 ' + n + ' 期） ↓'; },
+    more_view: function(n){ return '查看更多往期半月报（共 ' + n + ' 期） ↓'; },
     more_collapse: '收起 ↑',
     platform_title: '🗺️ 不动产情报平台',
     platform_proj: '项目库 · Project List',
@@ -1293,14 +1328,14 @@ var I18N = {
     platform_rent_desc: '一都三县194市区町村租金一图看懂：以e-Stat月额租金(中位数)统一比较，可跳转到该市区收益物件。',
   },
   jp: {
-    hero_title: '大誠有限会社 · 日本不動産週報',
+    hero_title: '大誠有限会社 · 日本不動産半月報',
     hero_sub: '東京不動産マーケット最新情報 · 毎週厳選お届け',
     feat_tag: '📌 最新号',
     feat_desc: '政策動向・市場取引・開発動向・テクノロジー・調査データの5分野を網羅。今週の日本（東京圏中心）不動産の核心情報を厳選し、小蝦（シャオエビ）の解説付き。',
     feat_cta: '今すぐ読む →',
-    archive_title: '過去の週報（' + new Date().getFullYear() + '年）',
+    archive_title: '過去の半月報（' + new Date().getFullYear() + '年）',
     footer_note: '内容は参考用です。投資は慎重に。',
-    more_view: function(n){ return '過去の週報をもっと見る（全 ' + n + ' 号） ↓'; },
+    more_view: function(n){ return '過去の半月報をもっと見る（全 ' + n + ' 号） ↓'; },
     more_collapse: '折りたたむ ↑',
     platform_title: '🗺️ 不動産情報プラットフォーム',
     platform_proj: 'プロジェクト一覧 · Project List',
@@ -1353,20 +1388,24 @@ function toggleMore(){
     # 最新一期特写卡
     if latest:
         feat_date = latest['date_str']
-        feat_week = latest['week_num']
+        fday = latest['sort_key'].day
+        fhm = '上旬号' if fday <= 15 else '下旬号'
+        fym = latest['sort_key'].strftime('%Y年%m月').replace('年0','年').replace('月0','月')
+        feat_issue = f'{fym} {fhm}'
+        feat_hm_char = '上' if fday <= 15 else '下'
         feat_folder = latest['folder']
         featured_html = f'''
     <a href="reports/{feat_folder}/report.html?v={_build_v}" class="featured">
       <div class="featured-left">
         <span class="featured-tag" data-i18n="feat_tag">📌 最新一期</span>
-        <h2 class="featured-title">日本不动产周报</h2>
-        <div class="featured-date">{feat_date} · 第 {feat_week} 期</div>
+        <h2 class="featured-title">日本不动产半月报</h2>
+        <div class="featured-date">{feat_date} · {feat_issue}</div>
         <p class="featured-desc">覆盖政策动向、市场交易、开发动态、科技前沿与调查数据五大板块，
         精选本周日本（以东京圈为主）不动产核心资讯，附小虾点评。</p>
         <span class="featured-cta" data-i18n="feat_cta">立即阅读 →</span>
       </div>
       <div class="featured-right">
-        <div class="ring"><span>{feat_week}</span><em>期</em></div>
+        <div class="ring"><span>{feat_hm_char}</span><em>旬</em></div>
       </div>
     </a>'''
     else:
@@ -1377,7 +1416,7 @@ function toggleMore(){
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>大誠有限会社 · 日本不动产周报</title>
+<title>大誠有限会社 · 日本不动产半月报</title>
 <style>
 *, *::before, *::after {{ box-sizing: border-box; margin: 0; padding: 0; }}
 body {{
@@ -1493,7 +1532,7 @@ body {{
     <button type="button" class="lang-btn" data-lang="jp" onclick="setLang('jp')">日本語</button>
   </div>
   <div class="hero-brand">TAISEI</div>
-  <h1 data-i18n="hero_title">大誠有限会社 · 日本不动产周报</h1>
+  <h1 data-i18n="hero_title">大誠有限会社 · 日本不动产半月报</h1>
   <p data-i18n="hero_sub">东京不动产市场最新动态 · 每周精选推送</p>
   <div class="hero-updated">更新于 {today_str}</div>
 </header>
@@ -1512,7 +1551,7 @@ body {{
 
   {featured_html}
 
-  <div class="sec-title" data-i18n="archive_title">往期周报（{year}年）</div>
+  <div class="sec-title" data-i18n="archive_title">往期半月报（{year}年）</div>
   <div class="report-grid">{report_cards}
     </div>{show_more}
     <div class="sec-title"><span data-i18n="platform_title">🗺️ 不動産情報プラットフォーム</span></div>
@@ -1536,7 +1575,7 @@ body {{
 </div>
 
 <footer class="footer">
-  <p><a href="https://www.taisei-r.com/" target="_blank" rel="noopener" class="footer-brand">大誠有限会社</a> · 日本不动产周报</p>
+  <p><a href="https://www.taisei-r.com/" target="_blank" rel="noopener" class="footer-brand">大誠有限会社</a> · 日本不动产半月报</p>
   <p style="margin-top:6px;opacity:.7;" data-i18n="footer_note">内容仅供参考，投资需谨慎</p>
 </footer>{script_js}
 </body>
@@ -1582,17 +1621,17 @@ def upsert_file(owner, repo, path, content, message, branch=BRANCH):
 def main():
     import requests, os
 
-    print('[1/5] 构建本周报告HTML...')
+    print('[1/5] 构建本期报告HTML...')
     report_html = build_report_html()
 
-    # 生成本周文件夹名
+    # 生成本期文件夹名（按发布当天）
     today = datetime.now()
     date_folder = today.strftime('%Y-%m-%d')
     report_path = f'reports/{date_folder}/report.html'
-    week_num = week_number()
-    date_range_from, date_range_to = get_week_range()
+    issue_label = report_issue_label()
+    date_range = get_half_month_range()
 
-    print(f'      本周: {date_range_from} -- {date_range_to}')
+    print(f'      {issue_label}: {date_range}')
 
     # ── 检查仓库是否存在 ────────────────────────────────────────────
     print('[2/5] 检查/创建GitHub仓库...')
@@ -1601,7 +1640,7 @@ def main():
         print('      仓库不存在，创建中...')
         resp = github_api('POST', '/user/repos', {
             'name': REPO_NAME,
-            'description': '大誠有限会社专用不动產週報 -- 東京不动產市場最新動向',
+            'description': '大誠有限会社专用不动產半月報 -- 東京不动產市場最新動向',
             'private': False,
             'auto_init': False,
         })
@@ -1613,9 +1652,9 @@ def main():
     else:
         print(f'      仓库已存在 OK')
 
-    # ── 上传本周报告 ─────────────────────────────────────────────────
-    print(f'[3/5] 上传本周报告 ({report_path})...')
-    commit_msg = f'📋 Add weekly report: {date_range_from} -- {date_range_to} (Week {week_num})'
+    # ── 上传本期报告 ─────────────────────────────────────────────────
+    print(f'[3/5] 上传本期报告 ({report_path})...')
+    commit_msg = f'📋 Add half-month report: {date_range} ({issue_label})'
     resp = upsert_file(REPO_OWNER, REPO_NAME, report_path, report_html, commit_msg)
     if resp.status_code in (200, 201):
         print(f'      报告上传成功 OK')
