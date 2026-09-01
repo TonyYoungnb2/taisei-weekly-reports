@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-08-18",
+  "updated_at": "2026-09-01",
   "projects": [
     {
       "id": "P001",
@@ -2715,6 +2715,29 @@
       "last_updated": "2026-08-18",
       "news_count": 0,
       "verified": false
+    },
+    {
+      "id": "P118",
+      "name": "YURAKUCHO PARK（有楽町パーク）",
+      "aliases": [
+        "有楽町パーク",
+        "有楽町公園",
+        "Yurakucho Park",
+        "有楽町ビル新有楽町ビル跡地プロジェクト"
+      ],
+      "developer": "三菱地所",
+      "category": "综合开发",
+      "status": "开发中",
+      "prefecture": "東京都",
+      "city": "千代田区",
+      "district": "有楽町",
+      "address": "東京都千代田区有楽町（有楽町ビル・新有楽町ビル跡地、有楽町駅前）",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-09-01",
+      "last_updated": "2026-09-01",
+      "news_count": 0,
+      "verified": true
     }
   ]
 }
