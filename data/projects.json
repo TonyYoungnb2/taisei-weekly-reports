@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-01",
+  "updated_at": "2026-09-15",
   "projects": [
     {
       "id": "P001",
@@ -2738,6 +2738,52 @@
       "last_updated": "2026-09-01",
       "news_count": 0,
       "verified": true
+    },
+    {
+      "id": "P119",
+      "name": "福岡PARCO再開発（天神二丁目南ブロック 新天町・パルコ街区）",
+      "aliases": [
+        "福岡PARCO再開発",
+        "天神二丁目南ブロック駅前東街区",
+        "新天町パルコ街区",
+        "Fukuoka PARCO Redevelopment"
+      ],
+      "developer": "福岡市（天神ビッグバン再開発）",
+      "category": "综合开发",
+      "status": "规划",
+      "prefecture": "福岡県",
+      "city": "中央区",
+      "district": "天神",
+      "address": "",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-09-15",
+      "last_updated": "2026-09-15",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P120",
+      "name": "東武鉄道 日本橋ホテル（東京駅近く 限定サービスホテル）",
+      "aliases": [
+        "東武鉄道日本橋ホテル",
+        "東武日本橋ホテル",
+        "Tobu Nihombashi Hotel",
+        "東京駅近くホテル"
+      ],
+      "developer": "東武鉄道",
+      "category": "酒店",
+      "status": "规划",
+      "prefecture": "東京都",
+      "city": "中央区",
+      "district": "日本橋",
+      "address": "",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-09-15",
+      "last_updated": "2026-09-15",
+      "news_count": 0,
+      "verified": false
     }
   ]
 }
