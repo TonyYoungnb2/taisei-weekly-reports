@@ -2927,6 +2927,192 @@
       "last_updated": "2026-09-22",
       "news_count": 0,
       "verified": false
+    },
+    {
+      "id": "P127",
+      "name": "大成ユーラク不動産 高井戸賃貸マンション",
+      "aliases": [
+        "高井戸マンション",
+        "Takaido apartment",
+        "大成ユーラク 高井戸"
+      ],
+      "developer": "大成ユーラク不動産",
+      "category": "住宅",
+      "status": "开发中",
+      "prefecture": "東京都",
+      "city": "杉並区",
+      "district": "高井戸",
+      "address": "",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-09-22",
+      "last_updated": "2026-09-22",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P128",
+      "name": "東京建物・ミサワホーム 新橋ホテル",
+      "aliases": [
+        "新橋ホテル",
+        "Shimbashi hotel",
+        "東京建物 新橋"
+      ],
+      "developer": "東京建物・ミサワホーム",
+      "category": "酒店",
+      "status": "开发中",
+      "prefecture": "東京都",
+      "city": "港区",
+      "district": "新橋",
+      "address": "",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-09-22",
+      "last_updated": "2026-09-22",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P129",
+      "name": "三菱地所 品川区マンション新築",
+      "aliases": [
+        "品川マンション",
+        "Mitsui Shinagawa apartment",
+        "三菱地所 品川"
+      ],
+      "developer": "三菱地所",
+      "category": "住宅",
+      "status": "开发中",
+      "prefecture": "東京都",
+      "city": "品川区",
+      "district": "",
+      "address": "",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-09-22",
+      "last_updated": "2026-09-22",
+      "news_count": 0,
+      "verified": false,
+      "needs_review": {
+        "maybe_same_as": "P117",
+        "candidate_name": "台東区神社一体開発 定期借地マンション",
+        "score": 0.5
+      }
+    },
+    {
+      "id": "P130",
+      "name": "野村不動産 新川マンション新築",
+      "aliases": [
+        "新川マンション",
+        "Nomura Shinkawa apartment",
+        "野村 新川"
+      ],
+      "developer": "野村不動産",
+      "category": "住宅",
+      "status": "开发中",
+      "prefecture": "東京都",
+      "city": "中央区",
+      "district": "新川",
+      "address": "",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-09-22",
+      "last_updated": "2026-09-22",
+      "news_count": 0,
+      "verified": false,
+      "needs_review": {
+        "maybe_same_as": "P129",
+        "candidate_name": "三菱地所 品川区マンション新築",
+        "score": 0.571
+      }
+    },
+    {
+      "id": "P131",
+      "name": "三光アセットマネジメント 銀座ビル新築",
+      "aliases": [
+        "銀座ビル",
+        "Ginza building",
+        "三光 銀座"
+      ],
+      "developer": "三光アセットマネジメント",
+      "category": "商业",
+      "status": "开发中",
+      "prefecture": "東京都",
+      "city": "中央区",
+      "district": "銀座",
+      "address": "",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-09-22",
+      "last_updated": "2026-09-22",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P132",
+      "name": "東急不動産・日本製鉄興和 二番町土地区画",
+      "aliases": [
+        "二番町開発",
+        "Nibancho development",
+        "東急 二番町"
+      ],
+      "developer": "東急不動産・日本製鉄興和",
+      "category": "综合开发",
+      "status": "规划",
+      "prefecture": "東京都",
+      "city": "千代田区",
+      "district": "二番町",
+      "address": "",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-09-22",
+      "last_updated": "2026-09-22",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P133",
+      "name": "日本製鉄興和 神田神保町オフィスビル",
+      "aliases": [
+        "神田神保町オフィス",
+        "Kanda-Jimbocho office",
+        "日本製鉄興和 神保町"
+      ],
+      "developer": "日本製鉄興和",
+      "category": "办公",
+      "status": "开发中",
+      "prefecture": "東京都",
+      "city": "千代田区",
+      "district": "神田神保町",
+      "address": "",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-09-22",
+      "last_updated": "2026-09-22",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P134",
+      "name": "アートプラン 池袋駅近店舗ビル",
+      "aliases": [
+        "池袋店舗ビル",
+        "Ikebukuro retail building",
+        "アートプラン 池袋"
+      ],
+      "developer": "アートプラン",
+      "category": "商业",
+      "status": "开发中",
+      "prefecture": "東京都",
+      "city": "豊島区",
+      "district": "池袋",
+      "address": "",
+      "latitude": null,
+      "longitude": null,
+      "first_seen": "2026-09-22",
+      "last_updated": "2026-09-22",
+      "news_count": 0,
+      "verified": false
     }
   ]
 }
