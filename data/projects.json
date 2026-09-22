@@ -1,6 +1,6 @@
 {
   "version": 1,
-  "updated_at": "2026-09-15",
+  "updated_at": "2026-09-22",
   "projects": [
     {
       "id": "P001",
@@ -2902,6 +2902,29 @@
       "longitude": null,
       "first_seen": "2026-09-15",
       "last_updated": "2026-09-15",
+      "news_count": 0,
+      "verified": false
+    },
+    {
+      "id": "P126",
+      "name": "Brillia 日本橋本町",
+      "aliases": [
+        "ブリリア日本橋本町",
+        "Brillia Nihonbashi Honcho",
+        "日本橋本町 Brillia",
+        "東京建物 日本橋本町"
+      ],
+      "developer": "東京建物",
+      "category": "住宅",
+      "status": "规划",
+      "prefecture": "東京都",
+      "city": "中央区",
+      "district": "日本橋本町四丁目",
+      "address": "東京都中央区日本橋本町四丁目11番3",
+      "latitude": 35.690182,
+      "longitude": 139.775101,
+      "first_seen": "2026-09-22",
+      "last_updated": "2026-09-22",
       "news_count": 0,
       "verified": false
     }
