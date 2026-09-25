@@ -121,6 +121,13 @@ def verify_projects():
     chk('projects: minmax(Npx,1fr) 仅桌面', len(bad) == 0, ','.join(bad))
     for fn in ['function buildChips', 'function filtered', 'function render', 'function openDetail', 'function renderMap']:
         chk('projects: %s' % fn, fn in h)
+    # 时间筛选器（防回退）：chip 行 + 四个预设 + 竣工年渲染 + CUR 注入 + 过滤逻辑
+    chk('projects: 时间筛选器 chip 行', 'id="timeChips"' in h and 'data-k="time"' in h)
+    chk('projects: 时间预设 近年+/未来/全期間/年数指定',
+        all(k in h for k in ['data-v="recent"', 'data-v="future"', 'data-v="all"', 'data-v="custom"']))
+    chk('projects: 时间过滤逻辑', "state.time" in h and 'p.completion_year' in h)
+    chk('projects: CUR 年 已注入', bool(re.search(r'var CUR = 2\d{3};', h)))
+    chk('projects: 卡片渲染竣工年', '竣工：' in h)
     chk('projects: vendor 文件存在', os.path.isfile(os.path.join(BASE, 'vendor', 'leaflet', 'leaflet.js')) and
         os.path.isfile(os.path.join(BASE, 'vendor', 'leaflet', 'leaflet.css')))
 

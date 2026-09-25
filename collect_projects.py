@@ -143,6 +143,15 @@ def _today():
     return date.today().strftime('%Y-%m-%d')
 
 
+# 时间窗口：竣工年缺失或 >= 今年-5 → active（默认展示）；否则 archived（默认隐藏，可切换显示）。
+# 与 generate 端一致（今年-5 滚动）。改这里必须同步改 build_projects.py 前端 CUR 逻辑。
+def _window_status(completion_year):
+    from datetime import date
+    if completion_year is None:
+        return 'active'
+    return 'active' if int(completion_year) >= date.today().year - 5 else 'archived'
+
+
 def load_projects():
     if not os.path.isfile(PROJ):
         return {'version': 1, 'updated_at': '', 'projects': []}
@@ -197,6 +206,13 @@ def merge_item(d, item):
             filled['source_url'] = item['source_url']
             if item.get('source_name'):
                 filled['source_name'] = item['source_name']
+        # 时间字段：命中旧项目但库里缺年份时补上（防「时间筛选器」回归）
+        if not p.get('completion_year') and item.get('completion_year'):
+            filled['completion_year'] = int(item['completion_year'])
+        if not p.get('start_year') and item.get('start_year'):
+            filled['start_year'] = int(item['start_year'])
+        if filled.get('completion_year'):
+            filled['window_status'] = _window_status(filled['completion_year'])
         if added_alias or filled:
             if added_alias:
                 p['aliases'] = new_aliases
@@ -234,6 +250,10 @@ def merge_item(d, item):
         if item.get('source_url'):
             rec['source_url'] = item['source_url']
             rec['source_name'] = item.get('source_name', '')
+        # 时间字段：保留采集时带的竣工年/着工年，并计算滚动窗口状态（防「时间筛选器」回归）
+        rec['completion_year'] = int(item['completion_year']) if item.get('completion_year') else None
+        rec['start_year'] = int(item['start_year']) if item.get('start_year') else None
+        rec['window_status'] = _window_status(rec['completion_year'])
         if item.get('news_count') is not None:
             rec['news_count'] = int(item['news_count'])
         # 中等相似度：可能重复，标记出来等人工定夺，不静默合并
