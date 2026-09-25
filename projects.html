@@ -50,19 +50,29 @@
                 padding:1px 5px; font-size:11px; font-weight:600; white-space:nowrap;
                 box-shadow:0 1px 3px rgba(0,0,0,.3); }
   .proj-label::before { display:none; }
-  /* 简洁空心圈：仅描边 + 细白外圈 + 淡投影（不刺眼，新闻不表示）
+  /* 水滴地图针（teardrop pin）：经典地图标记形态，白描边 + 淡投影，针尖对准坐标
      状态色：完工=青绿(teal) #0d9488 / 未完工=紫罗兰(violet) #7c3aed
      —— 均非东京地铁线路色（绿=千代田线、橙=银座线），且色盲可区分 */
-  .proj-pin {
-    border-radius: 50%;
-    border: 3px solid #7c3aed;
-    background: rgba(124,58,237,0.06);
-    box-shadow: 0 0 0 1.5px #fff, 0 1px 3px rgba(0,0,0,0.22);
-    box-sizing: border-box; transition: transform .12s ease;
+  .proj-pin { background: none; border: none; box-shadow: none; }
+  .proj-pin .pin-inner {
+    position: absolute; left: 50%; top: 50%; width: 70.7%; height: 70.7%;
+    transform: translate(-50%,-50%) rotate(-45deg);
+    background: #7c3aed; border: 2px solid #fff; box-sizing: border-box;
+    border-radius: 50% 50% 50% 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.35);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform .12s ease;
   }
-  .proj-pin.st-done   { border-color:#0d9488; background:rgba(13,148,136,0.06); }
-  .proj-pin.st-undone { border-color:#7c3aed; background:rgba(124,58,237,0.06); }
-  .proj-pin:hover { transform: scale(1.12); }
+  .proj-pin .pin-dot { width: 32%; height: 32%; background: #fff; border-radius: 50%; }
+  .proj-pin.st-done   .pin-inner { background: #0d9488; }
+  .proj-pin.st-undone .pin-inner { background: #7c3aed; }
+  .proj-pin:hover .pin-inner { transform: translate(-50%,-50%) rotate(-45deg) scale(1.15); }
+  /* 卡片内小水滴标 */
+  .card-pin { display:inline-block; width:12px; height:12px; margin-right:6px; vertical-align:middle;
+    background:#7c3aed; border:1.5px solid #fff; border-radius:50% 50% 50% 0; transform:rotate(-45deg);
+    box-sizing:border-box; box-shadow:0 1px 2px rgba(0,0,0,.2); }
+  .card-pin.st-done   { background:#0d9488; }
+  .card-pin.st-undone { background:#7c3aed; }
 
   
 
@@ -71,9 +81,9 @@
     border:1px solid #e3e8f2; border-radius:8px; padding:8px 10px; font-size:11px; line-height:1.8; color:#1a2233;
     box-shadow:0 2px 8px rgba(0,0,0,.12); }
   #maplegend .row { display:flex; align-items:center; gap:6px; }
-  #maplegend .dot { width:11px; height:11px; border-radius:50%; display:inline-block; border:2px solid; box-sizing:border-box; }
-  #maplegend .d-done   { border-color:#0d9488; background:#0d9488; }
-  #maplegend .d-undone { border-color:#7c3aed; background:#7c3aed; }
+  #maplegend .dot { width:10px; height:10px; display:inline-block; box-sizing:border-box; border:1.5px solid #fff; border-radius:50% 50% 50% 0; transform:rotate(-45deg); box-shadow:0 1px 2px rgba(0,0,0,.25); }
+  #maplegend .d-done   { background:#0d9488; border-color:#fff; }
+  #maplegend .d-undone { background:#7c3aed; border-color:#fff; }
   #empty { text-align: center; color: #9aa5b8; padding: 40px 0; font-size: 14px; }
   /* 详情抽屉 */
   #detail { position: fixed; inset: 0; background: rgba(20,30,50,.45); z-index: 2000; display: none;
@@ -216,7 +226,7 @@ function card(p){
   var region = [p.prefecture, p.city, p.district].filter(Boolean).join(' ');
   var src = p.source_url ? ' <a href="'+p.source_url+'" target="_blank" rel="noopener" style="color:#0b3d91;text-decoration:none">［引用］</a>' : '';
   return '<div class="card" onclick="gotoMap('+String.fromCharCode(39)+p.id+String.fromCharCode(39)+')">' +
-    '<h3><span style="display:inline-block;width:9px;height:9px;border-radius:50%;border:2px solid;box-sizing:border-box;margin-right:6px;vertical-align:middle" class="st-'+doneKey(p)+'"></span>'+p.name+'</h3>' +
+    '<h3><span class="card-pin st-'+doneKey(p)+'"></span>'+p.name+'</h3>' +
     '<div><span class="pill cat">'+(p.category||'其他')+'</span></div>' +
     '<div class="meta">開発：'+(p.developer||'-')+'<br>地区：'+region+'<br>状態：'+(p.status||'-')+'<br>引用：'+(p.source_name||'-')+src+'</div>' +
     '</div>';
@@ -241,12 +251,13 @@ function render(){
 }
 function renderMap(list){
   Object.keys(markers).forEach(function(id){ map.removeLayer(markers[id].mk); delete markers[id]; });
-  function dotR(z){ var b = 6 + (z-5)*1.1; if(b<5)b=5; return b; }
+  function pinSize(z){ var s = 22 + (z-5)*2.0; if(s<18)s=18; if(s>56)s=56; return s; }
+  function pinHtml(){ return '<div class="pin-inner"><div class="pin-dot"></div></div>'; }
   function mkIcon(p, z){
-    var r = dotR(z);
+    var s = pinSize(z);
     return L.divIcon({ className: 'proj-pin st-' + doneKey(p),
-      html: '<div style="width:'+(r*2)+'px;height:'+(r*2)+'px"></div>',
-      iconSize:[r*2,r*2], iconAnchor:[r,r] });
+      html: pinHtml(),
+      iconSize:[s,s], iconAnchor:[s/2,s] });
   }
   list.forEach(function(p){
     if (!p.latitude || !p.longitude) return;

@@ -82,9 +82,10 @@ def verify_map():
     chk('map: 外部域仅 GSI', len(gsi_only(h)) == 0, 'others: ' + ','.join(gsi_only(h)))
     chk('map: vendor 文件存在', os.path.isfile(os.path.join(BASE, 'vendor', 'leaflet', 'leaflet.js')) and
         os.path.isfile(os.path.join(BASE, 'vendor', 'leaflet', 'leaflet.css')))
-    # 标记随缩放放大（修复“放大后点变小”）：必须存在 dotRadius + setRadius + zoomend 重算
-    chk('map: 点随缩放放大(dotRadius)', 'function dotRadius' in h)
-    chk('map: 缩放时重算半径(zoomend rescale)', "map.on('zoomend', rescale)" in h or 'map.on("zoomend", rescale)' in h)
+    # 标记随缩放放大（修复“放大后针变小”）：必须存在 pinSize + zoomend 重算 + 水滴针形状
+    chk('map: 针随缩放放大(pinSize)', 'function pinSize' in h)
+    chk('map: 水滴针形状(pin-inner)', 'pin-inner' in h and 'border-radius: 50% 50% 50% 0' in h)
+    chk('map: 缩放时重算尺寸(zoomend rescale)', "map.on('zoomend', rescale)" in h or 'map.on("zoomend", rescale)' in h)
     chk('map: 光晕提升辨识度(halo)', 'proj-halo' in h)
     chk('map: 载入fitBounds框选全部', 'map.fitBounds(BOUNDS' in h)
     chk('map: __BOUNDS__ 已替换', '__BOUNDS__' not in h)

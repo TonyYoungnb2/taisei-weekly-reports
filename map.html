@@ -24,28 +24,32 @@
   .pop-news { margin-top: 6px; }
   .pop-news a { color: #0b3d91; text-decoration: none; }
   .pop-news a:hover { text-decoration: underline; }
-  /* 简洁空心圈：仅描边 + 细白外圈 + 淡投影（不刺眼，新闻不表示）
+  /* 水滴地图针（teardrop pin）：经典地图标记形态，白描边 + 淡投影，针尖对准坐标
      状态色：完工=青绿(teal) #0d9488 / 未完工=紫罗兰(violet) #7c3aed
      —— 均非东京地铁线路色（绿=千代田线、橙=银座线），且色盲可区分 */
-  .proj-pin {
-    border-radius: 50%;
-    border: 3px solid #7c3aed;
-    background: rgba(124,58,237,0.06);
-    box-shadow: 0 0 0 1.5px #fff, 0 1px 3px rgba(0,0,0,0.22);
-    box-sizing: border-box; transition: transform .12s ease;
+  .proj-pin { background: none; border: none; box-shadow: none; }
+  .proj-pin .pin-inner {
+    position: absolute; left: 50%; top: 50%; width: 70.7%; height: 70.7%;
+    transform: translate(-50%,-50%) rotate(-45deg);
+    background: #7c3aed; border: 2px solid #fff; box-sizing: border-box;
+    border-radius: 50% 50% 50% 0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.35);
+    display: flex; align-items: center; justify-content: center;
+    transition: transform .12s ease;
   }
-  .proj-pin.st-done   { border-color:#0d9488; background:rgba(13,148,136,0.06); }
-  .proj-pin.st-undone { border-color:#7c3aed; background:rgba(124,58,237,0.06); }
-  .proj-pin:hover { transform: scale(1.12); }
+  .proj-pin .pin-dot { width: 32%; height: 32%; background: #fff; border-radius: 50%; }
+  .proj-pin.st-done   .pin-inner { background: #0d9488; }
+  .proj-pin.st-undone .pin-inner { background: #7c3aed; }
+  .proj-pin:hover .pin-inner { transform: translate(-50%,-50%) rotate(-45deg) scale(1.15); }
 
 
   
   .proj-halo { display: none; }
   #legend { background:rgba(255,255,255,.92); border:1px solid #e3e8f2; border-radius:8px; padding:8px 10px; font-size:11px; line-height:1.8; color:#1a2233; box-shadow:0 2px 8px rgba(0,0,0,.12); }
   #legend .row { display:flex; align-items:center; gap:6px; }
-  #legend .dot { width:11px; height:11px; border-radius:50%; display:inline-block; border:2px solid; box-sizing:border-box; }
-  #legend .d-done   { border-color:#0d9488; background:#0d9488; }
-  #legend .d-undone { border-color:#7c3aed; background:#7c3aed; }
+  #legend .dot { width:10px; height:10px; display:inline-block; box-sizing:border-box; border:1.5px solid #fff; border-radius:50% 50% 50% 0; transform:rotate(-45deg); box-shadow:0 1px 2px rgba(0,0,0,.25); }
+  #legend .d-done   { background:#0d9488; border-color:#fff; }
+  #legend .d-undone { background:#7c3aed; border-color:#fff; }
   .proj-label { background: rgba(11,61,145,.9); color:#fff; border:none; border-radius:4px;
     padding:1px 6px; font-size:11px; font-weight:600; white-space:nowrap; box-shadow:0 1px 3px rgba(0,0,0,.3); }
   .proj-label::before { display:none; }
@@ -91,21 +95,23 @@ if (!PROJECTS.length) {
 
 // 仅两状态：完工=done / 未完工=undone
 function doneKey(p){ return (p.status==='完工') ? 'done' : 'undone'; }
-// 半径随缩放放大：zoom 越大点越大（修复“放大后点变小”的观感）
-function dotRadius(zoom) {
-  var base = 6 + (zoom - 5) * 1.1;          // 空心圈直径随缩放增大
-  if (base < 5) base = 5;
-  return base;
+// 水滴针尺寸随缩放放大：zoom 越大针越大（修复“放大后针变小”的观感）
+function pinSize(zoom) {
+  var s = 22 + (zoom - 5) * 2.0;            // 针高随缩放增大
+  if (s < 18) s = 18;
+  if (s > 56) s = 56;
+  return s;
 }
-function haloRadius(zoom, news) { return dotRadius(zoom, news) * 1.9; }
+// 水滴针图标 HTML（teardrop：方形圆角旋转45°，底部尖端对准坐标）
+function pinHtml() { return '<div class="pin-inner"><div class="pin-dot"></div></div>'; }
 
 var markers = [];
 PROJECTS.forEach(function(p) {
   var z0 = map.getZoom();
-  var r = dotRadius(z0);
+  var s = pinSize(z0);
   var dot = L.divIcon({ className: 'proj-pin st-' + doneKey(p),
-    html: '<div style="width:' + (r*2) + 'px;height:' + (r*2) + 'px"></div>',
-    iconSize: [r*2, r*2], iconAnchor: [r, r] });
+    html: pinHtml(),
+    iconSize: [s, s], iconAnchor: [s/2, s] });
   var mk = L.marker([p.latitude, p.longitude], { icon: dot }).addTo(map);
   // 关联新闻：弹窗列出（至多3条）
   var news = (typeof NEWS !== 'undefined' ? NEWS : []).filter(function(n){ return n.project_id === p.id; })
@@ -126,17 +132,17 @@ PROJECTS.forEach(function(p) {
     permanent: false, direction: 'top', className: 'proj-label', opacity: 1
   }).setContent(p.name);
   mk.bindTooltip(label);
-  markers.push({ dot: mk, news: p.news_count, r: r, p: p });
+  markers.push({ dot: mk, news: p.news_count, r: s, p: p });
 });
 
-// 缩放时重算所有点大小，保持“放大→点变大”
+// 缩放时重算所有针大小，保持“放大→针变大”
 function rescale() {
   var z = map.getZoom();
   markers.forEach(function(m) {
-    var r = dotRadius(z);
+    var s = pinSize(z);
     m.dot.setIcon(L.divIcon({ className: 'proj-pin st-' + doneKey(m.p),
-      html: '<div style="width:' + (r*2) + 'px;height:' + (r*2) + 'px"></div>',
-      iconSize: [r*2, r*2], iconAnchor: [r, r] }));
+      html: pinHtml(),
+      iconSize: [s, s], iconAnchor: [s/2, s] }));
   });
 }
 map.on('zoomend', rescale);
