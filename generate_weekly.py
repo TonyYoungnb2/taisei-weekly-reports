@@ -175,11 +175,17 @@ def load_weekly_data():
                         if _jk in _jp_items[_i] and _jk not in _it:
                             _it[_jk] = _jp_items[_i][_jk]
         _out[_k] = _items
-    _out['stats']   = _merge_cn(_data.get('stats',   DEFAULT_STATS),   _cn)
-    _out['trends']  = _merge_cn(_data.get('trends',  DEFAULT_TRENDS), _cn)
+    _out['stats']   = _merge_cn(_data.get('stats',   DEFAULT_STATS),   _cn.get('stats')   if isinstance(_cn, dict) else None)
+    _out['trends']  = _merge_cn(_data.get('trends',  DEFAULT_TRENDS), _cn.get('trends')  if isinstance(_cn, dict) else None)
     _out['hot']     = _data.get('hot',     DEFAULT_HOT)
-    _out['flat35']  = _merge_cn(_data.get('flat35',  DEFAULT_FLAT35), _cn)
-    _out['comment'] = _merge_cn(_data.get('comment', DEFAULT_COMMENT), _cn)
+    # 中文热点列表（hot_cn）从 cn.json 并入
+    if isinstance(_cn, dict) and 'hot_cn' in _cn:
+        _out['hot_cn'] = _cn['hot_cn']
+    _out['flat35']  = _merge_cn(_data.get('flat35',  DEFAULT_FLAT35), _cn.get('flat35')  if isinstance(_cn, dict) else None)
+    _out['comment'] = _merge_cn(_data.get('comment', DEFAULT_COMMENT), _cn.get('comment_cn') if isinstance(_cn, dict) else None)
+    # comment_cn 是字符串，直接并入 _out
+    if isinstance(_cn, dict) and 'comment_cn' in _cn:
+        _out['comment_cn'] = _cn['comment_cn']
     # 日文原文合并：stats label_jp（按索引）、hot_jp 列表、flat35 *_jp、comment_jp
     if isinstance(_jp, dict):
         if isinstance(_jp.get('stats'), list) and isinstance(_out['stats'], list):
@@ -837,8 +843,8 @@ def build_report_html():
     XIAOXIA_COMMENT_JP = NEWS_DATA.get('comment_jp', NEWS_DATA.get('comment', DEFAULT_COMMENT))
 
     # 热点速览（中文优先；原 JP 作 data-jp 后备）
-    hot_items = NEWS_DATA.get('hot', DEFAULT_HOT)
-    _hot_jp = NEWS_DATA.get('hot_jp', hot_items)
+    hot_items = NEWS_DATA.get('hot_cn', NEWS_DATA.get('hot', DEFAULT_HOT))
+    _hot_jp = NEWS_DATA.get('hot_jp', NEWS_DATA.get('hot', hot_items))
     _hot_rows = []
     for _hi, item in enumerate(hot_items):
         _jp_item = _hot_jp[_hi] if _hi < len(_hot_jp) else item
