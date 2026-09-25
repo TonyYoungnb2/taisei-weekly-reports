@@ -192,6 +192,11 @@ def merge_item(d, item):
         for fld in ('address', 'latitude', 'longitude', 'status', 'city', 'district', 'prefecture'):
             if not p.get(fld) and item.get(fld) is not None:
                 filled[fld] = item[fld]
+        # 来源链接：命中旧项目但库里缺来源时补上（防「来源空链接」回归）
+        if not p.get('source_url') and item.get('source_url'):
+            filled['source_url'] = item['source_url']
+            if item.get('source_name'):
+                filled['source_name'] = item['source_name']
         if added_alias or filled:
             if added_alias:
                 p['aliases'] = new_aliases
@@ -225,6 +230,12 @@ def merge_item(d, item):
             'news_count': 0,
             'verified': bool(item.get('verified', False)),
         }
+        # 来源链接：原样保留采集时带的 source_url / source_name（防「来源空链接」回归）
+        if item.get('source_url'):
+            rec['source_url'] = item['source_url']
+            rec['source_name'] = item.get('source_name', '')
+        if item.get('news_count') is not None:
+            rec['news_count'] = int(item['news_count'])
         # 中等相似度：可能重复，标记出来等人工定夺，不静默合并
         if p is not None and score >= REVIEW_MIN:
             rec['needs_review'] = {'maybe_same_as': p['id'],
