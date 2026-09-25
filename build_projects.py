@@ -99,6 +99,8 @@ def build_html():
   .chip { border: 1px solid #cfd8e8; background: #fff; color: #3a4a66; border-radius: 16px; padding: 5px 12px;
     font-size: 12px; cursor: pointer; white-space: nowrap; }
   .chip.on { background: #0b3d91; color: #fff; border-color: #0b3d91; }
+  #customRange { display: none; align-items: center; gap: 4px; font-size: 12px; color: #5a6a85; }
+  #customRange input { width: 66px; padding: 5px 6px; border: 1px solid #cfd8e8; border-radius: 6px; font-size: 12px; }
   .group-sel { margin-left: auto; font-size: 12px; color: #5a6a85; }
   .group-sel select { border: 1px solid #cfd8e8; border-radius: 8px; padding: 5px 8px; font-size: 12px; }
   #list { padding: 14px 16px; }
@@ -194,6 +196,8 @@ def build_html():
   <span id="catChips" class="chip-row"></span>
   <span id="prefChips" class="chip-row"></span>
   <span id="srcChips" class="chip-row"></span>
+  <span id="timeChips" class="chip-row"></span>
+  <span id="customRange">竣工年 <input id="yrFrom" type="number" placeholder="2021" min="1990" max="2060"> 〜 <input id="yrTo" type="number" placeholder="2035" min="1990" max="2060"></span>
   <span class="group-sel">表示：
     <select id="groupSel" onchange="render()">
       <option value="none">一覧</option>
@@ -225,9 +229,10 @@ var PROJECTS = __DATA__;
 var NEWS = __NEWS__;
 var CENTER = __CENTER__;
 var ZOOM = __ZOOM__;
+var CUR = __CUR__;
 var map = null, markers = {};
 
-var state = { view: 'list', cat: 'all', pref: 'all', city: 'all', q: '', group: 'none' };
+var state = { view: 'list', cat: 'all', pref: 'all', city: 'all', q: '', group: 'none', time: 'recent', yrFrom: null, yrTo: null };
 
 // 租金地图跳转：?city=港区 → 初始按区筛选
 (function initFromQuery(){
@@ -252,8 +257,13 @@ function buildChips(){
   var srcHtml = '<span class="chip on" data-k="src" data-v="all">全部来源</span>' +
     '<span class="chip" data-k="src" data-v="official">官方</span>' +
     '<span class="chip" data-k="src" data-v="media">媒体</span>';
+  var timeHtml = '<span class="chip on" data-k="time" data-v="recent">近年+</span>' +
+    '<span class="chip" data-k="time" data-v="future">未来</span>' +
+    '<span class="chip" data-k="time" data-v="all">全期間</span>' +
+    '<span class="chip" data-k="time" data-v="custom">年数指定</span>';
   document.getElementById('catChips').innerHTML = catHtml;
   document.getElementById('prefChips').innerHTML = prefHtml;
+  document.getElementById('timeChips').innerHTML = timeHtml;
   document.getElementById('srcChips').style.display = 'none';
   // クエリ(?city=) から初期化された state を UI に反映
   document.querySelectorAll('.chip[data-k="pref"]').forEach(function(x){
@@ -271,8 +281,15 @@ function buildChips(){
       state[k] = el.getAttribute('data-v');
       document.querySelectorAll('.chip[data-k="'+k+'"]').forEach(function(x){ x.classList.remove('on'); });
       el.classList.add('on');
+      if (k === 'time') {
+        document.getElementById('customRange').style.display = (el.getAttribute('data-v') === 'custom') ? 'inline-flex' : 'none';
+      }
       render();
     };
+  });
+  ['yrFrom','yrTo'].forEach(function(id){
+    var el = document.getElementById(id);
+    el.addEventListener('input', function(){ state[id] = el.value ? parseInt(el.value, 10) : null; render(); });
   });
 }
 
@@ -282,6 +299,14 @@ function filtered(){
     if (state.cat !== 'all' && (p.category||'其他') !== state.cat) return false;
     if (state.pref !== 'all' && (p.prefecture||'不明') !== state.pref) return false;
     if (state.city !== 'all' && (p.city||'') !== state.city) return false;
+    var ty = (typeof p.completion_year === 'number') ? p.completion_year : null;
+    if (state.time === 'recent') { if (ty !== null && ty < CUR - 5) return false; }
+    else if (state.time === 'future') { if (ty !== null && ty < CUR) return false; }
+    else if (state.time === 'custom') {
+      if (ty === null) return false;
+      if (state.yrFrom !== null && ty < state.yrFrom) return false;
+      if (state.yrTo !== null && ty > state.yrTo) return false;
+    }
     if (q) {
       var hay = (p.name + ' ' + (p.developer||'') + ' ' + (p.prefecture||'') + ' ' + (p.city||'') + ' ' + (p.aliases||[]).join(' ')).toLowerCase();
       if (hay.indexOf(q) === -1) return false;
@@ -297,7 +322,7 @@ function card(p){
   return '<div class="card" onclick="gotoMap('+String.fromCharCode(39)+p.id+String.fromCharCode(39)+')">' +
     '<h3><span class="card-pin st-'+doneKey(p)+'"></span>'+p.name+'</h3>' +
     '<div><span class="pill cat">'+(p.category||'其他')+'</span></div>' +
-    '<div class="meta">開発：'+(p.developer||'-')+'<br>地区：'+region+'<br>状態：'+(p.status||'-')+'<br>引用：'+(p.source_name||'-')+src+'</div>' +
+    '<div class="meta">開発：'+(p.developer||'-')+'<br>地区：'+region+'<br>状態：'+(p.status||'-')+'<br>竣工：'+(p.completion_year ? p.completion_year+'年' : '—')+'<br>引用：'+(p.source_name||'-')+src+'</div>' +
     '</div>';
 }
 function render(){
@@ -404,7 +429,8 @@ function openDetail(id){
     '<button class="close" onclick="closeDetail()">×</button>'+
     '<h2>'+p.name+'</h2>'+
     '<div class="info">企業：'+(p.developer||'-')+'<br>類別：'+(p.category||'-')+' ／ 状態：'+(p.status||'-')+
-      '<br>地区：'+region+'<br>初見：'+(p.first_seen||'-')+' ／ 更新：'+(p.last_updated||'-')+
+      '<br>地区：'+region+'<br>竣工予定：'+(p.completion_year ? p.completion_year+'年' : '—')+
+      '<br>初見：'+(p.first_seen||'-')+' ／ 更新：'+(p.last_updated||'-')+
       '<br>引用：'+(p.source_name||'-')+(p.source_url ? ' <a class="tl-link" href="'+p.source_url+'" target="_blank" rel="noopener">[リンク]</a>' : '')+
       '</div>' +
     '<h4>関連ニュース（'+(news.length)+'件）</h4><div class="tl">'+tl+'</div>';
@@ -419,7 +445,7 @@ render();
 </script>
 </body>
 </html>
-'''.replace('__DATA__', proj_inline).replace('__NEWS__', news_inline).replace('__CENTER__', str(center)).replace('__ZOOM__', str(zoom)).replace('__INDEXABLE_PROJECTS__', indexable_projects).replace('</head>', _an.snippet() + '</head>')
+'''.replace('__DATA__', proj_inline).replace('__NEWS__', news_inline).replace('__CENTER__', str(center)).replace('__ZOOM__', str(zoom)).replace('__CUR__', str(__import__('datetime').date.today().year)).replace('__INDEXABLE_PROJECTS__', indexable_projects).replace('</head>', _an.snippet() + '</head>')
 
 
 def main():
