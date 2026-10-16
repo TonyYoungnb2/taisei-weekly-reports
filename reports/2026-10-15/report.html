@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" class="lang-cn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -96,14 +96,20 @@
   }
   .stat-card:first-child { border-left: none; padding-left: 0; }
   .stat-card .num {
-    font-family: var(--serif); font-size: 2.1em; font-weight: 700;
-    color: var(--ink); line-height: 1.2; letter-spacing: 0;
+    font-family: var(--serif); font-size: 2.3em; font-weight: 700;
+    color: var(--ink); line-height: 1.15; letter-spacing: -.5px;
   }
-  .stat-card .num.gold { color: #14539e; }
-  .stat-card .num.orange { color: #1a6cb5; }
-  .stat-card .num.green { color: #0f7d8c; }
+  /* 指标性质标签：升=红 / 降=绿 / 中性=灰（与市场趋势同一套语义色） */
+  .stat-tag {
+    display: inline-block; margin-top: 11px; font-size: 10px; font-weight: 800;
+    letter-spacing: 1px; line-height: 1.5; padding: 3px 8px; border-radius: 2px;
+    border: 1px solid transparent; font-family: var(--sans);
+  }
+  .stat-tag.up   { color: #b3312a; background: #fdeeec; border-color: #f3cdc6; }
+  .stat-tag.down { color: #10705a; background: #e9f6f0; border-color: #c3e5d6; }
+  .stat-tag.flat { color: var(--ink-3); background: #f1f5f9; border-color: var(--rule-2); }
   .stat-card .label {
-    font-size: 12px; font-weight: 500; color: var(--ink-3); margin-top: 9px;
+    font-size: 12px; font-weight: 600; color: var(--ink-3); margin-top: 10px;
     line-height: 1.65; letter-spacing: .5px; overflow-wrap: anywhere;
   }
 
@@ -175,34 +181,76 @@
   .key-insight {
     background: var(--surface); border: 1px solid var(--rule);
     border-left: 4px solid var(--accent); border-radius: 2px;
-    padding: 26px 28px; margin-bottom: 52px;
+    padding: 0; margin-bottom: 52px; overflow: hidden;
   }
   .key-insight h3 {
     font-size: 13px; font-weight: 800; letter-spacing: 4px; color: var(--ink);
-    margin-bottom: 16px; text-transform: uppercase;
+    margin-bottom: 0; padding: 17px 24px; border-bottom: 1px solid var(--rule);
+    text-transform: uppercase; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .key-insight h3 .count {
+    font-family: var(--sans); font-size: 10px; font-weight: 800; letter-spacing: 1px;
+    color: var(--accent); background: #eaf2fb; border: 1px solid #cfe0f2;
+    padding: 3px 8px; border-radius: 2px;
   }
   .key-insight p, .key-insight li { font-size: 14px; font-weight: 400; color: var(--ink-2); line-height: 1.95; }
-  .key-insight ul { list-style: none; padding-left: 0; margin-top: 6px; }
-  .key-insight li { margin-bottom: 0; padding: 12px 0; border-bottom: 1px solid var(--rule); }
-  .key-insight li:last-child { border-bottom: none; }
-  .key-insight li::before { content: '—'; color: var(--accent); font-weight: 700; margin-right: 10px; }
+  .key-insight p { padding: 18px 24px 4px; }
+  .key-insight p:last-of-type { padding-bottom: 20px; }
+  .key-insight ul { list-style: none; padding-left: 0; margin-top: 0; }
+  .key-insight li { margin-bottom: 0; }
   .key-insight strong { color: var(--ink); font-weight: 800; }
 
-  /* ===== 市场趋势：一列数字 + 竖细线 ===== */
+  /* 本期热点：编号 + 斑马纹 + 数字高亮（让「热点」真的被看见） */
+  #hotlist { list-style: none; margin: 0; padding: 6px 0; }
+  #hotlist li {
+    display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 14px;
+    align-items: start; padding: 17px 22px 17px 20px;
+    border-left: 3px solid transparent;
+  }
+  #hotlist li + li { border-top: 1px solid var(--rule); }
+  #hotlist li:nth-child(even) { background: #f6fafd; }
+  #hotlist li:hover { background: #eef5fc; border-left-color: var(--accent); }
+  #hotlist .rank {
+    font-family: var(--serif); font-size: 19px; font-weight: 700; color: var(--accent);
+    line-height: 1.35; text-align: right; letter-spacing: 0;
+  }
+  #hotlist .hot-body { min-width: 0; }
+  #hotlist .hot-lead { font-weight: 800; color: var(--ink); }
+  #hotlist .hot-desc { display: block; margin-top: 6px; font-size: 13.5px; font-weight: 400; color: var(--ink-2); line-height: 1.85; }
+  /* 关键数字：荧光笔下划线，扫读即可定位 */
+  #hotlist em.fig {
+    font-style: normal; font-weight: 800; color: var(--ink);
+    background: linear-gradient(transparent 62%, rgba(20, 83, 158, .22) 62%);
+    padding: 0 1px;
+  }
+
+  /* ===== 市场趋势：方向色（升=红 / 降=绿 / 平=灰）+ 大数字 + 变动量 ===== */
   .trend-visual { display: flex; flex-wrap: wrap; margin: 12px 0 0; border-top: 1px solid var(--rule); }
   .trend-item {
     flex: 1 1 150px; min-width: 0; overflow: hidden;
     padding: 20px 20px 20px 0; border-right: 1px solid var(--rule);
   }
   .trend-item:last-child { border-right: none; padding-right: 0; }
-  .trend-item .trend-label { font-size: 12px; font-weight: 500; color: var(--ink-3); letter-spacing: .5px; line-height: 1.6; }
-  .trend-item .trend-value {
-    font-family: var(--serif); font-size: 22px; font-weight: 700;
-    color: var(--ink); margin-top: 9px;
+  .trend-item .trend-label { font-size: 12px; font-weight: 600; color: var(--ink-3); letter-spacing: .5px; line-height: 1.6; }
+  /* 方向徽标：一眼看出涨跌，不依赖蓝色 */
+  .trend-dir {
+    display: inline-block; font-family: var(--sans); font-size: 10px; font-weight: 800;
+    letter-spacing: 1px; line-height: 1.5; padding: 3px 8px; border-radius: 2px; margin-bottom: 10px;
   }
-  .trend-item .trend-value.up { color: #14539e; }
-  .trend-item .trend-value.down { color: #0f7d8c; }
-  .trend-item .trend-value.flat { color: var(--ink-3); }
+  .trend-dir.up   { color: #b3312a; background: #fdeeec; }
+  .trend-dir.down { color: #10705a; background: #e9f6f0; }
+  .trend-dir.flat { color: var(--ink-3); background: #f1f5f9; }
+  .trend-item .trend-value {
+    font-family: var(--serif); font-size: 24px; font-weight: 700;
+    color: var(--ink); margin-top: 2px; line-height: 1.15; letter-spacing: -.3px;
+  }
+  .trend-item .trend-value .trend-delta {
+    font-family: var(--sans); font-size: 13px; font-weight: 800; letter-spacing: 0;
+    margin-left: 9px; white-space: nowrap;
+  }
+  .trend-value.up   .trend-delta { color: #b3312a; }
+  .trend-value.down .trend-delta { color: #10705a; }
+  .trend-value.flat .trend-delta { color: var(--ink-3); }
 
   /* ===== 页脚 ===== */
   .footer {
@@ -276,8 +324,8 @@
     color: var(--ink); line-height: 1.2;
   }
   #share-card .card-stat-box .stat-num .stat-arrow { font-size: 13px; margin-left: 5px; }
-  #share-card .card-stat-box .stat-num .stat-arrow.up { color: #14539e; }
-  #share-card .card-stat-box .stat-num .stat-arrow.down { color: #0f7d8c; }
+  #share-card .card-stat-box .stat-num .stat-arrow.up { color: #d0453b; }
+  #share-card .card-stat-box .stat-num .stat-arrow.down { color: #17a374; }
   #share-card .card-stat-box .stat-num .stat-arrow.flat { color: #7c8ea6; }
   #share-card .card-stat-box .stat-label {
     font-size: 10px; font-weight: 500; color: var(--ink-3); margin-top: 6px; line-height: 1.5; letter-spacing: .5px;
@@ -322,13 +370,17 @@
   .share-actions .download-btn.ghost:hover { background: #eef3fa; box-shadow: none; }
 
   /* ===== 语言切换（主页 & 周报页共用）=====
-     ⚠️ 三条规则缺一不可：少 html.lang-jp .lang-jp{display:inline}
-        切日文整页空白；缺 .lang-jp{display:none} 则默认双语同时显示 */
-  html.lang-jp .lang-cn { display: none; }
+     ⚠️ 2026-10-16 修复「切日文整页白屏」：
+     根因是删掉的那条裸规则 `.lang-jp{display:none}`——切换时 class `lang-jp`
+     是加在 <html> 上的，裸选择器连 <html> 自己都命中，display:none 直接
+     作用于根元素 → 整个文档不渲染（白屏）。且 inline-style 兜底循环也会
+     把 <html> 的 display 改掉（querySelectorAll 命中 documentElement）。
+     ⚠️ 因此：只允许「html.xxx .lang-xxx」这种后代选择器写法，
+        <html> 自身永不带显示副作用；两态隐藏由下面两条 html.* 规则覆盖。 */
   html.lang-cn .lang-jp { display: none; }
+  html.lang-jp .lang-cn { display: none; }
   html.lang-jp .lang-jp { display: inline; }
-  .lang-jp { display: none; }
-  .lang-cn { display: inline; }
+  html.lang-cn .lang-cn { display: inline; }
 
   .lang-switch {
     position: static; display: inline-flex; align-items: center; gap: 8px;
@@ -359,8 +411,9 @@
     .stat-card { border-left: 1px solid var(--rule); padding: 2px 12px; }
     .stat-card:first-child { border-left: none; padding-left: 0; }
     .stat-card:nth-child(odd) { border-left: none; padding-left: 0; }
-    .stat-card .num { font-size: 1.7em; }
+    .stat-card .num { font-size: 1.85em; }
     .stat-card .label { font-size: 11px; font-weight: 500; overflow-wrap: anywhere; }
+    .stat-tag { margin-top: 8px; }
     .container { padding: 0 14px; }
     .section { margin-bottom: 38px; }
     .section-title { font-size: 14px; font-weight: 800; letter-spacing: 3px; margin-bottom: 18px; padding-bottom: 11px; gap: 10px; }
@@ -370,12 +423,19 @@
     .card h3 { font-size: 15px; margin-bottom: 8px; }
     .card p { font-size: 13.5px; line-height: 1.85; }
     .card .source-link { margin-top: 14px; }
-    .key-insight { padding: 19px 16px; margin-bottom: 34px; }
-    .key-insight h3 { font-size: 12px; letter-spacing: 3px; }
+    .key-insight { padding: 19px 0 6px; margin-bottom: 34px; }
+    .key-insight h3 { font-size: 12px; letter-spacing: 3px; padding: 0 16px 14px; }
     .key-insight p, .key-insight li { font-size: 13.5px; line-height: 1.85; }
+    .key-insight p { padding: 0 16px; }
+    #hotlist { padding: 0; }
+    #hotlist li { grid-template-columns: 28px minmax(0, 1fr); gap: 10px; padding: 14px 14px 14px 13px; }
+    #hotlist .rank { font-size: 16px; }
+    #hotlist .hot-desc { font-size: 13px; line-height: 1.75; }
     .trend-item { flex: 1 1 100%; padding: 15px 0; border-right: none; border-bottom: 1px solid var(--rule); }
     .trend-item:last-child { border-bottom: none; }
-    .trend-item .trend-value { font-size: 19px; }
+    .trend-item .trend-value { font-size: 21px; }
+    .trend-item .trend-value .trend-delta { font-size: 12.5px; margin-left: 7px; }
+    .trend-dir { margin-bottom: 8px; }
     .footer { margin-top: 38px; padding: 24px 14px 38px; }
     .share-btn-fab { bottom: 16px; right: 16px; padding: 10px 15px; font-size: 11px; letter-spacing: 1px; }
     .share-modal .modal-box { width: 100%; padding: 16px 14px; }
@@ -415,23 +475,28 @@
 <!-- Stats -->
 <div class="stats-bar" id="statsBar">
     <div class="stat-card">
-      <div class="num gold">3.830%</div>
-      <div class="label"><span class="lang-cn">Flat35 主力利率（10月时点·现行制度以来最高）</span><span class="lang-jp" data-jp="フラット35 主力金利（2026年10月時点・現行制度以来最高）">フラット35 主力金利（2026年10月時点・現行制度以来最高）</span></div>
+      <div class="num">3.830%</div>
+      <div class="stat-tag up"><span class="lang-cn">现行制度以来最高</span><span class="lang-jp" data-jp="現行制度以来最高">現行制度以来最高</span></div>
+      <div class="label"><span class="lang-cn">Flat35 主力利率（10月时点）</span><span class="lang-jp" data-jp="フラット35 主力金利（2026年10月時点・現行制度以来最高）">フラット35 主力金利（2026年10月時点・現行制度以来最高）</span></div>
     </div>
     <div class="stat-card">
-      <div class="num orange">1.25%</div>
-      <div class="label"><span class="lang-cn">日银政策利率（9/18达31年新高）</span><span class="lang-jp" data-jp="日銀政策金利（2026年9月18日・31年ぶり高）">日銀政策金利（2026年9月18日・31年ぶり高）</span></div>
+      <div class="num">1.25%</div>
+      <div class="stat-tag up"><span class="lang-cn">31年来新高</span><span class="lang-jp" data-jp="31年ぶり高値">31年ぶり高値</span></div>
+      <div class="label"><span class="lang-cn">日银政策利率（9/18）</span><span class="lang-jp" data-jp="日銀政策金利（2026年9月18日・31年ぶり高）">日銀政策金利（2026年9月18日・31年ぶり高）</span></div>
     </div>
     <div class="stat-card">
-      <div class="num green">9,754户</div>
-      <div class="label"><span class="lang-cn">东京都 新建住宅开工（8月·连续5个月增加）</span><span class="lang-jp" data-jp="東京都 新設住宅着工（2026年8月・5カ月連続増）">東京都 新設住宅着工（2026年8月・5カ月連続増）</span></div>
+      <div class="num">9,754户</div>
+      <div class="stat-tag up"><span class="lang-cn">连续5个月增加</span><span class="lang-jp" data-jp="5カ月連続増">5カ月連続増</span></div>
+      <div class="label"><span class="lang-cn">东京都 新建住宅开工（8月）</span><span class="lang-jp" data-jp="東京都 新設住宅着工（2026年8月・5カ月連続増）">東京都 新設住宅着工（2026年8月・5カ月連続増）</span></div>
     </div>
     <div class="stat-card">
       <div class="num">1.85%</div>
-      <div class="label"><span class="lang-cn">都心5区 办公空室率（9月·连续6个月下降）</span><span class="lang-jp" data-jp="都心5区 オフィス空室率（2026年9月・6カ月連続低下）">都心5区 オフィス空室率（2026年9月・6カ月連続低下）</span></div>
+      <div class="stat-tag down"><span class="lang-cn">连续6个月下降</span><span class="lang-jp" data-jp="6カ月連続低下">6カ月連続低下</span></div>
+      <div class="label"><span class="lang-cn">都心5区 办公空室率（9月）</span><span class="lang-jp" data-jp="都心5区 オフィス空室率（2026年9月・6カ月連続低下）">都心5区 オフィス空室率（2026年9月・6カ月連続低下）</span></div>
     </div>
     <div class="stat-card">
-      <div class="num gold">2,100户</div>
+      <div class="num">2,100户</div>
+      <div class="stat-tag flat"><span class="lang-cn">街区开发规模</span><span class="lang-jp" data-jp="街区開発規模">街区開発規模</span></div>
       <div class="label"><span class="lang-cn">足立·千住关屋町 分售公寓规划户数</span><span class="lang-jp" data-jp="足立・千住関屋町 分譲マンション計画戸数">足立・千住関屋町 分譲マンション計画戸数</span></div>
     </div>
 </div>
@@ -440,14 +505,14 @@
 
 <!-- 热点速览 -->
 <div class="key-insight">
-  <h3><span class="lang-cn">本期热点速览</span><span class="lang-jp" data-jp="今期の注目トピックス">今期の注目トピックス</span></h3>
+  <h3><span class="lang-cn">本期热点速览</span><span class="lang-jp" data-jp="今期の注目トピックス">今期の注目トピックス</span><span class="count"><span class="lang-cn">6 条</span><span class="lang-jp" data-jp="全6件">全6件</span></span></h3>
   <ul id="hotlist">
-<li><span class="lang-cn"><strong>Flat35最高利率3.830%</strong> — 创现行制度以来最高，连续5个月维持3%以上</span><span class="lang-jp" data-jp="フラット35最多金利3.830% ― 現行制度以来の最高値、5カ月連続で3%台を維持">フラット35最多金利3.830% ― 現行制度以来の最高値、5カ月連続で3%台を維持</span></li>
-<li><span class="lang-cn"><strong>足立·千住关屋町约5.2公顷街区</strong> — 三井不Residence、住不等6社、分售公寓2,100户</span><span class="lang-jp" data-jp="足立・千住関屋町に約5.2haの街 ― 三井不レジ・住不ら6社、分譲マンション2,100戸">足立・千住関屋町に約5.2haの街 ― 三井不レジ・住不ら6社、分譲マンション2,100戸</span></li>
-<li><span class="lang-cn"><strong>都心5区办公募集租金创2000年以来新高</strong> — 每坪3万5,146日元，空室率仅1.85%</span><span class="lang-jp" data-jp="都心5区オフィス募集賃料が2000年以来の最高値 ― 坪3万5,146円、空室率は1.85%">都心5区オフィス募集賃料が2000年以来の最高値 ― 坪3万5,146円、空室率は1.85%</span></li>
-<li><span class="lang-cn"><strong>东京23区二手公寓持续低于去年同期</strong> — 首都圈全域成交量减少</span><span class="lang-jp" data-jp="東京23区の中古マンション、前年割れが続く ― 首都圏全域で成約件数減少">東京23区の中古マンション、前年割れが続く ― 首都圏全域で成約件数減少</span></li>
-<li><span class="lang-cn"><strong>国交省启动长期修缮计划制定指针修订</strong> — 最快明年3月公布，直接关系管理组合实务</span><span class="lang-jp" data-jp="国交省が長期修繕計画作成指針の改定に着手 ― 来年3月にも公表、管理組合の実務に直結">国交省が長期修繕計画作成指針の改定に着手 ― 来年3月にも公表、管理組合の実務に直結</span></li>
-<li><span class="lang-cn"><strong>JLL 2026年不动产投资者意识调查</strong> — 买方超过卖方，投资者转向进攻姿态</span><span class="lang-jp" data-jp="JLL 不動産投資家意識調査2026 ― 買越が売越を上回り、投資家は攻めの姿勢へ転換">JLL 不動産投資家意識調査2026 ― 買越が売越を上回り、投資家は攻めの姿勢へ転換</span></li>
+<li><span class="rank">01</span><span class="hot-body"><span class="lang-cn"><strong class="hot-lead">Flat35最高利率<em class="fig">3.830%</em></strong><span class="hot-desc"> — 创现行制度以来最高，连续<em class="fig">5个月</em>维持<em class="fig">3%</em>以上</span></span><span class="lang-jp" data-jp="フラット35最多金利3.830% ― 現行制度以来の最高値、5カ月連続で3%台を維持"><strong class="hot-lead">フラット35最多金利<em class="fig">3.830%</em></strong><span class="hot-desc"> ― 現行制度以来の最高値、5カ月連続で<em class="fig">3%</em>台を維持</span></span></span></li>
+<li><span class="rank">02</span><span class="hot-body"><span class="lang-cn"><strong class="hot-lead">足立·千住关屋町约<em class="fig">5.2公顷</em>街区</strong><span class="hot-desc"> — 三井不动产Residence、住友不动产等<em class="fig">6社</em>、分售公寓<em class="fig">2,100户</em></span></span><span class="lang-jp" data-jp="足立・千住関屋町に約5.2haの街 ― 三井不動産レジデンシャル・住友不動産ら6社、分譲マンション2,100戸"><strong class="hot-lead">足立・千住関屋町に約<em class="fig">5.2ha</em>の街</strong><span class="hot-desc"> ― 三井不動産レジデンシャル・住友不動産ら<em class="fig">6社</em>、分譲マンション<em class="fig">2,100戸</em></span></span></span></li>
+<li><span class="rank">03</span><span class="hot-body"><span class="lang-cn"><strong class="hot-lead">都心5区办公募集租金创2000年以来新高</strong><span class="hot-desc"> — 每坪<em class="fig">3万5,146日元</em>，空室率仅<em class="fig">1.85%</em></span></span><span class="lang-jp" data-jp="都心5区オフィス募集賃料が2000年以来の最高値 ― 坪3万5,146円、空室率は1.85%"><strong class="hot-lead">都心5区オフィス募集賃料が2000年以来の最高値</strong><span class="hot-desc"> ― 坪<em class="fig">3万5,146円</em>、空室率は<em class="fig">1.85%</em></span></span></span></li>
+<li><span class="rank">04</span><span class="hot-body"><span class="lang-cn"><strong class="hot-lead">东京23区二手公寓持续低于去年同期</strong><span class="hot-desc"> — 首都圈全域成交量减少</span></span><span class="lang-jp" data-jp="東京23区の中古マンション、前年割れが続く ― 首都圏全域で成約件数減少"><strong class="hot-lead">東京23区の中古マンション、前年割れが続く</strong><span class="hot-desc"> ― 首都圏全域で成約件数減少</span></span></span></li>
+<li><span class="rank">05</span><span class="hot-body"><span class="lang-cn"><strong class="hot-lead">国交省启动长期修缮计划制定指针修订</strong><span class="hot-desc"> — 最快明年3月公布，直接关系管理组合实务</span></span><span class="lang-jp" data-jp="国交省が長期修繕計画作成指針の改定に着手 ― 来年3月にも公表、管理組合の実務に直結"><strong class="hot-lead">国交省が長期修繕計画作成指針の改定に着手</strong><span class="hot-desc"> ― 来年3月にも公表、管理組合の実務に直結</span></span></span></li>
+<li><span class="rank">06</span><span class="hot-body"><span class="lang-cn"><strong class="hot-lead">JLL 2026年不动产投资者意识调查</strong><span class="hot-desc"> — 买方超过卖方，投资者转向进攻姿态</span></span><span class="lang-jp" data-jp="JLL 不動産投資家意識調査2026 ― 買越が売越を上回り、投資家は攻めの姿勢へ転換"><strong class="hot-lead">JLL 不動産投資家意識調査2026</strong><span class="hot-desc"> ― 買越が売越を上回り、投資家は攻めの姿勢へ転換</span></span></span></li>
   </ul>
 </div>
 
@@ -460,23 +525,28 @@
   <div class="trend-visual">
     <div class="trend-item">
       <div class="trend-label"><span class="lang-cn">Flat35<br>主力利率（10月）</span><span class="lang-jp" data-jp="フラット35<br>主力金利（10月）">フラット35<br>主力金利（10月）</span></div>
-      <div class="trend-value up"><span class="lang-cn">3.830% ▲0.37pt</span><span class="lang-jp" data-jp="3.830% ▲0.37pt">3.830% ▲0.37pt ▲</span></div>
+      <div class="trend-dir up"><span class="lang-cn">上涨</span><span class="lang-jp" data-jp="上昇">上昇</span></div>
+      <div class="trend-value up"><span class="lang-cn"><span class="trend-num">3.830%</span><span class="trend-delta">▲0.37pt</span></span><span class="lang-jp" data-jp="3.830%<span class='trend-delta'>▲0.37pt</span>">3.830%<span class="trend-delta">▲0.37pt</span></span></div>
     </div>
     <div class="trend-item">
       <div class="trend-label"><span class="lang-cn">日银<br>政策利率</span><span class="lang-jp" data-jp="日銀<br>政策金利">日銀<br>政策金利</span></div>
-      <div class="trend-value up"><span class="lang-cn">1.25% ▲0.25pt</span><span class="lang-jp" data-jp="1.25% ▲0.25pt">1.25% ▲0.25pt ▲</span></div>
+      <div class="trend-dir up"><span class="lang-cn">上涨</span><span class="lang-jp" data-jp="上昇">上昇</span></div>
+      <div class="trend-value up"><span class="lang-cn"><span class="trend-num">1.25%</span><span class="trend-delta">▲0.25pt</span></span><span class="lang-jp" data-jp="1.25%<span class='trend-delta'>▲0.25pt</span>">1.25%<span class="trend-delta">▲0.25pt</span></span></div>
     </div>
     <div class="trend-item">
       <div class="trend-label"><span class="lang-cn">都心5区 办公空室率<br>（9月）</span><span class="lang-jp" data-jp="都心5区 オフィス空室率<br>（9月）">都心5区 オフィス空室率<br>（9月）</span></div>
-      <div class="trend-value down"><span class="lang-cn">1.85% ▼0.02pt</span><span class="lang-jp" data-jp="1.85% ▼0.02pt">1.85% ▼0.02pt ▼</span></div>
+      <div class="trend-dir down"><span class="lang-cn">下跌</span><span class="lang-jp" data-jp="下落">下落</span></div>
+      <div class="trend-value down"><span class="lang-cn"><span class="trend-num">1.85%</span><span class="trend-delta">▼0.02pt</span></span><span class="lang-jp" data-jp="1.85%<span class='trend-delta'>▼0.02pt</span>">1.85%<span class="trend-delta">▼0.02pt</span></span></div>
     </div>
     <div class="trend-item">
       <div class="trend-label"><span class="lang-cn">东京都 新建住宅开工<br>（8月）</span><span class="lang-jp" data-jp="東京都 新設住宅着工<br>（8月）">東京都 新設住宅着工<br>（8月）</span></div>
-      <div class="trend-value up"><span class="lang-cn">9,754户 ▲14.2%</span><span class="lang-jp" data-jp="9,754戸 ▲14.2%">9,754戸 ▲14.2% ▲</span></div>
+      <div class="trend-dir up"><span class="lang-cn">上涨</span><span class="lang-jp" data-jp="上昇">上昇</span></div>
+      <div class="trend-value up"><span class="lang-cn"><span class="trend-num">9,754户</span><span class="trend-delta">▲14.2%</span></span><span class="lang-jp" data-jp="9,754戸<span class='trend-delta'>▲14.2%</span>">9,754戸<span class="trend-delta">▲14.2%</span></span></div>
     </div>
     <div class="trend-item">
       <div class="trend-label"><span class="lang-cn">东京23区 二手公寓<br>（9月）</span><span class="lang-jp" data-jp="東京23区 中古マンション<br>（9月）">東京23区 中古マンション<br>（9月）</span></div>
-      <div class="trend-value down"><span class="lang-cn">低于去年同期 ▼</span><span class="lang-jp" data-jp="前年割れ ▼">前年割れ ▼ ▼</span></div>
+      <div class="trend-dir down"><span class="lang-cn">下跌</span><span class="lang-jp" data-jp="下落">下落</span></div>
+      <div class="trend-value down"><span class="lang-cn"><span class="trend-num">低于去年同期</span><span class="trend-delta"></span></span><span class="lang-jp" data-jp="前年割れ">前年割れ</span></div>
     </div>
   </div>
 </div>
@@ -823,7 +893,7 @@ function buildCardText() {
   const stats = getStats();
   const highlights = getHighlights();
   const NL = String.fromCharCode(10);
-  let t = '【' + COMPANY_NAME_JP + ' 日本不动产半月报】' + NL + dateRange + NL + NL;
+  let t = '【' + COMPANY_NAME_JP + ' 大诚不动产半月报】' + NL + dateRange + NL + NL;
   stats.slice(0,4).forEach(function(s) { t += '• ' + s.label + '：' + s.num + NL; });
   t += NL + '本期焦点：' + NL;
   highlights.forEach(function(h) { t += '▸ ' + h + NL; });
@@ -939,13 +1009,16 @@ function applyReportLang(lang) {
     b.classList.toggle('active', b.getAttribute('data-lang') === lang);
   });
   // 日文：用 data-jp 文本替换同级 .lang-jp 的展示（兼容多段/标题）
+  // ⚠️ 必须排除 <html> 自身：切换时 lang-jp 这个 class 是加在 documentElement 上的，
+  //    querySelectorAll('.lang-jp') 会把 <html> 也选进来（曾导致根元素 display 被改写）。
   document.querySelectorAll('.lang-jp').forEach(function(el) {
+    if (el === document.documentElement) return;
     const jp = el.getAttribute('data-jp');
     if (jp !== null) el.innerHTML = jp;  // 用 innerHTML 以渲染 <br> 等换行
   });
   // 双保险：直接内联样式控制显示。即使 CSS 规则缺失/被缓存旧版覆盖，也绝不会两种语言同时隐藏（白屏）。
-  document.querySelectorAll('.lang-cn').forEach(function(el) { el.style.display = (lang === 'jp') ? 'none' : 'inline'; });
-  document.querySelectorAll('.lang-jp').forEach(function(el) { el.style.display = (lang === 'jp') ? 'inline' : 'none'; });
+  document.querySelectorAll('.lang-cn').forEach(function(el) { if (el !== document.documentElement) el.style.display = (lang === 'jp') ? 'none' : 'inline'; });
+  document.querySelectorAll('.lang-jp').forEach(function(el) { if (el !== document.documentElement) el.style.display = (lang === 'jp') ? 'inline' : 'none'; });
 }
 function setReportLang(lang) {
   applyReportLang(lang);

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>大誠有限会社 · 日本不动产半月报 · 项目库 · 项目地图 · 租金地图</title>
+<title>大誠有限会社 · 大诚不动产半月报 · 项目库 · 项目地图 · 租金地图</title>
 <meta name="description" content="大誠有限会社维护的日本不动产情报站：每半月一期的东京市场简报（政策·市场·开发·科技·调查），另附可按企业·地区筛选的项目库、项目地图与租金地图。">
 <style>  :root {
     --paper: #f3f6fb; --surface: #ffffff;
@@ -23,9 +23,9 @@
   a { color: inherit; }
   /* 双语 span（与周报页同一套规则，防白屏） */
   .lang-cn { display: inline; }
-  .lang-jp { display: none; }
   html.lang-jp .lang-cn { display: none; }
   html.lang-jp .lang-jp { display: inline; }
+  html.lang-cn .lang-jp { display: none; }
 
   /* ===== 顶栏 ===== */
   .topbar {
@@ -42,14 +42,15 @@
     transition: background .15s, color .15s; }
   .lang-btn.active { background: var(--accent); color: #fff; }
 
-  /* ===== 报头 ===== */
-  .masthead { padding: 54px 22px 36px; border-bottom: 1px solid var(--rule); }
-  .masthead-in { max-width: 1080px; margin: 0 auto; }
-  .kicker { font-size: 11px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
-  .masthead h1 { font-family: var(--serif); font-size: clamp(30px, 6vw, 50px); line-height: 1.16; font-weight: 700; color: var(--ink); }
+  /* ===== 报头（居中杂志刊头） ===== */
+  .masthead { padding: 58px 22px 40px; border-bottom: 1px solid var(--rule); text-align: center; }
+  .masthead-in { max-width: 820px; margin: 0 auto; }
+  .kicker { font-size: 11px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+  .masthead h1 { font-family: var(--serif); font-size: clamp(30px, 6vw, 52px); line-height: 1.18; font-weight: 700; color: var(--ink); }
   .masthead h1 .thin { color: var(--ink-4); font-weight: 400; }
-  .lede { margin-top: 16px; max-width: 680px; font-size: 15.5px; color: var(--ink-3); }
-  .masthead-meta { margin-top: 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; font-size: 12px; color: var(--ink-4); }
+  .titlerule { width: 46px; height: 2px; background: var(--accent); margin: 24px auto 0; }
+  .lede { margin: 20px auto 0; max-width: 640px; font-size: 15.5px; color: var(--ink-3); line-height: 2; }
+  .masthead-meta { margin-top: 22px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 14px; font-size: 12px; color: var(--ink-4); }
   .masthead-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--rule-2); flex: 0 0 auto; }
 
   /* ===== 搜索条 ===== */
@@ -168,7 +169,7 @@
 <header class="topbar">
   <a class="brand" href="index.html">
     <span class="mark">TAISEI</span>
-    <span class="co">大誠有限会社 · <span class="lang-cn">日本不动产情报</span><span class="lang-jp">日本不動産情報</span></span>
+    <span class="co">大誠有限会社 · <span class="lang-cn">大诚不动产情报</span><span class="lang-jp">大誠不動産情報</span></span>
   </a>
   <div class="lang-switch" id="langSwitch">
     <button type="button" class="lang-btn" data-lang="cn" onclick="setLang('cn')">中文</button>
@@ -179,7 +180,8 @@
 <section class="masthead">
   <div class="masthead-in">
     <div class="kicker">Taisei Property Intelligence · 大誠有限会社</div>
-    <h1><span class="lang-cn">日本不动产半月报</span><span class="lang-jp">日本不動産半月報</span><br><span class="thin"><span class="lang-cn">与不动产情报平台</span><span class="lang-jp">と不動産情報プラットフォーム</span></span></h1>
+    <h1><span class="lang-cn">大诚不动产半月报</span><span class="lang-jp">大誠不動産半月報</span><br><span class="thin"><span class="lang-cn">与不动产情报平台</span><span class="lang-jp">と不動産情報プラットフォーム</span></span></h1>
+    <div class="titlerule"></div>
     <p class="lede"><span class="lang-cn">每半月一期，覆盖东京圈政策动向、市场交易、开发动态、科技前沿与调查数据；另附可按企业·地区筛选的项目库，以及项目地图与租金地图。一个页面看懂日本不动产正在发生什么。</span><span class="lang-jp">半月に1号、東京圏の政策動向・市場取引・開発動向・テクノロジー・調査データを網羅。企業・地区で絞り込めるプロジェクト一覧と、プロジェクト地図・賃貸相場マップも備えています。日本不動産のいまが、この1ページで分かります。</span></p>
     <div class="masthead-meta">
       <span><span class="lang-cn">更新于 2026年10月16日</span><span class="lang-jp">更新日 2026年10月16日</span></span>
@@ -247,10 +249,10 @@
       <span class="sec-en">Latest issue</span>
     </div>
     
-    <a href="reports/2026-10-15/report.html?v=202610161116" class="featured">
+    <a href="reports/2026-10-15/report.html?v=202610161432" class="featured">
       <div class="featured-left" style="min-width:0">
         <span class="featured-tag"><span class="lang-cn">最新一期</span><span class="lang-jp">最新号</span></span>
-        <h2 class="featured-title"><span class="lang-cn">日本不动产半月报</span><span class="lang-jp">日本不動産半月報</span></h2>
+        <h2 class="featured-title"><span class="lang-cn">大诚不动产半月报</span><span class="lang-jp">大誠不動産半月報</span></h2>
         <div class="featured-date">2026年10月15日 · 2026年10月 上旬号</div>
         <p class="featured-desc"><span class="lang-cn">政策动向 · 市场交易 · 开发动态 · 科技前沿 · 调查数据五大板块，精选本半月日本（以东京圈为主）不动产核心资讯，附利率解读与本期点评。</span><span class="lang-jp">政策動向・市場取引・開発動向・テクノロジー・調査データの5分野を網羅。この半月の日本（東京圏中心）不動産の核心情報を厳選し、金利解説と今期の総括付き。</span></p>
         <span class="featured-cta"><span class="lang-cn">立即阅读 →</span><span class="lang-jp">今すぐ読む →</span></span>
@@ -269,127 +271,127 @@
     </div>
     <div class="report-grid">
     <div class="report-card latest">
-      <a href="reports/2026-10-15/report.html?v=202610161116" class="card-link">
+      <a href="reports/2026-10-15/report.html?v=202610161432" class="card-link">
         <span class="card-badge">最新</span>
         <div class="card-date">2026年10月15日</div>
-        <div class="card-title">2026年10月 上旬号 · 日本不动产半月报</div>
+        <div class="card-title">2026年10月 上旬号 · 大诚不动产半月报</div>
         <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card">
-      <a href="reports/2026-09-25/report.html?v=202610161116" class="card-link">
+      <a href="reports/2026-09-25/report.html?v=202610161432" class="card-link">
         
         <div class="card-date">2026年09月25日</div>
-        <div class="card-title">2026年9月 下旬号 · 日本不动产半月报</div>
+        <div class="card-title">2026年9月 下旬号 · 大诚不动产半月报</div>
         <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card">
-      <a href="reports/2026-09-11/report.html?v=202610161116" class="card-link">
+      <a href="reports/2026-09-11/report.html?v=202610161432" class="card-link">
         
         <div class="card-date">2026年09月11日</div>
-        <div class="card-title">2026年9月 上旬号 · 日本不动产半月报</div>
+        <div class="card-title">2026年9月 上旬号 · 大诚不动产半月报</div>
         <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card">
-      <a href="reports/2026-08-25/report.html?v=202610161116" class="card-link">
+      <a href="reports/2026-08-25/report.html?v=202610161432" class="card-link">
         
         <div class="card-date">2026年08月25日</div>
-        <div class="card-title">2026年8月 下旬号 · 日本不动产半月报</div>
+        <div class="card-title">2026年8月 下旬号 · 大诚不动产半月报</div>
         <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card">
-      <a href="reports/2026-08-18/report.html?v=202610161116" class="card-link">
+      <a href="reports/2026-08-18/report.html?v=202610161432" class="card-link">
         
         <div class="card-date">2026年08月18日</div>
-        <div class="card-title">2026年8月 下旬号 · 日本不动产半月报</div>
+        <div class="card-title">2026年8月 下旬号 · 大诚不动产半月报</div>
         <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card">
-      <a href="reports/2026-08-07/report.html?v=202610161116" class="card-link">
+      <a href="reports/2026-08-07/report.html?v=202610161432" class="card-link">
         
         <div class="card-date">2026年08月07日</div>
-        <div class="card-title">2026年8月 上旬号 · 日本不动产半月报</div>
+        <div class="card-title">2026年8月 上旬号 · 大诚不动产半月报</div>
         <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-08-04/report.html?v=202610161116" class="card-link">
+      <a href="reports/2026-08-04/report.html?v=202610161432" class="card-link">
         
         <div class="card-date">2026年08月04日</div>
-        <div class="card-title">2026年8月 上旬号 · 日本不动产半月报</div>
+        <div class="card-title">2026年8月 上旬号 · 大诚不动产半月报</div>
         <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-07-31/report.html?v=202610161116" class="card-link">
+      <a href="reports/2026-07-31/report.html?v=202610161432" class="card-link">
         
         <div class="card-date">2026年07月31日</div>
-        <div class="card-title">2026年7月 下旬号 · 日本不动产半月报</div>
+        <div class="card-title">2026年7月 下旬号 · 大诚不动产半月报</div>
         <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-07-28/report.html?v=202610161116" class="card-link">
+      <a href="reports/2026-07-28/report.html?v=202610161432" class="card-link">
         
         <div class="card-date">2026年07月28日</div>
-        <div class="card-title">2026年7月 下旬号 · 日本不动产半月报</div>
+        <div class="card-title">2026年7月 下旬号 · 大诚不动产半月报</div>
         <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-07-21/report.html?v=202610161116" class="card-link">
+      <a href="reports/2026-07-21/report.html?v=202610161432" class="card-link">
         
         <div class="card-date">2026年07月21日</div>
-        <div class="card-title">2026年7月 下旬号 · 日本不动产半月报</div>
+        <div class="card-title">2026年7月 下旬号 · 大诚不动产半月报</div>
         <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-07-14/report.html?v=202610161116" class="card-link">
+      <a href="reports/2026-07-14/report.html?v=202610161432" class="card-link">
         
         <div class="card-date">2026年07月14日</div>
-        <div class="card-title">2026年7月 上旬号 · 日本不动产半月报</div>
+        <div class="card-title">2026年7月 上旬号 · 大诚不动产半月报</div>
         <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-07-06/report.html?v=202610161116" class="card-link">
+      <a href="reports/2026-07-06/report.html?v=202610161432" class="card-link">
         
         <div class="card-date">2026年07月06日</div>
-        <div class="card-title">2026年7月 上旬号 · 日本不动产半月报</div>
+        <div class="card-title">2026年7月 上旬号 · 大诚不动产半月报</div>
         <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-06-29/report.html?v=202610161116" class="card-link">
+      <a href="reports/2026-06-29/report.html?v=202610161432" class="card-link">
         
         <div class="card-date">2026年06月29日</div>
-        <div class="card-title">2026年6月 下旬号 · 日本不动产半月报</div>
+        <div class="card-title">2026年6月 下旬号 · 大诚不动产半月报</div>
         <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-06-16/report.html?v=202610161116" class="card-link">
+      <a href="reports/2026-06-16/report.html?v=202610161432" class="card-link">
         
         <div class="card-date">2026年06月16日</div>
-        <div class="card-title">2026年6月 下旬号 · 日本不动产半月报</div>
+        <div class="card-title">2026年6月 下旬号 · 大诚不动产半月报</div>
         <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
@@ -403,7 +405,7 @@
 </div>
 
 <footer class="footer">
-  <p><a href="https://www.taisei-r.com/" target="_blank" rel="noopener" class="footer-brand">大誠有限会社</a> · <span class="lang-cn">日本不动产半月报</span><span class="lang-jp">日本不動産半月報</span></p>
+  <p><a href="https://www.taisei-r.com/" target="_blank" rel="noopener" class="footer-brand">大誠有限会社</a> · <span class="lang-cn">大诚不动产半月报</span><span class="lang-jp">大誠不動産半月報</span></p>
   <p class="sig"><span data-i18n="footer_note">内容仅供参考，投资需谨慎</span></p>
   <p class="sig">Generated by Taisei AI · 2026年10月16日 · <span class="lang-cn">东京</span><span class="lang-jp">東京</span></p>
 </footer>

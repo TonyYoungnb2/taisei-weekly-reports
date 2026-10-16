@@ -54,15 +54,25 @@ def verify_report(date=None):
     chk('report: html2canvas 内联', 'html2canvas 内联（绕过 CDN 被墙）' in h)
     for i in ['headerDateRange', 'statsBar', 'hotlist', 'share-card-container', 'shareCardImg', 'langSwitch']:
         chk('report: DOM id #%s' % i, ('id="%s"' % i) in h)
-    # 双语 span 对称
-    cn = h.count('class="lang-cn"') + h.count('lang-cn"')
-    jp = h.count('class="lang-jp"') + h.count('lang-jp"')
+    # 双语 span 对称（先剔除 <html> 根元素自身的 class：它只承载语言态、不是 span，
+    #   2026-10-16 起 <html> 带 class="lang-cn" 作为首屏默认态，不参与对称判定）
+    _span_src = re.sub(r'<html\b[^>]*>', '', h, count=1)
+    cn = _span_src.count('class="lang-cn"') + _span_src.count('lang-cn"')
+    jp = _span_src.count('class="lang-jp"') + _span_src.count('lang-jp"')
     chk('report: 双语 span 对称', cn > 0 and cn == jp, 'cn=%d jp=%d' % (cn, jp))
     # 手机 grid 不得裸多列 1fr
     bad_grid = re.search(r'grid-template-columns:\s*repeat\(\d+,\s*1fr\)', h) is not None
     chk('report: 手机 grid 未回退', not bad_grid)
     # 内联 lang 规则
     chk('report: 内联 lang 规则', 'html.lang-jp .lang-jp' in h)
+    # 反回退（2026-10-16 真实白屏 bug）：不允许「裸 .lang-xxx{display:none}」。
+    #   切换语言时 class 是加在 <html> 上的，裸选择器会命中根元素本身 → display:none
+    #   → 整个文档不渲染（整页白屏）。必须写成 html.lang-xxx .lang-xxx 后代选择器。
+    bare = re.search(r'^\s*\.lang-(?:cn|jp)\s*\{[^}]*display:\s*none', h, re.M)
+    chk('report: 无裸 lang 隐藏规则（防白屏）', bare is None,
+        ('发现: ' + bare.group(0).strip()) if bare else 'only html-scoped rules')
+    # 反回退：<html> 必须带初始语言态 class，否则 JS 未执行前双语会同时显示
+    chk('report: html 带默认语言态', re.search(r'<html\b[^>]*class="lang-(?:cn|jp)"', h) is not None)
 
 
 def verify_map():

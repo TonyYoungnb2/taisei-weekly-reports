@@ -366,14 +366,20 @@ CSS = """  /* ============================================================
   }
   .stat-card:first-child { border-left: none; padding-left: 0; }
   .stat-card .num {
-    font-family: var(--serif); font-size: 2.1em; font-weight: 700;
-    color: var(--ink); line-height: 1.2; letter-spacing: 0;
+    font-family: var(--serif); font-size: 2.3em; font-weight: 700;
+    color: var(--ink); line-height: 1.15; letter-spacing: -.5px;
   }
-  .stat-card .num.gold { color: #14539e; }
-  .stat-card .num.orange { color: #1a6cb5; }
-  .stat-card .num.green { color: #0f7d8c; }
+  /* 指标性质标签：升=红 / 降=绿 / 中性=灰（与市场趋势同一套语义色） */
+  .stat-tag {
+    display: inline-block; margin-top: 11px; font-size: 10px; font-weight: 800;
+    letter-spacing: 1px; line-height: 1.5; padding: 3px 8px; border-radius: 2px;
+    border: 1px solid transparent; font-family: var(--sans);
+  }
+  .stat-tag.up   { color: #b3312a; background: #fdeeec; border-color: #f3cdc6; }
+  .stat-tag.down { color: #10705a; background: #e9f6f0; border-color: #c3e5d6; }
+  .stat-tag.flat { color: var(--ink-3); background: #f1f5f9; border-color: var(--rule-2); }
   .stat-card .label {
-    font-size: 12px; font-weight: 500; color: var(--ink-3); margin-top: 9px;
+    font-size: 12px; font-weight: 600; color: var(--ink-3); margin-top: 10px;
     line-height: 1.65; letter-spacing: .5px; overflow-wrap: anywhere;
   }
 
@@ -445,34 +451,76 @@ CSS = """  /* ============================================================
   .key-insight {
     background: var(--surface); border: 1px solid var(--rule);
     border-left: 4px solid var(--accent); border-radius: 2px;
-    padding: 26px 28px; margin-bottom: 52px;
+    padding: 0; margin-bottom: 52px; overflow: hidden;
   }
   .key-insight h3 {
     font-size: 13px; font-weight: 800; letter-spacing: 4px; color: var(--ink);
-    margin-bottom: 16px; text-transform: uppercase;
+    margin-bottom: 0; padding: 17px 24px; border-bottom: 1px solid var(--rule);
+    text-transform: uppercase; display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+  }
+  .key-insight h3 .count {
+    font-family: var(--sans); font-size: 10px; font-weight: 800; letter-spacing: 1px;
+    color: var(--accent); background: #eaf2fb; border: 1px solid #cfe0f2;
+    padding: 3px 8px; border-radius: 2px;
   }
   .key-insight p, .key-insight li { font-size: 14px; font-weight: 400; color: var(--ink-2); line-height: 1.95; }
-  .key-insight ul { list-style: none; padding-left: 0; margin-top: 6px; }
-  .key-insight li { margin-bottom: 0; padding: 12px 0; border-bottom: 1px solid var(--rule); }
-  .key-insight li:last-child { border-bottom: none; }
-  .key-insight li::before { content: '—'; color: var(--accent); font-weight: 700; margin-right: 10px; }
+  .key-insight p { padding: 18px 24px 4px; }
+  .key-insight p:last-of-type { padding-bottom: 20px; }
+  .key-insight ul { list-style: none; padding-left: 0; margin-top: 0; }
+  .key-insight li { margin-bottom: 0; }
   .key-insight strong { color: var(--ink); font-weight: 800; }
 
-  /* ===== 市场趋势：一列数字 + 竖细线 ===== */
+  /* 本期热点：编号 + 斑马纹 + 数字高亮（让「热点」真的被看见） */
+  #hotlist { list-style: none; margin: 0; padding: 6px 0; }
+  #hotlist li {
+    display: grid; grid-template-columns: 38px minmax(0, 1fr); gap: 14px;
+    align-items: start; padding: 17px 22px 17px 20px;
+    border-left: 3px solid transparent;
+  }
+  #hotlist li + li { border-top: 1px solid var(--rule); }
+  #hotlist li:nth-child(even) { background: #f6fafd; }
+  #hotlist li:hover { background: #eef5fc; border-left-color: var(--accent); }
+  #hotlist .rank {
+    font-family: var(--serif); font-size: 19px; font-weight: 700; color: var(--accent);
+    line-height: 1.35; text-align: right; letter-spacing: 0;
+  }
+  #hotlist .hot-body { min-width: 0; }
+  #hotlist .hot-lead { font-weight: 800; color: var(--ink); }
+  #hotlist .hot-desc { display: block; margin-top: 6px; font-size: 13.5px; font-weight: 400; color: var(--ink-2); line-height: 1.85; }
+  /* 关键数字：荧光笔下划线，扫读即可定位 */
+  #hotlist em.fig {
+    font-style: normal; font-weight: 800; color: var(--ink);
+    background: linear-gradient(transparent 62%, rgba(20, 83, 158, .22) 62%);
+    padding: 0 1px;
+  }
+
+  /* ===== 市场趋势：方向色（升=红 / 降=绿 / 平=灰）+ 大数字 + 变动量 ===== */
   .trend-visual { display: flex; flex-wrap: wrap; margin: 12px 0 0; border-top: 1px solid var(--rule); }
   .trend-item {
     flex: 1 1 150px; min-width: 0; overflow: hidden;
     padding: 20px 20px 20px 0; border-right: 1px solid var(--rule);
   }
   .trend-item:last-child { border-right: none; padding-right: 0; }
-  .trend-item .trend-label { font-size: 12px; font-weight: 500; color: var(--ink-3); letter-spacing: .5px; line-height: 1.6; }
-  .trend-item .trend-value {
-    font-family: var(--serif); font-size: 22px; font-weight: 700;
-    color: var(--ink); margin-top: 9px;
+  .trend-item .trend-label { font-size: 12px; font-weight: 600; color: var(--ink-3); letter-spacing: .5px; line-height: 1.6; }
+  /* 方向徽标：一眼看出涨跌，不依赖蓝色 */
+  .trend-dir {
+    display: inline-block; font-family: var(--sans); font-size: 10px; font-weight: 800;
+    letter-spacing: 1px; line-height: 1.5; padding: 3px 8px; border-radius: 2px; margin-bottom: 10px;
   }
-  .trend-item .trend-value.up { color: #14539e; }
-  .trend-item .trend-value.down { color: #0f7d8c; }
-  .trend-item .trend-value.flat { color: var(--ink-3); }
+  .trend-dir.up   { color: #b3312a; background: #fdeeec; }
+  .trend-dir.down { color: #10705a; background: #e9f6f0; }
+  .trend-dir.flat { color: var(--ink-3); background: #f1f5f9; }
+  .trend-item .trend-value {
+    font-family: var(--serif); font-size: 24px; font-weight: 700;
+    color: var(--ink); margin-top: 2px; line-height: 1.15; letter-spacing: -.3px;
+  }
+  .trend-item .trend-value .trend-delta {
+    font-family: var(--sans); font-size: 13px; font-weight: 800; letter-spacing: 0;
+    margin-left: 9px; white-space: nowrap;
+  }
+  .trend-value.up   .trend-delta { color: #b3312a; }
+  .trend-value.down .trend-delta { color: #10705a; }
+  .trend-value.flat .trend-delta { color: var(--ink-3); }
 
   /* ===== 页脚 ===== */
   .footer {
@@ -546,8 +594,8 @@ CSS = """  /* ============================================================
     color: var(--ink); line-height: 1.2;
   }
   #share-card .card-stat-box .stat-num .stat-arrow { font-size: 13px; margin-left: 5px; }
-  #share-card .card-stat-box .stat-num .stat-arrow.up { color: #14539e; }
-  #share-card .card-stat-box .stat-num .stat-arrow.down { color: #0f7d8c; }
+  #share-card .card-stat-box .stat-num .stat-arrow.up { color: #d0453b; }
+  #share-card .card-stat-box .stat-num .stat-arrow.down { color: #17a374; }
   #share-card .card-stat-box .stat-num .stat-arrow.flat { color: #7c8ea6; }
   #share-card .card-stat-box .stat-label {
     font-size: 10px; font-weight: 500; color: var(--ink-3); margin-top: 6px; line-height: 1.5; letter-spacing: .5px;
@@ -592,13 +640,17 @@ CSS = """  /* ============================================================
   .share-actions .download-btn.ghost:hover { background: #eef3fa; box-shadow: none; }
 
   /* ===== 语言切换（主页 & 周报页共用）=====
-     ⚠️ 三条规则缺一不可：少 html.lang-jp .lang-jp{display:inline}
-        切日文整页空白；缺 .lang-jp{display:none} 则默认双语同时显示 */
-  html.lang-jp .lang-cn { display: none; }
+     ⚠️ 2026-10-16 修复「切日文整页白屏」：
+     根因是删掉的那条裸规则 `.lang-jp{display:none}`——切换时 class `lang-jp`
+     是加在 <html> 上的，裸选择器连 <html> 自己都命中，display:none 直接
+     作用于根元素 → 整个文档不渲染（白屏）。且 inline-style 兜底循环也会
+     把 <html> 的 display 改掉（querySelectorAll 命中 documentElement）。
+     ⚠️ 因此：只允许「html.xxx .lang-xxx」这种后代选择器写法，
+        <html> 自身永不带显示副作用；两态隐藏由下面两条 html.* 规则覆盖。 */
   html.lang-cn .lang-jp { display: none; }
+  html.lang-jp .lang-cn { display: none; }
   html.lang-jp .lang-jp { display: inline; }
-  .lang-jp { display: none; }
-  .lang-cn { display: inline; }
+  html.lang-cn .lang-cn { display: inline; }
 
   .lang-switch {
     position: static; display: inline-flex; align-items: center; gap: 8px;
@@ -629,8 +681,9 @@ CSS = """  /* ============================================================
     .stat-card { border-left: 1px solid var(--rule); padding: 2px 12px; }
     .stat-card:first-child { border-left: none; padding-left: 0; }
     .stat-card:nth-child(odd) { border-left: none; padding-left: 0; }
-    .stat-card .num { font-size: 1.7em; }
+    .stat-card .num { font-size: 1.85em; }
     .stat-card .label { font-size: 11px; font-weight: 500; overflow-wrap: anywhere; }
+    .stat-tag { margin-top: 8px; }
     .container { padding: 0 14px; }
     .section { margin-bottom: 38px; }
     .section-title { font-size: 14px; font-weight: 800; letter-spacing: 3px; margin-bottom: 18px; padding-bottom: 11px; gap: 10px; }
@@ -640,12 +693,19 @@ CSS = """  /* ============================================================
     .card h3 { font-size: 15px; margin-bottom: 8px; }
     .card p { font-size: 13.5px; line-height: 1.85; }
     .card .source-link { margin-top: 14px; }
-    .key-insight { padding: 19px 16px; margin-bottom: 34px; }
-    .key-insight h3 { font-size: 12px; letter-spacing: 3px; }
+    .key-insight { padding: 19px 0 6px; margin-bottom: 34px; }
+    .key-insight h3 { font-size: 12px; letter-spacing: 3px; padding: 0 16px 14px; }
     .key-insight p, .key-insight li { font-size: 13.5px; line-height: 1.85; }
+    .key-insight p { padding: 0 16px; }
+    #hotlist { padding: 0; }
+    #hotlist li { grid-template-columns: 28px minmax(0, 1fr); gap: 10px; padding: 14px 14px 14px 13px; }
+    #hotlist .rank { font-size: 16px; }
+    #hotlist .hot-desc { font-size: 13px; line-height: 1.75; }
     .trend-item { flex: 1 1 100%; padding: 15px 0; border-right: none; border-bottom: 1px solid var(--rule); }
     .trend-item:last-child { border-bottom: none; }
-    .trend-item .trend-value { font-size: 19px; }
+    .trend-item .trend-value { font-size: 21px; }
+    .trend-item .trend-value .trend-delta { font-size: 12.5px; margin-left: 7px; }
+    .trend-dir { margin-bottom: 8px; }
     .footer { margin-top: 38px; padding: 24px 14px 38px; }
     .share-btn-fab { bottom: 16px; right: 16px; padding: 10px 15px; font-size: 11px; letter-spacing: 1px; }
     .share-modal .modal-box { width: 100%; padding: 16px 14px; }
@@ -657,6 +717,39 @@ CSS = """  /* ============================================================
 """
 
 # ─── 辅助函数 ──────────────────────────────────────────────────────────
+
+# 关键数字高亮：带单位/量词的数值（3.830% / 3万5,146日元 / 5.2公顷 / 9,754户 …）
+_FIG_UNITS = (r'(?:%|pt|‰|户|戸|戶|円|万円|万|日元|日円|億元|亿|億|ha|公顷'
+              r'|㎡|平米|階|阶|米|件|室|期|号|栋|栋|套|个月|ヶ月|社|人)')
+_FIG_RE = re.compile(r'(\d[\d,\.]*(?:万|億|亿)?[\d,\.]*\s*' + _FIG_UNITS + r')')
+_ARROWS = ('▲', '▼', '△', '▽', '↑', '↓')
+
+
+def highlight_figures(text):
+    """把热点条目里的关键数字（含量词）包一层 <em class="fig">，便于扫读定位。"""
+    if not text:
+        return text
+    return _FIG_RE.sub(r'<em class="fig">\1</em>', text)
+
+
+def split_hot_item(text):
+    """拆成「小标题 / 说明」两段（无分隔符时说明为空）。"""
+    for sep in (' — ', ' ― ', '——', '――', '－', '：'):
+        if sep in text:
+            a, b = text.split(sep, 1)
+            return a.strip(), b.strip()
+    return (text or '').strip(), ''
+
+
+def split_trend_delta(value):
+    """把 '3.830% ▲0.37pt' 拆成 ('3.830%', '▲0.37pt')；无箭头则 delta 为空串。"""
+    v = (value or '').strip()
+    for a in _ARROWS:
+        if a in v:
+            i = v.index(a)
+            return v[:i].strip(), v[i:].strip()
+    return v, ''
+
 
 def get_week_range():
     """获取本周的日期范围（周一~周日）"""
@@ -773,22 +866,29 @@ def build_report_html(dt=None):
     _hot_rows = []
     for _hi, item in enumerate(hot_items):
         _jp_item = _hot_jp[_hi] if _hi < len(_hot_jp) else item
-        if ' — ' in item:
-            _p = item.split(' — ', 1)
-            _cn_html = f'<strong>{_p[0]}</strong> — {_p[1]}'
-        else:
-            _cn_html = item
-        if ' — ' in _jp_item:
-            _q = _jp_item.split(' — ', 1)
-            _jp_html = f'<strong>{_q[0]}</strong> — {_q[1]}'
-        else:
-            _jp_html = _jp_item
-        _hot_rows.append(f'<li><span class="lang-cn">{_cn_html}</span>'
-                         f'<span class="lang-jp" data-jp="{_jp_item.replace(chr(34), chr(39))}">{_jp_html}</span></li>')
+        _lead_cn, _desc_cn = split_hot_item(item)
+        _lead_jp, _desc_jp = split_hot_item(_jp_item)
+        _rank = '%02d' % (_hi + 1)
+        _cn_html = ('<strong class="hot-lead">' + highlight_figures(_lead_cn) + '</strong>'
+                    + ('<span class="hot-desc"> — ' + highlight_figures(_desc_cn) + '</span>' if _desc_cn else ''))
+        _jp_html = ('<strong class="hot-lead">' + highlight_figures(_lead_jp) + '</strong>'
+                    + ('<span class="hot-desc"> ― ' + highlight_figures(_desc_jp) + '</span>' if _desc_jp else ''))
+        _hot_rows.append('<li><span class="rank">' + _rank + '</span>'
+                         '<span class="hot-body">'
+                         '<span class="lang-cn">' + _cn_html + '</span>'
+                         '<span class="lang-jp" data-jp="' + _jp_item.replace(chr(34), chr(39)) + '">' + _jp_html + '</span>'
+                         '</span></li>')
     hot_html = '\n'.join(_hot_rows)
 
     # 顶部统计卡（中文 label_cn 优先；JP 作 data-jp 后备）
-    _color_by_idx = ['gold', 'orange', 'green', '', 'gold']
+    # 每张卡附「性质标签」：升=红 / 降=绿 / 中性=灰，与市场趋势同一套语义色。
+    _tag_default = [
+        ('up',   '现行制度以来最高', '現行制度以来最高'),
+        ('up',   '31年来新高',      '31年ぶり高値'),
+        ('up',   '连续5个月增加',   '5カ月連続増'),
+        ('down', '连续6个月下降',   '6カ月連続低下'),
+        ('flat', '街区开发规模',    '街区開発規模'),
+    ]
     stats_html = ''
     # ★ 修复 CN/JP 错位（2026-08-04）：
     #   原始 primary(cn/sample) 与 jp 的 stats 列表【按索引不对齐】，
@@ -805,30 +905,48 @@ def build_report_html(dt=None):
     _jp_stats = _WEEKLY_JP.get('stats') if isinstance(_WEEKLY_JP, dict) else None
     for _i, _s in enumerate(_stats_src):
         _s = _s if isinstance(_s, dict) else {'label': str(_s)}
-        _color = _color_by_idx[_i] if _i < len(_color_by_idx) else ''
-        _cls = f' num {_color}' if _color else ' num'
         _lbl_cn = _s.get('label_cn', _s.get('label', ''))
         _lbl_jp = _s.get('label_jp', '')
         if not _lbl_jp and isinstance(_jp_stats, list) and _i < len(_jp_stats) and isinstance(_jp_stats[_i], dict):
             _lbl_jp = _jp_stats[_i].get('label_jp', '')
-        stats_html += f'''    <div class="stat-card">
-      <div class="{_cls.strip()}">{_s.get('value_cn', _s.get('value', ''))}</div>
-      <div class="label"><span class="lang-cn">{_lbl_cn}</span><span class="lang-jp" data-jp="{_lbl_jp.replace(chr(34), chr(39))}">{_lbl_jp}</span></div>
-    </div>
-'''
+        _d, _tag_cn, _tag_jp = _tag_default[_i] if _i < len(_tag_default) else ('', '', '')
+        _d     = _s.get('dir') or _d
+        _tag_cn = _s.get('tag_cn') or _tag_cn
+        _tag_jp = _s.get('tag_jp') or _tag_jp
+        _tag_jp_esc = (_tag_jp or '').replace(chr(34), chr(39))
+        _tag_html = ''
+        if _tag_cn or _tag_jp:
+            _tag_html = ('      <div class="stat-tag ' + _d + '">'
+                         '<span class="lang-cn">' + _tag_cn + '</span>'
+                         '<span class="lang-jp" data-jp="' + _tag_jp_esc + '">' + _tag_jp + '</span></div>\n')
+        stats_html += ('    <div class="stat-card">\n'
+                       '      <div class="num">' + _s.get('value_cn', _s.get('value', '')) + '</div>\n'
+                       + _tag_html +
+                       '      <div class="label"><span class="lang-cn">' + _lbl_cn + '</span>'
+                       '<span class="lang-jp" data-jp="' + _lbl_jp.replace(chr(34), chr(39)) + '">' + _lbl_jp + '</span></div>\n'
+                       '    </div>\n')
 
     # 市场趋势（中文 label_cn 优先；JP 作 data-jp 后备）
+    _dir_txt = {'up': ('上涨', '上昇'), 'down': ('下跌', '下落'), 'flat': ('持平', '横ばい')}
     trend_html = ''
     for _t in NEWS_DATA.get('trends', DEFAULT_TRENDS):
         _label, _value, _dir = _t.get('label_cn', _t['label']), _t.get('value_cn', _t['value']), _t.get('dir', 'flat')
         _label_jp = _t['label'].replace('\n', '<br>')
-        _value_jp = _t['value']
-        _arrow = ' ▲' if '▲' in _value_jp else (' ▼' if '▼' in _value_jp else '')
-        trend_html += f'''    <div class="trend-item">
-      <div class="trend-label"><span class="lang-cn">{_label.replace(chr(10), '<br>')}</span><span class="lang-jp" data-jp="{_label_jp.replace(chr(34), chr(39))}">{_label_jp}</span></div>
-      <div class="trend-value {_dir}"><span class="lang-cn">{_value}</span><span class="lang-jp" data-jp="{_value_jp}">{_value_jp}{_arrow}</span></div>
-    </div>
-'''
+        _val_cn, _delta_cn = split_trend_delta(_value)
+        _val_jp, _delta_jp = split_trend_delta(_t['value'])
+        _d_cn, _d_jp = _dir_txt.get(_dir, _dir_txt['flat'])
+        _delta_jp_html = ('<span class="trend-delta">' + _delta_jp + '</span>') if _delta_jp else ''
+        trend_html += ('    <div class="trend-item">\n'
+                       '      <div class="trend-label"><span class="lang-cn">' + _label.replace(chr(10), '<br>') + '</span>'
+                       '<span class="lang-jp" data-jp="' + _label_jp.replace(chr(34), chr(39)) + '">' + _label_jp + '</span></div>\n'
+                       '      <div class="trend-dir ' + _dir + '"><span class="lang-cn">' + _d_cn + '</span>'
+                       '<span class="lang-jp" data-jp="' + _d_jp + '">' + _d_jp + '</span></div>\n'
+                       '      <div class="trend-value ' + _dir + '">'
+                       '<span class="lang-cn"><span class="trend-num">' + _val_cn + '</span>'
+                       '<span class="trend-delta">' + _delta_cn + '</span></span>'
+                       '<span class="lang-jp" data-jp="' + (_val_jp + _delta_jp_html).replace(chr(34), chr(39)) + '">'
+                       + _val_jp + _delta_jp_html + '</span></div>\n'
+                       '    </div>\n')
 
     news_sections_html = '\n'.join(render_news_section(k) for k in ['policy','deals','develop','tech','survey'])
 
@@ -838,7 +956,7 @@ def build_report_html(dt=None):
     ANALYTICS = _an.snippet()
 
     html = f'''<!DOCTYPE html>
-<html lang="ja">
+<html lang="ja" class="lang-cn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -881,7 +999,7 @@ def build_report_html(dt=None):
 
 <!-- 热点速览 -->
 <div class="key-insight">
-  <h3><span class="lang-cn">本期热点速览</span><span class="lang-jp" data-jp="今期の注目トピックス">今期の注目トピックス</span></h3>
+  <h3><span class="lang-cn">本期热点速览</span><span class="lang-jp" data-jp="今期の注目トピックス">今期の注目トピックス</span><span class="count"><span class="lang-cn">{len(hot_items)} 条</span><span class="lang-jp" data-jp="全{len(hot_items)}件">全{len(hot_items)}件</span></span></h3>
   <ul id="hotlist">
 {hot_html}
   </ul>
@@ -1039,7 +1157,7 @@ function buildCardText() {{
   const stats = getStats();
   const highlights = getHighlights();
   const NL = String.fromCharCode(10);
-  let t = '【' + COMPANY_NAME_JP + ' 日本不动产半月报】' + NL + dateRange + NL + NL;
+  let t = '【' + COMPANY_NAME_JP + ' 大诚不动产半月报】' + NL + dateRange + NL + NL;
   stats.slice(0,4).forEach(function(s) {{ t += '\u2022 ' + s.label + '\uff1a' + s.num + NL; }});
   t += NL + '本期焦点：' + NL;
   highlights.forEach(function(h) {{ t += '\u25b8 ' + h + NL; }});
@@ -1155,13 +1273,16 @@ function applyReportLang(lang) {{
     b.classList.toggle('active', b.getAttribute('data-lang') === lang);
   }});
   // 日文：用 data-jp 文本替换同级 .lang-jp 的展示（兼容多段/标题）
+  // ⚠️ 必须排除 <html> 自身：切换时 lang-jp 这个 class 是加在 documentElement 上的，
+  //    querySelectorAll('.lang-jp') 会把 <html> 也选进来（曾导致根元素 display 被改写）。
   document.querySelectorAll('.lang-jp').forEach(function(el) {{
+    if (el === document.documentElement) return;
     const jp = el.getAttribute('data-jp');
     if (jp !== null) el.innerHTML = jp;  // 用 innerHTML 以渲染 <br> 等换行
   }});
   // 双保险：直接内联样式控制显示。即使 CSS 规则缺失/被缓存旧版覆盖，也绝不会两种语言同时隐藏（白屏）。
-  document.querySelectorAll('.lang-cn').forEach(function(el) {{ el.style.display = (lang === 'jp') ? 'none' : 'inline'; }});
-  document.querySelectorAll('.lang-jp').forEach(function(el) {{ el.style.display = (lang === 'jp') ? 'inline' : 'none'; }});
+  document.querySelectorAll('.lang-cn').forEach(function(el) {{ if (el !== document.documentElement) el.style.display = (lang === 'jp') ? 'none' : 'inline'; }});
+  document.querySelectorAll('.lang-jp').forEach(function(el) {{ if (el !== document.documentElement) el.style.display = (lang === 'jp') ? 'inline' : 'none'; }});
 }}
 function setReportLang(lang) {{
   applyReportLang(lang);
@@ -1216,9 +1337,9 @@ HOME_CSS = """  :root {
   a { color: inherit; }
   /* 双语 span（与周报页同一套规则，防白屏） */
   .lang-cn { display: inline; }
-  .lang-jp { display: none; }
   html.lang-jp .lang-cn { display: none; }
   html.lang-jp .lang-jp { display: inline; }
+  html.lang-cn .lang-jp { display: none; }
 
   /* ===== 顶栏 ===== */
   .topbar {
@@ -1235,14 +1356,15 @@ HOME_CSS = """  :root {
     transition: background .15s, color .15s; }
   .lang-btn.active { background: var(--accent); color: #fff; }
 
-  /* ===== 报头 ===== */
-  .masthead { padding: 54px 22px 36px; border-bottom: 1px solid var(--rule); }
-  .masthead-in { max-width: 1080px; margin: 0 auto; }
-  .kicker { font-size: 11px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
-  .masthead h1 { font-family: var(--serif); font-size: clamp(30px, 6vw, 50px); line-height: 1.16; font-weight: 700; color: var(--ink); }
+  /* ===== 报头（居中杂志刊头） ===== */
+  .masthead { padding: 58px 22px 40px; border-bottom: 1px solid var(--rule); text-align: center; }
+  .masthead-in { max-width: 820px; margin: 0 auto; }
+  .kicker { font-size: 11px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+  .masthead h1 { font-family: var(--serif); font-size: clamp(30px, 6vw, 52px); line-height: 1.18; font-weight: 700; color: var(--ink); }
   .masthead h1 .thin { color: var(--ink-4); font-weight: 400; }
-  .lede { margin-top: 16px; max-width: 680px; font-size: 15.5px; color: var(--ink-3); }
-  .masthead-meta { margin-top: 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; font-size: 12px; color: var(--ink-4); }
+  .titlerule { width: 46px; height: 2px; background: var(--accent); margin: 24px auto 0; }
+  .lede { margin: 20px auto 0; max-width: 640px; font-size: 15.5px; color: var(--ink-3); line-height: 2; }
+  .masthead-meta { margin-top: 22px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 14px; font-size: 12px; color: var(--ink-4); }
   .masthead-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--rule-2); flex: 0 0 auto; }
 
   /* ===== 搜索条 ===== */
@@ -1398,7 +1520,7 @@ def build_index_html(reports):
       <a href="reports/{folder}/report.html?v={_build_v}" class="card-link">
         {badge}
         <div class="card-date">{date_str}</div>
-        <div class="card-title">{issue} · 日本不动产半月报</div>
+        <div class="card-title">{issue} · 大诚不动产半月报</div>
         <div class="card-meta">{year}年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
@@ -1426,7 +1548,7 @@ def build_index_html(reports):
     <a href="reports/{feat_folder}/report.html?v={_build_v}" class="featured">
       <div class="featured-left" style="min-width:0">
         <span class="featured-tag"><span class="lang-cn">最新一期</span><span class="lang-jp">最新号</span></span>
-        <h2 class="featured-title"><span class="lang-cn">日本不动产半月报</span><span class="lang-jp">日本不動産半月報</span></h2>
+        <h2 class="featured-title"><span class="lang-cn">大诚不动产半月报</span><span class="lang-jp">大誠不動産半月報</span></h2>
         <div class="featured-date">{feat_date} · {feat_issue}</div>
         <p class="featured-desc"><span class="lang-cn">政策动向 · 市场交易 · 开发动态 · 科技前沿 · 调查数据五大板块，精选本半月日本（以东京圈为主）不动产核心资讯，附利率解读与本期点评。</span><span class="lang-jp">政策動向・市場取引・開発動向・テクノロジー・調査データの5分野を網羅。この半月の日本（東京圏中心）不動産の核心情報を厳選し、金利解説と今期の総括付き。</span></p>
         <span class="featured-cta"><span class="lang-cn">立即阅读 →</span><span class="lang-jp">今すぐ読む →</span></span>
@@ -1508,7 +1630,7 @@ function toggleMore(){
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>大誠有限会社 · 日本不动产半月报 · 项目库 · 项目地图 · 租金地图</title>
+<title>大誠有限会社 · 大诚不动产半月报 · 项目库 · 项目地图 · 租金地图</title>
 <meta name="description" content="大誠有限会社维护的日本不动产情报站：每半月一期的东京市场简报（政策·市场·开发·科技·调查），另附可按企业·地区筛选的项目库、项目地图与租金地图。">
 <style>{HOME_CSS}</style>
 <link rel="stylesheet" href="/pagefind/pagefind-ui.css">
@@ -1520,7 +1642,7 @@ function toggleMore(){
 <header class="topbar">
   <a class="brand" href="index.html">
     <span class="mark">TAISEI</span>
-    <span class="co">大誠有限会社 · <span class="lang-cn">日本不动产情报</span><span class="lang-jp">日本不動産情報</span></span>
+    <span class="co">大誠有限会社 · <span class="lang-cn">大诚不动产情报</span><span class="lang-jp">大誠不動産情報</span></span>
   </a>
   <div class="lang-switch" id="langSwitch">
     <button type="button" class="lang-btn" data-lang="cn" onclick="setLang('cn')">中文</button>
@@ -1531,7 +1653,8 @@ function toggleMore(){
 <section class="masthead">
   <div class="masthead-in">
     <div class="kicker">Taisei Property Intelligence · 大誠有限会社</div>
-    <h1><span class="lang-cn">日本不动产半月报</span><span class="lang-jp">日本不動産半月報</span><br><span class="thin"><span class="lang-cn">与不动产情报平台</span><span class="lang-jp">と不動産情報プラットフォーム</span></span></h1>
+    <h1><span class="lang-cn">大诚不动产半月报</span><span class="lang-jp">大誠不動産半月報</span><br><span class="thin"><span class="lang-cn">与不动产情报平台</span><span class="lang-jp">と不動産情報プラットフォーム</span></span></h1>
+    <div class="titlerule"></div>
     <p class="lede"><span class="lang-cn">每半月一期，覆盖东京圈政策动向、市场交易、开发动态、科技前沿与调查数据；另附可按企业·地区筛选的项目库，以及项目地图与租金地图。一个页面看懂日本不动产正在发生什么。</span><span class="lang-jp">半月に1号、東京圏の政策動向・市場取引・開発動向・テクノロジー・調査データを網羅。企業・地区で絞り込めるプロジェクト一覧と、プロジェクト地図・賃貸相場マップも備えています。日本不動産のいまが、この1ページで分かります。</span></p>
     <div class="masthead-meta">
       <span><span class="lang-cn">更新于 {today_str}</span><span class="lang-jp">更新日 {today_str}</span></span>
@@ -1614,7 +1737,7 @@ function toggleMore(){
 </div>
 
 <footer class="footer">
-  <p><a href="https://www.taisei-r.com/" target="_blank" rel="noopener" class="footer-brand">大誠有限会社</a> · <span class="lang-cn">日本不动产半月报</span><span class="lang-jp">日本不動産半月報</span></p>
+  <p><a href="https://www.taisei-r.com/" target="_blank" rel="noopener" class="footer-brand">大誠有限会社</a> · <span class="lang-cn">大诚不动产半月报</span><span class="lang-jp">大誠不動産半月報</span></p>
   <p class="sig"><span data-i18n="footer_note">内容仅供参考，投资需谨慎</span></p>
   <p class="sig">Generated by Taisei AI · {today_str} · <span class="lang-cn">东京</span><span class="lang-jp">東京</span></p>
 </footer>
