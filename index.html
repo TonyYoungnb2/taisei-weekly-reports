@@ -5,161 +5,229 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>大誠有限会社 · 大诚不动产半月报 · 项目库 · 项目地图 · 租金地图</title>
 <meta name="description" content="大誠有限会社维护的日本不动产情报站：每半月一期的东京市场简报（政策·市场·开发·科技·调查），另附可按企业·地区筛选的项目库、项目地图与租金地图。">
-<style>  :root {
-    --paper: #f3f6fb; --surface: #ffffff;
-    --ink: #0d1b2e; --ink-2: #2c3e55; --ink-3: #4d6076; --ink-4: #7c8ea6;
-    --rule: #dbe3ee; --rule-2: #b8c8db; --accent: #14539e; --accent-deep: #0e3d75;
-    --serif: Georgia, "Times New Roman", "Songti SC", "SimSun", serif;
-    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
-  }
-  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-  html { -webkit-text-size-adjust: 100%; }
-  body {
-    counter-reset: hsec;
-    font-family: var(--sans); background: var(--paper); color: var(--ink);
-    font-size: 16px; line-height: 1.8; -webkit-font-smoothing: antialiased;
-  }
-  ::selection { background: var(--accent); color: #fff; }
-  a { color: inherit; }
-  /* 双语 span（与周报页同一套规则，防白屏） */
-  .lang-cn { display: inline; }
-  html.lang-jp .lang-cn { display: none; }
-  html.lang-jp .lang-jp { display: inline; }
-  html.lang-cn .lang-jp { display: none; }
+<style>:root {
+  --paper: #f4f8fe;
+  --surface: #ffffff;
+  --ink: #0c1d33;
+  --ink-2: #2a4160;
+  --ink-3: #526a86;
+  --ink-4: #7d90a8;
+  --rule: #dde8f6;
+  --rule-2: #bcd2ea;
+  --accent: #1668dc;
+  --accent-2: #3b8ef0;
+  --accent-deep: #0d4ea8;
+  --serif: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  --r: 18px; --r-sm: 12px;
+  --shadow: 0 2px 6px rgba(13,78,168,.05), 0 14px 34px rgba(13,78,168,.08);
+  --shadow-sm: 0 1px 3px rgba(13,78,168,.05), 0 6px 16px rgba(13,78,168,.05);
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; }
+body {
+  font-family: var(--sans); background: var(--paper); color: var(--ink);
+  font-size: 16px; line-height: 1.78; counter-reset: hsec; -webkit-font-smoothing: antialiased;
+}
+::selection { background: var(--accent); color: #fff; }
+a { color: inherit; }
+html.lang-jp .lang-cn { display: none; }
+html.lang-cn .lang-jp { display: none; }
+html.lang-jp .lang-jp { display: inline; }
+html.lang-cn .lang-cn { display: inline; }
 
-  /* ===== 顶栏 ===== */
-  .topbar {
-    display: flex; align-items: center; justify-content: space-between; gap: 12px;
-    padding: 11px 22px; background: #e9eff8; border-bottom: 1px solid var(--rule);
-  }
-  .brand { display: flex; align-items: baseline; gap: 12px; text-decoration: none; color: var(--ink-2); min-width: 0; }
-  .brand .mark { font-family: var(--serif); font-size: 15px; font-weight: 700; letter-spacing: 5px; color: var(--accent-deep); }
-  .brand .co { font-size: 11px; letter-spacing: 2px; color: var(--ink-4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-  .lang-switch { flex: 0 0 auto; display: flex; align-items: center; gap: 4px;
-    border: 1px solid var(--rule-2); background: #fff; border-radius: 999px; padding: 3px; }
-  .lang-btn { background: transparent; border: 0; cursor: pointer; font-family: inherit;
-    font-size: 12px; font-weight: 700; color: var(--ink-3); padding: 4px 13px; border-radius: 999px;
-    transition: background .15s, color .15s; }
-  .lang-btn.active { background: var(--accent); color: #fff; }
+/* ===== 顶栏 ===== */
+.topbar {
+  display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 11px 24px; background: var(--surface); border-bottom: 1px solid var(--rule);
+}
+.brand { display: flex; align-items: baseline; gap: 12px; text-decoration: none; color: var(--ink-2); min-width: 0; }
+.brand .mark { font-size: 16px; font-weight: 800; letter-spacing: 5px; color: var(--accent-deep); }
+.brand .co { font-size: 11px; letter-spacing: 2px; color: var(--ink-4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.lang-switch { flex: 0 0 auto; display: flex; align-items: center; gap: 4px;
+  border: 1px solid var(--line-2); background: #eef4fd; border-radius: 999px; padding: 3px; }
+.lang-btn { background: transparent; border: 0; cursor: pointer; font-family: inherit;
+  font-size: 12px; font-weight: 800; color: var(--ink-3); padding: 5px 14px; border-radius: 999px;
+  transition: background .15s, color .15s; }
+.lang-btn.active { background: var(--accent); color: #fff; }
+.topbar-right { display: flex; align-items: center; gap: 10px; }
+.theme-btn {
+  background: #eef4fd; border: 1px solid var(--line-2); cursor: pointer; font-family: inherit;
+  font-size: 12px; font-weight: 800; color: var(--ink-3); padding: 5px 14px; border-radius: 999px;
+  transition: background .15s, color .15s, border-color .15s;
+}
+.theme-btn:hover { background: #e2ecfa; color: var(--accent-deep); border-color: var(--accent-2); }
 
-  /* ===== 报头（居中杂志刊头） ===== */
-  .masthead { padding: 58px 22px 40px; border-bottom: 1px solid var(--rule); text-align: center; }
-  .masthead-in { max-width: 820px; margin: 0 auto; }
-  .kicker { font-size: 11px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
-  .masthead h1 { font-family: var(--serif); font-size: clamp(30px, 6vw, 52px); line-height: 1.18; font-weight: 700; color: var(--ink); }
-  .masthead h1 .thin { color: var(--ink-4); font-weight: 400; }
-  .titlerule { width: 46px; height: 2px; background: var(--accent); margin: 24px auto 0; }
-  .lede { margin: 20px auto 0; max-width: 640px; font-size: 15.5px; color: var(--ink-3); line-height: 2; }
-  .masthead-meta { margin-top: 22px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 14px; font-size: 12px; color: var(--ink-4); }
-  .masthead-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--rule-2); flex: 0 0 auto; }
+/* ===== 报头 ===== */
+.masthead {
+  padding: 54px 22px 44px; text-align: center; background: var(--surface);
+  position: relative; overflow: hidden; border-bottom: 1px solid var(--rule);
+}
+.masthead::before {
+  content: ''; position: absolute; top: -160px; left: 50%; transform: translateX(-50%);
+  width: 620px; height: 380px; border-radius: 50%;
+  background: radial-gradient(ellipse at center, rgba(59,142,240,.18), rgba(59,142,240,0) 70%);
+}
+.masthead-in { max-width: 780px; margin: 0 auto; position: relative; }
+.kicker { font-size: 11px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 18px; }
+.masthead h1 { font-size: clamp(30px, 6vw, 48px); line-height: 1.22; font-weight: 800;
+  background: linear-gradient(100deg, var(--accent-deep), var(--accent), var(--accent-2));
+  -webkit-background-clip: text; background-clip: text; color: transparent; }
+.masthead h1 .thin { color: var(--ink-4); font-weight: 600;
+  -webkit-text-fill-color: var(--ink-4); }
+.titlerule { width: 52px; height: 5px; background: linear-gradient(90deg, var(--accent), var(--accent-2)); border-radius: 999px; margin: 24px auto 0; }
+.lede { margin: 20px auto 0; max-width: 620px; font-size: 15px; color: var(--ink-3); line-height: 2; }
+.masthead-meta { margin-top: 22px; display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 8px 14px; font-size: 12px; color: var(--ink-4); }
+.masthead-meta .dot { width: 4px; height: 4px; border-radius: 50%; background: var(--rule-2); flex: 0 0 auto; }
 
-  /* ===== 搜索条 ===== */
-  .searchstrip { background: var(--surface); border-bottom: 1px solid var(--rule); }
-  .searchstrip-in { max-width: 1080px; margin: 0 auto; padding: 12px 22px;
-    display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
-  .searchstrip-label { font-size: 11px; font-weight: 800; letter-spacing: 3px; color: var(--ink-4); text-transform: uppercase; white-space: nowrap; }
-  .pf-wrap { flex: 1 1 260px; min-width: 0; }
-  .pf-wrap .pagefind-ui { --pagefind-ui-scale: .88; --pagefind-ui-primary: #14539e;
-    --pagefind-ui-text: #2c3e55; --pagefind-ui-background: #ffffff; --pagefind-ui-border: #dbe3ee;
-    --pagefind-ui-tag: #eef3fa; --pagefind-ui-border-width: 1px; --pagefind-ui-border-radius: 8px;
-    --pagefind-ui-font: inherit; }
-  .pf-wrap .pagefind-ui__drawer { position: relative; z-index: 31; }
-  .pf-wrap .pagefind-ui__search-input { border: 1px solid var(--rule-2) !important; }
+/* ===== 搜索条 ===== */
+.searchstrip { background: var(--surface); border-bottom: 1px solid var(--rule); }
+.searchstrip-in { max-width: 1000px; margin: 0 auto; padding: 13px 22px;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.searchstrip-label { font-size: 11px; font-weight: 800; letter-spacing: 3px; color: var(--ink-4); text-transform: uppercase; white-space: nowrap; }
+.pf-wrap { flex: 1 1 260px; min-width: 0; }
 
-  /* ===== 版面 ===== */
-  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px 56px; }
-  .sec { margin-top: 46px; }
-  .sec-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
-    border-bottom: 1px solid var(--rule-2); padding-bottom: 9px; margin-bottom: 18px; }
-  .sec-no { font-family: var(--serif); font-size: 12px; font-weight: 700; letter-spacing: 2px; color: var(--accent); }
-  .sec-no::before { counter-increment: hsec; content: counter(hsec, decimal-leading-zero); }
-  .sec-title { font-family: var(--serif); font-size: 19px; font-weight: 700; color: var(--ink); line-height: 1.3; }
-  .sec-en { margin-left: auto; font-size: 10px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: var(--ink-4); }
-  .sec-note { font-size: 12px; color: var(--ink-4); }
+/* ===== 版面 ===== */
+.wrap { max-width: 1000px; margin: 0 auto; padding: 0 22px 52px; }
+.sec { margin-top: 44px; }
+.sec-head { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; margin-bottom: 20px; }
+.sec-no { display: none; }
+.sec-title { font-size: 19px; font-weight: 800; color: var(--ink); line-height: 1.3; }
+.sec-en { margin-left: auto; font-size: 10px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: var(--ink-4); }
+.sec-note { font-size: 12px; color: var(--ink-4); }
 
-  /* ===== 功能卡 ===== */
-  .fx-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
-  .fx { position: relative; display: flex; flex-direction: column; gap: 9px; min-width: 0;
-    background: var(--surface); border: 1px solid var(--rule); border-radius: 4px;
-    padding: 18px 16px 15px; text-decoration: none; color: inherit;
-    transition: border-color .15s, transform .15s, box-shadow .15s; }
-  .fx:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 10px 26px rgba(20, 83, 158, .10); }
-  .fx-no { font-family: var(--serif); font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--accent); }
-  .fx-arrow { position: absolute; top: 16px; right: 15px; font-size: 14px; color: var(--rule-2); transition: color .15s, transform .15s; }
-  .fx:hover .fx-arrow { color: var(--accent); transform: translateX(3px); }
-  .fx-title { font-size: 15px; font-weight: 800; color: var(--ink); line-height: 1.35; word-break: break-word; }
-  .fx-en { display: block; font-style: normal; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-4); margin-top: 3px; }
-  .fx-desc { font-size: 12.5px; color: var(--ink-3); line-height: 1.7; overflow-wrap: break-word; }
-  .fx-stat { margin-top: auto; padding-top: 10px; border-top: 1px solid var(--rule);
-    font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: .3px; }
+/* ===== 功能卡 ===== */
+.fx-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+.fx { position: relative; display: flex; flex-direction: column; gap: 9px; min-width: 0;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 20px;
+  padding: 22px 20px 20px; text-decoration: none; box-shadow: var(--shadow-sm);
+  transition: box-shadow .16s, transform .16s, border-color .16s; }
+.fx:hover { box-shadow: var(--shadow); transform: translateY(-3px); border-color: var(--accent-2); }
+.fx-no { font-size: 12px; font-weight: 800; color: #fff; background: linear-gradient(150deg, var(--accent-2), var(--accent));
+  width: 26px; height: 26px; border-radius: 9px; display: flex; align-items: center; justify-content: center; }
+.fx-arrow { position: absolute; top: 22px; right: 18px; color: var(--accent); font-weight: 800; opacity: .5; }
+.fx-title { font-size: 15px; font-weight: 800; color: var(--ink); line-height: 1.4; }
+.fx-title .fx-en { display: block; font-style: normal; font-size: 9.5px; font-weight: 800;
+  letter-spacing: 2px; text-transform: uppercase; color: var(--ink-4); margin-top: 4px; }
+.fx-desc { font-size: 12.5px; font-weight: 400; color: var(--ink-3); line-height: 1.75; }
+.fx-stat { margin-top: auto; font-size: 12px; font-weight: 800; color: var(--accent-deep); }
 
-  /* ===== 最新一期 ===== */
-  .featured { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 26px; align-items: center;
-    background: var(--surface); border: 1px solid var(--rule); border-left: 3px solid var(--accent);
-    padding: 26px 28px; text-decoration: none; color: inherit;
-    transition: box-shadow .15s, border-color .15s; }
-  .featured:hover { box-shadow: 0 12px 30px rgba(20, 83, 158, .12); }
-  .featured-tag { display: inline-block; background: #e7effa; color: var(--accent-deep);
-    font-size: 11px; font-weight: 800; letter-spacing: 1px; padding: 3px 11px; border-radius: 3px; }
-  .featured-title { font-family: var(--serif); font-size: clamp(22px, 4vw, 30px); font-weight: 700; color: var(--ink); margin: 12px 0 6px; line-height: 1.25; }
-  .featured-date { font-size: 12.5px; color: var(--ink-3); font-weight: 700; letter-spacing: .3px; }
-  .featured-desc { font-size: 13.5px; color: var(--ink-3); margin: 12px 0 16px; max-width: 620px; }
-  .featured-cta { display: inline-block; border: 1.5px solid var(--accent); color: var(--accent);
-    font-size: 13px; font-weight: 800; padding: 9px 22px; border-radius: 3px; transition: background .15s, color .15s; }
-  .featured:hover .featured-cta { background: var(--accent); color: #fff; }
-  .featured-right { flex: 0 0 auto; }
-  .ring { width: 104px; height: 104px; border-radius: 50%; border: 1px solid var(--rule-2);
-    display: flex; align-items: center; justify-content: center; gap: 2px; }
-  .ring span { font-family: var(--serif); font-size: 38px; font-weight: 700; color: var(--accent); line-height: 1; }
-  .ring em { font-size: 12px; color: var(--ink-4); font-style: normal; }
+/* ===== 最新一期 ===== */
+.featured { display: flex; align-items: stretch; gap: 22px; min-width: 0;
+  background: var(--surface); border: 1px solid var(--line); border-radius: 24px;
+  padding: 28px 30px; text-decoration: none; box-shadow: var(--shadow);
+  transition: box-shadow .16s, transform .16s; }
+.featured:hover { box-shadow: 0 20px 48px rgba(13,78,168,.16); transform: translateY(-2px); }
+.featured-left { flex: 1 1 auto; min-width: 0; }
+.featured-tag { display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 2px;
+  color: #fff; background: linear-gradient(100deg, var(--accent), var(--accent-2)); border-radius: 999px; padding: 4px 13px; }
+.featured-title { font-size: 25px; font-weight: 800; color: var(--ink); line-height: 1.3; margin-top: 12px; }
+.featured-date { font-size: 12px; font-weight: 700; color: var(--ink-4); margin-top: 8px; letter-spacing: 1px; }
+.featured-desc { font-size: 13.5px; color: var(--ink-2); line-height: 1.85; margin-top: 12px; }
+.featured-cta { display: inline-block; margin-top: 16px; font-size: 12px; font-weight: 800;
+  letter-spacing: 1px; color: #fff; background: linear-gradient(100deg, var(--accent-deep), var(--accent-2));
+  border-radius: 999px; padding: 11px 24px; }
+.featured-right { flex: 0 0 auto; display: flex; align-items: center; justify-content: center; }
+.featured-right .ring {
+  width: 88px; height: 88px; border-radius: 50%;
+  background: conic-gradient(from 210deg, var(--accent-deep), var(--accent-2), var(--accent-deep));
+  color: #fff; display: flex; align-items: center; justify-content: center;
+  font-size: 20px; font-weight: 800; box-shadow: 0 14px 30px rgba(22,104,220,.28);
+}
+.featured-right .ring em { font-style: normal; font-size: 15px; }
+.featured-right .ring span { font-size: 24px; }
 
-  /* ===== 往期 ===== */
-  .report-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
-  .report-card { min-width: 0; background: var(--surface); border: 1px solid var(--rule); border-radius: 4px;
-    overflow: hidden; transition: border-color .15s, transform .15s, box-shadow .15s; }
-  .report-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 22px rgba(20, 83, 158, .10); }
-  .report-card.latest { border-color: var(--accent); }
-  .card-link { display: block; padding: 17px 17px 15px; text-decoration: none; color: inherit; position: relative; min-width: 0; }
-  .card-badge { position: absolute; top: 11px; right: 11px; background: var(--accent); color: #fff;
-    font-size: 10px; font-weight: 800; letter-spacing: 1px; padding: 2px 9px; border-radius: 3px; }
-  .card-date { font-size: 11.5px; color: var(--ink-4); margin-bottom: 6px; font-weight: 700; letter-spacing: .3px; }
-  .card-title { font-size: 14.5px; font-weight: 800; color: var(--ink); margin-bottom: 5px; line-height: 1.4; word-break: break-word; }
-  .card-meta { font-size: 11.5px; color: var(--ink-4); margin-bottom: 11px; }
-  .card-arrow { font-size: 12px; color: var(--accent); font-weight: 800; letter-spacing: .3px; }
-  .report-hidden { display: none; }
-  .more-wrap { text-align: center; margin-top: 22px; }
-  .more-btn { background: var(--surface); border: 1.5px solid var(--accent); color: var(--accent);
-    font-family: inherit; font-size: 13px; font-weight: 800; padding: 10px 26px; border-radius: 3px;
-    cursor: pointer; transition: background .15s, color .15s; }
-  .more-btn:hover { background: var(--accent); color: #fff; }
+/* ===== 往期 ===== */
+.report-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+.report-card { background: var(--surface); border: 1px solid var(--line); border-radius: 18px;
+  box-shadow: var(--shadow-sm); transition: box-shadow .16s, transform .16s, border-color .16s; }
+.report-card:hover { box-shadow: var(--shadow); transform: translateY(-2px); border-color: var(--accent-2); }
+.card-link { display: block; padding: 18px 18px 16px; text-decoration: none; }
+.card-badge { display: inline-block; font-size: 10px; font-weight: 800; letter-spacing: 1px;
+  color: #fff; background: linear-gradient(100deg, var(--accent), var(--accent-2)); border-radius: 999px; padding: 3px 11px; margin-bottom: 9px; }
+.card-date { font-size: 11px; font-weight: 700; color: var(--ink-4); letter-spacing: 1px; }
+.card-title { font-size: 14.5px; font-weight: 800; color: var(--ink); line-height: 1.5; margin-top: 6px; }
+.card-meta { font-size: 11.5px; color: var(--ink-3); margin-top: 8px; }
+.card-arrow { font-size: 11.5px; font-weight: 800; color: var(--accent); margin-top: 12px; }
+.report-hidden { display: none; }
+.more-wrap { text-align: center; margin-top: 20px; }
+.more-btn { background: var(--surface); border: 1px solid var(--line-2); color: var(--accent-deep);
+  cursor: pointer; font-family: inherit; font-size: 12px; font-weight: 800; letter-spacing: 1px;
+  padding: 11px 24px; border-radius: 999px; transition: background .15s, border-color .15s; }
+.more-btn:hover { background: #eef4fd; border-color: var(--accent-2); }
 
-  /* ===== 页脚 ===== */
-  .footer { border-top: 1px solid var(--rule-2); background: var(--surface);
-    padding: 30px 22px 34px; text-align: center; }
-  .footer-brand { font-family: var(--serif); color: var(--accent-deep); text-decoration: none; font-weight: 700; letter-spacing: 2px; }
-  .footer-brand:hover { text-decoration: underline; }
-  .footer p { font-size: 12.5px; color: var(--ink-3); }
-  .footer .sig { font-size: 11.5px; color: var(--ink-4); margin-top: 6px; }
+/* ===== 页脚 ===== */
+.footer { border-top: 1px solid var(--rule); margin-top: 44px; padding: 30px 22px 44px;
+  color: var(--ink-3); font-size: 11px; font-weight: 600; letter-spacing: 1.5px; text-align: center; }
+.footer-brand { color: var(--ink); font-weight: 800; text-decoration: none; }
+.footer .sig { margin-top: 8px; color: var(--ink-4); }
 
-  /* ===== 手机端（≤640px） ===== */
-  @media (max-width: 900px) {
-    .fx-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .report-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-    .masthead { padding: 40px 18px 28px; }
-    .searchstrip-in, .topbar, .wrap, .footer { padding-left: 18px; padding-right: 18px; }
-  }
-  @media (max-width: 640px) {
-    .fx-grid { grid-template-columns: minmax(0, 1fr); }
-    .report-grid { grid-template-columns: minmax(0, 1fr); }
-    .sec { margin-top: 34px; }
-    .sec-title { font-size: 17px; }
-    .featured { grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 20px 18px; }
-    .featured-right { display: none; }
-    .masthead h1 { font-size: 30px; }
-    .lede { font-size: 14.5px; }
-    .brand .co { display: none; }
-    .card-link { padding: 15px 14px 13px; }
-  }</style>
+@media (max-width: 900px) {
+  .fx-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .report-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .featured { flex-direction: column; }
+  .featured-right { justify-content: flex-start; }
+}
+@media (max-width: 640px) {
+  .topbar { padding: 10px 14px; }
+  .brand .co { display: none; }
+  .masthead { padding: 38px 16px 32px; }
+  .kicker { font-size: 10px; letter-spacing: 3px; margin-bottom: 14px; }
+  .masthead h1 { font-size: 27px; }
+  .titlerule { margin-top: 18px; }
+  .lede { font-size: 13.5px; line-height: 1.9; margin-top: 16px; }
+  .masthead-meta { font-size: 11px; margin-top: 16px; }
+  .searchstrip-in { padding: 11px 14px; }
+  .wrap { padding: 0 14px 40px; }
+  .sec { margin-top: 32px; }
+  .sec-title { font-size: 17px; }
+  .fx-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
+  .fx { padding: 18px 16px; border-radius: 16px; }
+  .report-grid { grid-template-columns: minmax(0, 1fr); }
+  .featured { padding: 20px 18px; border-radius: 18px; }
+  .featured-title { font-size: 21px; }
+  .featured-right .ring { width: 72px; height: 72px; }
+  .footer { padding: 26px 14px 36px; }
+}
+
+/* ===== 深色模式（html.theme-dark） ===== */
+html.theme-dark {
+  --paper: #08182c;
+  --surface: #102539;
+  --ink: #e9f1fb;
+  --ink-2: #b7c9df;
+  --ink-3: #8ba2bd;
+  --ink-4: #6f87a3;
+  --rule: #1d3a5c;
+  --rule-2: #2c4a70;
+  --accent: #5aa5f2;
+  --accent-2: #7cbbf7;
+  --accent-deep: #9ccdf9;
+  --shadow: 0 2px 6px rgba(0,0,0,.3), 0 16px 40px rgba(0,0,0,.38);
+  --shadow-sm: 0 1px 3px rgba(0,0,0,.28), 0 8px 22px rgba(0,0,0,.3);
+  color-scheme: dark;
+}
+html.theme-dark body { background: #08182c; }
+
+/* 顶栏 / 报头 */
+html.theme-dark .topbar { background: #0b1e35; border-bottom-color: var(--rule); }
+html.theme-dark .brand { color: var(--ink); }
+html.theme-dark .lang-switch { border-color: var(--rule-2); background: #17334f; }
+html.theme-dark .lang-btn { color: var(--ink-3); }
+html.theme-dark .lang-btn.active { background: var(--accent); color: #04121f; }
+html.theme-dark .theme-btn { background: #17334f; color: var(--accent-deep); border: 1px solid #25507a; }
+html.theme-dark .masthead { background: #0b1e35; border-bottom-color: var(--rule); }
+html.theme-dark .masthead::before { opacity: .55; }
+
+/* 卡片体系 */
+html.theme-dark .fx,
+html.theme-dark .report-card { border-color: var(--line); }
+html.theme-dark .searchstrip { background: var(--surface); border-bottom-color: var(--rule); }
+html.theme-dark .featured { border-color: var(--line); }
+html.theme-dark .more-btn { border-color: var(--line-2); }
+html.theme-dark .more-btn:hover { background: #17334f; }
+html.theme-dark .footer { border-top-color: var(--rule); }
+</style>
 <link rel="stylesheet" href="/pagefind/pagefind-ui.css">
 <style>.searchstrip{position:relative;z-index:30;}</style>
 
@@ -171,9 +239,12 @@
     <span class="mark">TAISEI</span>
     <span class="co">大誠有限会社 · <span class="lang-cn">大诚不动产情报</span><span class="lang-jp">大誠不動産情報</span></span>
   </a>
-  <div class="lang-switch" id="langSwitch">
-    <button type="button" class="lang-btn" data-lang="cn" onclick="setLang('cn')">中文</button>
-    <button type="button" class="lang-btn" data-lang="jp" onclick="setLang('jp')">日本語</button>
+  <div class="topbar-right">
+    <button type="button" class="theme-btn" id="themeBtn" onclick="toggleTheme()"><span class="lang-cn">暗色</span><span class="lang-jp">ダーク</span></button>
+    <div class="lang-switch" id="langSwitch">
+      <button type="button" class="lang-btn" data-lang="cn" onclick="setLang('cn')">中文</button>
+      <button type="button" class="lang-btn" data-lang="jp" onclick="setLang('jp')">日本語</button>
+    </div>
   </div>
 </header>
 
@@ -249,7 +320,7 @@
       <span class="sec-en">Latest issue</span>
     </div>
     
-    <a href="reports/2026-10-15/report.html?v=202610161432" class="featured">
+    <a href="reports/2026-10-15/report.html?v=202610161758" class="featured">
       <div class="featured-left" style="min-width:0">
         <span class="featured-tag"><span class="lang-cn">最新一期</span><span class="lang-jp">最新号</span></span>
         <h2 class="featured-title"><span class="lang-cn">大诚不动产半月报</span><span class="lang-jp">大誠不動産半月報</span></h2>
@@ -271,7 +342,7 @@
     </div>
     <div class="report-grid">
     <div class="report-card latest">
-      <a href="reports/2026-10-15/report.html?v=202610161432" class="card-link">
+      <a href="reports/2026-10-15/report.html?v=202610161758" class="card-link">
         <span class="card-badge">最新</span>
         <div class="card-date">2026年10月15日</div>
         <div class="card-title">2026年10月 上旬号 · 大诚不动产半月报</div>
@@ -280,7 +351,7 @@
       </a>
     </div>
     <div class="report-card">
-      <a href="reports/2026-09-25/report.html?v=202610161432" class="card-link">
+      <a href="reports/2026-09-25/report.html?v=202610161758" class="card-link">
         
         <div class="card-date">2026年09月25日</div>
         <div class="card-title">2026年9月 下旬号 · 大诚不动产半月报</div>
@@ -289,7 +360,7 @@
       </a>
     </div>
     <div class="report-card">
-      <a href="reports/2026-09-11/report.html?v=202610161432" class="card-link">
+      <a href="reports/2026-09-11/report.html?v=202610161758" class="card-link">
         
         <div class="card-date">2026年09月11日</div>
         <div class="card-title">2026年9月 上旬号 · 大诚不动产半月报</div>
@@ -298,7 +369,7 @@
       </a>
     </div>
     <div class="report-card">
-      <a href="reports/2026-08-25/report.html?v=202610161432" class="card-link">
+      <a href="reports/2026-08-25/report.html?v=202610161758" class="card-link">
         
         <div class="card-date">2026年08月25日</div>
         <div class="card-title">2026年8月 下旬号 · 大诚不动产半月报</div>
@@ -307,7 +378,7 @@
       </a>
     </div>
     <div class="report-card">
-      <a href="reports/2026-08-18/report.html?v=202610161432" class="card-link">
+      <a href="reports/2026-08-18/report.html?v=202610161758" class="card-link">
         
         <div class="card-date">2026年08月18日</div>
         <div class="card-title">2026年8月 下旬号 · 大诚不动产半月报</div>
@@ -316,7 +387,7 @@
       </a>
     </div>
     <div class="report-card">
-      <a href="reports/2026-08-07/report.html?v=202610161432" class="card-link">
+      <a href="reports/2026-08-07/report.html?v=202610161758" class="card-link">
         
         <div class="card-date">2026年08月07日</div>
         <div class="card-title">2026年8月 上旬号 · 大诚不动产半月报</div>
@@ -325,7 +396,7 @@
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-08-04/report.html?v=202610161432" class="card-link">
+      <a href="reports/2026-08-04/report.html?v=202610161758" class="card-link">
         
         <div class="card-date">2026年08月04日</div>
         <div class="card-title">2026年8月 上旬号 · 大诚不动产半月报</div>
@@ -334,7 +405,7 @@
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-07-31/report.html?v=202610161432" class="card-link">
+      <a href="reports/2026-07-31/report.html?v=202610161758" class="card-link">
         
         <div class="card-date">2026年07月31日</div>
         <div class="card-title">2026年7月 下旬号 · 大诚不动产半月报</div>
@@ -343,7 +414,7 @@
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-07-28/report.html?v=202610161432" class="card-link">
+      <a href="reports/2026-07-28/report.html?v=202610161758" class="card-link">
         
         <div class="card-date">2026年07月28日</div>
         <div class="card-title">2026年7月 下旬号 · 大诚不动产半月报</div>
@@ -352,7 +423,7 @@
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-07-21/report.html?v=202610161432" class="card-link">
+      <a href="reports/2026-07-21/report.html?v=202610161758" class="card-link">
         
         <div class="card-date">2026年07月21日</div>
         <div class="card-title">2026年7月 下旬号 · 大诚不动产半月报</div>
@@ -361,7 +432,7 @@
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-07-14/report.html?v=202610161432" class="card-link">
+      <a href="reports/2026-07-14/report.html?v=202610161758" class="card-link">
         
         <div class="card-date">2026年07月14日</div>
         <div class="card-title">2026年7月 上旬号 · 大诚不动产半月报</div>
@@ -370,7 +441,7 @@
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-07-06/report.html?v=202610161432" class="card-link">
+      <a href="reports/2026-07-06/report.html?v=202610161758" class="card-link">
         
         <div class="card-date">2026年07月06日</div>
         <div class="card-title">2026年7月 上旬号 · 大诚不动产半月报</div>
@@ -379,7 +450,7 @@
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-06-29/report.html?v=202610161432" class="card-link">
+      <a href="reports/2026-06-29/report.html?v=202610161758" class="card-link">
         
         <div class="card-date">2026年06月29日</div>
         <div class="card-title">2026年6月 下旬号 · 大诚不动产半月报</div>
@@ -388,7 +459,7 @@
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-06-16/report.html?v=202610161432" class="card-link">
+      <a href="reports/2026-06-16/report.html?v=202610161758" class="card-link">
         
         <div class="card-date">2026年06月16日</div>
         <div class="card-title">2026年6月 下旬号 · 大诚不动产半月报</div>
@@ -457,10 +528,29 @@ function setLang(lang){
   applyI18n(lang);
   try { localStorage.setItem('taisei_lang', lang); } catch(e){}
 }
+/* ===== 深浅色主题（默认跟随系统，可手动覆盖并记忆） ===== */
+function applyTheme(mode){
+  var dark = (mode === 'dark');
+  document.documentElement.classList.toggle('theme-dark', dark);
+  var cn = document.querySelector('#themeBtn .lang-cn');
+  var jp = document.querySelector('#themeBtn .lang-jp');
+  if (cn) cn.textContent = dark ? '亮色' : '暗色';
+  if (jp) jp.textContent = dark ? 'ライト' : 'ダーク';
+  try { localStorage.setItem('taisei_theme', dark ? 'dark' : 'light'); } catch(e){}
+}
+function toggleTheme(){
+  applyTheme(document.documentElement.classList.contains('theme-dark') ? 'light' : 'dark');
+}
 document.addEventListener('DOMContentLoaded', function(){
   var saved = null;
   try { saved = localStorage.getItem('taisei_lang'); } catch(e){}
   applyI18n(saved || 'cn');
+  var theme = null;
+  try { theme = localStorage.getItem('taisei_theme'); } catch(e){}
+  if (!theme) {
+    theme = (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) ? 'dark' : 'light';
+  }
+  applyTheme(theme);
 });
 /* ===== 往期展开/收起 ===== */
 function toggleMore(){
