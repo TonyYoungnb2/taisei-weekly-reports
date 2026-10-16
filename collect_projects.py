@@ -279,7 +279,7 @@ def main():
         except Exception as e:
             print('[FAIL] stdin JSON 解析失败: %s' % e)
             return
-    if not data:
+    if data is None:
         print('[FAIL] 未提供数据。用法: python collect_projects.py --data file.json 或 echo [...] | python collect_projects.py')
         return
     if not isinstance(data, list):
