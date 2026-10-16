@@ -1,369 +1,455 @@
 <!DOCTYPE html>
-<html lang="zh-CN">
+<html lang="zh-CN" class="lang-cn">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>大誠有限会社 · 日本不动产半月报</title>
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-body {
-  font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', 'Hiragino Sans GB', sans-serif;
-  background: #f4f7fb; color: #1f2733; line-height: 1.7; min-height: 100vh;
-}
-/* Hero */
-.hero {
-  background: linear-gradient(135deg, #12457f 0%, #1a5fb4 55%, #2a7fd4 100%);
-  color: #fff; text-align: center; padding: 56px 20px 64px;
-  position: relative; overflow: hidden;
-}
-.hero::before {
-  content: ''; position: absolute; top: -120px; right: -80px; width: 320px; height: 320px;
-  background: radial-gradient(circle, rgba(255,255,255,.14), transparent 70%); border-radius: 50%;
-}
-.hero::after {
-  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 4px;
-  background: linear-gradient(90deg, #ffd479, #fff3cd, #ffd479);
-}
-/* Lang switch */
-.lang-switch { position: absolute; top: 16px; right: 18px; z-index: 5;
-  display: flex; align-items: center; gap: 6px;
-  background: rgba(255,255,255,.16); padding: 6px 10px; border-radius: 22px;
-  border: 1px solid rgba(255,255,255,.35); }
-.lang-btn { background: transparent; border: none; color: #cfe4ff; font-size: 13px;
-  font-weight: 700; padding: 4px 10px; border-radius: 16px; cursor: pointer; transition: all .15s; }
-.lang-btn.active { background: #fff; color: #12457f; }
-@media (max-width: 720px) {
-  .lang-switch { top: 10px; right: 10px; padding: 5px 8px; }
-  .lang-btn { font-size: 12px; padding: 3px 8px; }
-}
-.hero-brand { font-size: 13px; letter-spacing: 7px; color: #cfe4ff; margin-bottom: 10px; font-weight: 700; }
-.hero h1 { font-size: 30px; font-weight: 900; letter-spacing: 2px; margin-bottom: 10px; }
-.hero p { font-size: 14px; color: #d6e8ff; }
-.hero-updated { margin-top: 16px; font-size: 12px; color: #a9cdf2; }
-.container { max-width: 960px; margin: 0 auto; padding: 0 16px 60px; }
-/* Featured */
-.featured {
-  display: flex; align-items: center; justify-content: space-between; gap: 20px;
-  background: #fff; border-radius: 20px; padding: 30px 34px; margin: -34px auto 36px;
-  position: relative; z-index: 2; text-decoration: none; color: inherit;
-  box-shadow: 0 12px 36px rgba(26,95,180,.18); border: 1px solid #e3edf9;
-  transition: transform .15s ease, box-shadow .15s ease;
-}
-.featured:hover { transform: translateY(-3px); box-shadow: 0 16px 44px rgba(26,95,180,.26); }
-.featured-tag { display: inline-block; background: #fff3cd; color: #b8860b; font-size: 12px;
-  font-weight: 700; padding: 3px 12px; border-radius: 20px; }
-.featured-title { font-size: 25px; font-weight: 900; color: #12457f; margin: 10px 0 4px; }
-.featured-date { font-size: 13px; color: #5a6675; font-weight: 600; }
-.featured-desc { font-size: 13.5px; color: #5a6675; margin: 12px 0 14px; max-width: 560px; }
-.featured-cta { display: inline-block; background: linear-gradient(135deg,#1a5fb4,#2a7fd4);
-  color: #fff; font-size: 14px; font-weight: 700; padding: 10px 26px; border-radius: 24px; }
-.featured-right { flex-shrink: 0; }
-.ring {
-  width: 110px; height: 110px; border-radius: 50%;
-  background: conic-gradient(#1a5fb4 0 78%, #e3edf9 78% 100%);
-  display: flex; align-items: center; justify-content: center; position: relative;
-}
-.ring::before { content: ''; position: absolute; inset: 12px; background: #fff; border-radius: 50%; }
-.ring span { position: relative; font-size: 38px; font-weight: 900; color: #1a5fb4; line-height: 1; }
-.ring em { position: relative; font-size: 13px; color: #5a6675; font-style: normal; margin-left: 2px; }
-/* Reports */
-.sec-title { font-size: 16px; color: #12457f; font-weight: 800; margin: 8px 0 16px;
-  display: flex; align-items: center; gap: 8px; }
-.sec-title::before { content: ''; width: 5px; height: 18px; background: #1a5fb4; border-radius: 3px; }
-.report-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); gap: 14px; }
-.report-card { background: #fff; border-radius: 14px; overflow: hidden;
-  box-shadow: 0 2px 10px rgba(31,39,51,.06); border: 1px solid #e6ebf2;
-  transition: transform .15s, box-shadow .15s; }
-.report-card.latest { border: 2px solid #1a5fb4; }
-.report-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(31,39,51,.14); }
-.card-link { display: block; padding: 20px; text-decoration: none; color: inherit; position: relative; }
-.card-badge { position: absolute; top: 12px; right: 12px; background: #1a5fb4; color: #fff;
-  font-size: 11px; font-weight: 700; padding: 2px 10px; border-radius: 12px; }
-.card-date { font-size: 12px; color: #8a95a5; margin-bottom: 6px; }
-.card-title { font-size: 15px; font-weight: 800; color: #1f2733; margin-bottom: 6px; }
-.card-meta { font-size: 12px; color: #a0aab8; margin-bottom: 12px; }
-.card-arrow { font-size: 13px; color: #1a5fb4; font-weight: 700; }
-/* Platform 入口（单卡 hero 整行宽） */
-.platform-card { display: flex; align-items: center; gap: 16px; background: linear-gradient(135deg,#fbfdff,#eaf2fc);
-  border: 1px solid #c5d8f3; border-radius: 16px; padding: 20px 22px; text-decoration: none; color: inherit;
-  min-width: 0; overflow: hidden; box-shadow: 0 2px 10px rgba(31,39,51,.06); transition: transform .15s, box-shadow .15s; }
-.platform-card:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(31,39,51,.14); }
-.platform-ico { flex: 0 0 52px; width: 52px; height: 52px; border-radius: 14px; display: flex; align-items: center;
-  justify-content: center; font-size: 26px; line-height: 1; background: linear-gradient(135deg,#1a5fb4,#2a7fd4); color: #fff; }
-.platform-card .info { flex: 1; min-width: 0; }
-.platform-card h3 { font-size: 17px; font-weight: 800; color: #12457f; margin: 0 0 4px; line-height: 1.3; word-break: break-word; }
-.platform-card p { font-size: 13px; color: #4a5a72; word-break: break-word; line-height: 1.55; margin: 0; }
-.platform-card .arrow { flex: 0 0 auto; color: #1a5fb4; font-size: 20px; font-weight: 700; padding-left: 8px; }
-/* Footer */
-.footer { background: #1a1a2e; color: #7e8aa0; text-align: center; padding: 26px 20px; font-size: 12.5px; }
-.footer-brand { color: #cfe4ff; text-decoration: none; font-weight: 700; }
-.footer-brand:hover { text-decoration: underline; }
-.report-hidden { display: none; }
-.more-wrap { text-align: center; margin-top: 10px; }
-.more-btn { background: #fff; border: 1.5px solid #1a5fb4; color: #1a5fb4; font-size: 14px; font-weight: 700; padding: 11px 30px; border-radius: 24px; cursor: pointer; transition: all .15s; }
-.more-btn:hover { background: #1a5fb4; color: #fff; }
-@media (max-width: 720px) {
-  .hero { padding: 44px 16px 52px; }
-  .hero h1 { font-size: 23px; letter-spacing: 1px; }
-  .hero p { font-size: 13px; }
-  .container { padding: 0 14px 48px; }
-  .featured { flex-direction: column; text-align: center; border-radius: 18px; padding: 24px 20px; margin: -28px auto 28px; }
-  .featured-desc { margin-left: auto; margin-right: auto; font-size: 13px; }
-  .featured-cta { padding: 9px 22px; font-size: 13px; }
-  .ring { width: 96px; height: 96px; }
-  .ring span { font-size: 32px; }
-  .report-grid { grid-template-columns: minmax(0, 1fr); gap: 12px; }
-  .report-card { border-radius: 16px; }
-  .card-link { padding: 16px 15px; }
-  .sec-title { font-size: 15px; }
-  .platform-card { border-radius: 16px; padding: 18px 16px; }
-}
-</style>
+<title>大誠有限会社 · 日本不动产半月报 · 项目库 · 项目地图 · 租金地图</title>
+<meta name="description" content="大誠有限会社维护的日本不动产情报站：每半月一期的东京市场简报（政策·市场·开发·科技·调查），另附可按企业·地区筛选的项目库、项目地图与租金地图。">
+<style>  :root {
+    --paper: #f3f6fb; --surface: #ffffff;
+    --ink: #0d1b2e; --ink-2: #2c3e55; --ink-3: #4d6076; --ink-4: #7c8ea6;
+    --rule: #dbe3ee; --rule-2: #b8c8db; --accent: #14539e; --accent-deep: #0e3d75;
+    --serif: Georgia, "Times New Roman", "Songti SC", "SimSun", serif;
+    --sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC", "Hiragino Sans GB", "Microsoft YaHei", "Noto Sans SC", sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    counter-reset: hsec;
+    font-family: var(--sans); background: var(--paper); color: var(--ink);
+    font-size: 16px; line-height: 1.8; -webkit-font-smoothing: antialiased;
+  }
+  ::selection { background: var(--accent); color: #fff; }
+  a { color: inherit; }
+  /* 双语 span（与周报页同一套规则，防白屏） */
+  .lang-cn { display: inline; }
+  .lang-jp { display: none; }
+  html.lang-jp .lang-cn { display: none; }
+  html.lang-jp .lang-jp { display: inline; }
+
+  /* ===== 顶栏 ===== */
+  .topbar {
+    display: flex; align-items: center; justify-content: space-between; gap: 12px;
+    padding: 11px 22px; background: #e9eff8; border-bottom: 1px solid var(--rule);
+  }
+  .brand { display: flex; align-items: baseline; gap: 12px; text-decoration: none; color: var(--ink-2); min-width: 0; }
+  .brand .mark { font-family: var(--serif); font-size: 15px; font-weight: 700; letter-spacing: 5px; color: var(--accent-deep); }
+  .brand .co { font-size: 11px; letter-spacing: 2px; color: var(--ink-4); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .lang-switch { flex: 0 0 auto; display: flex; align-items: center; gap: 4px;
+    border: 1px solid var(--rule-2); background: #fff; border-radius: 999px; padding: 3px; }
+  .lang-btn { background: transparent; border: 0; cursor: pointer; font-family: inherit;
+    font-size: 12px; font-weight: 700; color: var(--ink-3); padding: 4px 13px; border-radius: 999px;
+    transition: background .15s, color .15s; }
+  .lang-btn.active { background: var(--accent); color: #fff; }
+
+  /* ===== 报头 ===== */
+  .masthead { padding: 54px 22px 36px; border-bottom: 1px solid var(--rule); }
+  .masthead-in { max-width: 1080px; margin: 0 auto; }
+  .kicker { font-size: 11px; font-weight: 800; letter-spacing: 4px; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+  .masthead h1 { font-family: var(--serif); font-size: clamp(30px, 6vw, 50px); line-height: 1.16; font-weight: 700; color: var(--ink); }
+  .masthead h1 .thin { color: var(--ink-4); font-weight: 400; }
+  .lede { margin-top: 16px; max-width: 680px; font-size: 15.5px; color: var(--ink-3); }
+  .masthead-meta { margin-top: 20px; display: flex; flex-wrap: wrap; align-items: center; gap: 8px 14px; font-size: 12px; color: var(--ink-4); }
+  .masthead-meta .dot { width: 3px; height: 3px; border-radius: 50%; background: var(--rule-2); flex: 0 0 auto; }
+
+  /* ===== 搜索条 ===== */
+  .searchstrip { background: var(--surface); border-bottom: 1px solid var(--rule); }
+  .searchstrip-in { max-width: 1080px; margin: 0 auto; padding: 12px 22px;
+    display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .searchstrip-label { font-size: 11px; font-weight: 800; letter-spacing: 3px; color: var(--ink-4); text-transform: uppercase; white-space: nowrap; }
+  .pf-wrap { flex: 1 1 260px; min-width: 0; }
+  .pf-wrap .pagefind-ui { --pagefind-ui-scale: .88; --pagefind-ui-primary: #14539e;
+    --pagefind-ui-text: #2c3e55; --pagefind-ui-background: #ffffff; --pagefind-ui-border: #dbe3ee;
+    --pagefind-ui-tag: #eef3fa; --pagefind-ui-border-width: 1px; --pagefind-ui-border-radius: 8px;
+    --pagefind-ui-font: inherit; }
+  .pf-wrap .pagefind-ui__drawer { position: relative; z-index: 31; }
+  .pf-wrap .pagefind-ui__search-input { border: 1px solid var(--rule-2) !important; }
+
+  /* ===== 版面 ===== */
+  .wrap { max-width: 1080px; margin: 0 auto; padding: 0 22px 56px; }
+  .sec { margin-top: 46px; }
+  .sec-head { display: flex; align-items: baseline; gap: 12px; flex-wrap: wrap;
+    border-bottom: 1px solid var(--rule-2); padding-bottom: 9px; margin-bottom: 18px; }
+  .sec-no { font-family: var(--serif); font-size: 12px; font-weight: 700; letter-spacing: 2px; color: var(--accent); }
+  .sec-no::before { counter-increment: hsec; content: counter(hsec, decimal-leading-zero); }
+  .sec-title { font-family: var(--serif); font-size: 19px; font-weight: 700; color: var(--ink); line-height: 1.3; }
+  .sec-en { margin-left: auto; font-size: 10px; font-weight: 800; letter-spacing: 3px; text-transform: uppercase; color: var(--ink-4); }
+  .sec-note { font-size: 12px; color: var(--ink-4); }
+
+  /* ===== 功能卡 ===== */
+  .fx-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; }
+  .fx { position: relative; display: flex; flex-direction: column; gap: 9px; min-width: 0;
+    background: var(--surface); border: 1px solid var(--rule); border-radius: 4px;
+    padding: 18px 16px 15px; text-decoration: none; color: inherit;
+    transition: border-color .15s, transform .15s, box-shadow .15s; }
+  .fx:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 10px 26px rgba(20, 83, 158, .10); }
+  .fx-no { font-family: var(--serif); font-size: 11px; font-weight: 700; letter-spacing: 2px; color: var(--accent); }
+  .fx-arrow { position: absolute; top: 16px; right: 15px; font-size: 14px; color: var(--rule-2); transition: color .15s, transform .15s; }
+  .fx:hover .fx-arrow { color: var(--accent); transform: translateX(3px); }
+  .fx-title { font-size: 15px; font-weight: 800; color: var(--ink); line-height: 1.35; word-break: break-word; }
+  .fx-en { display: block; font-style: normal; font-size: 10px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; color: var(--ink-4); margin-top: 3px; }
+  .fx-desc { font-size: 12.5px; color: var(--ink-3); line-height: 1.7; overflow-wrap: break-word; }
+  .fx-stat { margin-top: auto; padding-top: 10px; border-top: 1px solid var(--rule);
+    font-size: 11px; font-weight: 700; color: var(--accent); letter-spacing: .3px; }
+
+  /* ===== 最新一期 ===== */
+  .featured { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 26px; align-items: center;
+    background: var(--surface); border: 1px solid var(--rule); border-left: 3px solid var(--accent);
+    padding: 26px 28px; text-decoration: none; color: inherit;
+    transition: box-shadow .15s, border-color .15s; }
+  .featured:hover { box-shadow: 0 12px 30px rgba(20, 83, 158, .12); }
+  .featured-tag { display: inline-block; background: #e7effa; color: var(--accent-deep);
+    font-size: 11px; font-weight: 800; letter-spacing: 1px; padding: 3px 11px; border-radius: 3px; }
+  .featured-title { font-family: var(--serif); font-size: clamp(22px, 4vw, 30px); font-weight: 700; color: var(--ink); margin: 12px 0 6px; line-height: 1.25; }
+  .featured-date { font-size: 12.5px; color: var(--ink-3); font-weight: 700; letter-spacing: .3px; }
+  .featured-desc { font-size: 13.5px; color: var(--ink-3); margin: 12px 0 16px; max-width: 620px; }
+  .featured-cta { display: inline-block; border: 1.5px solid var(--accent); color: var(--accent);
+    font-size: 13px; font-weight: 800; padding: 9px 22px; border-radius: 3px; transition: background .15s, color .15s; }
+  .featured:hover .featured-cta { background: var(--accent); color: #fff; }
+  .featured-right { flex: 0 0 auto; }
+  .ring { width: 104px; height: 104px; border-radius: 50%; border: 1px solid var(--rule-2);
+    display: flex; align-items: center; justify-content: center; gap: 2px; }
+  .ring span { font-family: var(--serif); font-size: 38px; font-weight: 700; color: var(--accent); line-height: 1; }
+  .ring em { font-size: 12px; color: var(--ink-4); font-style: normal; }
+
+  /* ===== 往期 ===== */
+  .report-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; }
+  .report-card { min-width: 0; background: var(--surface); border: 1px solid var(--rule); border-radius: 4px;
+    overflow: hidden; transition: border-color .15s, transform .15s, box-shadow .15s; }
+  .report-card:hover { border-color: var(--accent); transform: translateY(-2px); box-shadow: 0 8px 22px rgba(20, 83, 158, .10); }
+  .report-card.latest { border-color: var(--accent); }
+  .card-link { display: block; padding: 17px 17px 15px; text-decoration: none; color: inherit; position: relative; min-width: 0; }
+  .card-badge { position: absolute; top: 11px; right: 11px; background: var(--accent); color: #fff;
+    font-size: 10px; font-weight: 800; letter-spacing: 1px; padding: 2px 9px; border-radius: 3px; }
+  .card-date { font-size: 11.5px; color: var(--ink-4); margin-bottom: 6px; font-weight: 700; letter-spacing: .3px; }
+  .card-title { font-size: 14.5px; font-weight: 800; color: var(--ink); margin-bottom: 5px; line-height: 1.4; word-break: break-word; }
+  .card-meta { font-size: 11.5px; color: var(--ink-4); margin-bottom: 11px; }
+  .card-arrow { font-size: 12px; color: var(--accent); font-weight: 800; letter-spacing: .3px; }
+  .report-hidden { display: none; }
+  .more-wrap { text-align: center; margin-top: 22px; }
+  .more-btn { background: var(--surface); border: 1.5px solid var(--accent); color: var(--accent);
+    font-family: inherit; font-size: 13px; font-weight: 800; padding: 10px 26px; border-radius: 3px;
+    cursor: pointer; transition: background .15s, color .15s; }
+  .more-btn:hover { background: var(--accent); color: #fff; }
+
+  /* ===== 页脚 ===== */
+  .footer { border-top: 1px solid var(--rule-2); background: var(--surface);
+    padding: 30px 22px 34px; text-align: center; }
+  .footer-brand { font-family: var(--serif); color: var(--accent-deep); text-decoration: none; font-weight: 700; letter-spacing: 2px; }
+  .footer-brand:hover { text-decoration: underline; }
+  .footer p { font-size: 12.5px; color: var(--ink-3); }
+  .footer .sig { font-size: 11.5px; color: var(--ink-4); margin-top: 6px; }
+
+  /* ===== 手机端（≤640px） ===== */
+  @media (max-width: 900px) {
+    .fx-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .report-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .masthead { padding: 40px 18px 28px; }
+    .searchstrip-in, .topbar, .wrap, .footer { padding-left: 18px; padding-right: 18px; }
+  }
+  @media (max-width: 640px) {
+    .fx-grid { grid-template-columns: minmax(0, 1fr); }
+    .report-grid { grid-template-columns: minmax(0, 1fr); }
+    .sec { margin-top: 34px; }
+    .sec-title { font-size: 17px; }
+    .featured { grid-template-columns: minmax(0, 1fr); gap: 16px; padding: 20px 18px; }
+    .featured-right { display: none; }
+    .masthead h1 { font-size: 30px; }
+    .lede { font-size: 14.5px; }
+    .brand .co { display: none; }
+    .card-link { padding: 15px 14px 13px; }
+  }</style>
 <link rel="stylesheet" href="/pagefind/pagefind-ui.css">
-<style>.home-search{position:relative;z-index:30;max-width:560px;margin:18px auto 22px;padding:14px 16px;background:#fff;border:1px solid #e3e8f0;border-radius:14px;box-shadow:0 2px 12px rgba(15,52,96,.07);}.home-search-label{font-size:13px;font-weight:700;color:#0f3460;margin-bottom:9px;letter-spacing:.03em;}.home-search .pagefind-ui{--pagefind-ui-scale:0.95;--pagefind-ui-primary:#0f3460;--pagefind-ui-text:#1a1a2e;--pagefind-ui-background:#fff;--pagefind-ui-border:#d7dce5;--pagefind-ui-tag:#eef1f7;--pagefind-ui-border-width:1px;--pagefind-ui-border-radius:10px;--pagefind-ui-font:inherit;}.home-search .pagefind-ui__drawer{position:relative;z-index:31;}@media (max-width:640px){.home-search{max-width:none;margin:14px 0 18px;}}</style>
+<style>.searchstrip{position:relative;z-index:30;}</style>
 
 </head>
 <body data-pagefind-body>
-<header class="hero">
+
+<header class="topbar">
+  <a class="brand" href="index.html">
+    <span class="mark">TAISEI</span>
+    <span class="co">大誠有限会社 · <span class="lang-cn">日本不动产情报</span><span class="lang-jp">日本不動産情報</span></span>
+  </a>
   <div class="lang-switch" id="langSwitch">
     <button type="button" class="lang-btn" data-lang="cn" onclick="setLang('cn')">中文</button>
     <button type="button" class="lang-btn" data-lang="jp" onclick="setLang('jp')">日本語</button>
   </div>
-  <div class="hero-brand">TAISEI</div>
-  <h1 data-i18n="hero_title">大誠有限会社 · 日本不动产半月报</h1>
-  <p data-i18n="hero_sub">东京不动产市场最新动态 · 半月精选推送</p>
-  <div class="hero-updated">更新于 2026年09月25日</div>
 </header>
 
-<div class="container">
-  <div class="home-search" data-pagefind-ignore>
-    <div class="home-search-label">🔍 全站搜索</div>
-    <div id="pfsearch"></div>
+<section class="masthead">
+  <div class="masthead-in">
+    <div class="kicker">Taisei Property Intelligence · 大誠有限会社</div>
+    <h1><span class="lang-cn">日本不动产半月报</span><span class="lang-jp">日本不動産半月報</span><br><span class="thin"><span class="lang-cn">与不动产情报平台</span><span class="lang-jp">と不動産情報プラットフォーム</span></span></h1>
+    <p class="lede"><span class="lang-cn">每半月一期，覆盖东京圈政策动向、市场交易、开发动态、科技前沿与调查数据；另附可按企业·地区筛选的项目库，以及项目地图与租金地图。一个页面看懂日本不动产正在发生什么。</span><span class="lang-jp">半月に1号、東京圏の政策動向・市場取引・開発動向・テクノロジー・調査データを網羅。企業・地区で絞り込めるプロジェクト一覧と、プロジェクト地図・賃貸相場マップも備えています。日本不動産のいまが、この1ページで分かります。</span></p>
+    <div class="masthead-meta">
+      <span><span class="lang-cn">更新于 2026年10月16日</span><span class="lang-jp">更新日 2026年10月16日</span></span>
+      <span class="dot"></span>
+      <span>14 <span class="lang-cn">期半月报</span><span class="lang-jp">号の半月報</span></span>
+      <span class="dot"></span>
+      <span>134 <span class="lang-cn">个项目</span><span class="lang-jp">件のプロジェクト</span></span>
+      <span class="dot"></span>
+      <span><span class="lang-cn">东京</span><span class="lang-jp">東京</span></span>
+    </div>
   </div>
-  <script src="/pagefind/pagefind-ui.js"></script>
-  <script>
-    window.addEventListener("DOMContentLoaded", function () {
-      new PagefindUI({ element: "#pfsearch", showSubResults: true });
-    });
-  </script>
+</section>
 
-  
-    <a href="reports/2026-09-25/report.html?v=202609251056" class="featured">
-      <div class="featured-left">
-        <span class="featured-tag" data-i18n="feat_tag">📌 最新一期</span>
-        <h2 class="featured-title">日本不动产半月报</h2>
-        <div class="featured-date">2026年09月25日 · 2026年9月 下旬号</div>
-        <p class="featured-desc">覆盖政策动向、市场交易、开发动态、科技前沿与调查数据五大板块，
-        精选本半月日本（以东京圈为主）不动产核心资讯，附小虾点评。</p>
-        <span class="featured-cta" data-i18n="feat_cta">立即阅读 →</span>
+<div class="searchstrip">
+  <div class="searchstrip-in">
+    <span class="searchstrip-label" data-i18n="search_label">全站搜索</span>
+    <div class="pf-wrap" data-pagefind-ignore><div id="pfsearch"></div></div>
+  </div>
+</div>
+
+<div class="wrap">
+
+  <section class="sec">
+    <div class="sec-head">
+      <span class="sec-no"></span>
+      <span class="sec-title"><span class="lang-cn">本站提供什么</span><span class="lang-jp">このサイトでできること</span></span>
+      <span class="sec-en">What's inside</span>
+    </div>
+    <div class="fx-grid">
+      <a class="fx" href="#latest">
+        <span class="fx-no">01</span>
+        <span class="fx-arrow">→</span>
+        <span class="fx-title"><span class="lang-cn">不动产半月报</span><span class="lang-jp">不動産半月報</span><em class="fx-en">Half-month Report</em></span>
+        <span class="fx-desc"><span class="lang-cn">半月一期东京市场简报：政策、交易、开发、科技、调查五大板块，附利率趋势与本期点评。</span><span class="lang-jp">東京市場の半月報。政策・取引・開発・技術・調査の5分野に、金利トレンドと今号の総括を添えて。</span></span>
+        <span class="fx-stat">14 <span class="lang-cn">期</span><span class="lang-jp">号</span></span>
+      </a>
+      <a class="fx" href="projects.html">
+        <span class="fx-no">02</span>
+        <span class="fx-arrow">→</span>
+        <span class="fx-title"><span class="lang-cn">项目库</span><span class="lang-jp">プロジェクト一覧</span><em class="fx-en">Project List</em></span>
+        <span class="fx-desc"><span class="lang-cn">在开发·规划中的不动产项目一览，可按企业·地区·竣工时期筛选，附相关新闻时间轴。</span><span class="lang-jp">開発・計画中の不動産プロジェクトを網羅。企業・地区・竣工時期で絞り込み、関連ニュースのタイムラインも。</span></span>
+        <span class="fx-stat">134 <span class="lang-cn">个项目</span><span class="lang-jp">件</span></span>
+      </a>
+      <a class="fx" href="map.html">
+        <span class="fx-no">03</span>
+        <span class="fx-arrow">→</span>
+        <span class="fx-title"><span class="lang-cn">项目地图</span><span class="lang-jp">プロジェクト地図</span><em class="fx-en">Project Map</em></span>
+        <span class="fx-desc"><span class="lang-cn">把项目库落到地图上：项目位置、开发阶段与周边环境一图掌握。</span><span class="lang-jp">プロジェクト一覧を地図に展開。立地・開発段階・周辺環境を1枚で把握できます。</span></span>
+        <span class="fx-stat"><span class="lang-cn">地图视图</span><span class="lang-jp">地図ビュー</span></span>
+      </a>
+      <a class="fx" href="rentmap.html">
+        <span class="fx-no">04</span>
+        <span class="fx-arrow">→</span>
+        <span class="fx-title"><span class="lang-cn">租金地图</span><span class="lang-jp">賃貸相場マップ</span><em class="fx-en">Rent Map</em></span>
+        <span class="fx-desc"><span class="lang-cn">一都三县租金一图看懂：以月额租金中位数统一比较，近6个月趋势可查。</span><span class="lang-jp">一都三県の賃料を1枚で。月額賃料の中央値で比較でき、直近6か月の推移も確認可能。</span></span>
+        <span class="fx-stat">194 <span class="lang-cn">个市区町村</span><span class="lang-jp">市区町村</span></span>
+      </a>
+    </div>
+  </section>
+
+  <section class="sec" id="latest">
+    <div class="sec-head">
+      <span class="sec-no"></span>
+      <span class="sec-title"><span class="lang-cn">最新一期</span><span class="lang-jp">最新号</span></span>
+      <span class="sec-en">Latest issue</span>
+    </div>
+    
+    <a href="reports/2026-10-15/report.html?v=202610161116" class="featured">
+      <div class="featured-left" style="min-width:0">
+        <span class="featured-tag"><span class="lang-cn">最新一期</span><span class="lang-jp">最新号</span></span>
+        <h2 class="featured-title"><span class="lang-cn">日本不动产半月报</span><span class="lang-jp">日本不動産半月報</span></h2>
+        <div class="featured-date">2026年10月15日 · 2026年10月 上旬号</div>
+        <p class="featured-desc"><span class="lang-cn">政策动向 · 市场交易 · 开发动态 · 科技前沿 · 调查数据五大板块，精选本半月日本（以东京圈为主）不动产核心资讯，附利率解读与本期点评。</span><span class="lang-jp">政策動向・市場取引・開発動向・テクノロジー・調査データの5分野を網羅。この半月の日本（東京圏中心）不動産の核心情報を厳選し、金利解説と今期の総括付き。</span></p>
+        <span class="featured-cta"><span class="lang-cn">立即阅读 →</span><span class="lang-jp">今すぐ読む →</span></span>
       </div>
       <div class="featured-right">
-        <div class="ring"><span>下</span><em>旬</em></div>
+        <div class="ring"><span>上</span><em>旬</em></div>
       </div>
     </a>
+  </section>
 
-  <div class="sec-title" data-i18n="archive_title">往期半月报（2026年）</div>
-  <div class="report-grid">
+  <section class="sec">
+    <div class="sec-head">
+      <span class="sec-no"></span>
+      <span class="sec-title"><span class="lang-cn">往期半月报</span><span class="lang-jp">過去の半月報</span></span>
+      <span class="sec-en">Archive</span>
+    </div>
+    <div class="report-grid">
     <div class="report-card latest">
-      <a href="reports/2026-09-25/report.html?v=202609251056" class="card-link">
+      <a href="reports/2026-10-15/report.html?v=202610161116" class="card-link">
         <span class="card-badge">最新</span>
-        <div class="card-date">2026年09月25日</div>
-        <div class="card-title">2026年9月 下旬号 · 日本不动产半月报</div>
-        <div class="card-meta">2026年 · 东京市场动态</div>
+        <div class="card-date">2026年10月15日</div>
+        <div class="card-title">2026年10月 上旬号 · 日本不动产半月报</div>
+        <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card">
-      <a href="reports/2026-09-11/report.html?v=202609251056" class="card-link">
+      <a href="reports/2026-09-25/report.html?v=202610161116" class="card-link">
+        
+        <div class="card-date">2026年09月25日</div>
+        <div class="card-title">2026年9月 下旬号 · 日本不动产半月报</div>
+        <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
+        <div class="card-arrow">阅读全文 →</div>
+      </a>
+    </div>
+    <div class="report-card">
+      <a href="reports/2026-09-11/report.html?v=202610161116" class="card-link">
         
         <div class="card-date">2026年09月11日</div>
         <div class="card-title">2026年9月 上旬号 · 日本不动产半月报</div>
-        <div class="card-meta">2026年 · 东京市场动态</div>
+        <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card">
-      <a href="reports/2026-08-25/report.html?v=202609251056" class="card-link">
+      <a href="reports/2026-08-25/report.html?v=202610161116" class="card-link">
         
         <div class="card-date">2026年08月25日</div>
         <div class="card-title">2026年8月 下旬号 · 日本不动产半月报</div>
-        <div class="card-meta">2026年 · 东京市场动态</div>
+        <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
-    <div class="report-card report-hidden">
-      <a href="reports/2026-08-18/report.html?v=202609251056" class="card-link">
+    <div class="report-card">
+      <a href="reports/2026-08-18/report.html?v=202610161116" class="card-link">
         
         <div class="card-date">2026年08月18日</div>
         <div class="card-title">2026年8月 下旬号 · 日本不动产半月报</div>
-        <div class="card-meta">2026年 · 东京市场动态</div>
+        <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
-    <div class="report-card report-hidden">
-      <a href="reports/2026-08-07/report.html?v=202609251056" class="card-link">
+    <div class="report-card">
+      <a href="reports/2026-08-07/report.html?v=202610161116" class="card-link">
         
         <div class="card-date">2026年08月07日</div>
         <div class="card-title">2026年8月 上旬号 · 日本不动产半月报</div>
-        <div class="card-meta">2026年 · 东京市场动态</div>
+        <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-08-04/report.html?v=202609251056" class="card-link">
+      <a href="reports/2026-08-04/report.html?v=202610161116" class="card-link">
         
         <div class="card-date">2026年08月04日</div>
         <div class="card-title">2026年8月 上旬号 · 日本不动产半月报</div>
-        <div class="card-meta">2026年 · 东京市场动态</div>
+        <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-07-31/report.html?v=202609251056" class="card-link">
+      <a href="reports/2026-07-31/report.html?v=202610161116" class="card-link">
         
         <div class="card-date">2026年07月31日</div>
         <div class="card-title">2026年7月 下旬号 · 日本不动产半月报</div>
-        <div class="card-meta">2026年 · 东京市场动态</div>
+        <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-07-28/report.html?v=202609251056" class="card-link">
+      <a href="reports/2026-07-28/report.html?v=202610161116" class="card-link">
         
         <div class="card-date">2026年07月28日</div>
         <div class="card-title">2026年7月 下旬号 · 日本不动产半月报</div>
-        <div class="card-meta">2026年 · 东京市场动态</div>
+        <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-07-21/report.html?v=202609251056" class="card-link">
+      <a href="reports/2026-07-21/report.html?v=202610161116" class="card-link">
         
         <div class="card-date">2026年07月21日</div>
         <div class="card-title">2026年7月 下旬号 · 日本不动产半月报</div>
-        <div class="card-meta">2026年 · 东京市场动态</div>
+        <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-07-14/report.html?v=202609251056" class="card-link">
+      <a href="reports/2026-07-14/report.html?v=202610161116" class="card-link">
         
         <div class="card-date">2026年07月14日</div>
         <div class="card-title">2026年7月 上旬号 · 日本不动产半月报</div>
-        <div class="card-meta">2026年 · 东京市场动态</div>
+        <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-07-06/report.html?v=202609251056" class="card-link">
+      <a href="reports/2026-07-06/report.html?v=202610161116" class="card-link">
         
         <div class="card-date">2026年07月06日</div>
         <div class="card-title">2026年7月 上旬号 · 日本不动产半月报</div>
-        <div class="card-meta">2026年 · 东京市场动态</div>
+        <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-06-29/report.html?v=202609251056" class="card-link">
+      <a href="reports/2026-06-29/report.html?v=202610161116" class="card-link">
         
         <div class="card-date">2026年06月29日</div>
         <div class="card-title">2026年6月 下旬号 · 日本不动产半月报</div>
-        <div class="card-meta">2026年 · 东京市场动态</div>
+        <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     <div class="report-card report-hidden">
-      <a href="reports/2026-06-16/report.html?v=202609251056" class="card-link">
+      <a href="reports/2026-06-16/report.html?v=202610161116" class="card-link">
         
         <div class="card-date">2026年06月16日</div>
         <div class="card-title">2026年6月 下旬号 · 日本不动产半月报</div>
-        <div class="card-meta">2026年 · 东京市场动态</div>
+        <div class="card-meta">2026年 · <span class="lang-cn">东京市场动态</span><span class="lang-jp">東京市場動向</span></div>
         <div class="card-arrow">阅读全文 →</div>
       </a>
     </div>
     </div>
   <div class="more-wrap">
-    <button class="more-btn" id="moreBtn" onclick="toggleMore()">查看更多往期半月报（共 13 期） ↓</button>
+    <button class="more-btn" id="moreBtn" onclick="toggleMore()"><span class="lang-cn">查看更多往期半月报（共 14 期）↓</span><span class="lang-jp">過去の半月報をもっと見る（全 14 号）↓</span></button>
   </div>
-    <div class="sec-title"><span data-i18n="platform_title">🗺️ 不動産情報プラットフォーム</span></div>
-  <a href="projects.html" class="platform-card">
-    <div class="platform-ico">🏢</div>
-    <div class="info">
-      <h3 data-i18n="platform_proj">项目库 · Project List</h3>
-      <p data-i18n="platform_proj_desc">在开发/规划中的不动产项目一览，可按企业·地区筛选，附相关新闻时间轴与地图视图。</p>
-    </div>
-    <div class="arrow">→</div>
-  </a>
-  <a href="rentmap.html" class="platform-card">
-    <div class="platform-ico">🏠</div>
-    <div class="info">
-      <h3 data-i18n="platform_rent">租金地图 · 賃貸相場</h3>
-      <p data-i18n="platform_rent_desc">东京23区租金一图看懂：各区1K中位月额、表面利回、近6月趋势，可跳转到该区收益物件。</p>
-    </div>
-    <div class="arrow">→</div>
-  </a>
-  <div style="height:28px"></div>
+  </section>
+
 </div>
 
 <footer class="footer">
-  <p><a href="https://www.taisei-r.com/" target="_blank" rel="noopener" class="footer-brand">大誠有限会社</a> · 日本不动产半月报</p>
-  <p style="margin-top:6px;opacity:.7;" data-i18n="footer_note">内容仅供参考，投资需谨慎</p>
+  <p><a href="https://www.taisei-r.com/" target="_blank" rel="noopener" class="footer-brand">大誠有限会社</a> · <span class="lang-cn">日本不动产半月报</span><span class="lang-jp">日本不動産半月報</span></p>
+  <p class="sig"><span data-i18n="footer_note">内容仅供参考，投资需谨慎</span></p>
+  <p class="sig">Generated by Taisei AI · 2026年10月16日 · <span class="lang-cn">东京</span><span class="lang-jp">東京</span></p>
 </footer>
+<script src="/pagefind/pagefind-ui.js"></script>
 <script>
-/* ===== i18n 语言切换（中/日） ===== */
-var I1813 = {
+  window.addEventListener("DOMContentLoaded", function () {
+    new PagefindUI({ element: "#pfsearch", showSubResults: true });
+  });
+</script>
+
+<script>
+/* ===== 语言切换（中/日） ===== */
+var I18N = {
   cn: {
-    hero_title: '大誠有限会社 · 日本不动产半月报',
-    hero_sub: '东京不动产市场最新动态 · 半月精选推送',
-    feat_tag: '📌 最新一期',
-    feat_desc: '覆盖政策动向、市场交易、开发动态、科技前沿与调查数据五大板块，精选本半月日本（以东京圈为主）不动产核心资讯，附小虾点评。',
-    feat_cta: '立即阅读 →',
-    archive_title: '往期半月报（' + new Date().getFullYear() + '年）',
+    search_label: '全站搜索',
     footer_note: '内容仅供参考，投资需谨慎',
-    more_view: function(n){ return '查看更多往期半月报（共 ' + n + ' 期） ↓'; },
-    more_collapse: '收起 ↑',
-    platform_title: '🗺️ 不动产情报平台',
-    platform_proj: '项目库 · Project List',
-    platform_proj_desc: '在开发/规划中的不动产项目一览，可按企业·地区筛选，附相关新闻时间轴与地图视图。',
-    platform_rent: '租金地图 · 賃貸相場',
-    platform_rent_desc: '一都三县194市区町村租金一图看懂：以e-Stat月额租金(中位数)统一比较，可跳转到该市区收益物件。',
+    more_view: function(n){ return '查看更多往期半月报（共 ' + n + ' 期）↓'; },
+    more_collapse: '收起 ↑'
   },
   jp: {
-    hero_title: '大誠有限会社 · 日本不動産半月報',
-    hero_sub: '東京不動産マーケット最新情報 · 半月ごとに厳選お届け',
-    feat_tag: '📌 最新号',
-    feat_desc: '政策動向・市場取引・開発動向・テクノロジー・調査データの5分野を網羅。この半月の日本（東京圏中心）不動産の核心情報を厳選し、小蝦（シャオエビ）の解説付き。',
-    feat_cta: '今すぐ読む →',
-    archive_title: '過去の半月報（' + new Date().getFullYear() + '年）',
+    search_label: 'サイト内検索',
     footer_note: '内容は参考用です。投資は慎重に。',
-    more_view: function(n){ return '過去の半月報をもっと見る（全 ' + n + ' 号） ↓'; },
-    more_collapse: '折りたたむ ↑',
-    platform_title: '🗺️ 不動産情報プラットフォーム',
-    platform_proj: 'プロジェクト一覧 · Project List',
-    platform_proj_desc: '開発・計画中の不動産プロジェクトを網羅。企業・地区で絞り込み、関連ニュースのタイムラインと地図ビューも。',
-    platform_rent: '賃貸相場マップ · 23区',
-    platform_rent_desc: '一都三県194市区町村の賃貸相場を1枚で：e-Stat月額賃料(中央値)で比較、市区の収益物件へジャンプ可。',
+    more_view: function(n){ return '過去の半月報をもっと見る（全 ' + n + ' 号）↓'; },
+    more_collapse: '折りたたむ ↑'
   }
 };
 function i18nText(key, arg){
   var lang = (window.__lang || 'cn');
-  var v = I1813[lang][key];
+  var v = I18N[lang][key];
   if (typeof v === 'function') return v(arg);
   return v;
 }
 function applyI18n(lang){
   window.__lang = lang;
-  var dict = I1813[lang];
+  var dict = I18N[lang];
   document.querySelectorAll('[data-i18n]').forEach(function(el){
     var key = el.getAttribute('data-i18n');
     var v = dict[key];
-    if (typeof v === 'function' && key === 'archive_title'){ el.textContent = v(); }
-    else if (v && typeof v !== 'function'){ el.textContent = v; }
+    if (v && typeof v !== 'function'){ el.textContent = v; }
   });
   document.querySelectorAll('.lang-btn').forEach(function(b){
     b.classList.toggle('active', b.getAttribute('data-lang') === lang);
   });
-  document.documentElement.lang = (lang === 'jp') ? 'ja' : 'zh-C13';
+  document.documentElement.classList.toggle('lang-jp', lang === 'jp');
+  document.documentElement.classList.toggle('lang-cn', lang !== 'jp');
+  document.documentElement.lang = (lang === 'jp') ? 'ja' : 'zh-CN';
 }
 function setLang(lang){
   applyI18n(lang);
@@ -380,8 +466,9 @@ function toggleMore(){
   var btn = document.getElementById('moreBtn');
   var total = document.querySelectorAll('.report-card').length;
   var currentlyHidden = hidden.length && hidden[0].style.display !== 'block';
-  for (var i=0;i<hidden.length;i++){ hidden[i].style.display = currentlyHidden ? 'block' : 'none'; }
-  btn.textContent = currentlyHidden ? i18nText('more_collapse') : i18nText('more_view', total);
+  for (var i = 0; i < hidden.length; i++){ hidden[i].style.display = currentlyHidden ? 'block' : 'none'; }
+  btn.innerHTML = '<span class="lang-cn">' + (currentlyHidden ? '收起 ↑' : i18nText('more_view', total)) + '</span>'
+                + '<span class="lang-jp">' + (currentlyHidden ? '折りたたむ ↑' : i18nText('more_view', total)) + '</span>';
 }
 </script>
 </body>
