@@ -295,7 +295,10 @@ function openPanel(m){
   document.getElementById('pNm').textContent = m.name + '（' + (PREF_NAME[m.pref]||'') + '）';
   document.getElementById('pRk').textContent = '家賃ランク ' + m.rank + ' / ' + MUNIS.length + ' 市区町村';
   document.getElementById('pBody').innerHTML = cardHtml(m);
-  document.getElementById('panel').classList.add('show');
+  var pn = document.getElementById('panel');
+  /* 手机：默认只露「名称 + 价格」，其余靠点标题栏/上拉展开 */
+  if (window.innerWidth <= 640) pn.classList.add('mini'); else pn.classList.remove('mini');
+  pn.classList.add('show');
 }
 /* 从右侧列表点选：地图飞到该市区町村 + 高亮该圆点 */
 var hiMarker = null, focusSeq = 0;
@@ -404,6 +407,40 @@ function toggleList(force){
   if (open) renderList();
   if (map) setTimeout(function(){ map.invalidateSize(); }, 260);
 }
+/* ===== 手机底部抽屉拖拽（pointer 事件，触摸/鼠标通用） ===== */
+function makeDraggable(handle, box, opts){
+  if (!handle || !box) return;
+  var startY = 0, startH = 0, lastH = 0, dragging = false, moved = false;
+  function down(e){
+    if (window.innerWidth > 640) return;
+    if (e.target.closest('button')) return;
+    dragging = true; moved = false;
+    startY = e.clientY; startH = box.offsetHeight; lastH = startH;
+    box.style.transition = 'none';
+    try { handle.setPointerCapture(e.pointerId); } catch(err){}
+    e.preventDefault();
+  }
+  function move(e){
+    if (!dragging) return;
+    var dy = startY - e.clientY;
+    if (Math.abs(dy) > 6) moved = true;
+    lastH = Math.min(window.innerHeight * 0.9, Math.max(72, startH + dy));
+    box.style.height = lastH + 'px';
+  }
+  function up(){
+    if (!dragging) return;
+    dragging = false;
+    box.style.transition = '';
+    box.style.height = '';
+    if (!moved) { if (opts.onTap) opts.onTap(); return; }
+    if (opts.onSnap) opts.onSnap(lastH / window.innerHeight);
+  }
+  handle.addEventListener('pointerdown', down);
+  handle.addEventListener('pointermove', move);
+  handle.addEventListener('pointerup', up);
+  handle.addEventListener('pointercancel', up);
+}
+
 /* 手机：点抽屉头在 44vh / 86vh 之间切换 */
 function toggleSheet(){
   if (window.innerWidth > 640) return;
@@ -428,6 +465,19 @@ function toggleLegend(){
   el.classList.toggle('collapsed');
 }
 if (window.innerWidth <= 640) document.getElementById('legend').classList.add('collapsed');
+/* 列表抽屉：拖到 <26vh 收起；26~62vh 半开；>62vh 展开 */
+makeDraggable(document.querySelector('#list .list-head'), document.getElementById('list'), {
+  onTap: toggleSheet,
+  onSnap: function(r){
+    if (r < 0.26) { toggleList(false); return; }
+    document.getElementById('list').classList.toggle('expanded', r >= 0.62);
+  }
+});
+/* 详情卡：拖到 <46vh 收成 mini（只留名称+价格）；点标题栏也可切换 */
+makeDraggable(document.querySelector('#panel .ph'), document.getElementById('panel'), {
+  onTap: function(){ document.getElementById('panel').classList.toggle('mini'); },
+  onSnap: function(r){ document.getElementById('panel').classList.toggle('mini', r < 0.46); }
+});
 syncTopH();
 renderMap();
 renderList();

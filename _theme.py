@@ -173,6 +173,7 @@ body{ background:var(--paper); color:var(--ink); font-family:var(--sans); }
 .pill{ border-radius:999px; padding:2px 9px; font-weight:700; }
 .pill.cat{ background:#eaf2fe; color:var(--accent-deep); }
 #empty{ color:var(--ink-4); }
+.pill-btn.only-mobile{ display:none; }
 .nav .sub #count{ color:var(--ink-3); font-weight:800; }
 #map{ height:calc(100vh - var(--toph, 56px) - var(--filtersh, 58px)); }
 #maplegend{ background:var(--surface); border:1px solid var(--line); border-radius:14px;
@@ -197,6 +198,24 @@ html.theme-dark .leaflet-popup-content-wrapper,
 html.theme-dark .leaflet-popup-tip{ background:#132b45; color:var(--ink); }
 html.theme-dark .leaflet-container{ background:#0b1a2e; }
 html.theme-dark .proj-label{ background:#17334f; color:var(--accent-deep); border-color:#25507a; }
+/* 手机：顶栏拆两行（标题一行 / 按钮一行，按钮可横向滚动），筛选条可收起 */
+@media (max-width:640px){
+  .nav-row{ flex-wrap:wrap; row-gap:8px; padding:8px 12px 9px; min-height:0; }
+  .nav .brand{ flex:1 1 100%; }
+  .nav h1{ font-size:14px; white-space:normal; overflow:visible; text-overflow:clip; }
+  .nav .actions{ flex:1 1 100%; margin-left:0; gap:6px; overflow-x:auto;
+    padding-bottom:2px; scrollbar-width:none; }
+  .nav .actions::-webkit-scrollbar{ display:none; }
+  #filters{ padding:9px 12px; gap:7px; }
+  #filters.collapsed #catChips, #filters.collapsed #prefChips, #filters.collapsed #timeChips,
+  #filters.collapsed #customRange, #filters.collapsed .group-sel{ display:none; }
+  .chip-row{ display:flex; flex-wrap:nowrap; overflow-x:auto; width:100%; gap:6px;
+    scrollbar-width:none; }
+  .chip-row::-webkit-scrollbar{ display:none; }
+  .chip{ flex:0 0 auto; }
+  #customRange{ flex:1 1 100%; }
+  .pill-btn.only-mobile{ display:inline-flex; }
+}
 html.theme-dark .pill.cat{ background:#17334f; color:var(--accent-deep); }
 html.theme-dark .sheet .close{ background:#17334f; color:var(--accent-deep); }
 """
@@ -291,14 +310,27 @@ html.theme-dark .leaflet-container{ background:#0b1a2e; }
     height:44vh; border-radius:20px 20px 0 0; padding:0 12px 14px;
     box-shadow:0 -14px 40px rgba(8,24,44,.22); transition:height .22s ease; }
   #list.expanded{ height:86vh; }
-  #list .list-head{ padding:7px 14px 10px; margin:0 -12px; border-radius:20px 20px 0 0; cursor:pointer; }
+  #list .list-head{ padding:7px 14px 10px; margin:0 -12px; border-radius:20px 20px 0 0;
+    cursor:grab; touch-action:none; }
   #list .list-head .handle{ display:block; width:38px; height:4px; border-radius:999px;
     background:var(--line-2); margin:0 auto 9px; }
   #list .lh-t{ font-size:13px; }
   #panel{ top:auto; bottom:0; left:0; right:0; width:100%; max-width:100%;
-    max-height:62vh; border-radius:20px 20px 0 0; transform:translateY(105%);
-    box-shadow:0 -18px 50px rgba(8,24,44,.3); }
+    height:62vh; max-height:62vh; overflow-y:auto; border-radius:20px 20px 0 0;
+    transform:translateY(105%); box-shadow:0 -18px 50px rgba(8,24,44,.3); }
   #panel.show{ transform:translateY(0); }
+  /* mini：只显示「名称 + 价格」，其余内容收起；点蓝色标题栏或上拉展开 */
+  #panel.mini{ height:auto; overflow:hidden; }
+  #panel.mini .rc-units,
+  #panel.mini .rc-chips,
+  #panel.mini .rc-sub,
+  #panel.mini .rc-spark,
+  #panel.mini .rc-yield,
+  #panel.mini .rc-link,
+  #panel.mini .rc-src{ display:none; }
+  #panel .ph{ cursor:grab; touch-action:none; }
+  #panel.mini .ph::after{ content:'\25B4'; position:absolute; right:44px; bottom:13px;
+    font-size:12px; opacity:.75; }
   #panel .ph{ border-radius:20px 20px 0 0; padding:22px 18px 14px; position:relative; }
   #panel .ph::before{ content:''; position:absolute; top:8px; left:50%; transform:translateX(-50%);
     width:38px; height:4px; border-radius:999px; background:rgba(255,255,255,.55); }

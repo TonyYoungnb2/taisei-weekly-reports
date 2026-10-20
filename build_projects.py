@@ -455,13 +455,27 @@ function syncHeights(){
   if (f) document.documentElement.style.setProperty('--filtersh', f.offsetHeight + 'px');
 }
 syncHeights();
+/* 手机：筛选条默认收起，点顶栏「筛选」展开 */
+function toggleFilters(){
+  var f = document.getElementById('filters');
+  f.classList.toggle('collapsed');
+  var b = document.getElementById('filterBtn');
+  if (b) b.classList.toggle('on', !f.classList.contains('collapsed'));
+  syncHeights();
+  setTimeout(syncHeights, 60);
+}
+if (window.innerWidth <= 640) {
+  document.getElementById('filters').classList.add('collapsed');
+  document.getElementById('filterBtn').classList.add('on');
+}
+syncHeights();
 window.addEventListener('resize', syncHeights);
 window.addEventListener('load', syncHeights);
 </script>
 __NAV_JS__
 </body>
 </html>
-'''.replace('__DATA__', proj_inline).replace('__NEWS__', news_inline).replace('__CENTER__', str(center)).replace('__ZOOM__', str(zoom)).replace('__CUR__', str(__import__('datetime').date.today().year)).replace('__INDEXABLE_PROJECTS__', indexable_projects).replace('__THEME_TOKENS__', _theme.TOKENS).replace('__RESKIN__', _theme.RESKIN_PROJECTS).replace('__NAV_JS__', _theme.NAV_JS).replace('__NAV__', _theme.nav_html('大誠 · 不動産プロジェクト', '在開発・計画中の不動産プロジェクト一覧 <span id="count"></span>', '<a class="pill-btn" href="rentmap.html">賃貸相場</a>''<button id="btnList" class="pill-btn on" onclick="setView(\'list\')">列表</button>''<button id="btnMap" class="pill-btn" onclick="setView(\'map\')">地図</button>')).replace('</head>', _an.snippet() + '</head>')
+'''.replace('__DATA__', proj_inline).replace('__NEWS__', news_inline).replace('__CENTER__', str(center)).replace('__ZOOM__', str(zoom)).replace('__CUR__', str(__import__('datetime').date.today().year)).replace('__INDEXABLE_PROJECTS__', indexable_projects).replace('__THEME_TOKENS__', _theme.TOKENS).replace('__RESKIN__', _theme.RESKIN_PROJECTS).replace('__NAV_JS__', _theme.NAV_JS).replace('__NAV__', _theme.nav_html('大誠 · 不動産プロジェクト', '在開発・計画中の不動産プロジェクト一覧 <span id="count"></span>', '<a class="pill-btn" href="rentmap.html">賃貸相場</a>''<button id="btnList" class="pill-btn on" onclick="setView(\'list\')">列表</button>''<button id="btnMap" class="pill-btn" onclick="setView(\'map\')">地図</button>''<button id="filterBtn" class="pill-btn only-mobile" onclick="toggleFilters()">筛选</button>')).replace('</head>', _an.snippet() + '</head>')
 
 
 def main():
