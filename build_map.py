@@ -86,9 +86,21 @@ def build_html():
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; }
   #top { position: sticky; top: 0; z-index: 1000; background: #0b3d91; color: #fff; padding: 12px 16px;
-         display: flex; align-items: center; justify-content: space-between; }
-  #top h1 { font-size: 17px; margin: 0; font-weight: 600; }
-  #top .meta { font-size: 12px; opacity: .85; }
+         display: flex; align-items: center; justify-content: space-between; gap: 10px; }
+  #top h1 { font-size: 17px; margin: 0; font-weight: 600; min-width: 0; overflow: hidden;
+            text-overflow: ellipsis; white-space: nowrap; }
+  #top .meta { font-size: 12px; opacity: .85; flex: 0 0 auto; white-space: nowrap; }
+  #top .t-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  #top .home-btn { flex: 0 0 auto; background: rgba(255,255,255,.16); color: #fff; text-decoration: none;
+                   font-size: 12px; font-weight: 700; letter-spacing: 1px; padding: 5px 12px;
+                   border-radius: 8px; white-space: nowrap; }
+  #top .home-btn:hover { background: rgba(255,255,255,.3); }
+  @media (max-width: 640px) {
+    #top { padding: 8px 12px; }
+    #top h1 { font-size: 14px; }
+    #top .meta { display: none; }
+    #map { height: calc(100vh - 45px); }
+  }
   #map { height: calc(100vh - 52px); width: 100%; }
   .leaflet-popup-content { font-size: 13px; line-height: 1.55; }
   .leaflet-popup-content b { font-size: 14px; color: #0b3d91; }
@@ -132,7 +144,10 @@ def build_html():
 </head>
 <body>
 <div id="top">
-  <h1>大誠 · 東京不動產情報地図</h1>
+  <div class="t-left">
+    <a class="home-btn" href="index.html">返回主页</a>
+    <h1>大誠 · 東京不動產情報地図</h1>
+  </div>
   <span class="meta">項目数: __COUNT__ ｜ 国土地理院地図</span>
 </div>
 <div id="map" data-pagefind-body>__INDEXABLE_PROJECTS__</div>

@@ -89,6 +89,17 @@ def build_html():
     padding: 10px 16px; display: flex; align-items: center; justify-content: space-between; }
   #top h1 { font-size: 17px; margin: 0; font-weight: 600; }
   #top .count { font-size: 12px; opacity: .85; margin-left: 8px; }
+  #top .t-left { display: flex; align-items: center; gap: 12px; min-width: 0; }
+  #top .home-btn { flex: 0 0 auto; background: rgba(255,255,255,.16); color: #fff; text-decoration: none;
+                   font-size: 12px; font-weight: 700; letter-spacing: 1px; padding: 5px 12px;
+                   border-radius: 8px; white-space: nowrap; }
+  #top .home-btn:hover { background: rgba(255,255,255,.3); }
+  @media (max-width: 640px) {
+    #top { padding: 9px 12px; }
+    #top h1 { font-size: 14px; }
+    #top .count { display: none; }
+    #filters { top: 47px; }
+  }
   .view-switch { display: flex; gap: 6px; }
   .view-switch button { background: rgba(255,255,255,.15); color: #fff; border: 0; border-radius: 8px;
     padding: 6px 12px; font-size: 13px; cursor: pointer; }
@@ -184,7 +195,10 @@ def build_html():
 </head>
 <body>
 <div id="top">
-  <div><h1>大誠 · 不動産プロジェクト</h1><span class="count" id="count"></span></div>
+  <div class="t-left">
+    <a class="home-btn" href="index.html">返回主页</a>
+    <h1>大誠 · 不動産プロジェクト</h1><span class="count" id="count"></span>
+  </div>
   <div class="view-switch">
     <a href="rentmap.html" style="background:rgba(255,255,255,.15);color:#fff;border:0;border-radius:8px;padding:6px 12px;font-size:13px;text-decoration:none;display:inline-flex;align-items:center;">🏠 賃貸相場</a>
     <button id="btnList" class="on" onclick="setView('list')">列表</button>
