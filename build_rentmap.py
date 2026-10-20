@@ -189,14 +189,15 @@ __RESKIN__
 <body>
 __NAV__<div id="map"></div>
 <div id="legend">
-  <div class="lt">家賃帯（月額中央値・5分位）</div>
+  <div class="lt" onclick="toggleLegend()">家賃帯（月額中央値・5分位）<span class="caret">▾</span></div>
   <div id="legendTiers"></div>
   <div class="note">色＝家賃帯（安→高）。円の大きさは目安。<br>出所: e-Stat 2023 住宅・土地統計調査（確定値）。</div>
 </div>
 <div id="list">
-  <div class="list-head">
+  <div class="list-head" onclick="toggleSheet()">
+    <span class="handle"></span>
     <span class="lh-t">賃料ランキング（月額中央値）</span>
-    <button class="lh-close" onclick="toggleList()" title="关闭列表">×</button>
+    <button class="lh-close" onclick="event.stopPropagation();toggleList(false)" title="关闭列表">×</button>
   </div>
   <div id="listBody"></div>
 </div>
@@ -301,17 +302,25 @@ var hiMarker = null, focusSeq = 0;
 function focusMuni(m){
   if (!map || !m || !m.lat || !m.lng) return;
   var z = Math.max(map.getZoom() || 9, 12);
+  var center = [m.lat, m.lng];
+  if (window.innerWidth <= 640) {
+    /* 手机：详情是底部卡片，把目标点抬到可视区域中部，否则会被卡片挡住 */
+    var pt = map.project([m.lat, m.lng], z);
+    pt.y += Math.round(map.getSize().y * 0.22);
+    var ll = map.unproject(pt, z);
+    center = [ll.lat, ll.lng];
+  }
   var seq = ++focusSeq;
-  if (map.flyTo) map.flyTo([m.lat, m.lng], z, { duration: .7 });
-  else map.setView([m.lat, m.lng], z);
+  if (map.flyTo) map.flyTo(center, z, { duration: .7 });
+  else map.setView(center, z);
   /* 兜底：标签页在后台时浏览器会暂停 rAF，flyTo 动画不会推进 →
      900ms 后若还没到位就直接 setView，保证「点了就一定会跳过去」 */
   setTimeout(function(){
     if (seq !== focusSeq || !map) return;
     var c = map.getCenter();
-    if (Math.abs(c.lat - m.lat) > 0.0006 || Math.abs(c.lng - m.lng) > 0.0006) {
+    if (Math.abs(c.lat - center[0]) > 0.0006 || Math.abs(c.lng - center[1]) > 0.0006) {
       /* animate:false —— 动画路径同样依赖 rAF，兜底必须是同步跳转 */
-      map.setView([m.lat, m.lng], z, { animate: false });
+      map.setView(center, z, { animate: false });
     }
   }, 900);
   var mk = markers[m.code];
@@ -388,10 +397,17 @@ function toggleList(force){
   var box = document.getElementById('list');
   var open = (typeof force === 'boolean') ? force : !box.classList.contains('show');
   box.classList.toggle('show', open);
+  if (!open) box.classList.remove('expanded');   // 关掉后下次打开回到 peek 高度
   document.body.classList.toggle('list-open', open);
   var btn = document.getElementById('btnList');
   if (btn) btn.classList.toggle('on', open);
   if (open) renderList();
+  if (map) setTimeout(function(){ map.invalidateSize(); }, 260);
+}
+/* 手机：点抽屉头在 44vh / 86vh 之间切换 */
+function toggleSheet(){
+  if (window.innerWidth > 640) return;
+  document.getElementById('list').classList.toggle('expanded');
   if (map) setTimeout(function(){ map.invalidateSize(); }, 260);
 }
 function syncTopH(){
@@ -406,11 +422,17 @@ function setPref(p){
   renderList();
 }
 buildLegend();
+/* 手机上图例默认收起，点标题展开（否则会盖掉半张地图） */
+function toggleLegend(){
+  var el = document.getElementById('legend');
+  el.classList.toggle('collapsed');
+}
+if (window.innerWidth <= 640) document.getElementById('legend').classList.add('collapsed');
 syncTopH();
 renderMap();
 renderList();
 /* 桌面默认展开右侧列表（手机默认收起，避免盖住地图） */
-toggleList(window.innerWidth > 720);
+toggleList(true);
 window.addEventListener('resize', function(){ syncTopH(); });
 </script>
 __NAV_JS__

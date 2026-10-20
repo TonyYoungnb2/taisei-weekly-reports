@@ -128,7 +128,11 @@ body{ background:var(--paper); color:var(--ink); font-family:var(--sans); }
 #empty{ color:var(--ink-4); }
 #legend{ background:var(--surface); border:1px solid var(--line); border-radius:14px;
   padding:11px 13px; box-shadow:var(--shadow); color:var(--ink); }
-#legend .lt{ color:var(--ink-3); font-weight:800; }
+#legend .lt{ color:var(--ink-3); font-weight:800; cursor:pointer; display:flex;
+  align-items:center; justify-content:space-between; gap:8px; }
+#legend .lt .caret{ font-size:9px; opacity:.6; transition:transform .15s; }
+#legend.collapsed .lt .caret{ transform:rotate(-90deg); }
+#legend.collapsed #legendTiers, #legend.collapsed .note{ display:none; }
 #legend .note{ color:var(--ink-4); }
 #zoomhint{ background:rgba(12,29,51,.72); border-radius:999px; padding:6px 12px; font-weight:600; }
 .leaflet-popup-content-wrapper{ border-radius:14px; box-shadow:var(--shadow); }
@@ -209,11 +213,16 @@ body{ background:var(--paper); color:var(--ink); font-family:var(--sans); }
 #legend{ background:var(--surface); border:1px solid var(--line); border-radius:16px;
   box-shadow:var(--shadow); color:var(--ink); }
 #legend .lt{ color:var(--ink-3); font-weight:800; }
+#legend .lt{ cursor:pointer; display:flex; align-items:center; justify-content:space-between; gap:8px; }
+#legend .lt .caret{ font-size:9px; opacity:.6; transition:transform .15s; }
+#legend.collapsed .lt .caret{ transform:rotate(-90deg); }
+#legend.collapsed #legendTiers, #legend.collapsed .note{ display:none; }
 #legend .tr{ color:var(--ink-4); }
 #legend .note{ color:var(--ink-4); }
 #list{ background:var(--paper); box-shadow:-6px 0 24px rgba(13,78,168,.10); padding:0 12px 24px; }
 #list .list-head{ background:var(--paper); border-bottom:1px solid var(--line); }
 #list .lh-t{ color:var(--ink); }
+#list .list-head .handle{ display:none; }
 #list .lh-close{ background:var(--surface); border:1px solid var(--line-2); color:var(--ink-3);
   border-radius:999px; width:30px; height:30px; font-size:15px; }
 #list .lh-close:hover{ border-color:var(--accent-2); color:var(--accent-deep); }
@@ -274,9 +283,31 @@ html.theme-dark .rc-sub{ background:#17334f; border-left-color:var(--accent); }
 html.theme-dark .rc-sub b{ color:var(--accent-deep); }
 html.theme-dark .rc-link a{ box-shadow:none; }
 html.theme-dark .leaflet-container{ background:#0b1a2e; }
+/* 手机：列表=底部抽屉（默认露出 44vh，可上拉到 86vh），详情=底部卡片（最高 62vh，上方仍看得到地图） */
 @media (max-width:640px){
-  #panel{ top:0; width:100%; max-width:100%; border-radius:0; }
-  #panel .ph{ border-radius:0; padding-top:26px; }
-  .rc-main{ font-size:30px; }
+  #map{ height:calc(100vh - var(--toph, 100px)); }
+  body.list-open #map{ height:calc(100vh - var(--toph, 100px) - 44vh); width:100%; }
+  #list{ top:auto; left:0; right:0; bottom:0; width:100%; max-width:100%;
+    height:44vh; border-radius:20px 20px 0 0; padding:0 12px 14px;
+    box-shadow:0 -14px 40px rgba(8,24,44,.22); transition:height .22s ease; }
+  #list.expanded{ height:86vh; }
+  #list .list-head{ padding:7px 14px 10px; margin:0 -12px; border-radius:20px 20px 0 0; cursor:pointer; }
+  #list .list-head .handle{ display:block; width:38px; height:4px; border-radius:999px;
+    background:var(--line-2); margin:0 auto 9px; }
+  #list .lh-t{ font-size:13px; }
+  #panel{ top:auto; bottom:0; left:0; right:0; width:100%; max-width:100%;
+    max-height:62vh; border-radius:20px 20px 0 0; transform:translateY(105%);
+    box-shadow:0 -18px 50px rgba(8,24,44,.3); }
+  #panel.show{ transform:translateY(0); }
+  #panel .ph{ border-radius:20px 20px 0 0; padding:22px 18px 14px; position:relative; }
+  #panel .ph::before{ content:''; position:absolute; top:8px; left:50%; transform:translateX(-50%);
+    width:38px; height:4px; border-radius:999px; background:rgba(255,255,255,.55); }
+  #panel .ph .nm{ font-size:19px; padding-right:34px; }
+  #panel .body{ padding:14px 18px 4px; }
+  .rc-main{ font-size:29px; }
+  .rc-units{ gap:8px; }
+  .rc-units .u{ padding:10px 11px; }
+  #legend{ top:calc(var(--toph, 100px) + 10px); bottom:auto; left:10px; right:auto;
+    max-width:172px; font-size:10px; padding:8px 10px; border-radius:12px; }
 }
 """
