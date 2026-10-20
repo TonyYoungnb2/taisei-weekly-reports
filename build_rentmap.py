@@ -314,6 +314,41 @@ function openPanel(m){
   document.getElementById('pBody').innerHTML = cardHtml(m);
   document.getElementById('panel').classList.add('show');
 }
+/* 从右侧列表点选：地图飞到该市区町村 + 高亮该圆点 */
+var hiMarker = null, focusSeq = 0;
+function focusMuni(m){
+  if (!map || !m || !m.lat || !m.lng) return;
+  var z = Math.max(map.getZoom() || 9, 12);
+  var seq = ++focusSeq;
+  if (map.flyTo) map.flyTo([m.lat, m.lng], z, { duration: .7 });
+  else map.setView([m.lat, m.lng], z);
+  /* 兜底：标签页在后台时浏览器会暂停 rAF，flyTo 动画不会推进 →
+     900ms 后若还没到位就直接 setView，保证「点了就一定会跳过去」 */
+  setTimeout(function(){
+    if (seq !== focusSeq || !map) return;
+    var c = map.getCenter();
+    if (Math.abs(c.lat - m.lat) > 0.0006 || Math.abs(c.lng - m.lng) > 0.0006) {
+      /* animate:false —— 动画路径同样依赖 rAF，兜底必须是同步跳转 */
+      map.setView([m.lat, m.lng], z, { animate: false });
+    }
+  }, 900);
+  var mk = markers[m.code];
+  if (mk) {
+    if (hiMarker && hiMarker !== mk) hiMarker.setStyle({ weight: 1.5, color: '#ffffff' });
+    mk.setStyle({ weight: 3.5, color: '#0b3d91' });
+    if (mk.bringToFront) mk.bringToFront();
+    mk.openTooltip();
+    hiMarker = mk;
+  }
+}
+function openFromList(code){
+  var m = byCode[code];
+  if (!m) return;
+  focusMuni(m);
+  openPanel(m);
+  /* 手机上列表是全屏覆盖层，点完先收起，否则看不到地图已经跳过去 */
+  if (window.innerWidth <= 640) toggleList(false);
+}
 function closePanel(){ document.getElementById('panel').classList.remove('show'); }
 
 function buildLegend(){
@@ -335,6 +370,7 @@ function renderMap(){
   L.tileLayer('https://cyberjapandata.gsi.go.jp/xyz/std/{z}/{x}/{y}.png',
     { attribution: '© 国土地理院', maxZoom: 18 }).addTo(map);
   markers = {};
+  hiMarker = null;
   MUNIS.forEach(function(m){
     if (!visMuni(m)) return;
     if (!m.lat || !m.lng) return;
@@ -354,7 +390,7 @@ function renderList(){
     /* 注意：code 是字符串（如 '11000'），必须用单引号包 key —— 用 JSON.stringify 会生成
        双引号，把 onclick 属性提前截断，导致后面整批行的 HTML 被浏览器丢弃、点击也失效 */
     var key = String(m.code).replace(/['"<>]/g, '');
-    return '<div class="lrow" data-c="' + key + '" onclick="openPanel(byCode[this.dataset.c])">' +
+    return '<div class="lrow" data-c="' + key + '" onclick="openFromList(this.dataset.c)">' +
       '<div class="lrank">' + m.rank + '</div>' +
       '<span class="ldot" style="background:' + colorForTier(m.tier) + '"></span>' +
       '<div class="lname">' + m.name + '<br><span style="font-size:11px;color:#8a96ac;font-weight:400">' + (PREF_NAME[m.pref]||'') + '</span></div>' +
