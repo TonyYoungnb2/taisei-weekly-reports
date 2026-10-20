@@ -17,6 +17,7 @@ build_rentmap.py — 生成「一都三県 賃貸相場マップ」（方案B �
 """
 import io, os, json, glob, sys
 import _analytics as _an
+import _theme
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 RENT_DIR = os.path.join(BASE, 'data', 'rent')
@@ -78,8 +79,8 @@ def build_html():
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
 <title>大誠 · 一都三県 賃貸相場マップ</title>
 <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
-<style>
-  :root { --toph: 104px; --listw: 344px; }
+<style>__THEME_TOKENS__
+  :root { --listw: 344px; }
   * { box-sizing: border-box; }
   html, body { margin: 0; padding: 0; font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
     background: #f4f6fb; color: #1a2233; }
@@ -182,29 +183,11 @@ def build_html():
     body.list-open #panel { right: var(--listw); }
     body.list-open #panel:not(.show) { transform: translateX(calc(100% + var(--listw))); }
   }
+__RESKIN__
 </style>
 </head>
 <body>
-<div id="top">
-  <div class="t-left">
-    <a class="home-btn" href="index.html">返回主页</a>
-    <div>
-      <h1>大誠 · 一都三県 賃貸相場マップ</h1>
-      <div class="sub">メイン指標: e-Stat 住宅・土地統計調査 2023（月額賃料 中央値・全規模）</div>
-    </div>
-  </div>
-  <div class="top-actions">
-    <button id="btnList" class="list-toggle" onclick="toggleList()">一覧<span class="cnt" id="listCnt"></span></button>
-  </div>
-  <div id="pfilt">
-    <button data-p="0" class="on" onclick="setPref(0)">全国 (194市区)</button>
-    <button data-p="13" onclick="setPref(13)">東京都</button>
-    <button data-p="14" onclick="setPref(14)">神奈川</button>
-    <button data-p="11" onclick="setPref(11)">埼玉</button>
-    <button data-p="12" onclick="setPref(12)">千葉</button>
-  </div>
-</div>
-<div id="map"></div>
+__NAV__<div id="map"></div>
 <div id="legend">
   <div class="lt">家賃帯（月額中央値・5分位）</div>
   <div id="legendTiers"></div>
@@ -305,7 +288,6 @@ function cardHtml(m){
     '<div class="rc-src">メイン出所: ' + (META.source || 'e-Stat') + '（'+ (META.metric||'') +'）<br>' +
       (META.note || '') + '<br>' +
       (m.is_ward ? '<span style="color:#2f6fd6">●</span> '+nameCn(m)+' 1K 趋势为每月自集計快照(2026-07 起), 点数累积中。' + '<br>' : '') +
-      '※ 表面利回り概算・23区1K/推移: housingassist 参考。';
       '※ 表面利回りは概算。23区 1K/推移は housingassist 参照。</div>';
 }
 function openPanel(m){
@@ -413,7 +395,7 @@ function toggleList(force){
   if (map) setTimeout(function(){ map.invalidateSize(); }, 260);
 }
 function syncTopH(){
-  var t = document.getElementById('top');
+  var t = document.querySelector('.nav');
   if (t) document.documentElement.style.setProperty('--toph', t.offsetHeight + 'px');
 }
 function setPref(p){
@@ -431,12 +413,13 @@ renderList();
 toggleList(window.innerWidth > 720);
 window.addEventListener('resize', function(){ syncTopH(); });
 </script>
+__NAV_JS__
 <script>__ANALYTICS__</script>
 </body>
 </html>
 '''.replace('__BRAND__', BRAND) \
    .replace('__DATA__', data_inline) \
-   .replace('__ANALYTICS__', _an.snippet())
+   .replace('__ANALYTICS__', _an.snippet()).replace('__THEME_TOKENS__', _theme.TOKENS).replace('__RESKIN__', _theme.RESKIN_RENTMAP).replace('__NAV_JS__', _theme.NAV_JS).replace('__NAV__', _theme.nav_html('大誠 · 一都三県 賃貸相場マップ', 'メイン指標: e-Stat 住宅・土地統計調査 2023（月額賃料 中央値・全規模）', '<button id="btnList" class="pill-btn on" onclick="toggleList()">一覧<span class="cnt" id="listCnt"></span></button>', '<div class="nav-row filters"><div id="pfilt">''<button data-p="0" class="on" onclick="setPref(0)">全国 (194市区)</button>''<button data-p="13" onclick="setPref(13)">東京都</button>''<button data-p="14" onclick="setPref(14)">神奈川</button>''<button data-p="11" onclick="setPref(11)">埼玉</button>''<button data-p="12" onclick="setPref(12)">千葉</button>''</div></div>'))
 
 
 def main():

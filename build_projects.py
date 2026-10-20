@@ -9,6 +9,7 @@ build_projects.py — 生成房地产情报平台主界面（Phase 1）。
 """
 import io, os, json, glob, sys
 import _analytics as _an
+import _theme
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 PROJ = os.path.join(BASE, 'data', 'projects.json')
@@ -75,7 +76,7 @@ def build_html():
 <title>大誠 · 東京不動産プロジェクト一覧</title>
 <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
 <link rel="stylesheet" href="/pagefind/pagefind-ui.css">
-<style>
+<style>__THEME_TOKENS__
   .pf-search{position:relative;z-index:30;max-width:340px;margin:8px 16px 4px auto;padding:0 4px;}
   .pf-search .pagefind-ui{--pagefind-ui-scale:0.82;--pagefind-ui-primary:#0f3460;--pagefind-ui-text:#1a1a2e;--pagefind-ui-background:#ffffff;--pagefind-ui-border:#d7dce5;--pagefind-ui-tag:#eef1f7;--pagefind-ui-border-width:1px;--pagefind-ui-border-radius:10px;--pagefind-ui-font:inherit;}
   .pf-search .pagefind-ui__drawer{position:relative;z-index:31;}
@@ -191,20 +192,11 @@ def build_html():
     .sheet { border-radius: 14px 14px 0 0; }
     #search { flex: 1 1 100%; }
   }
+__RESKIN__
 </style>
 </head>
 <body>
-<div id="top">
-  <div class="t-left">
-    <a class="home-btn" href="index.html">返回主页</a>
-    <h1>大誠 · 不動産プロジェクト</h1><span class="count" id="count"></span>
-  </div>
-  <div class="view-switch">
-    <a href="rentmap.html" style="background:rgba(255,255,255,.15);color:#fff;border:0;border-radius:8px;padding:6px 12px;font-size:13px;text-decoration:none;display:inline-flex;align-items:center;">🏠 賃貸相場</a>
-    <button id="btnList" class="on" onclick="setView('list')">列表</button>
-    <button id="btnMap" onclick="setView('map')">地図</button>
-  </div>
-</div>
+__NAV__
 <div id="filters">
   <input id="search" placeholder="検索：プロジェクト名・企業・地区…">
   <span id="catChips" class="chip-row"></span>
@@ -456,10 +448,20 @@ function closeDetail(){ document.getElementById('detail').classList.remove('show
 document.getElementById('search').addEventListener('input', function(e){ state.q = e.target.value; render(); });
 buildChips();
 render();
+/* 顶栏/筛选条高度参与 #map 高度计算 */
+function syncHeights(){
+  var n = document.querySelector('.nav'), f = document.getElementById('filters');
+  if (n) document.documentElement.style.setProperty('--toph', n.offsetHeight + 'px');
+  if (f) document.documentElement.style.setProperty('--filtersh', f.offsetHeight + 'px');
+}
+syncHeights();
+window.addEventListener('resize', syncHeights);
+window.addEventListener('load', syncHeights);
 </script>
+__NAV_JS__
 </body>
 </html>
-'''.replace('__DATA__', proj_inline).replace('__NEWS__', news_inline).replace('__CENTER__', str(center)).replace('__ZOOM__', str(zoom)).replace('__CUR__', str(__import__('datetime').date.today().year)).replace('__INDEXABLE_PROJECTS__', indexable_projects).replace('</head>', _an.snippet() + '</head>')
+'''.replace('__DATA__', proj_inline).replace('__NEWS__', news_inline).replace('__CENTER__', str(center)).replace('__ZOOM__', str(zoom)).replace('__CUR__', str(__import__('datetime').date.today().year)).replace('__INDEXABLE_PROJECTS__', indexable_projects).replace('__THEME_TOKENS__', _theme.TOKENS).replace('__RESKIN__', _theme.RESKIN_PROJECTS).replace('__NAV_JS__', _theme.NAV_JS).replace('__NAV__', _theme.nav_html('大誠 · 不動産プロジェクト', '在開発・計画中の不動産プロジェクト一覧 <span id="count"></span>', '<a class="pill-btn" href="rentmap.html">賃貸相場</a>''<button id="btnList" class="pill-btn on" onclick="setView(\'list\')">列表</button>''<button id="btnMap" class="pill-btn" onclick="setView(\'map\')">地図</button>')).replace('</head>', _an.snippet() + '</head>')
 
 
 def main():

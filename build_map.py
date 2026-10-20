@@ -8,6 +8,7 @@ build_map.py — 生成房地产情报平台地图页（Phase 0.5）。
 """
 import io, os, json, sys
 import _analytics as _an
+import _theme
 
 BASE = os.path.dirname(os.path.abspath(__file__))
 PROJ = os.path.join(BASE, 'data', 'projects.json')
@@ -77,7 +78,7 @@ def build_html():
 <title>大誠 · 東京不動產情報地図</title>
 <link rel="stylesheet" href="vendor/leaflet/leaflet.css">
 <link rel="stylesheet" href="/pagefind/pagefind-ui.css">
-<style>
+<style>__THEME_TOKENS__
   .pf-search{position:relative;z-index:30;max-width:340px;margin:8px 16px 4px auto;padding:0 4px;}
   .pf-search .pagefind-ui{--pagefind-ui-scale:0.82;--pagefind-ui-primary:#0f3460;--pagefind-ui-text:#1a1a2e;--pagefind-ui-background:#ffffff;--pagefind-ui-border:#d7dce5;--pagefind-ui-tag:#eef1f7;--pagefind-ui-border-width:1px;--pagefind-ui-border-radius:10px;--pagefind-ui-font:inherit;}
   .pf-search .pagefind-ui__drawer{position:relative;z-index:31;}
@@ -138,18 +139,13 @@ def build_html():
   .proj-label::before { display:none; }
   #zoomhint { position:absolute; right:10px; bottom:10px; z-index:1000; background:rgba(0,0,0,.55);
               color:#fff; font-size:11px; padding:5px 9px; border-radius:6px; }
-  #empty { position: absolute; inset: 52px 0 0 0; display: flex; align-items: center; justify-content: center;
+  #empty { position: absolute; inset: var(--toph, 56px) 0 0 0; display: flex; align-items: center; justify-content: center;
            color: #888; font-size: 14px; }
+__RESKIN__
 </style>
 </head>
 <body>
-<div id="top">
-  <div class="t-left">
-    <a class="home-btn" href="index.html">返回主页</a>
-    <h1>大誠 · 東京不動產情報地図</h1>
-  </div>
-  <span class="meta">項目数: __COUNT__ ｜ 国土地理院地図</span>
-</div>
+__NAV__
 <div id="map" data-pagefind-body>__INDEXABLE_PROJECTS__</div>
 <div id="empty" style="display:none">暂无已定位的项目</div>
 <div class="pf-search" data-pagefind-ignore>
@@ -249,9 +245,10 @@ legend.onAdd = function() {
 };
 legend.addTo(map);
 </script>
+__NAV_JS__
 </body>
 </html>
-'''.replace('__DATA__', inline).replace('__NEWS__', news_inline).replace('__CENTER__', '%s, %s' % (center[0], center[1])).replace('__ZOOM__', str(zoom)).replace('__COUNT__', str(len(projects))).replace('__BOUNDS__', bounds).replace('__INDEXABLE_PROJECTS__', indexable_projects).replace('</head>', _an.snippet() + '</head>')
+'''.replace('__DATA__', inline).replace('__NEWS__', news_inline).replace('__CENTER__', '%s, %s' % (center[0], center[1])).replace('__ZOOM__', str(zoom)).replace('__COUNT__', str(len(projects))).replace('__BOUNDS__', bounds).replace('__INDEXABLE_PROJECTS__', indexable_projects).replace('__THEME_TOKENS__', _theme.TOKENS).replace('__RESKIN__', _theme.RESKIN_MAP).replace('__NAV_JS__', _theme.NAV_JS).replace('__NAV__', _theme.nav_html('大誠 · 東京不動產情報地図', '項目数: ' + str(len(projects)) + ' ｜ 国土地理院地図')).replace('</head>', _an.snippet() + '</head>')
 
 
 def main():
