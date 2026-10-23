@@ -204,12 +204,22 @@ __NAV__
   <span id="srcChips" class="chip-row"></span>
   <span id="timeChips" class="chip-row"></span>
   <span id="customRange">竣工年 <input id="yrFrom" type="number" placeholder="2021" min="1990" max="2060"> 〜 <input id="yrTo" type="number" placeholder="2035" min="1990" max="2060"></span>
-  <span class="group-sel">表示：
-    <select id="groupSel" onchange="render()">
-      <option value="none">一覧</option>
-      <option value="dev">企業別</option>
-      <option value="pref">地区別</option>
-    </select>
+  <span class="right-sel">
+    <span class="group-sel">並び：
+      <select id="sortSel" onchange="setSort(this.value)">
+        <option value="newest">新しい順</option>
+        <option value="oldest">古い順</option>
+        <option value="area">面積が大きい順</option>
+        <option value="name">名前順</option>
+      </select>
+    </span>
+    <span class="group-sel">表示：
+      <select id="groupSel" onchange="render()">
+        <option value="none">一覧</option>
+        <option value="dev">企業別</option>
+        <option value="pref">地区別</option>
+      </select>
+    </span>
   </span>
 </div>
 <div id="list" data-pagefind-body><div id="listBody"></div>__INDEXABLE_PROJECTS__</div>
@@ -238,7 +248,7 @@ var ZOOM = __ZOOM__;
 var CUR = __CUR__;
 var map = null, markers = {};
 
-var state = { view: 'list', cat: 'all', pref: 'all', city: 'all', q: '', group: 'none', time: 'recent', yrFrom: null, yrTo: null };
+var state = { view: 'list', cat: 'all', pref: 'all', city: 'all', q: '', group: 'none', sort: 'newest', time: 'recent', yrFrom: null, yrTo: null };
 
 // 租金地图跳转：?city=港区 → 初始按区筛选
 (function initFromQuery(){
@@ -281,6 +291,7 @@ function buildChips(){
     document.querySelector('.chip[data-k="pref"][data-v="all"]').classList.remove('on');
   }
   document.getElementById('groupSel').value = state.group;
+  var ss = document.getElementById('sortSel'); if (ss) ss.value = state.sort;
   document.querySelectorAll('.chip').forEach(function(el){
     el.onclick = function(){
       var k = el.getAttribute('data-k');
@@ -298,6 +309,29 @@ function buildChips(){
     el.addEventListener('input', function(){ state[id] = el.value ? parseInt(el.value, 10) : null; render(); });
   });
 }
+
+/* 並び替え：新しい順（既定）／古い順／面積が大きい順／名前順
+   竣工年が未定（計画・施工中）のものは「新しい順」では末尾へ回す */
+function sortList(list){
+  var arr = list.slice();
+  var s = state.sort;
+  if (s === 'newest' || s === 'oldest') {
+    arr.sort(function(a,b){
+      var ya = (typeof a.completion_year === 'number') ? a.completion_year : null;
+      var yb = (typeof b.completion_year === 'number') ? b.completion_year : null;
+      if (ya === null && yb === null) return (b.area_ha||0) - (a.area_ha||0);
+      if (ya === null) return 1;
+      if (yb === null) return -1;
+      return s === 'newest' ? (yb - ya) : (ya - yb);
+    });
+  } else if (s === 'area') {
+    arr.sort(function(a,b){ return (b.area_ha||0) - (a.area_ha||0); });
+  } else if (s === 'name') {
+    arr.sort(function(a,b){ return (a.name||'').localeCompare(b.name||'', 'ja'); });
+  }
+  return arr;
+}
+function setSort(v){ state.sort = v; render(); }
 
 function filtered(){
   var q = state.q.trim().toLowerCase();
@@ -332,7 +366,7 @@ function card(p){
     '</div>';
 }
 function render(){
-  var list = filtered();
+  var list = sortList(filtered());
   document.getElementById('count').textContent = '（'+list.length+' / '+PROJECTS.length+' 件）';
   var body = document.getElementById('listBody');
   if (!list.length) { body.innerHTML = '<div id="empty">該当するプロジェクトがありません</div>'; }

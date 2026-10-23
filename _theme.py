@@ -160,9 +160,10 @@ body{ background:var(--paper); color:var(--ink); font-family:var(--sans); }
 #customRange{ color:var(--ink-3); }
 #customRange input{ background:var(--paper); border:1px solid var(--line-2); border-radius:8px;
   color:var(--ink); padding:5px 7px; }
-.group-sel{ color:var(--ink-3); }
+.right-sel{ margin-left:auto; display:inline-flex; align-items:center; gap:10px; flex-wrap:wrap; }
+.group-sel{ color:var(--ink-3); display:inline-flex; align-items:center; gap:6px; white-space:nowrap; }
 .group-sel select{ background:var(--surface); border:1px solid var(--line-2); border-radius:999px;
-  color:var(--ink); padding:6px 10px; }
+  color:var(--ink); padding:6px 10px; cursor:pointer; }
 #list{ padding:16px 18px 40px; }
 .group-title{ color:var(--accent-deep); font-size:14px; font-weight:800; letter-spacing:.5px; }
 .card{ background:var(--surface); border:1px solid var(--line); border-radius:var(--r);
@@ -208,7 +209,10 @@ html.theme-dark .proj-label{ background:#17334f; color:var(--accent-deep); borde
   .nav .actions::-webkit-scrollbar{ display:none; }
   #filters{ padding:9px 12px; gap:7px; }
   #filters.collapsed #catChips, #filters.collapsed #prefChips, #filters.collapsed #timeChips,
-  #filters.collapsed #customRange, #filters.collapsed .group-sel{ display:none; }
+  #filters.collapsed #customRange, #filters.collapsed .group-sel,
+  #filters.collapsed .right-sel{ display:none; }
+  .right-sel{ flex:1 1 100%; margin-left:0; justify-content:flex-end; gap:8px; }
+  .group-sel select{ padding:5px 9px; font-size:12px; }
   .chip-row{ display:flex; flex-wrap:nowrap; overflow-x:auto; width:100%; gap:6px;
     scrollbar-width:none; }
   .chip-row::-webkit-scrollbar{ display:none; }
