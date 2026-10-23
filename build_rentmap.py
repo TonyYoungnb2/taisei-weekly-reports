@@ -191,7 +191,7 @@ __NAV__<div id="map"></div>
 <div id="legend">
   <div class="lt" onclick="toggleLegend()">家賃帯（月額中央値・5分位）<span class="caret">▾</span></div>
   <div id="legendTiers"></div>
-  <div class="note">色＝家賃帯（安→高）。円の大きさは目安。<br>出所: e-Stat 2023 住宅・土地統計調査（確定値）。</div>
+  <div class="note">色＝家賃帯（安→高）。円の大きさは目安。<br>出所: e-Stat 2023 住宅・土地統計調査（確定値）。<br>月次指数: 東京カンテイ 分譲マンション賃料（2026年9月分）。</div>
 </div>
 <div id="list">
   <div class="list-head" onclick="toggleSheet()">
@@ -236,8 +236,8 @@ function radiusFor(v){
 }
 function visMuni(m){ return state.pref === 0 || m.pref === state.pref; }
 
-function sparkline(){
-  var tr = (META.trend_23w || []).map(function(p){ return p.v; });
+function sparkline(series){
+  var tr = (series || META.trend_23w || []).map(function(p){ return p.v; });
   if (tr.length < 2) return '';
   var W = 320, H = 64, pad = 6;
   var mn = Math.min.apply(null, tr), mx = Math.max.apply(null, tr);
@@ -270,9 +270,12 @@ function cardHtml(m){
     ? '<a href="projects.html?city='+encodeURIComponent(m.name)+'">該市区の収益物件 '+m.proj_count+'件を見る ›</a>'
     : '<a class="none">該市区の収益物件はまだ登録なし</a>';
   var sub = '';
-  if (m.is_ward) {
-    sub = '<div class="rc-sub">🏙 <b>23区 1K 専有面積 中位月額</b>：¥'+(m.rent_1k/10000).toFixed(1)+'万<br>'+
-      '前月比 '+mom+' / 前年比 '+yoy+'（推定）・出所: housingassist</div>';
+  if (m.monthly && m.monthly.v) {
+    var mo = m.monthly;
+    var mt = (mo.mom >= 0 ? '+' : '') + (mo.mom || 0).toFixed(1) + '%';
+    sub = '<div class="rc-sub">📈 <b>分譲マンション賃料 ' + mo.month + '</b>：¥' + fmt(mo.v) + '/㎡' +
+      '<span class="mom ' + (mo.mom >= 0 ? 'up' : 'down') + '">' + mt + '</span><br>' +
+      '範囲: ' + mo.scope + '平均 ・ 出所: 東京カンテイ（毎月15日頃発表）</div>';
   }
   return '' +
     '<div class="rc-main">¥' + (median/10000).toFixed(1) + '万<small>月額賃料 中央値（全規模）</small></div>' +
@@ -282,14 +285,17 @@ function cardHtml(m){
     '</div>' +
     '<div class="rc-chips">' + bandChip + '</div>' +
     sub +
-    (m.is_ward ? '<div class="rc-spark"><div class="t">' + nameCn(m) + ' 1K 月额推移(自集計)</div>' + sparkline(m.trend, m.name) + '</div>' : '') +
+    (m.monthly && m.monthly.series && m.monthly.series.length > 1
+      ? '<div class="rc-spark"><div class="t">' + m.monthly.scope + ' 賃料指数（円/㎡・月次 ' +
+        m.monthly.series.length + '点）</div>' + sparkline(m.monthly.series) + '</div>' : '') +
     '<div class="rc-yield">表面利回り(概算): 約 ' + yieldPct.toFixed(1) + '%' +
       '<small>年賃料 ÷ 23区平均中古㎡単価(約108万円) を目安に概算（25㎡想定）</small></div>' +
     '<div class="rc-link">' + link + '</div>' +
     '<div class="rc-src">メイン出所: ' + (META.source || 'e-Stat') + '（'+ (META.metric||'') +'）<br>' +
       (META.note || '') + '<br>' +
-      (m.is_ward ? '<span style="color:#2f6fd6">●</span> '+nameCn(m)+' 1K 趋势为每月自集計快照(2026-07 起), 点数累积中。' + '<br>' : '') +
-      '※ 表面利回りは概算。23区 1K/推移は housingassist 参照。</div>';
+      (META.monthly_source ? '<span style="color:#2f6fd6">●</span> 月次指数: ' + META.monthly_source +
+        ' ' + (META.monthly_month || '') + '（' + (META.monthly_unit || '') + '）' + '<br>' : '') +
+      '※ 表面利回りは概算。月次指数は分譲マンションの㎡単価で、上の中央値とは指標が異なります。</div>';
 }
 function openPanel(m){
   document.getElementById('pNm').textContent = m.name + '（' + (PREF_NAME[m.pref]||'') + '）';
@@ -491,7 +497,7 @@ __NAV_JS__
 </html>
 '''.replace('__BRAND__', BRAND) \
    .replace('__DATA__', data_inline) \
-   .replace('__ANALYTICS__', _an.snippet()).replace('__THEME_TOKENS__', _theme.TOKENS).replace('__RESKIN__', _theme.RESKIN_RENTMAP).replace('__NAV_JS__', _theme.NAV_JS).replace('__NAV__', _theme.nav_html('大誠 · 一都三県 賃貸相場マップ', 'メイン指標: e-Stat 住宅・土地統計調査 2023（月額賃料 中央値・全規模）', '<button id="btnList" class="pill-btn on" onclick="toggleList()">一覧<span class="cnt" id="listCnt"></span></button>', '<div class="nav-row filters"><div id="pfilt">''<button data-p="0" class="on" onclick="setPref(0)">全国 (194市区)</button>''<button data-p="13" onclick="setPref(13)">東京都</button>''<button data-p="14" onclick="setPref(14)">神奈川</button>''<button data-p="11" onclick="setPref(11)">埼玉</button>''<button data-p="12" onclick="setPref(12)">千葉</button>''</div></div>'))
+   .replace('__ANALYTICS__', _an.snippet()).replace('__THEME_TOKENS__', _theme.TOKENS).replace('__RESKIN__', _theme.RESKIN_RENTMAP).replace('__NAV_JS__', _theme.NAV_JS).replace('__NAV__', _theme.nav_html('大誠 · 一都三県 賃貸相場マップ', 'メイン指標: e-Stat 2023（月額賃料 中央値）｜月次: 東京カンテイ 2026年9月（分譲マンション・円/㎡）', '<button id="btnList" class="pill-btn on" onclick="toggleList()">一覧<span class="cnt" id="listCnt"></span></button>', '<div class="nav-row filters"><div id="pfilt">''<button data-p="0" class="on" onclick="setPref(0)">全国 (194市区)</button>''<button data-p="13" onclick="setPref(13)">東京都</button>''<button data-p="14" onclick="setPref(14)">神奈川</button>''<button data-p="11" onclick="setPref(11)">埼玉</button>''<button data-p="12" onclick="setPref(12)">千葉</button>''</div></div>'))
 
 
 def main():

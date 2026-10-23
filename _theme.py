@@ -284,6 +284,11 @@ body{ background:var(--paper); color:var(--ink); font-family:var(--sans); }
 .rc-sub{ background:#eaf2fe; border:0; border-left:3px solid var(--accent); border-radius:12px;
   padding:11px 13px; margin:10px 0; font-size:12px; color:var(--ink-2); line-height:1.7; }
 .rc-sub b{ color:var(--accent-deep); }
+.rc-sub .mom{ margin-left:8px; font-weight:800; font-size:12px; }
+.rc-sub .mom.up{ color:#c62f28; }
+.rc-sub .mom.down{ color:#0f8a5f; }
+html.theme-dark .rc-sub .mom.up{ color:#f2685e; }
+html.theme-dark .rc-sub .mom.down{ color:#3ecf9a; }
 .rc-spark{ background:var(--paper); border:1px solid var(--line); border-radius:14px; padding:12px 13px; margin:10px 0; }
 .rc-spark .t{ font-size:11px; font-weight:700; color:var(--ink-3); margin-bottom:8px; }
 .rc-yield{ background:var(--paper); border:1px solid var(--line); border-radius:14px;

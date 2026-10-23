@@ -19,7 +19,8 @@ ESTAT_XLSX = os.path.join(BASE, '_estat116.zip')      # 事前取得済
 EXTRACT = os.path.join(BASE, '_estat_extract.json')   # 抽出済 (code,name,pref,rent_median)
 OLD_RENT = os.path.join(BASE, 'data', 'rent', '_ward_source_2026-07.json')  # 稳定23区源(来自 git 历史, 不再被输出覆盖)
 GEO_CACHE = os.path.join(BASE, '_rent_geo_cache.json')
-OUT = os.path.join(BASE, 'data', 'rent', '2026-07.json')
+import datetime as _dt
+OUT = os.path.join(BASE, 'data', 'rent', _dt.date.today().strftime('%Y-%m') + '.json')
 HIST_DIR = os.path.join(BASE, 'data', 'rent', 'history')
 
 PREF_NAME = {11: '埼玉県', 12: '千葉県', 13: '東京都', 14: '神奈川県'}
@@ -205,6 +206,34 @@ def main():
     for m in munis:
         m['proj_count'] = cnt.get(m['name'], 0)
 
+    # 4.5) 月度賃料指数（東京カンテイ・分譲マンション 円/㎡）
+    monthly_path = os.path.join(BASE, 'data', 'rent', 'monthly.json')
+    mo_meta = {}
+    if os.path.isfile(monthly_path):
+        try:
+            mo = json.load(io.open(monthly_path, encoding='utf-8'))
+            mseries = mo.get('series', {})
+            mlatest = mo.get('latest', {})
+            mo_meta = mo.get('meta', {})
+            for m in munis:
+                if m.get('is_ward'):
+                    scope = '23区'
+                elif m['pref'] == 13:
+                    scope = '東京都'
+                else:
+                    scope = PREF_NAME[m['pref']]
+                if scope in mseries:
+                    cur = mlatest.get(scope, {})
+                    m['monthly'] = {
+                        'scope': scope,
+                        'month': mo_meta.get('month'),
+                        'v': cur.get('v'),
+                        'mom': cur.get('mom'),
+                        'series': mseries[scope],
+                    }
+        except Exception as e:
+            print('[WARN] monthly.json 读取失败:', e)
+
     # 5) quintile tiers across all 194
     rents = sorted(m['rent_median'] for m in munis)
     n = len(rents)
@@ -237,6 +266,12 @@ def main():
         'metric': '月額賃料 中央値（全規模・専用住宅）',
         'note': '2023年確定値。全規模の中央値のため、1K単身向けより高めに出る場合あり。',
         'sub_source': '23区限定: housingassist Tokyo Rent Index (1K 専有面積中位月額)',
+        'built': _dt.date.today().isoformat(),
+        'monthly_source': mo_meta.get('source', ''),
+        'monthly_month': mo_meta.get('month', ''),
+        'monthly_unit': mo_meta.get('unit', '円/㎡'),
+        'monthly_note': mo_meta.get('note', ''),
+        'monthly_url': mo_meta.get('url', ''),
         'trend_23w': old_meta.get('trend_23w', []),
         'official_check': old_meta.get('official_check', ''),
         'tier_bounds': tier_bounds,
