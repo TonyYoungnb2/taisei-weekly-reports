@@ -265,7 +265,7 @@ def main():
         'source': 'e-Stat 住宅・土地統計調査 2023 (Rent116)',
         'metric': '月額賃料 中央値（全規模・専用住宅）',
         'note': '2023年確定値。全規模の中央値のため、1K単身向けより高めに出る場合あり。',
-        'sub_source': '23区限定: housingassist Tokyo Rent Index (1K 専有面積中位月額)',
+        'sub_source': '月次指数: 東京カンテイ 分譲マンション賃料（円/㎡）',
         'built': _dt.date.today().isoformat(),
         'monthly_source': mo_meta.get('source', ''),
         'monthly_month': mo_meta.get('month', ''),
