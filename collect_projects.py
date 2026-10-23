@@ -84,6 +84,13 @@ def _guard_siblings(a, b):
     while L < lim and ca[L] == cb[L]:
         L += 1
     sa, sb = ca[L:], cb[L:]
+    # 同长度、只差一个字、两边都是方位字 → 必是不同项目。
+    # 例：立石駅南口東 / 立石駅南口西（LCP 仅 5 字，靠下面 L>=8 的规则抓不到，
+    #     会被 83% 的相似度误合并——2026-10-20 实测踩到过）
+    if len(ca) == len(cb) and 0 < L < len(ca):
+        if (ca[L] != cb[L] and ca[L] in '東西南北上下中' and cb[L] in '東西南北上下中'
+                and ca[L + 1:] == cb[L + 1:]):
+            return 0.0
     if L >= 8 and len(sa) <= 14 and len(sb) <= 14:
         if _is_block_code(sa) and _is_block_code(sb) and sa != sb:
             return 0.0
@@ -185,9 +192,10 @@ def match_existing(d, item):
     return best, best_score
 
 
-def merge_item(d, item):
+def merge_item(d, item, auto_merge=None):
     p, score = match_existing(d, item)
-    if p is not None and score >= AUTO_MERGE:
+    thr = AUTO_MERGE if auto_merge is None else auto_merge
+    if p is not None and score >= thr:
         # 命中现有项目：只在「有新信息」时才修改，避免每周空转改写库。
         today = d['updated_at'] or _today()
         new_aliases = list(p.get('aliases', []))
@@ -198,7 +206,7 @@ def merge_item(d, item):
         filled = {}
         if (not p.get('developer') or p.get('developer') == '（開発者未記載）') and item.get('developer'):
             filled['developer'] = item['developer']
-        for fld in ('address', 'latitude', 'longitude', 'status', 'city', 'district', 'prefecture'):
+        for fld in ('address', 'latitude', 'longitude', 'status', 'city', 'district', 'prefecture', 'area_ha'):
             if not p.get(fld) and item.get(fld) is not None:
                 filled[fld] = item[fld]
         # 来源链接：命中旧项目但库里缺来源时补上（防「来源空链接」回归）
@@ -254,6 +262,11 @@ def merge_item(d, item):
         rec['completion_year'] = int(item['completion_year']) if item.get('completion_year') else None
         rec['start_year'] = int(item['start_year']) if item.get('start_year') else None
         rec['window_status'] = _window_status(rec['completion_year'])
+        if item.get('area_ha') is not None:
+            try:
+                rec['area_ha'] = float(item['area_ha'])
+            except Exception:
+                pass
         if item.get('news_count') is not None:
             rec['news_count'] = int(item['news_count'])
         # 中等相似度：可能重复，标记出来等人工定夺，不静默合并
@@ -285,11 +298,19 @@ def main():
     if not isinstance(data, list):
         data = [data]
 
+    # --strict：官方清单（如東京都の再開発地区一覧）导入时用。
+    # 日本地名相似度虚高（日本橋室町一丁目 vs 日本橋一丁目中 = 80%），
+    # 宽松阈值会把不同地区并成一条 → 严格模式只在 >=0.95 时才合并。
+    strict = '--strict' in sys.argv
+    thr = 0.95 if strict else None
+    if strict:
+        print('[MODE] strict: 仅在相似度>=95% 时才并入既有项目')
+
     d = load_projects()
     n_new = n_upd = n_review = n_match = 0
     changed = False
     for item in data:
-        act, pid, score = merge_item(d, item)
+        act, pid, score = merge_item(d, item, thr)
         if act == 'NEW':
             n_new += 1
             changed = True

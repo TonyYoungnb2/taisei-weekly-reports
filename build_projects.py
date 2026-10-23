@@ -328,7 +328,7 @@ function card(p){
   return '<div class="card" onclick="gotoMap('+String.fromCharCode(39)+p.id+String.fromCharCode(39)+')">' +
     '<h3><span class="card-pin st-'+doneKey(p)+'"></span>'+p.name+'</h3>' +
     '<div><span class="pill cat">'+(p.category||'其他')+'</span></div>' +
-    '<div class="meta">開発：'+(p.developer||'-')+'<br>地区：'+region+'<br>状態：'+(p.status||'-')+'<br>竣工：'+(p.completion_year ? p.completion_year+'年' : '—')+'<br>引用：'+(p.source_name||'-')+src+'</div>' +
+    '<div class="meta">開発：'+(p.developer||'-')+'<br>地区：'+region+'<br>状態：'+(p.status||'-')+'<br>竣工：'+(p.completion_year ? p.completion_year+'年' : '—')+(p.area_ha ? '<br>区域：'+p.area_ha+'ha' : '')+'<br>引用：'+(p.source_name||'-')+src+'</div>' +
     '</div>';
 }
 function render(){
@@ -436,6 +436,7 @@ function openDetail(id){
     '<h2>'+p.name+'</h2>'+
     '<div class="info">企業：'+(p.developer||'-')+'<br>類別：'+(p.category||'-')+' ／ 状態：'+(p.status||'-')+
       '<br>地区：'+region+'<br>竣工予定：'+(p.completion_year ? p.completion_year+'年' : '—')+
+      (p.area_ha ? '<br>区域面積：'+p.area_ha+'ha（約'+Math.round(p.area_ha*10000)+'㎡）' : '')+
       '<br>初見：'+(p.first_seen||'-')+' ／ 更新：'+(p.last_updated||'-')+
       '<br>引用：'+(p.source_name||'-')+(p.source_url ? ' <a class="tl-link" href="'+p.source_url+'" target="_blank" rel="noopener">[リンク]</a>' : '')+
       '</div>' +
