@@ -232,8 +232,16 @@ def merge_item(d, item, auto_merge=None):
         return 'MATCH', p['id'], score
     else:
         # 未命中：新建
-        seq = len(d['projects']) + 1
+        # ⚠️ ID 必须取「现有最大编号 + 1」，绝不能用 len+1。
+        # 库里存在编号空洞（P003 / P119 缺失），len+1 会与已有 ID 撞号，
+        # 造成同一 ID 两条记录（2026-10-27 实际发生过：新记录被编成 P232/P233）。
+        seq = max([int(x['id'][1:]) for x in d['projects']
+                   if str(x.get('id', '')).startswith('P') and str(x['id'][1:]).isdigit()] or [0]) + 1
         pid = 'P%03d' % seq
+        existing_ids = {x.get('id') for x in d['projects']}
+        while pid in existing_ids:
+            seq += 1
+            pid = 'P%03d' % seq
         from datetime import date
         today = date.today().strftime('%Y-%m-%d')
         rec = {

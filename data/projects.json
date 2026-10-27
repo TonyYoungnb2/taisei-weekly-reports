@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updated_at": "2026-10-23",
+ "updated_at": "2026-10-27",
  "projects": [
   {
    "id": "P001",
@@ -6529,6 +6529,62 @@
     "candidate_name": "パークタワー柏の葉キャンパス",
     "score": 0.595
    }
+  },
+  {
+   "id": "P234",
+   "name": "SHIFT HOTEL GINZA by HistoRy",
+   "aliases": [
+    "SHIFT HOTEL GINZA by HistoRy",
+    "シフトホテル銀座 バイ ヒストリー",
+    "シフトホテル銀座",
+    "銀座 中長期滞在型アパートメントホテル"
+   ],
+   "developer": "リアルゲイト／ヒューリック",
+   "category": "酒店",
+   "status": "规划",
+   "prefecture": "東京都",
+   "city": "中央区",
+   "district": "銀座",
+   "address": "東京都中央区銀座（東銀座駅徒歩3分）",
+   "latitude": 35.669616,
+   "longitude": 139.767485,
+   "first_seen": "2026-10-27",
+   "last_updated": "2026-10-27",
+   "news_count": 0,
+   "verified": false,
+   "source_url": "https://note.com/fudosanryutsu/n/n3b4e4dff2c9f",
+   "source_name": "R.E.port（不動産流通研究所）",
+   "completion_year": 2028,
+   "start_year": null,
+   "window_status": "active"
+  },
+  {
+   "id": "P235",
+   "name": "新綱島MICCA",
+   "aliases": [
+    "新綱島MICCA",
+    "新綱島ミッカ",
+    "MICCA",
+    "新綱島駅前 古民家活用商業施設"
+   ],
+   "developer": "東急（事業コンサルタント）／住友林業／再生建築研究所",
+   "category": "商业",
+   "status": "完工",
+   "prefecture": "神奈川県",
+   "city": "横浜市",
+   "district": "港北区",
+   "address": "横浜市港北区新綱島町（新綱島駅徒歩1分）",
+   "latitude": 35.536551,
+   "longitude": 139.636642,
+   "first_seen": "2026-10-27",
+   "last_updated": "2026-10-27",
+   "news_count": 0,
+   "verified": false,
+   "source_url": "https://note.com/fudosanryutsu/n/na90c0a045d9c",
+   "source_name": "R.E.port（不動産流通研究所）",
+   "completion_year": 2026,
+   "start_year": null,
+   "window_status": "active"
   }
  ]
 }
