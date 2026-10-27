@@ -1001,7 +1001,7 @@ def build_report_html(dt=None):
   <div class="logo-wrap">
     <span class="logo-text">TAISEI</span>
     <div class="title-group">
-      <h1><span class="lang-cn">大诚会社专用不动产半月报</span><span class="lang-jp" data-jp="大誠会社専用不動產半月報">大誠会社専用不動產半月報</span></h1>
+      <h1><span class="lang-cn">{COMPANY_NAME_CN}专用不动产半月报</span><span class="lang-jp" data-jp="{COMPANY_NAME_JP}専用不動產半月報">{COMPANY_NAME_JP}専用不動產半月報</span></h1>
       <div class="subtitle"><span class="lang-cn">政策 · 市场 · 开发 · 趋势</span><span class="lang-jp" data-jp="政策 · 市場 · 開発 · トレンド">政策 · 市場 · 開発 · トレンド</span></div>
       <div class="date-range" id="headerDateRange">{date_range}</div>
     </div>
