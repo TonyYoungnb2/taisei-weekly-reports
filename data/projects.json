@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updated_at": "2026-10-27",
+ "updated_at": "2026-11-13",
  "projects": [
   {
    "id": "P001",
@@ -6584,6 +6584,62 @@
    "source_name": "R.E.port（不動産流通研究所）",
    "completion_year": 2026,
    "start_year": null,
+   "window_status": "active"
+  },
+  {
+   "id": "P236",
+   "name": "(仮称)QBIC",
+   "aliases": [
+    "(仮称)QBIC",
+    "QBIC (Quantum Business Incubation Center)",
+    "新川崎・創造のもりイノベーション拠点整備事業",
+    "新川崎 量子技術イノベーション拠点"
+   ],
+   "developer": "三菱地所／東急不動産／プライムライフテクノロジーズ",
+   "category": "研发",
+   "status": "规划",
+   "prefecture": "神奈川県",
+   "city": "川崎市",
+   "district": "幸区",
+   "address": "神奈川県川崎市幸区小倉（新川崎・創造のもり K2タウンキャンパス敷地）",
+   "latitude": 35.545078,
+   "longitude": 139.670151,
+   "first_seen": "2026-11-13",
+   "last_updated": "2026-11-13",
+   "news_count": 0,
+   "verified": false,
+   "source_url": "https://www.sjt.co.jp/news/101180",
+   "source_name": "週刊住宅タイムズ",
+   "completion_year": 2030,
+   "start_year": null,
+   "window_status": "active",
+   "area_ha": 1.64
+  },
+  {
+   "id": "P237",
+   "name": "(仮称)浅草橋５丁目計画",
+   "aliases": [
+    "(仮称)浅草橋５丁目計画",
+    "浅草橋５丁目計画",
+    "住友不動産 浅草橋 共同住宅計画"
+   ],
+   "developer": "住友不動産",
+   "category": "住宅",
+   "status": "规划",
+   "prefecture": "東京都",
+   "city": "台東区",
+   "district": "浅草橋5丁目",
+   "address": "東京都台東区浅草橋5丁目（JR浅草橋駅徒歩約6分）",
+   "latitude": 35.700562,
+   "longitude": 139.782104,
+   "first_seen": "2026-11-13",
+   "last_updated": "2026-11-13",
+   "news_count": 0,
+   "verified": false,
+   "source_url": "https://www.genbanews.com/column/1794460462-314596",
+   "source_name": "速報!今日の現場ニュース",
+   "completion_year": null,
+   "start_year": 2027,
    "window_status": "active"
   }
  ]
