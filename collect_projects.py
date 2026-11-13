@@ -168,7 +168,12 @@ def load_projects():
 def save_projects(d):
     from datetime import date
     d['updated_at'] = date.today().strftime('%Y-%m-%d')
-    io.open(PROJ, 'w', encoding='utf-8').write(json.dumps(d, ensure_ascii=False, indent=2))
+    # 远端 data/projects.json 一直是 1 空格缩进 + LF。用 indent=2 会把整个
+    # 23 万字节文件重排成 13000+ 行的「假 diff」，淹没真实新增记录
+    # （2026-11-13 踩过：实际只新增 2 条，diff 却是 7182+/7091-）。
+    # 改这里前先用 `git show origin/main:data/projects.json | head` 核对缩进。
+    io.open(PROJ, 'w', encoding='utf-8', newline='').write(
+        json.dumps(d, ensure_ascii=False, indent=1))
 
 
 # 分层阈值：高于 AUTO 才自动合并；介于两者之间新建并标记人工复核。
