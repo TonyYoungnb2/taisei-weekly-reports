@@ -123,7 +123,7 @@ def nav_html(title, sub='', actions='', extra=''):
 
 # ── 项目地图页（map.html）的覆盖层 ─────────────────────────────────────────
 RESKIN_MAP = """
-body{ background:var(--paper); color:var(--ink); font-family:var(--sans); }
+body{ background:var(--paper); color:var(--ink); font-family:var(--sans); font-weight:450; -webkit-font-smoothing:subpixel-antialiased; text-rendering:optimizeLegibility; }
 #map{ height:calc(100vh - var(--toph, 56px)); }
 #empty{ color:var(--ink-4); }
 #legend{ background:var(--surface); border:1px solid var(--line); border-radius:14px;
@@ -147,7 +147,7 @@ html.theme-dark .leaflet-container{ background:#0b1a2e; }
 
 # ── 项目库（projects.html）的覆盖层 ────────────────────────────────────────
 RESKIN_PROJECTS = """
-body{ background:var(--paper); color:var(--ink); font-family:var(--sans); }
+body{ background:var(--paper); color:var(--ink); font-family:var(--sans); font-weight:450; -webkit-font-smoothing:subpixel-antialiased; text-rendering:optimizeLegibility; }
 #filters{ background:var(--surface); border-bottom:1px solid var(--line); padding:10px 18px;
   gap:8px; top:var(--toph, 56px); }
 #search{ background:var(--paper); border:1px solid var(--line-2); border-radius:999px;
@@ -226,7 +226,7 @@ html.theme-dark .sheet .close{ background:#17334f; color:var(--accent-deep); }
 
 # ── 租金地图（rentmap.html）的覆盖层 ──────────────────────────────────────
 RESKIN_RENTMAP = """
-body{ background:var(--paper); color:var(--ink); font-family:var(--sans); }
+body{ background:var(--paper); color:var(--ink); font-family:var(--sans); font-weight:450; -webkit-font-smoothing:subpixel-antialiased; text-rendering:optimizeLegibility; }
 #pfilt{ display:flex; gap:8px; flex-wrap:wrap; flex:1 1 auto; margin:0; }
 #pfilt button{ background:#eef4fd; color:var(--ink-3); border:1px solid var(--line-2);
   border-radius:999px; padding:5px 13px; font-size:12px; font-weight:700; }

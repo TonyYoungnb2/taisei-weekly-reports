@@ -303,8 +303,8 @@ body {
   font-family: var(--sans);
   background: var(--paper);
   color: var(--ink);
-  font-size: 16px; line-height: 1.78;
-  -webkit-font-smoothing: antialiased;
+  font-size: 16px; line-height: 1.78; font-weight: 450;
+  -webkit-font-smoothing: subpixel-antialiased; text-rendering: optimizeLegibility;
 }
 ::selection { background: var(--accent); color: #fff; }
 a { color: inherit; }
@@ -1366,6 +1366,8 @@ HOME_CSS = """:root {
   --ink-4: #7d90a8;
   --rule: #dde8f6;
   --rule-2: #bcd2ea;
+  --line: var(--rule);
+  --line-2: var(--rule-2);
   --accent: #1668dc;
   --accent-2: #3b8ef0;
   --accent-deep: #0d4ea8;
@@ -1379,7 +1381,8 @@ HOME_CSS = """:root {
 html { -webkit-text-size-adjust: 100%; }
 body {
   font-family: var(--sans); background: var(--paper); color: var(--ink);
-  font-size: 16px; line-height: 1.78; counter-reset: hsec; -webkit-font-smoothing: antialiased;
+  font-size: 16px; line-height: 1.78; font-weight: 450; counter-reset: hsec;
+  -webkit-font-smoothing: subpixel-antialiased; text-rendering: optimizeLegibility;
 }
 ::selection { background: var(--accent); color: #fff; }
 a { color: inherit; }
