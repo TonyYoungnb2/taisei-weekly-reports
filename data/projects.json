@@ -1,6 +1,6 @@
 {
  "version": 1,
- "updated_at": "2026-11-13",
+ "updated_at": "2026-11-24",
  "projects": [
   {
    "id": "P001",
@@ -6641,6 +6641,40 @@
    "completion_year": null,
    "start_year": 2027,
    "window_status": "active"
+  },
+  {
+   "id": "P238",
+   "name": "(仮称)西新宿八丁目計画",
+   "aliases": [
+    "西新宿8丁目三和不動産計画",
+    "三和不動産西新宿複合施設",
+    "飛鳥ホテル跡地再開発",
+    "西新宿八丁目音楽ホール複合施設"
+   ],
+   "developer": "三和不動産",
+   "category": "综合开发",
+   "status": "规划",
+   "prefecture": "東京都",
+   "city": "新宿区",
+   "district": "西新宿八丁目",
+   "address": "東京都新宿区西新宿八丁目129-1外",
+   "latitude": 35.695778,
+   "longitude": 139.692459,
+   "first_seen": "2026-11-24",
+   "last_updated": "2026-11-24",
+   "news_count": 0,
+   "verified": false,
+   "source_url": "https://sanwagrp.com/wp-content/uploads/20261114.pdf",
+   "source_name": "三和不動産 プレスリリース（(仮称)西新宿八丁目計画に関するお知らせ 2026-11-14）",
+   "completion_year": 2031,
+   "start_year": 2027,
+   "window_status": "active",
+   "area_ha": 0.385414,
+   "needs_review": {
+    "maybe_same_as": "P123",
+    "candidate_name": "西新宿六丁目16番地区 第一種市街地再開発事業",
+    "score": 0.5
+   }
   }
  ]
 }
